@@ -2,743 +2,1647 @@
 <html lang="no">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>Salut 9 – Kap. 4: Vêtements</title>
+  <meta name="description" content="Interaktive oppgaver i fransk: klær og farger. iPad + PC. Poeng, badges, spill og skriveoppgaver." />
   <style>
     :root{
-      --bg:#0b1020;
-      --card: rgba(255,255,255,.06);
-      --line: rgba(255,255,255,.14);
-      --text: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.75);
-      --good: rgba(55,214,122,.65);
-      --bad: rgba(255,92,92,.65);
-      --accent: rgba(122,162,255,.22);
-      --radius: 16px;
+      --bg:#0b1220;
+      --panel:#111a2e;
+      --card:#0f1830;
+      --card2:#111e3a;
+      --text:#e9eefc;
+      --muted:#b7c4f7;
+      --muted2:#93a4e7;
+      --line:rgba(255,255,255,.12);
       --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius:18px;
+      --radius2:24px;
+      --btn:#1f3cff;
+      --btn2:#2a56ff;
+      --good:#26d07c;
+      --warn:#ffd166;
+      --bad:#ff5c7a;
+      --chip:rgba(255,255,255,.08);
+      --chip2:rgba(255,255,255,.12);
+      --focus: 0 0 0 4px rgba(31,60,255,.35);
+      --max:1100px;
+      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
     }
+
     *{ box-sizing:border-box; }
+    html,body{ height:100%; }
     body{
       margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-family:var(--font);
+      color:var(--text);
       background:
-        radial-gradient(1200px 800px at 20% 10%, rgba(122,162,255,.25), transparent 55%),
-        radial-gradient(1200px 800px at 80% 20%, rgba(55,214,122,.18), transparent 55%),
-        var(--bg);
-      color: var(--text);
+        radial-gradient(1200px 800px at 10% -10%, rgba(52,102,255,.35), transparent 55%),
+        radial-gradient(1000px 700px at 95% 10%, rgba(255,209,102,.18), transparent 55%),
+        radial-gradient(900px 700px at 70% 110%, rgba(38,208,124,.18), transparent 55%),
+        linear-gradient(180deg, var(--bg), #070b14);
+      padding: 18px 14px 60px;
     }
-    header{
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 18px 16px 8px;
-    }
-    h1{ margin:0 0 6px; font-size:20px; }
-    .sub{ margin:0; color:var(--muted); font-size:14px; line-height:1.35; }
 
-    .wrap{
-      max-width:1100px;
-      margin: 0 auto;
-      padding: 12px 16px 28px;
-      display:grid;
-      gap: 14px;
-      grid-template-columns: 1fr 1fr;
-      align-items:start;
+    a{ color:inherit; text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+
+    .wrap{ max-width:var(--max); margin:0 auto; }
+
+    header{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+      padding: 8px 2px 14px;
     }
-    @media (max-width: 980px){
-      .wrap{ grid-template-columns: 1fr; }
+    .title{
+      display:flex; align-items:center; gap:10px;
+    }
+    .title h1{
+      margin:0;
+      font-size: clamp(20px, 3.6vw, 30px);
+      letter-spacing:.2px;
+    }
+    .subtitle{
+      color:var(--muted);
+      margin: 4px 0 0;
+      font-size: 14px;
+      line-height:1.35;
+    }
+    .pillrow{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:flex-end;
+    }
+    .pill{
+      background:var(--chip);
+      border:1px solid var(--line);
+      padding:10px 12px;
+      border-radius:999px;
+      display:flex; gap:10px; align-items:center;
+      box-shadow: 0 8px 20px rgba(0,0,0,.18);
+    }
+    .pill strong{ font-weight:800; }
+    .pill small{ color:var(--muted2); font-weight:700; }
+    .pill .dot{
+      width:10px; height:10px; border-radius:50%;
+      background:var(--good);
+      box-shadow:0 0 0 4px rgba(38,208,124,.15);
+    }
+
+    .toplinks{
+      display:flex; gap:10px; flex-wrap:wrap;
+      align-items:center;
+    }
+    .linkbtn{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.04);
+      padding:10px 12px;
+      border-radius:999px;
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      transition: transform .08s ease, background .2s ease;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .linkbtn:active{ transform:scale(.98); }
+    .linkbtn:hover{ background:rgba(255,255,255,.07); text-decoration:none; }
+
+    .grid{
+      display:grid;
+      gap:14px;
+      grid-template-columns: 1fr;
+      margin-top:10px;
+    }
+    @media (min-width: 880px){
+      .grid{ grid-template-columns: 1.1fr .9fr; }
     }
 
     .card{
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid var(--line);
+      border-radius: var(--radius2);
       box-shadow: var(--shadow);
       overflow:hidden;
     }
-    .card h2{
-      margin:0;
-      padding: 12px 12px 10px;
-      font-size: 16px;
-      border-bottom: 1px solid var(--line);
-      background: linear-gradient(180deg, rgba(255,255,255,.07), transparent);
+    .card .hd{
+      padding:14px 16px;
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.12);
     }
-    .content{ padding: 12px; }
+    .card .hd h2{
+      margin:0;
+      font-size: 18px;
+      letter-spacing:.2px;
+    }
+    .card .hd p{
+      margin:6px 0 0;
+      color:var(--muted);
+      font-size: 13px;
+      line-height:1.35;
+    }
+    .card .bd{ padding: 14px 16px 16px; }
 
-    .status{
-      padding:10px 12px;
+    .row{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+    .row.space{ justify-content:space-between; }
+
+    button{
+      font-family:inherit;
+      border:0;
+      border-radius: 14px;
+      padding: 12px 14px;
+      background: rgba(255,255,255,.08);
+      color:var(--text);
+      border:1px solid rgba(255,255,255,.14);
+      cursor:pointer;
+      transition: transform .08s ease, background .2s ease, border-color .2s ease;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    button:hover{ background: rgba(255,255,255,.12); }
+    button:active{ transform: scale(.98); }
+    button.primary{
+      background: linear-gradient(180deg, var(--btn2), var(--btn));
+      border-color: rgba(255,255,255,.22);
+      font-weight: 800;
+    }
+    button.primary:hover{ filter:brightness(1.03); }
+    button.good{
+      background: rgba(38,208,124,.14);
+      border-color: rgba(38,208,124,.28);
+      font-weight:800;
+    }
+    button.warn{
+      background: rgba(255,209,102,.14);
+      border-color: rgba(255,209,102,.28);
+      font-weight:800;
+      color: #fff3d5;
+    }
+    button.ghost{
+      background: rgba(255,255,255,.04);
+    }
+
+    button:focus-visible, input:focus-visible, textarea:focus-visible, .tile:focus-visible, .target:focus-visible, .fc-card:focus-visible, .match-card:focus-visible{
+      outline:none;
+      box-shadow: var(--focus);
+    }
+
+    .chips{ display:flex; flex-wrap:wrap; gap:8px; }
+    .chip{
+      background: var(--chip);
       border:1px solid var(--line);
-      border-radius:12px;
-      background: rgba(0,0,0,.18);
+      padding:8px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .chip strong{ color:var(--text); }
+
+    .notice{
+      border:1px dashed rgba(255,255,255,.20);
+      background: rgba(255,255,255,.05);
+      padding: 12px 12px;
+      border-radius: 16px;
       color: var(--muted);
       font-size: 13px;
       line-height:1.35;
-      margin-bottom: 12px;
     }
+    .notice b{ color:var(--text); }
 
-    .row{
+    /* ---- Drag/Select color task ---- */
+    .task{
+      display:grid;
+      gap:12px;
+      grid-template-columns: 1fr;
+    }
+    .targets, .tiles{
       display:flex;
       flex-wrap:wrap;
       gap:10px;
       align-items:center;
-    }
-    button, select, input[type="text"]{
-      border:1px solid var(--line);
-      background: rgba(0,0,0,.22);
-      color: var(--text);
-      border-radius: 12px;
-      padding: 10px 10px;
-      font-size: 14px;
-      outline:none;
-    }
-    button{
-      cursor:pointer;
-      background: var(--accent);
-      border-color: rgba(122,162,255,.35);
-    }
-    button.secondary{
-      background: rgba(255,255,255,.06);
-      border-color: var(--line);
-    }
-
-    .pill{
-      padding: 4px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      background: rgba(0,0,0,.14);
-      font-size: 12px;
-      color: rgba(255,255,255,.82);
-    }
-
-    /* --- Color drag task --- */
-    .twoCol{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      align-items:start;
-    }
-    @media (max-width: 640px){
-      .twoCol{ grid-template-columns: 1fr; }
-    }
-
-    .targets{
-      display:grid;
-      grid-template-columns: repeat(3, minmax(0,1fr));
-      gap: 12px;
+      justify-content:flex-start;
     }
     .target{
-      padding:10px;
-      border:1px dashed rgba(255,255,255,.22);
-      border-radius:14px;
-      background: rgba(0,0,0,.14);
-      min-height: 132px;
-      outline: none;
+      width: 64px;
+      height: 64px;
+      border-radius: 999px;
+      border: 2px solid rgba(255,255,255,.18);
+      box-shadow: inset 0 0 0 4px rgba(0,0,0,.18);
+      position:relative;
+      display:grid;
+      place-items:center;
+      overflow:hidden;
     }
-    .dot{
-      width:74px;height:74px;border-radius:999px;
-      margin: 0 auto 10px;
-      border:1px solid rgba(255,255,255,.18);
+    .target::after{
+      content: attr(data-label);
+      position:absolute;
+      bottom:-2px;
+      left:50%;
+      transform: translateX(-50%);
+      font-size: 10px;
+      color: rgba(255,255,255,.75);
+      text-shadow: 0 2px 8px rgba(0,0,0,.45);
+      background: rgba(0,0,0,.22);
+      padding: 2px 6px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.12);
     }
-    .tHint{
-      text-align:center;
-      opacity:.7;
-      font-size:12px;
+    .target.done{
+      border-color: rgba(38,208,124,.5);
+      box-shadow: inset 0 0 0 4px rgba(38,208,124,.18), 0 10px 22px rgba(0,0,0,.25);
     }
-    .tAnswer{
-      margin-top:8px;
-      text-align:center;
-      font-weight: 650;
-      min-height: 22px;
+    .target.selected{
+      outline:none;
+      box-shadow: 0 0 0 4px rgba(255,209,102,.28), inset 0 0 0 4px rgba(0,0,0,.18);
+      border-color: rgba(255,209,102,.55);
     }
 
-    .tiles{
-      display:flex;
-      flex-wrap:wrap;
-      gap: 10px;
-    }
     .tile{
       padding: 10px 12px;
       border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.16);
-      background: rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      font-weight: 800;
+      letter-spacing:.2px;
       display:inline-flex;
       align-items:center;
-      gap:8px;
-      user-select:none;
-      touch-action:none; /* important for iPad drag */
+      gap:10px;
       cursor: grab;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
     }
+    .tile:active{ cursor: grabbing; }
     .tile.used{
-      opacity:.55;
-      background: rgba(255,255,255,.04);
-      cursor: not-allowed;
+      opacity:.45;
+      filter: grayscale(1);
     }
-    .swatch{
-      width:12px;height:12px;border-radius:99px;
-      border:1px solid rgba(255,255,255,.22);
+    .tile .mini{
+      width:10px; height:10px; border-radius:50%;
+      border:1px solid rgba(255,255,255,.25);
+      box-shadow:0 4px 10px rgba(0,0,0,.25);
     }
-    .dragProxy{
-      position:fixed; left:0; top:0;
-      z-index: 9999;
-      pointer-events:none;
-      opacity:.95;
-    }
-
-    /* --- Emoji glossary task --- */
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(3, minmax(0,1fr));
-      gap: 12px;
-    }
-    @media (max-width: 700px){
-      .grid{ grid-template-columns: repeat(2, minmax(0,1fr)); }
-    }
-    @media (max-width: 430px){
-      .grid{ grid-template-columns: 1fr; }
-    }
-    .ec{
-      background: rgba(0,0,0,.14);
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 12px;
-      display:flex;
-      flex-direction:column;
-      gap: 10px;
-    }
-    .emo{
-      font-size: 40px;
-      text-align:center;
-      line-height:1;
-    }
-    .noHint{
-      text-align:center;
-      font-size: 12px;
-      opacity: .78;
-      margin-top: -6px;
-      display:none;
-    }
-    .noHint.show{ display:block; }
-
-    .fb{
-      min-height: 18px;
-      font-size: 12px;
-      opacity: .9;
-      text-align:center;
-    }
-
-    .mini{
-      color: var(--muted);
+    .helper{
+      color: var(--muted2);
       font-size: 13px;
       line-height:1.35;
-      margin-top: 8px;
+    }
+    .helper b{ color:var(--text); }
+
+    .progress{
+      display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+      background: rgba(0,0,0,.16);
+      border:1px solid rgba(255,255,255,.10);
+      padding: 10px 12px;
+      border-radius: 16px;
+    }
+    .bar{
+      flex:1;
+      min-width: 160px;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.10);
+    }
+    .bar > i{
+      display:block;
+      height:100%;
+      width:0%;
+      background: linear-gradient(90deg, rgba(38,208,124,.95), rgba(31,60,255,.95));
+      border-radius: 999px;
+      transition: width .25s ease;
+    }
+    .score{
+      font-weight:900;
+      letter-spacing:.2px;
     }
 
-    .colorPair{
+    /* ---- Flashcards ---- */
+    .fc{
+      display:grid;
+      gap:12px;
+    }
+    .fc-card{
+      border-radius: 22px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      box-shadow: 0 18px 40px rgba(0,0,0,.25);
+      padding: 16px;
+      min-height: 160px;
+      display:grid;
+      place-items:center;
+      text-align:center;
+      position:relative;
+      overflow:hidden;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .fc-card .front{
+      font-size: 26px;
+      font-weight: 950;
+      letter-spacing:.2px;
+      line-height: 1.2;
+      padding: 8px 12px;
+    }
+    .fc-card .back{
+      display:none;
+      font-size: 16px;
+      color: var(--muted);
+      line-height:1.35;
+      padding: 8px 12px;
+    }
+    .fc-card.flipped .front{ display:none; }
+    .fc-card.flipped .back{ display:block; }
+    .fc-card .tag{
+      position:absolute;
+      top:10px; left:10px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      color: rgba(255,255,255,.85);
+      font-size: 12px;
+      font-weight:800;
+    }
+    .fc-card .tag.good{
+      border-color: rgba(38,208,124,.35);
+      background: rgba(38,208,124,.10);
+    }
+    .fc-card .corner{
+      position:absolute;
+      top:-50px; right:-50px;
+      width:130px; height:130px;
+      border-radius: 50%;
+      background: rgba(31,60,255,.18);
+      filter: blur(0px);
+    }
+    .fc-actions{
+      display:flex; flex-wrap:wrap; gap:10px; justify-content:center;
+    }
+
+    /* ---- Emoji typing ---- */
+    .quizgrid{
+      display:grid;
+      gap:10px;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 700px){
+      .quizgrid{ grid-template-columns: 1fr 1fr; }
+    }
+    .qcard{
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      border-radius: 18px;
+      padding: 12px;
+      display:grid;
+      gap:8px;
+    }
+    .qtop{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+    }
+    .emoji{
+      font-size: 34px;
+      line-height:1;
+    }
+    .hintdot{
+      width:14px; height:14px; border-radius:50%;
+      border:1px solid rgba(255,255,255,.24);
+      box-shadow:0 6px 14px rgba(0,0,0,.25);
+      flex:0 0 auto;
+    }
+    .qcard input{
+      width:100%;
+      border-radius: 14px;
+      padding: 12px 12px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      color: var(--text);
+      font-size: 15px;
+    }
+    .qmeta{
+      color: var(--muted2);
+      font-size: 12px;
+      line-height:1.3;
       display:flex;
-      align-items:center;
-      justify-content:center;
+      justify-content:space-between;
       gap:10px;
       flex-wrap:wrap;
     }
-    .colorDotSmall{
-      width:16px;height:16px;border-radius:99px;
-      border: 1px solid rgba(255,255,255,.22);
-      display:inline-block;
-      vertical-align:middle;
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .badge.good{ border-color: rgba(38,208,124,.35); background: rgba(38,208,124,.10); }
+    .badge.bad{ border-color: rgba(255,92,122,.35); background: rgba(255,92,122,.12); }
+    .badge.warn{ border-color: rgba(255,209,102,.35); background: rgba(255,209,102,.12); }
+
+    /* ---- Matching ---- */
+    .match{
+      display:grid;
+      gap:12px;
+    }
+    .match-grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:10px;
+    }
+    @media (min-width: 560px){
+      .match-grid{ grid-template-columns: repeat(4, 1fr); }
+    }
+    .match-card{
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      padding: 12px 10px;
+      min-height: 72px;
+      display:grid;
+      place-items:center;
+      text-align:center;
+      cursor:pointer;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
+      position:relative;
+      overflow:hidden;
+    }
+    .match-card .m-emoji{ font-size: 30px; line-height:1; }
+    .match-card .m-text{ font-size: 13px; font-weight: 900; letter-spacing:.2px; line-height:1.2; }
+    .match-card.selected{
+      box-shadow: 0 0 0 4px rgba(255,209,102,.25);
+      border-color: rgba(255,209,102,.55);
+    }
+    .match-card.matched{
+      opacity:.55;
+      filter: grayscale(1);
+      pointer-events:none;
+    }
+
+    /* ---- Writing ---- */
+    textarea{
+      width:100%;
+      min-height: 120px;
+      border-radius: 16px;
+      padding: 12px 12px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      color: var(--text);
+      font-size: 15px;
+      line-height:1.35;
+      resize: vertical;
+    }
+    .starter{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:10px;
+    }
+    .starter button{
+      padding: 10px 12px;
+      border-radius: 999px;
+      font-weight: 800;
+    }
+
+    /* ---- Confetti ---- */
+    .confetti{
+      position: fixed;
+      inset:0;
+      pointer-events:none;
+      overflow:hidden;
+      z-index: 9999;
+      display:none;
+    }
+    .confetti.show{ display:block; }
+    .confetti i{
+      position:absolute;
+      width:10px; height:16px;
+      border-radius:4px;
+      opacity:.95;
+      animation: fall 900ms ease-out forwards;
+    }
+    @keyframes fall{
+      from{ transform: translateY(-20px) rotate(0deg); }
+      to{ transform: translateY(120vh) rotate(320deg); opacity:0.1; }
+    }
+
+    /* ---- Footer ---- */
+    footer{
+      margin-top: 18px;
+      color: var(--muted2);
+      font-size: 12px;
+      text-align:center;
+      opacity:.9;
+    }
+
+    .sr-only{
+      position:absolute;
+      width:1px; height:1px;
+      padding:0; margin:-1px;
+      overflow:hidden; clip:rect(0,0,0,0);
+      white-space:nowrap; border:0;
     }
   </style>
 </head>
+
 <body>
-<header>
-  <h1>Vêtements – interaktive oppgaver uten bilder</h1>
-  <p class="sub">
-    1) Dra franske farger til riktig prikk (iPad + PC). 2) Emoji-klær: skriv gloser og sjekk.
-    Alt lagres lokalt i nettleseren.
-  </p>
-</header>
-
-<main class="wrap">
-  <!-- CARD 1: COLOR DRAG -->
-  <section class="card">
-    <h2>Oppgave 1: Dra fransk farge til riktig prikk</h2>
-    <div class="content">
-      <div id="colorStatus" class="status">Klar! Dra en brikke.</div>
-
-      <div class="twoCol">
-        <div>
-          <div class="row" style="margin-bottom:10px;">
-            <span class="pill">Fargeprikker</span>
-          </div>
-          <div id="colorTargets" class="targets"></div>
-          <div class="mini">Tips: Brikkene blir “grå” når de er brukt riktig.</div>
+  <div class="wrap">
+    <header>
+      <div>
+        <div class="toplinks">
+          <a class="linkbtn" href="./index.html" aria-label="Til meny">↩️ <strong>Til meny</strong></a>
+          <a class="linkbtn" href="#gloser">📚 <strong>Gloser</strong></a>
+          <a class="linkbtn" href="#oppgaver">🎯 <strong>Oppgaver</strong></a>
         </div>
-
-        <div>
-          <div class="row" style="margin-bottom:10px;">
-            <span class="pill">Ordbrikker</span>
-          </div>
-          <div id="colorTiles" class="tiles"></div>
-          <div class="row" style="margin-top:12px;">
-            <button id="colorReset" class="secondary" type="button">Nullstill</button>
-            <button id="colorShuffle" type="button">Bland</button>
+        <div class="title" style="margin-top:10px;">
+          <div style="font-size:28px">👕🎨</div>
+          <div>
+            <h1>Vêtements – klær og farger</h1>
+            <div class="subtitle">iPad + PC · trykk/drag · poeng & badges · alt lagres lokalt i nettleseren</div>
           </div>
         </div>
       </div>
+
+      <div class="pillrow" aria-label="Status">
+        <div class="pill" title="Totalpoeng (lagres lokalt)">
+          <span class="dot" aria-hidden="true"></span>
+          <div>
+            <div><strong id="points">0</strong> <small>poeng</small></div>
+            <div style="font-size:12px;color:var(--muted2);margin-top:2px;">Badges: <strong id="badges">0</strong></div>
+          </div>
+        </div>
+        <div class="pill" title="Dagens streak (øker når du fullfører en oppgave)">
+          🔥 <div><strong id="streak">0</strong> <small>streak</small></div>
+        </div>
+      </div>
+    </header>
+
+    <div class="grid">
+      <!-- LEFT: Glossary + Porter -->
+      <section class="card" id="gloser">
+        <div class="hd">
+          <div>
+            <h2>📚 Gloser (med artikkel) + farger</h2>
+            <p>Tips: Skriv alltid <b>artikkel</b> + plagg + farge. Eksempel: <b>un t-shirt rouge</b>.</p>
+          </div>
+          <div class="chips" aria-label="Hurtigtips">
+            <span class="chip"><strong>porter</strong> = “å bære” / “å ha på seg”</span>
+            <span class="chip">Je porte… / Il porte… / Elle porte…</span>
+          </div>
+        </div>
+        <div class="bd">
+          <div class="notice">
+            <b>Porte / porter:</b> betyr “å bære”, men brukes veldig ofte når du vil si <b>å ha på seg</b> klær.<br/>
+            Eksempler: <b>Je porte un pull</b> (Jeg har på meg en genser) · <b>Elle porte une robe</b> (Hun har på seg en kjole).
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="row space">
+            <div class="chips">
+              <span class="chip"><strong>Klær</strong>: 22</span>
+              <span class="chip"><strong>Farger</strong>: 11</span>
+            </div>
+            <div class="row">
+              <button class="ghost" id="copyGlossary">Kopier gloser</button>
+              <button class="ghost" id="resetAll">Nullstill alt</button>
+            </div>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="row" style="align-items:flex-start; gap:14px;">
+            <div style="flex:1; min-width:260px;">
+              <h3 style="margin:0 0 8px; font-size:15px;">Klær</h3>
+              <div class="chips" id="clothesChips"></div>
+            </div>
+            <div style="flex:1; min-width:240px;">
+              <h3 style="margin:0 0 8px; font-size:15px;">Farger</h3>
+              <div class="chips" id="colorsChips"></div>
+            </div>
+          </div>
+
+          <div style="height:12px"></div>
+          <div class="notice">
+            <b>Husk:</b> Vi godtar svar uten aksent i spillene (f.eks. <i>echarpe</i> = <i>écharpe</i>), men det er fint å øve på riktig skrivemåte.
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT: Quick start -->
+      <aside class="card" id="oppgaver">
+        <div class="hd">
+          <div>
+            <h2>🎯 Oppdrag i dag</h2>
+            <p>Fullfør 3 oppgaver → få en badge. Fullfør alle → “mode-mester”.</p>
+          </div>
+          <div class="badge" id="todayBadge">🏁 Klar</div>
+        </div>
+        <div class="bd">
+          <div class="progress" aria-label="Fremdrift">
+            <div class="bar" aria-hidden="true"><i id="progressBar"></i></div>
+            <div class="score" id="progressText">0 / 5</div>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="notice">
+            <b>Touch-tips (iPad):</b> I dra-oppgaven kan du også <b>trykke på et ord</b> og deretter <b>trykke på riktig fargeprikk</b>.
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="row" style="justify-content:flex-start;">
+            <a class="linkbtn" href="#task-colors">1) Farger → prikk</a>
+            <a class="linkbtn" href="#task-flash">2) Flashcards</a>
+            <a class="linkbtn" href="#task-emoji">3) Emoji-svar</a>
+            <a class="linkbtn" href="#task-match">4) Matching</a>
+            <a class="linkbtn" href="#task-write">5) Beskriv</a>
+          </div>
+
+          <div style="height:14px"></div>
+
+          <div class="row">
+            <button class="primary" id="bonusBtn">🎁 Bonus-runde (+10)</button>
+            <button class="ghost" id="soundBtn" aria-pressed="false">🔊 Lyd: av</button>
+          </div>
+
+          <div style="height:10px"></div>
+          <div class="helper">
+            Bonus-runden gir en mini-feiring når du treffer. (Lyd er valgfritt.)
+          </div>
+        </div>
+      </aside>
     </div>
-  </section>
 
-  <!-- CARD 2: EMOJI GLOSER -->
-  <section class="card">
-    <h2>Oppgave 2: Emoji → skriv glosen (inkl. farge + plagg)</h2>
-    <div class="content">
-      <div id="emojiStatus" class="status">
-        Skriv fransk under hver emoji. Noen har også en fargeprikk – skriv farge i samme svar.
-        Eksempel: <b>un t-shirt rouge</b>.
+    <!-- TASK 1 -->
+    <section class="card" id="task-colors" style="margin-top:14px;">
+      <div class="hd">
+        <div>
+          <h2>1) 🎨 Farger: dra (eller trykk) ordet til riktig prikk</h2>
+          <p>Velg metode: <b>drag</b> på PC, eller <b>trykk ord → trykk prikk</b> på iPad.</p>
+        </div>
+        <div class="badge" id="colorsBadge">⏳ Ikke fullført</div>
       </div>
+      <div class="bd">
+        <div class="task" aria-label="Farger til prikker">
+          <div class="row space">
+            <div class="helper">
+              <b>Slik gjør du:</b> Dra en brikke over en prikk – eller trykk en brikke og så riktig prikk.<br/>
+              <span style="color:var(--muted);">Hint: Brikker blir grå når de er riktig.</span>
+            </div>
+            <div class="row">
+              <button class="ghost" id="shuffleColors">Bland</button>
+              <button class="ghost" id="resetColors">Nullstill</button>
+            </div>
+          </div>
 
-      <div class="row" style="margin-bottom:10px;">
-        <button id="toggleNo" class="secondary" type="button">Vis norsk hint</button>
-        <button id="emojiCheck" type="button">Sjekk</button>
-        <button id="emojiHint" class="secondary" type="button">Hint (første bokstav)</button>
-        <button id="emojiReveal" class="secondary" type="button">Vis fasit</button>
-        <button id="emojiReset" class="secondary" type="button">Nullstill</button>
+          <div style="height:6px"></div>
+
+          <h3 style="margin:8px 0 8px; font-size:14px; color:var(--muted);">Fargeprikker</h3>
+          <div class="targets" id="colorTargets"></div>
+
+          <h3 style="margin:10px 0 8px; font-size:14px; color:var(--muted);">Ordbrikker</h3>
+          <div class="tiles" id="colorTiles"></div>
+
+          <div class="progress" style="margin-top:10px;">
+            <div class="bar"><i id="colorsBar"></i></div>
+            <div class="score" id="colorsScore">0 / 11</div>
+          </div>
+        </div>
       </div>
+    </section>
 
-      <div id="emojiGrid" class="grid"></div>
-
-      <div class="mini">
-        Godtar små variasjoner: store/små bokstaver, ekstra mellomrom og aksenter (é) blir ignorert i sjekk.
+    <!-- TASK 2 -->
+    <section class="card" id="task-flash" style="margin-top:14px;">
+      <div class="hd">
+        <div>
+          <h2>2) 🃏 Flashcards: klær + farger</h2>
+          <p>Trykk kortet for å snu. Marker “Lært” for å samle poeng.</p>
+        </div>
+        <div class="badge" id="flashBadge">⏳ Ikke fullført</div>
       </div>
-    </div>
-  </section>
-</main>
+      <div class="bd">
+        <div class="fc">
+          <div class="fc-card" id="flashCard" tabindex="0" role="button" aria-label="Flashcard, trykk for å snu">
+            <div class="corner" aria-hidden="true"></div>
+            <div class="tag" id="flashTag">Trykk for å snu</div>
+            <div class="front" id="flashFront">un t-shirt rouge</div>
+            <div class="back" id="flashBack">
+              <div style="font-weight:900;color:var(--text);margin-bottom:6px;">Betydning (NO)</div>
+              <div id="flashMeaning">en t-skjorte rød</div>
+              <div style="margin-top:10px;color:var(--muted2);font-size:13px;">
+                Bruk i setning: <b id="flashSentence">Je porte un t-shirt rouge.</b>
+              </div>
+            </div>
+          </div>
 
-<script>
-(() => {
-  // -----------------------
-  // Shared: Colors
-  // -----------------------
-  const COLORS = [
-    { fr:"marron", css:"#7a4a21" },
-    { fr:"noir", css:"#111111" },
-    { fr:"bleu", css:"#2f64ff" },
-    { fr:"vert", css:"#2fbf6b" },
-    { fr:"jaune", css:"#ffd400" },
-    { fr:"gris", css:"#9aa3ad" },
-    { fr:"rose", css:"#ff5bb8" },
-    { fr:"violet", css:"#8a4dff" },
-    { fr:"rouge", css:"#ff3b3b" },
-    { fr:"orange", css:"#ff8a2f" },
-    { fr:"blanc", css:"#f3f3f3" },
-  ];
-  const colorByFr = Object.fromEntries(COLORS.map(c => [c.fr, c.css]));
+          <div class="fc-actions">
+            <button class="ghost" id="prevFlash">← Forrige</button>
+            <button class="primary" id="nextFlash">Neste →</button>
+            <button class="good" id="learnedFlash">✅ Lært (+2)</button>
+            <button class="ghost" id="resetFlash">Nullstill lærte</button>
+          </div>
 
-  function shuffle(arr){
-    const a = arr.slice();
-    for(let i=a.length-1;i>0;i--){
-      const j = Math.floor(Math.random()*(i+1));
-      [a[i],a[j]] = [a[j],a[i]];
-    }
-    return a;
-  }
+          <div class="progress">
+            <div class="bar"><i id="flashBar"></i></div>
+            <div class="score"><span id="flashLearned">0</span> / <span id="flashTotal">0</span> lært</div>
+          </div>
 
-  function norm(s){
-    return (s || "")
-      .toLowerCase()
-      .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // remove accents
-      .replace(/\s+/g, " ")
-      .trim();
-  }
+          <div class="notice">
+            <b>Tips:</b> Øv på <b>artikkel</b> først: <i>un/une/des</i>. Deretter plagg. Til slutt farge.
+          </div>
+        </div>
+      </div>
+    </section>
 
-  // ============================================================
-  // TASK 1: Color drag (Pointer Events)
-  // ============================================================
-  const LS_COLOR = "salut9_vetements_color_drag_v2";
-  const elTargets = document.getElementById("colorTargets");
-  const elTiles = document.getElementById("colorTiles");
-  const elColorStatus = document.getElementById("colorStatus");
-  const btnColorReset = document.getElementById("colorReset");
-  const btnColorShuffle = document.getElementById("colorShuffle");
+    <!-- TASK 3 -->
+    <section class="card" id="task-emoji" style="margin-top:14px;">
+      <div class="hd">
+        <div>
+          <h2>3) 👕 Emoji → skriv glosen (artikkel + plagg + farge)</h2>
+          <p>Skriv fransk under hver emoji. Eksempel: <b>un t-shirt rouge</b>. (Aksenter er valgfritt i sjekk.)</p>
+        </div>
+        <div class="badge" id="emojiBadge">⏳ Ikke fullført</div>
+      </div>
+      <div class="bd">
+        <div class=" toggle row space" style="margin-bottom:10px;">
+          <div class="row">
+            <button class="ghost" id="newEmojiSet">Nye oppgaver</button>
+            <button class="ghost" id="hintEmoji">Hint (første bokstav)</button>
+            <button class="ghost" id="showEmojiAnswers">Vis fasit</button>
+            <button class="ghost" id="resetEmojiInputs">Nullstill</button>
+          </div>
+          <div class="row">
+            <button class="primary" id="checkEmoji">Sjekk</button>
+          </div>
+        </div>
 
-  let colorState = loadJSON(LS_COLOR, {}); // { targetFr: tileFr }
-  let currentOrder = shuffle(COLORS);
+        <div class="quizgrid" id="emojiGrid"></div>
 
-  function setColorStatus(text, kind){
-    elColorStatus.textContent = text;
-    elColorStatus.style.borderColor =
-      kind === "good" ? "rgba(55,214,122,.55)" :
-      kind === "bad" ? "rgba(255,92,92,.55)" :
-      "rgba(255,255,255,.14)";
-  }
-  function saveColorState(){ localStorage.setItem(LS_COLOR, JSON.stringify(colorState)); }
+        <div style="height:10px"></div>
+        <div class="progress">
+          <div class="bar"><i id="emojiBar"></i></div>
+          <div class="score" id="emojiScore">0 / 8</div>
+        </div>
 
-  function renderColorTargets(){
-    elTargets.innerHTML = "";
-    COLORS.forEach(c => {
-      const box = document.createElement("div");
-      box.className = "target";
-      box.dataset.targetFr = c.fr;
+        <div style="height:10px"></div>
+        <div class="notice">
+          <b>Godtar:</b> store/små bokstaver, ekstra mellomrom og manglende aksent (é/è/ê).<br/>
+          <b>Må ha:</b> riktig <b>artikkel</b> + riktig plagg + riktig farge.
+        </div>
+      </div>
+    </section>
 
-      const dot = document.createElement("div");
-      dot.className = "dot";
-      dot.style.background = c.css;
+    <!-- TASK 4 -->
+    <section class="card" id="task-match" style="margin-top:14px;">
+      <div class="hd">
+        <div>
+          <h2>4) 🧠 Matching: emoji ↔ fransk (med artikkel)</h2>
+          <p>Trykk to kort: ett emoji-kort + riktig fransk-kort. Finn alle par.</p>
+        </div>
+        <div class="badge" id="matchBadge">⏳ Ikke fullført</div>
+      </div>
+      <div class="bd">
+        <div class="match">
+          <div class="row space">
+            <div class="helper"><b>Poeng:</b> Riktig par gir +3. Feil gir ingen straff – prøv igjen.</div>
+            <div class="row">
+              <button class="ghost" id="newMatch">Nytt brett</button>
+              <button class="ghost" id="resetMatch">Nullstill</button>
+            </div>
+          </div>
 
-      const hint = document.createElement("div");
-      hint.className = "tHint";
-      hint.textContent = "Slipp ord her";
+          <div class="match-grid" id="matchGrid" aria-label="Matching-brett"></div>
 
-      const ans = document.createElement("div");
-      ans.className = "tAnswer";
-      ans.textContent = colorState[c.fr] ? colorState[c.fr] : "";
+          <div class="progress" style="margin-top:10px;">
+            <div class="bar"><i id="matchBar"></i></div>
+            <div class="score" id="matchScore">0 / 10</div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-      box.appendChild(dot);
-      box.appendChild(hint);
-      box.appendChild(ans);
-      elTargets.appendChild(box);
-    });
-  }
+    <!-- TASK 5 -->
+    <section class="card" id="task-write" style="margin-top:14px;">
+      <div class="hd">
+        <div>
+          <h2>5) ✍️ Beskriv: deg selv, sidemann og drømmeantrekk</h2>
+          <p>Bruk <b>porter</b> + klær + farger. Prøv å lage 3–6 setninger per del.</p>
+        </div>
+        <div class="badge" id="writeBadge">⏳ Ikke fullført</div>
+      </div>
+      <div class="bd">
+        <div class="row space" style="margin-bottom:10px;">
+          <div class="chips">
+            <span class="chip"><strong>Mål</strong>: 3 deler</span>
+            <span class="chip">Je porte…</span>
+            <span class="chip">Il/Elle porte…</span>
+            <span class="chip">J’aimerais porter…</span>
+          </div>
+          <div class="row">
+            <button class="primary" id="randomOutfit">🎲 Tilfeldig antrekk</button>
+            <button class="good" id="markWriteDone">✅ Ferdig (+10)</button>
+          </div>
+        </div>
 
-  function renderColorTiles(order){
-    elTiles.innerHTML = "";
-    order.forEach(c => {
-      const used = Object.values(colorState).includes(c.fr);
+        <div class="notice" id="randomOutfitBox" style="display:none;"></div>
 
-      const tile = document.createElement("div");
-      tile.className = "tile" + (used ? " used" : "");
-      tile.dataset.tileFr = c.fr;
+        <div style="height:10px"></div>
 
-      const sw = document.createElement("span");
-      sw.className = "swatch";
-      sw.style.background = c.css;
+        <div class="row" style="align-items:flex-start;">
+          <div style="flex:1; min-width:260px;">
+            <h3 style="margin:0 0 8px; font-size:15px;">A) Beskriv hva <b>du</b> har på deg</h3>
+            <textarea id="writeMe" placeholder="Je porte ..."></textarea>
+            <div class="starter">
+              <button class="ghost" data-insert="writeMe" data-text="Je porte ">Je porte…</button>
+              <button class="ghost" data-insert="writeMe" data-text="Aujourd’hui, je porte ">Aujourd’hui…</button>
+              <button class="ghost" data-insert="writeMe" data-text="J’ai un style ">J’ai un style…</button>
+            </div>
+          </div>
+          <div style="flex:1; min-width:260px;">
+            <h3 style="margin:0 0 8px; font-size:15px;">B) Beskriv hva <b>sidemannen</b> har på seg</h3>
+            <textarea id="writeOther" placeholder="Il porte ... / Elle porte ..."></textarea>
+            <div class="starter">
+              <button class="ghost" data-insert="writeOther" data-text="Il porte ">Il porte…</button>
+              <button class="ghost" data-insert="writeOther" data-text="Elle porte ">Elle porte…</button>
+              <button class="ghost" data-insert="writeOther" data-text="Je pense qu’il/elle porte ">Je pense que…</button>
+            </div>
+          </div>
+        </div>
 
-      const txt = document.createElement("span");
-      txt.textContent = c.fr;
+        <div style="height:12px"></div>
 
-      tile.appendChild(sw);
-      tile.appendChild(txt);
+        <div>
+          <h3 style="margin:0 0 8px; font-size:15px;">C) Beskriv ditt <b>drømmeantrekk</b></h3>
+          <textarea id="writeDream" placeholder="J’aimerais porter ..."></textarea>
+          <div class="starter">
+            <button class="ghost" data-insert="writeDream" data-text="J’aimerais porter ">J’aimerais porter…</button>
+            <button class="ghost" data-insert="writeDream" data-text="Mon look de rêve: ">Mon look…</button>
+            <button class="ghost" data-insert="writeDream" data-text="Je voudrais ">Je voudrais…</button>
+          </div>
+        </div>
 
-      if(!used){
-        tile.addEventListener("pointerdown", onColorDragStart);
+        <div style="height:12px"></div>
+        <div class="notice">
+          <b>Ekstra utfordring:</b> Bruk <b>også</b> en setning med “mais” (men) eller “parce que” (fordi).<br/>
+          Eksempel: <i>Je porte un pull gris, mais je voudrais un pull violet.</i>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      Laget for Salut 9 · Kapittel 4 · Vêtements · (lokal lagring i nettleseren)
+    </footer>
+  </div>
+
+  <div class="confetti" id="confetti" aria-hidden="true"></div>
+
+  <script>
+    // -----------------------------
+    // Data (glossary)
+    // -----------------------------
+    const CLOTHES = [
+      { fr: "un débardeur", no: "en singlet", emoji:"👚" },
+      { fr: "un t-shirt", no: "en t-skjorte", emoji:"👕" },
+      { fr: "une robe", no: "en kjole", emoji:"👗" },
+      { fr: "une jupe", no: "et skjørt", emoji:"🩱" }, // closest emoji
+      { fr: "une chemise", no: "en skjorte", emoji:"👔" },
+      { fr: "un pull", no: "en genser", emoji:"🧥" },
+      { fr: "un short", no: "en shorts", emoji:"🩳" },
+      { fr: "un pantalon", no: "en bukse", emoji:"👖" },
+      { fr: "un manteau", no: "en frakk/kåpe", emoji:"🧥" },
+      { fr: "une veste", no: "en jakke", emoji:"🧥" },
+      { fr: "des chaussettes", no: "sokker", emoji:"🧦" },
+      { fr: "des chaussures", no: "sko", emoji:"👞" },
+      { fr: "des baskets", no: "joggesko", emoji:"👟" },
+      { fr: "des gants", no: "hansker", emoji:"🧤" },
+      { fr: "un bonnet", no: "en lue", emoji:"🧢" },
+      { fr: "une écharpe", no: "et skjerf", emoji:"🧣" },
+      { fr: "des bottes", no: "støvler", emoji:"👢" },
+      { fr: "une ceinture", no: "et belte", emoji:"🧷" },
+      { fr: "une casquette", no: "en caps", emoji:"🧢" },
+      { fr: "un maillot de bain", no: "badetøy", emoji:"🩱" }
+    ];
+
+    // Colors (French, and hex for dots)
+    const COLORS = [
+      { fr: "marron",  hex:"#7a4a2b" },
+      { fr: "noir",    hex:"#0a0a0f" },
+      { fr: "bleu",    hex:"#2a56ff" },
+      { fr: "vert",    hex:"#22c55e" },
+      { fr: "jaune",   hex:"#fbbf24" },
+      { fr: "gris",    hex:"#94a3b8" },
+      { fr: "rose",    hex:"#fb7185" },
+      { fr: "violet",  hex:"#8b5cf6" },
+      { fr: "rouge",   hex:"#ef4444" },
+      { fr: "orange",  hex:"#f97316" },
+      { fr: "blanc",   hex:"#f8fafc" }
+    ];
+
+    // -----------------------------
+    // Local storage helpers
+    // -----------------------------
+    const LS = {
+      get(key, fallback){
+        try{
+          const v = localStorage.getItem(key);
+          if(v === null || v === undefined) return fallback;
+          return JSON.parse(v);
+        }catch(e){
+          return fallback;
+        }
+      },
+      set(key, value){
+        localStorage.setItem(key, JSON.stringify(value));
+      },
+      del(key){
+        localStorage.removeItem(key);
       }
-      elTiles.appendChild(tile);
-    });
-  }
-
-  function evaluateColorsDone(){
-    const done = COLORS.every(c => colorState[c.fr] === c.fr);
-    if(done) setColorStatus("Fantastisk! Alle fargene er riktig 🎉", "good");
-  }
-
-  // Pointer drag
-  let drag = null;
-
-  function findColorTarget(x,y){
-    const el = document.elementFromPoint(x,y);
-    if(!el) return null;
-    return el.closest("[data-target-fr]");
-  }
-  function moveProxy(x,y){
-    if(!drag) return;
-    drag.proxy.style.transform = `translate3d(${x - drag.offX}px, ${y - drag.offY}px, 0)`;
-  }
-
-  function onColorDragStart(e){
-    if (e.button !== undefined && e.button !== 0) return;
-
-    const tile = e.currentTarget;
-    const fr = tile.dataset.tileFr;
-    tile.setPointerCapture(e.pointerId);
-
-    const rect = tile.getBoundingClientRect();
-    const proxy = tile.cloneNode(true);
-    proxy.classList.add("dragProxy");
-    proxy.style.width = rect.width + "px";
-    proxy.style.height = rect.height + "px";
-    document.body.appendChild(proxy);
-
-    drag = {
-      fr, proxy, pid: e.pointerId,
-      offX: e.clientX - rect.left,
-      offY: e.clientY - rect.top
     };
 
-    moveProxy(e.clientX, e.clientY);
-    window.addEventListener("pointermove", onColorDragMove, { passive:false });
-    window.addEventListener("pointerup", onColorDragEnd, { passive:false });
-    window.addEventListener("pointercancel", onColorDragEnd, { passive:false });
+    // State
+    let state = LS.get("vetements_state_v2", {
+      points: 0,
+      badges: [],
+      streak: { count: 0, lastDate: null },
+      tasksDone: { colors:false, flash:false, emoji:false, match:false, write:false },
+      colors: { used: {}, solvedCount: 0 },
+      flash: { learned: {} },
+      emoji: { lastSet: null, inputs: {} },
+      match: { solvedPairs: 0, board: null },
+      settings: { sound:false }
+    });
 
-    setColorStatus("Dra til riktig prikk…");
-  }
-
-  function onColorDragMove(e){
-    if(!drag || e.pointerId !== drag.pid) return;
-    e.preventDefault();
-    moveProxy(e.clientX, e.clientY);
-
-    document.querySelectorAll("[data-target-fr]").forEach(t => t.style.outline = "none");
-    const t = findColorTarget(e.clientX, e.clientY);
-    if(t) t.style.outline = "2px solid rgba(122,162,255,.6)";
-  }
-
-  function onColorDragEnd(e){
-    if(!drag || e.pointerId !== drag.pid) return;
-    e.preventDefault();
-
-    document.querySelectorAll("[data-target-fr]").forEach(t => t.style.outline = "none");
-    const target = findColorTarget(e.clientX, e.clientY);
-
-    if(target){
-      const targetFr = target.dataset.targetFr;
-      const tileFr = drag.fr;
-
-      if(targetFr === tileFr){
-        colorState[targetFr] = tileFr;
-        saveColorState();
-        setColorStatus("Riktig! ✅", "good");
-      }else{
-        setColorStatus("Feil – prøv igjen ❌", "bad");
-      }
-
-      renderColorTargets();
-      renderColorTiles(currentOrder);
-      evaluateColorsDone();
+    function save(){ LS.set("vetements_state_v2", state); renderTop(); }
+    function todayISO(){
+      const d = new Date();
+      const y = d.getFullYear();
+      const m = String(d.getMonth()+1).padStart(2,"0");
+      const da = String(d.getDate()).padStart(2,"0");
+      return `${y}-${m}-${da}`;
     }
 
-    drag.proxy.remove();
-    drag = null;
-    window.removeEventListener("pointermove", onColorDragMove);
-    window.removeEventListener("pointerup", onColorDragEnd);
-    window.removeEventListener("pointercancel", onColorDragEnd);
-  }
-
-  btnColorReset.addEventListener("click", () => {
-    colorState = {};
-    saveColorState();
-    renderColorTargets();
-    renderColorTiles(currentOrder);
-    setColorStatus("Nullstilt.");
-  });
-  btnColorShuffle.addEventListener("click", () => {
-    currentOrder = shuffle(COLORS);
-    renderColorTiles(currentOrder);
-    setColorStatus("Blandet.");
-  });
-
-  function loadJSON(key, fallback){
-    try{
-      const raw = localStorage.getItem(key);
-      return raw ? JSON.parse(raw) : fallback;
-    }catch{ return fallback; }
-  }
-
-  // init task 1
-  renderColorTargets();
-  renderColorTiles(currentOrder);
-  evaluateColorsDone();
-
-  // ============================================================
-  // TASK 2: Emoji glossary (with Norwegian hints + some color+clothing)
-  // ============================================================
-  const LS_EMOJI = "salut9_vetements_emoji_v2";
-  const LS_EMOJI_HINT = "salut9_vetements_show_nohint_v1";
-
-  const elEmojiGrid = document.getElementById("emojiGrid");
-  const elEmojiStatus = document.getElementById("emojiStatus");
-  const btnToggleNo = document.getElementById("toggleNo");
-  const btnEmojiCheck = document.getElementById("emojiCheck");
-  const btnEmojiHint = document.getElementById("emojiHint");
-  const btnEmojiReveal = document.getElementById("emojiReveal");
-  const btnEmojiReset = document.getElementById("emojiReset");
-
-  // 12 oppgaver (8–12 ønsket, her 12)
-  // Noen har fargeprikk => eleven skal skrive "plagg + farge"
-  const EMOJI_WORDS = [
-    { id:"tshirt",     emoji:"👕", no:"t-skjorte", answer:"un t-shirt", color:"rouge" },
-    { id:"pants",      emoji:"👖", no:"bukse",     answer:"un pantalon", color:"noir" },
-    { id:"dress",      emoji:"👗", no:"kjole",     answer:"une robe", color:"violet" },
-    { id:"jacket",     emoji:"🧥", no:"jakke",     answer:"une veste", color:"bleu" },
-    { id:"shoes",      emoji:"👟", no:"sko",       answer:"des chaussures", color:"blanc" },
-    { id:"socks",      emoji:"🧦", no:"sokker",    answer:"des chaussettes", color:null },
-    { id:"cap",        emoji:"🧢", no:"caps",      answer:"une casquette", color:"vert" },
-    { id:"scarf",      emoji:"🧣", no:"skjerf",    answer:"une écharpe", color:"gris" },
-    { id:"gloves",     emoji:"🧤", no:"hansker",   answer:"des gants", color:null },
-    { id:"bag",        emoji:"👜", no:"veske",     answer:"un sac", color:"marron" },
-    { id:"sunglasses", emoji:"🕶️", no:"solbriller",answer:"des lunettes de soleil", color:null },
-    { id:"skirt",      emoji:"👚", no:"skjørt",    answer:"une jupe", color:"rose" }, // emoji er topp, men oppgaven er ok
-  ];
-
-  let emojiState = loadJSON(LS_EMOJI, {}); // id -> inputText
-  let showNoHint = (localStorage.getItem(LS_EMOJI_HINT) === "1");
-
-  function setEmojiStatus(text, kind){
-    elEmojiStatus.textContent = text;
-    elEmojiStatus.style.borderColor =
-      kind === "good" ? "rgba(55,214,122,.55)" :
-      kind === "bad" ? "rgba(255,92,92,.55)" :
-      "rgba(255,255,255,.14)";
-  }
-
-  function saveEmojiState(){
-    localStorage.setItem(LS_EMOJI, JSON.stringify(emojiState));
-  }
-
-  function expectedAnswer(w){
-    // If color exists: require "answer + color" (e.g. "un t-shirt rouge")
-    if(w.color) return `${w.answer} ${w.color}`;
-    return w.answer;
-  }
-
-  function renderEmoji(){
-    elEmojiGrid.innerHTML = "";
-
-    EMOJI_WORDS.forEach(w => {
-      const card = document.createElement("div");
-      card.className = "ec";
-
-      const em = document.createElement("div");
-      em.className = "emo";
-      em.textContent = w.emoji;
-
-      const colorRow = document.createElement("div");
-      colorRow.className = "colorPair";
-
-      if(w.color){
-        const dot = document.createElement("span");
-        dot.className = "colorDotSmall";
-        dot.style.background = colorByFr[w.color] || "#fff";
-
-        const lab = document.createElement("span");
-        lab.className = "pill";
-        lab.textContent = `Farge: ${w.color}`;
-
-        colorRow.appendChild(dot);
-        colorRow.appendChild(lab);
-      }else{
-        const lab = document.createElement("span");
-        lab.className = "pill";
-        lab.textContent = "Ingen farge i denne";
-        colorRow.appendChild(lab);
+    // -----------------------------
+    // Utility
+    // -----------------------------
+    function shuffle(arr){
+      const a = arr.slice();
+      for(let i=a.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [a[i],a[j]] = [a[j],a[i]];
       }
+      return a;
+    }
+    function choice(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
 
-      const no = document.createElement("div");
-      no.className = "noHint" + (showNoHint ? " show" : "");
-      no.textContent = `Norsk: ${w.no}`;
+    function norm(s){
+      return (s||"")
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g," ")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g,""); // strip accents
+    }
 
-      const input = document.createElement("input");
-      input.type = "text";
-      input.autocomplete = "off";
-      input.spellcheck = false;
-      input.placeholder = w.color ? "Skriv fransk + farge…" : "Skriv fransk…";
-      input.value = emojiState[w.id] ?? "";
-      input.dataset.wordId = w.id;
+    function beep(type="good"){
+      if(!state.settings.sound) return;
+      // tiny web-audio beep
+      try{
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.type = "sine";
+        o.frequency.value = type==="good" ? 660 : 220;
+        g.gain.value = 0.06;
+        o.connect(g); g.connect(ctx.destination);
+        o.start();
+        setTimeout(()=>{ o.stop(); ctx.close(); }, 120);
+      }catch(e){}
+    }
 
-      const fb = document.createElement("div");
-      fb.className = "fb";
-      fb.dataset.fbFor = w.id;
+    function confettiBurst(){
+      const c = document.getElementById("confetti");
+      c.innerHTML = "";
+      c.classList.add("show");
+      const n = 42;
+      for(let i=0;i<n;i++){
+        const p = document.createElement("i");
+        const left = Math.random()*100;
+        const delay = Math.random()*120;
+        const w = 6 + Math.random()*10;
+        const h = 10 + Math.random()*14;
+        p.style.left = left + "vw";
+        p.style.top = (-10 - Math.random()*30) + "px";
+        p.style.width = w + "px";
+        p.style.height = h + "px";
+        p.style.animationDelay = delay + "ms";
+        // random color without hardcoding a palette variable:
+        const hue = Math.floor(Math.random()*360);
+        p.style.background = `hsl(${hue} 95% 60%)`;
+        c.appendChild(p);
+      }
+      setTimeout(()=> c.classList.remove("show"), 1100);
+    }
 
-      input.addEventListener("input", () => {
-        emojiState[w.id] = input.value;
-        saveEmojiState();
-        input.style.borderColor = "rgba(255,255,255,.16)";
-        fb.textContent = "";
+    function award(points, reason=""){
+      state.points += points;
+      save();
+      if(points >= 6) confettiBurst();
+      beep("good");
+    }
+
+    function setTaskDone(taskKey, badgeLabel){
+      if(!state.tasksDone[taskKey]){
+        state.tasksDone[taskKey] = true;
+        // streak logic: only once per day
+        const t = todayISO();
+        if(state.streak.lastDate !== t){
+          const last = state.streak.lastDate;
+          state.streak.count = last ? (state.streak.count + 1) : 1;
+          state.streak.lastDate = t;
+        }
+        // badge for 3 tasks/day
+        updateBadges();
+        save();
+      }
+      if(badgeLabel) setBadgeUI(taskKey, badgeLabel, true);
+    }
+
+    function updateBadges(){
+      const doneCount = Object.values(state.tasksDone).filter(Boolean).length;
+      // badge at 3 tasks
+      if(doneCount >= 3 && !state.badges.includes("🏅 3 oppgaver")){
+        state.badges.push("🏅 3 oppgaver");
+        award(8);
+        confettiBurst();
+      }
+      // badge at all tasks
+      if(doneCount >= 5 && !state.badges.includes("👑 Mode-mester")){
+        state.badges.push("👑 Mode-mester");
+        award(15);
+        confettiBurst();
+      }
+    }
+
+    function renderTop(){
+      document.getElementById("points").textContent = state.points;
+      document.getElementById("badges").textContent = state.badges.length;
+      document.getElementById("streak").textContent = state.streak.count;
+
+      const doneCount = Object.values(state.tasksDone).filter(Boolean).length;
+      document.getElementById("progressText").textContent = `${doneCount} / 5`;
+      document.getElementById("progressBar").style.width = `${(doneCount/5)*100}%`;
+
+      document.getElementById("todayBadge").className = "badge" + (doneCount>=3 ? " good" : (doneCount>=1 ? " warn" : ""));
+      document.getElementById("todayBadge").textContent =
+        doneCount>=5 ? "👑 Mode-mester!" :
+        doneCount>=3 ? "🏅 Badge låst!" :
+        doneCount>=1 ? "🔥 På gang" : "🏁 Klar";
+
+      // Update task badges
+      setBadgeUI("colors", "✅ Fullført", state.tasksDone.colors);
+      setBadgeUI("flash", "✅ Fullført", state.tasksDone.flash);
+      setBadgeUI("emoji", "✅ Fullført", state.tasksDone.emoji);
+      setBadgeUI("match", "✅ Fullført", state.tasksDone.match);
+      setBadgeUI("write", "✅ Fullført", state.tasksDone.write);
+
+      // Sound btn
+      const sb = document.getElementById("soundBtn");
+      sb.setAttribute("aria-pressed", String(state.settings.sound));
+      sb.textContent = state.settings.sound ? "🔊 Lyd: på" : "🔊 Lyd: av";
+    }
+
+    function setBadgeUI(taskKey, labelDone, isDone){
+      const map = {
+        colors: "colorsBadge",
+        flash: "flashBadge",
+        emoji: "emojiBadge",
+        match: "matchBadge",
+        write: "writeBadge"
+      };
+      const el = document.getElementById(map[taskKey]);
+      if(!el) return;
+      el.className = "badge " + (isDone ? "good" : "");
+      el.textContent = isDone ? labelDone : "⏳ Ikke fullført";
+    }
+
+    // -----------------------------
+    // Render glossary chips
+    // -----------------------------
+    function renderGlossary(){
+      const clothesEl = document.getElementById("clothesChips");
+      const colorsEl  = document.getElementById("colorsChips");
+      clothesEl.innerHTML = "";
+      colorsEl.innerHTML = "";
+
+      CLOTHES.forEach(c=>{
+        const s = document.createElement("span");
+        s.className = "chip";
+        s.innerHTML = `<strong>${c.fr}</strong> · ${c.no}`;
+        clothesEl.appendChild(s);
       });
 
-      card.appendChild(em);
-      card.appendChild(colorRow);
-      card.appendChild(no);
-      card.appendChild(input);
-      card.appendChild(fb);
+      COLORS.forEach(c=>{
+        const s = document.createElement("span");
+        s.className = "chip";
+        s.innerHTML = `<strong>${c.fr}</strong>`;
+        colorsEl.appendChild(s);
+      });
 
-      elEmojiGrid.appendChild(card);
-    });
+      document.getElementById("copyGlossary").addEventListener("click", async ()=>{
+        const lines = [
+          "Vêtements:",
+          ...CLOTHES.map(x=>`- ${x.fr}`),
+          "",
+          "Couleurs:",
+          ...COLORS.map(x=>`- ${x.fr}`),
+          "",
+          "porter = å bære / å ha på seg"
+        ].join("\n");
+        try{
+          await navigator.clipboard.writeText(lines);
+          award(1);
+          alert("Glosene er kopiert 👍");
+        }catch(e){
+          alert("Klarte ikke å kopiere (nettleserbegrensning).");
+        }
+      });
+    }
 
-    btnToggleNo.textContent = showNoHint ? "Skjul norsk hint" : "Vis norsk hint";
-  }
+    // -----------------------------
+    // TASK 1: Colors drag/tap
+    // -----------------------------
+    let selectedTileId = null;
 
-  function checkEmojiAll(){
-    let correct = 0;
-    let filled = 0;
+    function renderColorsTask(){
+      const targets = document.getElementById("colorTargets");
+      const tiles = document.getElementById("colorTiles");
+      targets.innerHTML = "";
+      tiles.innerHTML = "";
 
-    EMOJI_WORDS.forEach(w => {
-      const input = elEmojiGrid.querySelector(`input[data-word-id="${w.id}"]`);
-      const fb = elEmojiGrid.querySelector(`[data-fb-for="${w.id}"]`);
+      // targets
+      COLORS.forEach(c=>{
+        const t = document.createElement("div");
+        t.className = "target" + (state.colors.used[c.fr] ? " done" : "");
+        t.style.background = c.hex;
+        t.dataset.color = c.fr;
+        t.dataset.label = "•";
+        t.tabIndex = 0;
+        t.setAttribute("role", "button");
+        t.setAttribute("aria-label", `Fargeprikk: ${c.fr}`);
+        t.addEventListener("click", ()=> tryPlaceSelectedOnTarget(c.fr));
+        t.addEventListener("keydown", (e)=>{
+          if(e.key==="Enter" || e.key===" "){ e.preventDefault(); tryPlaceSelectedOnTarget(c.fr); }
+        });
 
-      const user = input.value;
-      if(norm(user).length) filled++;
+        // dragover/drop
+        t.addEventListener("dragover", (e)=> e.preventDefault());
+        t.addEventListener("drop", (e)=>{
+          e.preventDefault();
+          const tileId = e.dataTransfer.getData("text/plain");
+          placeTile(tileId, c.fr);
+        });
 
-      const exp = expectedAnswer(w);
-      const ok = norm(user) === norm(exp);
+        targets.appendChild(t);
+      });
 
-      if(ok){
-        correct++;
-        input.style.borderColor = "rgba(55,214,122,.65)";
-        fb.textContent = "Riktig ✅";
-        fb.style.color = "rgba(55,214,122,.95)";
+      // tiles
+      const order = shuffle(COLORS.map(c=>c.fr));
+      order.forEach(fr=>{
+        const c = COLORS.find(x=>x.fr===fr);
+        const tile = document.createElement("div");
+        tile.className = "tile" + (state.colors.used[fr] ? " used" : "");
+        tile.tabIndex = 0;
+        tile.dataset.id = fr;
+        tile.setAttribute("draggable", "true");
+        tile.setAttribute("role", "button");
+        tile.setAttribute("aria-label", `Ordbrikke: ${fr}`);
+        tile.innerHTML = `<span class="mini" style="background:${c.hex}"></span> ${fr}`;
+
+        tile.addEventListener("dragstart", (e)=>{
+          e.dataTransfer.setData("text/plain", fr);
+          setTimeout(()=>{}, 0);
+        });
+
+        tile.addEventListener("click", ()=>{
+          if(state.colors.used[fr]) return;
+          selectedTileId = (selectedTileId === fr) ? null : fr;
+          // visual select
+          document.querySelectorAll(".tile").forEach(x=>x.classList.remove("selected"));
+          if(selectedTileId){
+            tile.classList.add("selected");
+          }
+          // highlight targets a bit
+          document.querySelectorAll(".target").forEach(x=>x.classList.remove("selected"));
+        });
+
+        tile.addEventListener("keydown", (e)=>{
+          if(e.key==="Enter" || e.key===" "){
+            e.preventDefault();
+            tile.click();
+          }
+        });
+
+        tiles.appendChild(tile);
+      });
+
+      updateColorsProgress();
+    }
+
+    function tryPlaceSelectedOnTarget(targetColorFr){
+      if(!selectedTileId) return;
+      placeTile(selectedTileId, targetColorFr);
+      selectedTileId = null;
+      document.querySelectorAll(".tile").forEach(x=>x.classList.remove("selected"));
+      document.querySelectorAll(".target").forEach(x=>x.classList.remove("selected"));
+    }
+
+    function placeTile(tileId, targetColorFr){
+      if(!tileId) return;
+      if(state.colors.used[tileId]) return;
+
+      const correct = (tileId === targetColorFr);
+      if(correct){
+        state.colors.used[tileId] = true;
+        state.colors.solvedCount = Object.keys(state.colors.used).length;
+        award(2);
+        beep("good");
+        confettiBurstMini();
       }else{
-        input.style.borderColor = "rgba(255,92,92,.65)";
-        fb.textContent = user.trim() ? "Feil ❌" : "Tomt felt…";
-        fb.style.color = "rgba(255,92,92,.95)";
+        beep("bad");
+        // tiny feedback: shake target
+        const t = [...document.querySelectorAll(".target")].find(x=>x.dataset.color===targetColorFr);
+        if(t){
+          t.animate([{transform:"translateX(0)"},{transform:"translateX(-6px)"},{transform:"translateX(6px)"},{transform:"translateX(0)"}], {duration:240});
+        }
+      }
+      save();
+      renderColorsTask();
+      if(state.colors.solvedCount === COLORS.length){
+        setTaskDone("colors");
+        document.getElementById("colorsBadge").className = "badge good";
+        document.getElementById("colorsBadge").textContent = "✅ Fullført (+bonus)";
+        award(6);
+        confettiBurst();
+      }
+    }
+
+    function confettiBurstMini(){
+      // small burst without big points (still festive)
+      const c = document.getElementById("confetti");
+      c.innerHTML = "";
+      c.classList.add("show");
+      const n = 18;
+      for(let i=0;i<n;i++){
+        const p = document.createElement("i");
+        const left = 35 + Math.random()*30;
+        const delay = Math.random()*80;
+        const w = 6 + Math.random()*7;
+        const h = 10 + Math.random()*10;
+        p.style.left = left + "vw";
+        p.style.top = (-10 - Math.random()*20) + "px";
+        p.style.width = w + "px";
+        p.style.height = h + "px";
+        p.style.animationDelay = delay + "ms";
+        const hue = Math.floor(Math.random()*360);
+        p.style.background = `hsl(${hue} 95% 60%)`;
+        c.appendChild(p);
+      }
+      setTimeout(()=> c.classList.remove("show"), 900);
+    }
+
+    function updateColorsProgress(){
+      const count = Object.keys(state.colors.used).length;
+      document.getElementById("colorsScore").textContent = `${count} / ${COLORS.length}`;
+      document.getElementById("colorsBar").style.width = `${(count/COLORS.length)*100}%`;
+    }
+
+    // Buttons
+    document.getElementById("shuffleColors").addEventListener("click", ()=>{
+      renderColorsTask();
+      award(1);
+    });
+    document.getElementById("resetColors").addEventListener("click", ()=>{
+      state.colors = { used:{}, solvedCount:0 };
+      save();
+      renderColorsTask();
+    });
+
+    // -----------------------------
+    // TASK 2: Flashcards
+    // -----------------------------
+    let flashDeck = [];
+    let flashIdx = 0;
+
+    function buildFlashDeck(){
+      // combine clothes + colors into phrases
+      // also include some "plain" clothes without color to vary difficulty
+      const combos = [];
+      for(const cloth of CLOTHES){
+        // a few random colors
+        const cs = shuffle(COLORS).slice(0, 4);
+        for(const col of cs){
+          combos.push({
+            fr: `${cloth.fr} ${col.fr}`,
+            no: `${cloth.no} ${col.fr}`,
+            sentence: `Je porte ${cloth.fr} ${col.fr}.`,
+            cloth, col
+          });
+        }
+        combos.push({
+          fr: `${cloth.fr}`,
+          no: `${cloth.no}`,
+          sentence: `Je porte ${cloth.fr}.`,
+          cloth, col:null
+        });
+      }
+      flashDeck = shuffle(combos);
+      document.getElementById("flashTotal").textContent = flashDeck.length;
+      flashIdx = 0;
+      renderFlash();
+      renderFlashProgress();
+    }
+
+    function flashKey(item){ return norm(item.fr); }
+
+    function renderFlash(){
+      const item = flashDeck[flashIdx];
+      const card = document.getElementById("flashCard");
+      card.classList.remove("flipped");
+      document.getElementById("flashFront").textContent = item.fr;
+      document.getElementById("flashMeaning").textContent = item.no;
+      document.getElementById("flashSentence").textContent = item.sentence;
+
+      const learned = !!state.flash.learned[flashKey(item)];
+      const tag = document.getElementById("flashTag");
+      tag.className = "tag" + (learned ? " good" : "");
+      tag.textContent = learned ? "✅ Lært" : "Trykk for å snu";
+    }
+
+    function renderFlashProgress(){
+      const learnedCount = Object.keys(state.flash.learned).length;
+      document.getElementById("flashLearned").textContent = learnedCount;
+      document.getElementById("flashBar").style.width = `${(learnedCount/flashDeck.length)*100}%`;
+
+      // Task done when learned >= 12
+      if(learnedCount >= 12){
+        setTaskDone("flash");
+        if(!state.badges.includes("🃏 Flash-pro")){
+          state.badges.push("🃏 Flash-pro");
+          award(6);
+          confettiBurst();
+        }
+        save();
+      }
+    }
+
+    document.getElementById("flashCard").addEventListener("click", ()=>{
+      document.getElementById("flashCard").classList.toggle("flipped");
+      beep("good");
+    });
+    document.getElementById("flashCard").addEventListener("keydown", (e)=>{
+      if(e.key==="Enter" || e.key===" "){
+        e.preventDefault();
+        document.getElementById("flashCard").click();
       }
     });
 
-    if(filled === 0){
-      setEmojiStatus("Skriv noe først 🙂", "bad");
-      return;
-    }
-    if(correct === EMOJI_WORDS.length){
-      setEmojiStatus(`Perfekt! ${correct}/${EMOJI_WORDS.length} riktig 🎉`, "good");
-    }else{
-      setEmojiStatus(`${correct}/${EMOJI_WORDS.length} riktig. Rett de røde feltene.`, correct > 0 ? null : "bad");
-    }
-  }
+    document.getElementById("nextFlash").addEventListener("click", ()=>{
+      flashIdx = (flashIdx + 1) % flashDeck.length;
+      renderFlash();
+    });
+    document.getElementById("prevFlash").addEventListener("click", ()=>{
+      flashIdx = (flashIdx - 1 + flashDeck.length) % flashDeck.length;
+      renderFlash();
+    });
 
-  function hintEmoji(){
-    // For empty fields: put first character + ellipsis, based on expected answer
-    let did = 0;
-    EMOJI_WORDS.forEach(w => {
-      const input = elEmojiGrid.querySelector(`input[data-word-id="${w.id}"]`);
-      if(!input.value.trim()){
-        const exp = expectedAnswer(w).trim();
-        input.value = exp.charAt(0) + "…";
-        emojiState[w.id] = input.value;
-        did++;
+    document.getElementById("learnedFlash").addEventListener("click", ()=>{
+      const item = flashDeck[flashIdx];
+      const k = flashKey(item);
+      if(!state.flash.learned[k]){
+        state.flash.learned[k] = true;
+        award(2);
+      }else{
+        // already learned: tiny
+        award(1);
       }
+      save();
+      renderFlash();
+      renderFlashProgress();
+      // small encouragement
+      if(Object.keys(state.flash.learned).length % 5 === 0) confettiBurstMini();
     });
-    saveEmojiState();
-    setEmojiStatus(did ? `Hint lagt inn i ${did} felt.` : "Alle felt har allerede tekst.", null);
-  }
 
-  function revealEmoji(){
-    EMOJI_WORDS.forEach(w => {
-      const input = elEmojiGrid.querySelector(`input[data-word-id="${w.id}"]`);
-      input.value = expectedAnswer(w);
-      emojiState[w.id] = input.value;
+    document.getElementById("resetFlash").addEventListener("click", ()=>{
+      state.flash.learned = {};
+      save();
+      renderFlashProgress();
+      renderFlash();
     });
-    saveEmojiState();
-    setEmojiStatus("Fasit fylt inn. Trykk Sjekk for grønt.", null);
-  }
 
-  function resetEmoji(){
-    emojiState = {};
-    saveEmojiState();
-    renderEmoji();
-    setEmojiStatus("Nullstilt.", null);
-  }
+    // -----------------------------
+    // TASK 3: Emoji typing
+    // -----------------------------
+    let emojiSet = [];
 
-  btnToggleNo.addEventListener("click", () => {
-    showNoHint = !showNoHint;
-    localStorage.setItem(LS_EMOJI_HINT, showNoHint ? "1" : "0");
-    renderEmoji();
-  });
+    function buildEmojiSet(){
+      // 8 questions: choose cloth+color combos
+      const qs = [];
+      const clothes = shuffle(CLOTHES).slice(0, 8);
+      for(const cloth of clothes){
+        const col = choice(COLORS);
+        qs.push({
+          id: `${norm(cloth.fr)}__${col.fr}`,
+          emoji: cloth.emoji,
+          clothFr: cloth.fr,
+          colorFr: col.fr,
+          colorHex: col.hex,
+          answer: `${cloth.fr} ${col.fr}`,
+        });
+      }
+      emojiSet = qs;
+      state.emoji.lastSet = qs.map(q=>q.id);
+      state.emoji.inputs = {};
+      save();
+      renderEmojiTask();
+    }
 
-  btnEmojiCheck.addEventListener("click", checkEmojiAll);
-  btnEmojiHint.addEventListener("click", hintEmoji);
-  btnEmojiReveal.addEventListener("click", revealEmoji);
-  btnEmojiReset.addEventListener("click", resetEmoji);
+    function renderEmojiTask(){
+      const grid = document.getElementById("emojiGrid");
+      grid.innerHTML = "";
+      // rebuild from lastSet if exists
+      if(state.emoji.lastSet && state.emoji.lastSet.length === 8){
+        emojiSet = state.emoji.lastSet.map(id=>{
+          const [clothKey, colorFr] = id.split("__");
+          const cloth = CLOTHES.find(c=>norm(c.fr)===clothKey);
+          const col = COLORS.find(c=>c.fr===colorFr) || choice(COLORS);
+          return {
+            id,
+            emoji: cloth ? cloth.emoji : "👕",
+            clothFr: cloth ? cloth.fr : "un t-shirt",
+            colorFr: col.fr,
+            colorHex: col.hex,
+            answer: `${cloth ? cloth.fr : "un t-shirt"} ${col.fr}`
+          };
+        });
+      }else{
+        buildEmojiSet();
+        return;
+      }
 
-  // init task 2
-  renderEmoji();
+      emojiSet.forEach((q, idx)=>{
+        const card = document.createElement("div");
+        card.className = "qcard";
 
-})();
-</script>
-</body>
-</html>
+        const top = document.createElement("div");
+        top.className = "qtop";
+
+        const left = document.createElement("div");
+        left.className = "row";
+        left.style.gap = "10px";
+        left.innerHTML = `<div class="emoji" aria-hidden="true">${q.emoji}</div>
+                          <div class="hintdot" title="Fargehint" style="background:${q.colorHex}"></div>`;
+
+        const right = document.createElement("div");
+        right.innerHTML = `<span class="badge">#${idx+1}</span>`;
+        top.appendChild(left);
+        top.appendChild(right);
+
+        const input = document.createElement("input");
+        input.placeholder = "Skriv: un/une/des + plagg + farge";
+        input.value = state.emoji.inputs[q.id] || "";
+        input.addEventListener("input", ()=>{
+          state.emoji.inputs[q.id] = input.value;
+          save();
+        });
+
+        const meta = document.createElement("div");
+        meta.className = "qmeta";
+        meta.innerHTML = `<span>💡 <span style="color:var(--muted);">Fargehint i prikken</span></span>
+                          <span id="res_${q.id}" class="badge" style="display:none;"></span>`;
+
+        card.appendChild(top);
+        card.appendChild(input);
+        card.appendChild(meta);
+        grid.appendChild(card);
+      });
+
+      updateEmojiProgress();
+    }
+
+    function updateEmojiProgress(){
+      // count correct
+      let correct = 0;
+      for(const q of emojiSet){
+        const v = state.emoji.inputs[q.id] || "";
+        if(norm(v) === norm(q.answer)) correct++;
+      }
+      document.getElementById("emojiScore").textContent = `${correct} / ${emojiSet.length}`;
+      document.getElementById("emojiBar").style.width = `${(correct/emojiSet.length)*100}%`;
+    }
+
+    document.getElementById("newEmojiSet").addEventListener("click", ()=>{
+      buildEmojiSet();
+      award(1);
+    });
+
+    document.getElementById("resetEmojiInputs").addEventListener("click", ()=>{
+      state.emoji.inputs = {};
+      save();
+      renderEmojiTask();
+    });
+
+    document.getElementById("hintEmoji").addEventListener("click", ()=>{
+      // first letter hint in empty fields
+      emojiSet.forEach(q=>{
+        const v = state.emoji.inputs[q.id] || "";
+        if(!v.trim()){
+          state.emoji.inputs[q.id] = q.answer.slice(0,1) + "…";
+        }
+      });
+      save();
+      renderEmojiTask();
+      award(1);
+    });
+
+    document.getElementById("showEmojiAnswers").addEventListener("click", ()=>{
+      emojiSet.forEach(q=> state.emoji.inputs[q.id] = q.answer );
+      save();
+      renderEmojiTask();
+      award(1);
+    });
+
+    document.getElementById("checkEmoji").addEventListener("click", ()=>{
+      let correct = 0;
+      for(const q of emojiSet){
+        const v = state.emoji.inputs[q.id] || "";
+        const ok = (norm(v) === norm(q.answer));
+        const el = document.getElementById(`res_${q.id}`);
+        if(el){
+          el.style.display = "inline-flex";
+          el.className = "badge " + (ok ? "good" : "bad");
+          el.textContent = ok ? "✅ Riktig" : "❌ Prøv igjen";
+        }
+        if(ok) correct++;
+      }
+      updateEmojiProgress();
+
+      if(correct === emojiSet.length){
+        setTaskDone("emoji");
+        award(8);
+        confettiBurst();
+      }else{
+        // small reward for effort
+        award(1);
+        beep("bad");
+      }
+      save();
+    });
+
+    // -----------------------------
+    // TASK 4: Matching
+    // -----------------------------
+    let matchFirst = null;
+
+    function buildMatchBoard(){
+      // 10 pairs: choose 10 clothes
+      const picks = shuffle(CLOTHES).slice(0, 10).map(c=>({
+        id: norm(c.fr),
+        emoji: c.emoji,
+        fr: c.fr
+      }));
+
+      const cards = [];
+      picks.forEach(p=>{
+        cards.push({ type:"emoji", id:p.id, label:p.emoji });
+        cards.push({ type:"text",  id:p.id, label:p.fr });
+      });
+
+      const board = shuffle(cards).map((c, idx)=> ({...c, idx, matched:false}));
+      state.match.board = board;
+      state.match.solvedPairs = 0;
+      matchFirst = null;
+      save();
+      renderMatch();
+    }
+
+    function renderMatch(){
+      const grid = document.getElementById("matchGrid");
+      grid.innerHTML = "";
+
+      if(!state.match.board || !Array.isArray(state.match.board) || state.match.board.length !==
