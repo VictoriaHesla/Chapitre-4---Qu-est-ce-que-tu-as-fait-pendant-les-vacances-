@@ -3,566 +3,742 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Vêtements – iPad & PC</title>
-
+  <title>Salut 9 – Kap. 4: Vêtements</title>
   <style>
     :root{
-      --bg:#0b1220; --text:#eaf0ff; --muted:#b7c4ff; --accent:#7dd3fc;
-      --good:#34d399; --bad:#fb7185; --warn:#fbbf24; --border:rgba(255,255,255,.12);
-      --shadow:0 10px 30px rgba(0,0,0,.35); --radius:18px; --max:1080px;
+      --bg:#0b1020;
+      --card: rgba(255,255,255,.06);
+      --line: rgba(255,255,255,.14);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.75);
+      --good: rgba(55,214,122,.65);
+      --bad: rgba(255,92,92,.65);
+      --accent: rgba(122,162,255,.22);
+      --radius: 16px;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
     }
-    *{box-sizing:border-box}
+    *{ box-sizing:border-box; }
     body{
-      margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; color:var(--text);
-      background: radial-gradient(1200px 800px at 20% 10%, rgba(125,211,252,.18), transparent 60%),
-                  radial-gradient(1000px 700px at 80% 0%, rgba(52,211,153,.12), transparent 55%),
-                  var(--bg);
-      line-height:1.5;
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(1200px 800px at 20% 10%, rgba(122,162,255,.25), transparent 55%),
+        radial-gradient(1200px 800px at 80% 20%, rgba(55,214,122,.18), transparent 55%),
+        var(--bg);
+      color: var(--text);
     }
-    header{padding:28px 16px 14px;}
-    .wrap{max-width:var(--max); margin:0 auto; padding:0 16px 40px;}
-    .topbar{display:flex; gap:12px; align-items:center; justify-content:space-between; flex-wrap:wrap;}
-    a{color:var(--accent); text-decoration:none} a:hover{text-decoration:underline}
-    .badge{display:inline-flex; gap:8px; align-items:center; padding:6px 10px; border:1px solid var(--border);
-      border-radius:999px; background:rgba(255,255,255,.06); color:var(--muted); font-size:13px; white-space:nowrap;}
-    .title{font-size:clamp(22px,3.2vw,34px); margin:10px 0 6px;}
-    .subtitle{color:var(--muted); margin:0 0 14px; max-width:85ch;}
-    .pillrow{display:flex; gap:8px; flex-wrap:wrap}
-    .pill{display:inline-flex; gap:8px; align-items:center; padding:6px 10px; border-radius:999px;
-      border:1px solid var(--border); background:rgba(16,26,51,.6); font-size:13px; color:var(--muted);}
-    .pill b{color:var(--text)}
-    .grid{display:grid; grid-template-columns:1.1fr .9fr; gap:16px;}
-    @media (max-width:980px){ .grid{grid-template-columns:1fr} }
-    .card{background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
-      border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden;}
-    .hd{padding:16px 16px 0; display:flex; justify-content:space-between; gap:12px; align-items:flex-start;}
-    .hd h2{margin:0; font-size:18px;}
-    .bd{padding:14px 16px 16px;}
-    .kicker{font-size:12px; text-transform:uppercase; letter-spacing:.12em; color:var(--muted);}
-    .small{font-size:13px; color:var(--muted); margin-top:8px;}
-    .divider{height:1px; background:var(--border); margin:12px 0;}
-    button{border:1px solid var(--border); background:rgba(255,255,255,.06); color:var(--text);
-      padding:10px 12px; border-radius:12px; cursor:pointer; font-weight:700; touch-action:manipulation;}
-    button:hover{background:rgba(255,255,255,.10)}
-    button.primary{background:rgba(125,211,252,.18); border-color:rgba(125,211,252,.35);}
-    button.good{background:rgba(52,211,153,.16); border-color:rgba(52,211,153,.35);}
-    button.warn{background:rgba(251,191,36,.15); border-color:rgba(251,191,36,.35);}
-    button.bad{background:rgba(251,113,133,.12); border-color:rgba(251,113,133,.35);}
-    .msg{margin-top:10px; padding:10px 12px; border-radius:14px; border:1px solid var(--border); background:rgba(255,255,255,.05);}
-    .msg.good{border-color:rgba(52,211,153,.45); background:rgba(52,211,153,.10)}
-    .msg.bad{border-color:rgba(251,113,133,.45); background:rgba(251,113,133,.10)}
-    .msg.warn{border-color:rgba(251,191,36,.45); background:rgba(251,191,36,.10)}
+    header{
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 18px 16px 8px;
+    }
+    h1{ margin:0 0 6px; font-size:20px; }
+    .sub{ margin:0; color:var(--muted); font-size:14px; line-height:1.35; }
 
-    .shop{display:grid; grid-template-columns:repeat(2,1fr); gap:10px;}
-    @media (max-width:520px){ .shop{grid-template-columns:1fr} }
-    .item{display:flex; gap:10px; align-items:center; border:1px solid var(--border); border-radius:16px;
-      background:rgba(16,26,51,.45); padding:10px; user-select:none; -webkit-user-select:none; touch-action:none;}
-    .thumb{width:64px; height:64px; border-radius:14px; border:1px solid rgba(255,255,255,.14);
-      background:rgba(255,255,255,.04); overflow:hidden; flex:0 0 auto;}
-    .fr{font-weight:900}
-    .no{color:var(--muted); font-size:13px}
-    .tag{display:inline-block; margin-top:6px; font-size:12px; color:var(--muted); border:1px solid var(--border);
-      background:rgba(255,255,255,.04); padding:2px 8px; border-radius:999px;}
+    .wrap{
+      max-width:1100px;
+      margin: 0 auto;
+      padding: 12px 16px 28px;
+      display:grid;
+      gap: 14px;
+      grid-template-columns: 1fr 1fr;
+      align-items:start;
+    }
+    @media (max-width: 980px){
+      .wrap{ grid-template-columns: 1fr; }
+    }
 
-    .stage{border:1px solid var(--border); border-radius:18px; background:rgba(16,26,51,.35); padding:12px;}
-    .mannequinArea{position:relative; border-radius:18px; border:1px solid rgba(255,255,255,.10);
-      background:rgba(255,255,255,.03); overflow:hidden; min-height:420px;}
-    .baseSprite{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; padding:10px;}
-    .baseBox{width:100%; height:420px; max-width:520px; border-radius:18px; border:1px solid rgba(255,255,255,.10); background:rgba(0,0,0,.10);}
+    .card{
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card h2{
+      margin:0;
+      padding: 12px 12px 10px;
+      font-size: 16px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.07), transparent);
+    }
+    .content{ padding: 12px; }
 
-    .slotRow{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px;}
-    @media (max-width:520px){ .slotRow{grid-template-columns:1fr} }
-    .slot{border:1px dashed rgba(255,255,255,.22); border-radius:16px; background:rgba(0,0,0,.10); padding:10px; min-height:94px;}
-    .slot strong{font-size:13px}
-    .placed{margin-top:6px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
-    .placedThumb{width:54px; height:54px; border-radius:14px; border:1px solid rgba(255,255,255,.14);
-      overflow:hidden; background:rgba(255,255,255,.04);}
-    .chip{display:inline-flex; gap:8px; align-items:center; padding:6px 10px; border-radius:999px;
-      border:1px solid rgba(255,255,255,.14); background:rgba(255,255,255,.06); font-size:13px; font-weight:800;}
-    .swatch{width:14px; height:14px; border-radius:4px; border:1px solid rgba(255,255,255,.25); background:#fff;}
-    .slot.hot{outline:2px solid rgba(125,211,252,.45);}
-    .controlsRow{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;}
+    .status{
+      padding:10px 12px;
+      border:1px solid var(--line);
+      border-radius:12px;
+      background: rgba(0,0,0,.18);
+      color: var(--muted);
+      font-size: 13px;
+      line-height:1.35;
+      margin-bottom: 12px;
+    }
 
-    .colors{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:10px;}
-    @media (max-width:520px){ .colors{grid-template-columns:repeat(2,1fr)} }
-    .cbtn{border:1px solid rgba(255,255,255,.18); background:rgba(16,26,51,.35); border-radius:14px; padding:10px; text-align:left;}
-    .cbtn .box{height:28px; border-radius:10px; border:1px solid rgba(255,255,255,.18); margin-bottom:6px;}
-    .cbtn b{display:block}
-    .cbtn span{color:var(--muted); font-size:12px}
-    .cbtn.selected{outline:2px solid rgba(52,211,153,.55);}
+    .row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+    }
+    button, select, input[type="text"]{
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.22);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 10px 10px;
+      font-size: 14px;
+      outline:none;
+    }
+    button{
+      cursor:pointer;
+      background: var(--accent);
+      border-color: rgba(122,162,255,.35);
+    }
+    button.secondary{
+      background: rgba(255,255,255,.06);
+      border-color: var(--line);
+    }
 
-    select, textarea{width:100%; border:1px solid var(--border); background:rgba(16,26,51,.35); color:var(--text);
-      border-radius:14px; padding:10px 12px; font:inherit; outline:none;}
-    textarea{min-height:140px; resize:vertical;}
-    .two{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
-    @media (max-width:780px){ .two{grid-template-columns:1fr} }
+    .pill{
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(0,0,0,.14);
+      font-size: 12px;
+      color: rgba(255,255,255,.82);
+    }
 
-    .hint{padding:10px 12px; border-radius:14px; border:1px dashed rgba(255,255,255,.20); color:var(--muted); background:rgba(255,255,255,.03);}
+    /* --- Color drag task --- */
+    .twoCol{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      align-items:start;
+    }
+    @media (max-width: 640px){
+      .twoCol{ grid-template-columns: 1fr; }
+    }
 
-    .dragGhost{
-      position:fixed; width:84px; height:84px; border-radius:16px; border:1px solid rgba(255,255,255,.20);
-      overflow:hidden; background:rgba(0,0,0,.25); pointer-events:none; z-index:9999;
-      transform:translate(-9999px,-9999px);
+    .targets{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 12px;
+    }
+    .target{
+      padding:10px;
+      border:1px dashed rgba(255,255,255,.22);
+      border-radius:14px;
+      background: rgba(0,0,0,.14);
+      min-height: 132px;
+      outline: none;
+    }
+    .dot{
+      width:74px;height:74px;border-radius:999px;
+      margin: 0 auto 10px;
+      border:1px solid rgba(255,255,255,.18);
+    }
+    .tHint{
+      text-align:center;
+      opacity:.7;
+      font-size:12px;
+    }
+    .tAnswer{
+      margin-top:8px;
+      text-align:center;
+      font-weight: 650;
+      min-height: 22px;
+    }
+
+    .tiles{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+    }
+    .tile{
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.08);
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      user-select:none;
+      touch-action:none; /* important for iPad drag */
+      cursor: grab;
+    }
+    .tile.used{
+      opacity:.55;
+      background: rgba(255,255,255,.04);
+      cursor: not-allowed;
+    }
+    .swatch{
+      width:12px;height:12px;border-radius:99px;
+      border:1px solid rgba(255,255,255,.22);
+    }
+    .dragProxy{
+      position:fixed; left:0; top:0;
+      z-index: 9999;
+      pointer-events:none;
+      opacity:.95;
+    }
+
+    /* --- Emoji glossary task --- */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 12px;
+    }
+    @media (max-width: 700px){
+      .grid{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+    }
+    @media (max-width: 430px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+    .ec{
+      background: rgba(0,0,0,.14);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+    .emo{
+      font-size: 40px;
+      text-align:center;
+      line-height:1;
+    }
+    .noHint{
+      text-align:center;
+      font-size: 12px;
+      opacity: .78;
+      margin-top: -6px;
+      display:none;
+    }
+    .noHint.show{ display:block; }
+
+    .fb{
+      min-height: 18px;
+      font-size: 12px;
+      opacity: .9;
+      text-align:center;
+    }
+
+    .mini{
+      color: var(--muted);
+      font-size: 13px;
+      line-height:1.35;
+      margin-top: 8px;
+    }
+
+    .colorPair{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .colorDotSmall{
+      width:16px;height:16px;border-radius:99px;
+      border: 1px solid rgba(255,255,255,.22);
+      display:inline-block;
+      vertical-align:middle;
     }
   </style>
 </head>
-
 <body>
-  <header>
-    <div class="wrap">
-      <div class="topbar">
-        <a href="index.html">← Til meny</a>
-        <span class="badge">Salut 9 · Kapittel 4 · Vêtements</span>
-      </div>
+<header>
+  <h1>Vêtements – interaktive oppgaver uten bilder</h1>
+  <p class="sub">
+    1) Dra franske farger til riktig prikk (iPad + PC). 2) Emoji-klær: skriv gloser og sjekk.
+    Alt lagres lokalt i nettleseren.
+  </p>
+</header>
 
-      <h1 class="title">👕 Klær og farger (PC + iPad)</h1>
-      <p class="subtitle">Dra med mus eller finger. Bildene hentes fra <b>assets/img/vetements/sprite.png</b>.</p>
-      <div class="pillrow">
-        <span class="pill"><b>Mål</b> 3 klesord + 2 farger i teksten</span>
-        <span class="pill"><b>Tips</b> Hvis plaggene er feil beskåret, justerer vi “CROPS”.</span>
+<main class="wrap">
+  <!-- CARD 1: COLOR DRAG -->
+  <section class="card">
+    <h2>Oppgave 1: Dra fransk farge til riktig prikk</h2>
+    <div class="content">
+      <div id="colorStatus" class="status">Klar! Dra en brikke.</div>
+
+      <div class="twoCol">
+        <div>
+          <div class="row" style="margin-bottom:10px;">
+            <span class="pill">Fargeprikker</span>
+          </div>
+          <div id="colorTargets" class="targets"></div>
+          <div class="mini">Tips: Brikkene blir “grå” når de er brukt riktig.</div>
+        </div>
+
+        <div>
+          <div class="row" style="margin-bottom:10px;">
+            <span class="pill">Ordbrikker</span>
+          </div>
+          <div id="colorTiles" class="tiles"></div>
+          <div class="row" style="margin-top:12px;">
+            <button id="colorReset" class="secondary" type="button">Nullstill</button>
+            <button id="colorShuffle" type="button">Bland</button>
+          </div>
+        </div>
       </div>
     </div>
-  </header>
+  </section>
 
-  <main class="wrap">
-    <div class="grid">
-      <section class="card">
-        <div class="hd">
-          <div>
-            <div class="kicker">1) Plagg</div>
-            <h2>Dra riktig plagg</h2>
-          </div>
-          <button class="warn" id="toggleNor">Vis/skjul norsk</button>
-        </div>
-        <div class="bd">
-          <div class="shop" id="shop"></div>
-          <div id="dragFeedback" class="msg" style="display:none;"></div>
+  <!-- CARD 2: EMOJI GLOSER -->
+  <section class="card">
+    <h2>Oppgave 2: Emoji → skriv glosen (inkl. farge + plagg)</h2>
+    <div class="content">
+      <div id="emojiStatus" class="status">
+        Skriv fransk under hver emoji. Noen har også en fargeprikk – skriv farge i samme svar.
+        Eksempel: <b>un t-shirt rouge</b>.
+      </div>
 
-          <div class="divider"></div>
+      <div class="row" style="margin-bottom:10px;">
+        <button id="toggleNo" class="secondary" type="button">Vis norsk hint</button>
+        <button id="emojiCheck" type="button">Sjekk</button>
+        <button id="emojiHint" class="secondary" type="button">Hint (første bokstav)</button>
+        <button id="emojiReveal" class="secondary" type="button">Vis fasit</button>
+        <button id="emojiReset" class="secondary" type="button">Nullstill</button>
+      </div>
 
-          <div class="kicker">2) Farger</div>
-          <h2 style="margin:6px 0 8px;">Velg farge</h2>
-          <div class="colors" id="colors"></div>
-          <div class="msg" id="colorFeedback" style="display:none;"></div>
+      <div id="emojiGrid" class="grid"></div>
 
-          <div class="divider"></div>
-
-          <div class="kicker">3) Setningsbygger</div>
-          <h2 style="margin:6px 0 8px;">Lag setning</h2>
-
-          <div class="two">
-            <div>
-              <label class="small" for="person">Person</label>
-              <select id="person"></select>
-            </div>
-            <div>
-              <label class="small" for="pickSlot">Hvilket plagg?</label>
-              <select id="pickSlot">
-                <option value="top">Overdel</option>
-                <option value="bottom">Underdel</option>
-                <option value="feet">Føtter</option>
-                <option value="head">Hode</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="controlsRow">
-            <button class="good" id="makeSentence">Lag setning</button>
-            <button id="copySentence">Kopier setning</button>
-          </div>
-
-          <div class="msg" id="sentenceOut" style="display:none;"></div>
-        </div>
-      </section>
-
-      <aside class="card">
-        <div class="hd">
-          <div>
-            <div class="kicker">Avatar</div>
-            <h2>Manneken + ruter</h2>
-          </div>
-          <button class="primary" id="saveOutfit">Lagre outfit</button>
-        </div>
-
-        <div class="bd">
-          <div class="stage">
-            <div class="mannequinArea">
-              <div class="baseSprite"><div class="baseBox" id="baseBox"></div></div>
-            </div>
-
-            <div class="slotRow">
-              <div class="slot" data-slot="head" id="slot_head"><strong>Hode</strong><div class="placed" id="placed_head"></div></div>
-              <div class="slot" data-slot="top" id="slot_top"><strong>Overdel</strong><div class="placed" id="placed_top"></div></div>
-              <div class="slot" data-slot="bottom" id="slot_bottom"><strong>Underdel</strong><div class="placed" id="placed_bottom"></div></div>
-              <div class="slot" data-slot="feet" id="slot_feet"><strong>Føtter</strong><div class="placed" id="placed_feet"></div></div>
-            </div>
-
-            <div class="controlsRow">
-              <button class="good" id="checkOutfit">Sjekk: 4 plagg</button>
-              <button class="warn" id="loadOutfit">Last inn</button>
-              <button class="bad" id="resetOutfit">Nullstill</button>
-            </div>
-
-            <div class="msg" id="outfitFeedback" style="display:none;"></div>
-          </div>
-
-          <div class="divider"></div>
-
-          <div class="kicker">4) Skriveoppgave</div>
-          <h2 style="margin:6px 0 8px;">Beskriv antrekket</h2>
-          <div class="hint">
-            • Aujourd’hui, je porte …<br>
-            • Il/Elle porte un/une … + couleur<br>
-            • J’aime / Je n’aime pas …
-          </div>
-
-          <div style="margin-top:10px;">
-            <textarea id="studentText" placeholder="Skriv 6–10 setninger..."></textarea>
-          </div>
-
-          <div class="controlsRow">
-            <button class="primary" id="saveText">Lagre tekst</button>
-            <button id="copyText">Kopier tekst</button>
-            <button id="checkTargets">Sjekk mål</button>
-          </div>
-
-          <div class="msg" id="textFeedback" style="display:none;"></div>
-        </div>
-      </aside>
+      <div class="mini">
+        Godtar små variasjoner: store/små bokstaver, ekstra mellomrom og aksenter (é) blir ignorert i sjekk.
+      </div>
     </div>
-  </main>
-
-  <div class="dragGhost" id="dragGhost"></div>
+  </section>
+</main>
 
 <script>
-  // ✅ RIKTIG FILSTI (siden du har sprite.png):
-  const SPRITE_SRC = "assets/img/vetements/sprite.png";
-
-  // Crop: x,y,w,h (0..1). Dette er ca-verdier. Vi kan finjustere etterpå.
-  const CROPS = {
-    base:      { x:0.03, y:0.05, w:0.28, h:0.88 },
-    tshirt:    { x:0.38, y:0.06, w:0.25, h:0.23 },
-    pantalon:  { x:0.41, y:0.32, w:0.22, h:0.36 },
-    casquette: { x:0.73, y:0.07, w:0.24, h:0.22 },
-    chaussures:{ x:0.70, y:0.40, w:0.27, h:0.22 }
-  };
-
-  const ITEMS = [
-    { id:"tshirt", fr:"un t-shirt", no:"t-skjorte", slot:"top", crop:"tshirt" },
-    { id:"pantalon", fr:"un pantalon", no:"bukse", slot:"bottom", crop:"pantalon" },
-    { id:"casquette", fr:"une casquette", no:"caps", slot:"head", crop:"casquette" },
-    { id:"chaussures", fr:"des chaussures", no:"sko", slot:"feet", crop:"chaussures" }
-  ];
-
+(() => {
+  // -----------------------
+  // Shared: Colors
+  // -----------------------
   const COLORS = [
-    { fr:"noir", no:"svart", hex:"#111111" },
-    { fr:"blanc", no:"hvit", hex:"#f6f7fb" },
-    { fr:"bleu", no:"blå", hex:"#2563eb" },
-    { fr:"rouge", no:"rød", hex:"#ef4444" },
-    { fr:"vert", no:"grønn", hex:"#22c55e" },
-    { fr:"jaune", no:"gul", hex:"#facc15" },
-    { fr:"gris", no:"grå", hex:"#9ca3af" },
-    { fr:"rose", no:"rosa", hex:"#fb7185" },
-    { fr:"violet", no:"lilla", hex:"#8b5cf6" },
-    { fr:"marron", no:"brun", hex:"#7c4a2d" },
-    { fr:"orange", no:"oransje", hex:"#f97316" }
+    { fr:"marron", css:"#7a4a21" },
+    { fr:"noir", css:"#111111" },
+    { fr:"bleu", css:"#2f64ff" },
+    { fr:"vert", css:"#2fbf6b" },
+    { fr:"jaune", css:"#ffd400" },
+    { fr:"gris", css:"#9aa3ad" },
+    { fr:"rose", css:"#ff5bb8" },
+    { fr:"violet", css:"#8a4dff" },
+    { fr:"rouge", css:"#ff3b3b" },
+    { fr:"orange", css:"#ff8a2f" },
+    { fr:"blanc", css:"#f3f3f3" },
+  ];
+  const colorByFr = Object.fromEntries(COLORS.map(c => [c.fr, c.css]));
+
+  function shuffle(arr){
+    const a = arr.slice();
+    for(let i=a.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [a[i],a[j]] = [a[j],a[i]];
+    }
+    return a;
+  }
+
+  function norm(s){
+    return (s || "")
+      .toLowerCase()
+      .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // remove accents
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  // ============================================================
+  // TASK 1: Color drag (Pointer Events)
+  // ============================================================
+  const LS_COLOR = "salut9_vetements_color_drag_v2";
+  const elTargets = document.getElementById("colorTargets");
+  const elTiles = document.getElementById("colorTiles");
+  const elColorStatus = document.getElementById("colorStatus");
+  const btnColorReset = document.getElementById("colorReset");
+  const btnColorShuffle = document.getElementById("colorShuffle");
+
+  let colorState = loadJSON(LS_COLOR, {}); // { targetFr: tileFr }
+  let currentOrder = shuffle(COLORS);
+
+  function setColorStatus(text, kind){
+    elColorStatus.textContent = text;
+    elColorStatus.style.borderColor =
+      kind === "good" ? "rgba(55,214,122,.55)" :
+      kind === "bad" ? "rgba(255,92,92,.55)" :
+      "rgba(255,255,255,.14)";
+  }
+  function saveColorState(){ localStorage.setItem(LS_COLOR, JSON.stringify(colorState)); }
+
+  function renderColorTargets(){
+    elTargets.innerHTML = "";
+    COLORS.forEach(c => {
+      const box = document.createElement("div");
+      box.className = "target";
+      box.dataset.targetFr = c.fr;
+
+      const dot = document.createElement("div");
+      dot.className = "dot";
+      dot.style.background = c.css;
+
+      const hint = document.createElement("div");
+      hint.className = "tHint";
+      hint.textContent = "Slipp ord her";
+
+      const ans = document.createElement("div");
+      ans.className = "tAnswer";
+      ans.textContent = colorState[c.fr] ? colorState[c.fr] : "";
+
+      box.appendChild(dot);
+      box.appendChild(hint);
+      box.appendChild(ans);
+      elTargets.appendChild(box);
+    });
+  }
+
+  function renderColorTiles(order){
+    elTiles.innerHTML = "";
+    order.forEach(c => {
+      const used = Object.values(colorState).includes(c.fr);
+
+      const tile = document.createElement("div");
+      tile.className = "tile" + (used ? " used" : "");
+      tile.dataset.tileFr = c.fr;
+
+      const sw = document.createElement("span");
+      sw.className = "swatch";
+      sw.style.background = c.css;
+
+      const txt = document.createElement("span");
+      txt.textContent = c.fr;
+
+      tile.appendChild(sw);
+      tile.appendChild(txt);
+
+      if(!used){
+        tile.addEventListener("pointerdown", onColorDragStart);
+      }
+      elTiles.appendChild(tile);
+    });
+  }
+
+  function evaluateColorsDone(){
+    const done = COLORS.every(c => colorState[c.fr] === c.fr);
+    if(done) setColorStatus("Fantastisk! Alle fargene er riktig 🎉", "good");
+  }
+
+  // Pointer drag
+  let drag = null;
+
+  function findColorTarget(x,y){
+    const el = document.elementFromPoint(x,y);
+    if(!el) return null;
+    return el.closest("[data-target-fr]");
+  }
+  function moveProxy(x,y){
+    if(!drag) return;
+    drag.proxy.style.transform = `translate3d(${x - drag.offX}px, ${y - drag.offY}px, 0)`;
+  }
+
+  function onColorDragStart(e){
+    if (e.button !== undefined && e.button !== 0) return;
+
+    const tile = e.currentTarget;
+    const fr = tile.dataset.tileFr;
+    tile.setPointerCapture(e.pointerId);
+
+    const rect = tile.getBoundingClientRect();
+    const proxy = tile.cloneNode(true);
+    proxy.classList.add("dragProxy");
+    proxy.style.width = rect.width + "px";
+    proxy.style.height = rect.height + "px";
+    document.body.appendChild(proxy);
+
+    drag = {
+      fr, proxy, pid: e.pointerId,
+      offX: e.clientX - rect.left,
+      offY: e.clientY - rect.top
+    };
+
+    moveProxy(e.clientX, e.clientY);
+    window.addEventListener("pointermove", onColorDragMove, { passive:false });
+    window.addEventListener("pointerup", onColorDragEnd, { passive:false });
+    window.addEventListener("pointercancel", onColorDragEnd, { passive:false });
+
+    setColorStatus("Dra til riktig prikk…");
+  }
+
+  function onColorDragMove(e){
+    if(!drag || e.pointerId !== drag.pid) return;
+    e.preventDefault();
+    moveProxy(e.clientX, e.clientY);
+
+    document.querySelectorAll("[data-target-fr]").forEach(t => t.style.outline = "none");
+    const t = findColorTarget(e.clientX, e.clientY);
+    if(t) t.style.outline = "2px solid rgba(122,162,255,.6)";
+  }
+
+  function onColorDragEnd(e){
+    if(!drag || e.pointerId !== drag.pid) return;
+    e.preventDefault();
+
+    document.querySelectorAll("[data-target-fr]").forEach(t => t.style.outline = "none");
+    const target = findColorTarget(e.clientX, e.clientY);
+
+    if(target){
+      const targetFr = target.dataset.targetFr;
+      const tileFr = drag.fr;
+
+      if(targetFr === tileFr){
+        colorState[targetFr] = tileFr;
+        saveColorState();
+        setColorStatus("Riktig! ✅", "good");
+      }else{
+        setColorStatus("Feil – prøv igjen ❌", "bad");
+      }
+
+      renderColorTargets();
+      renderColorTiles(currentOrder);
+      evaluateColorsDone();
+    }
+
+    drag.proxy.remove();
+    drag = null;
+    window.removeEventListener("pointermove", onColorDragMove);
+    window.removeEventListener("pointerup", onColorDragEnd);
+    window.removeEventListener("pointercancel", onColorDragEnd);
+  }
+
+  btnColorReset.addEventListener("click", () => {
+    colorState = {};
+    saveColorState();
+    renderColorTargets();
+    renderColorTiles(currentOrder);
+    setColorStatus("Nullstilt.");
+  });
+  btnColorShuffle.addEventListener("click", () => {
+    currentOrder = shuffle(COLORS);
+    renderColorTiles(currentOrder);
+    setColorStatus("Blandet.");
+  });
+
+  function loadJSON(key, fallback){
+    try{
+      const raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : fallback;
+    }catch{ return fallback; }
+  }
+
+  // init task 1
+  renderColorTargets();
+  renderColorTiles(currentOrder);
+  evaluateColorsDone();
+
+  // ============================================================
+  // TASK 2: Emoji glossary (with Norwegian hints + some color+clothing)
+  // ============================================================
+  const LS_EMOJI = "salut9_vetements_emoji_v2";
+  const LS_EMOJI_HINT = "salut9_vetements_show_nohint_v1";
+
+  const elEmojiGrid = document.getElementById("emojiGrid");
+  const elEmojiStatus = document.getElementById("emojiStatus");
+  const btnToggleNo = document.getElementById("toggleNo");
+  const btnEmojiCheck = document.getElementById("emojiCheck");
+  const btnEmojiHint = document.getElementById("emojiHint");
+  const btnEmojiReveal = document.getElementById("emojiReveal");
+  const btnEmojiReset = document.getElementById("emojiReset");
+
+  // 12 oppgaver (8–12 ønsket, her 12)
+  // Noen har fargeprikk => eleven skal skrive "plagg + farge"
+  const EMOJI_WORDS = [
+    { id:"tshirt",     emoji:"👕", no:"t-skjorte", answer:"un t-shirt", color:"rouge" },
+    { id:"pants",      emoji:"👖", no:"bukse",     answer:"un pantalon", color:"noir" },
+    { id:"dress",      emoji:"👗", no:"kjole",     answer:"une robe", color:"violet" },
+    { id:"jacket",     emoji:"🧥", no:"jakke",     answer:"une veste", color:"bleu" },
+    { id:"shoes",      emoji:"👟", no:"sko",       answer:"des chaussures", color:"blanc" },
+    { id:"socks",      emoji:"🧦", no:"sokker",    answer:"des chaussettes", color:null },
+    { id:"cap",        emoji:"🧢", no:"caps",      answer:"une casquette", color:"vert" },
+    { id:"scarf",      emoji:"🧣", no:"skjerf",    answer:"une écharpe", color:"gris" },
+    { id:"gloves",     emoji:"🧤", no:"hansker",   answer:"des gants", color:null },
+    { id:"bag",        emoji:"👜", no:"veske",     answer:"un sac", color:"marron" },
+    { id:"sunglasses", emoji:"🕶️", no:"solbriller",answer:"des lunettes de soleil", color:null },
+    { id:"skirt",      emoji:"👚", no:"skjørt",    answer:"une jupe", color:"rose" }, // emoji er topp, men oppgaven er ok
   ];
 
-  const PERSONS = ["Je", "Il", "Elle", "Mon ami", "Mon amie"];
+  let emojiState = loadJSON(LS_EMOJI, {}); // id -> inputText
+  let showNoHint = (localStorage.getItem(LS_EMOJI_HINT) === "1");
 
-  const $ = (id) => document.getElementById(id);
-
-  let showNorwegian = true;
-  let selectedColor = COLORS[2]; // bleu
-
-  const outfit = { head:null, top:null, bottom:null, feet:null };
-  const outfitColor = { head:"bleu", top:"bleu", bottom:"bleu", feet:"bleu" };
-
-  const ghost = $("dragGhost");
-  let dragging = null;
-
-  // Preload sprite to avoid “blank” on some devices
-  const spriteImg = new Image();
-  spriteImg.src = SPRITE_SRC;
-
-  function slotLabel(s){ return ({head:"hode", top:"overdel", bottom:"underdel", feet:"føtter"})[s] || s; }
-  function selectedColorHex(fr){ const c = COLORS.find(x=>x.fr===fr); return c?c.hex:"#7dd3fc"; }
-
-  function spriteStyle(crop, sizePx=64){
-    const c = CROPS[crop];
-    const bgSizeX = (1 / c.w) * 100;
-    const bgSizeY = (1 / c.h) * 100;
-    const bgPosX  = -(c.x / c.w) * 100;
-    const bgPosY  = -(c.y / c.h) * 100;
-    return `
-      width:${sizePx}px; height:${sizePx}px;
-      background-image:url('${SPRITE_SRC}');
-      background-repeat:no-repeat;
-      background-size:${bgSizeX}% ${bgSizeY}%;
-      background-position:${bgPosX}% ${bgPosY}%;
-    `;
-  }
-  function setSpriteEl(el, crop, sizePx){ el.style.cssText += spriteStyle(crop, sizePx); }
-
-  function renderBase(){
-    const baseBox = $("baseBox");
-    baseBox.textContent = "";
-    baseBox.style.cssText = `${spriteStyle("base", 420)} max-width:520px; height:420px; border-radius:18px;`;
+  function setEmojiStatus(text, kind){
+    elEmojiStatus.textContent = text;
+    elEmojiStatus.style.borderColor =
+      kind === "good" ? "rgba(55,214,122,.55)" :
+      kind === "bad" ? "rgba(255,92,92,.55)" :
+      "rgba(255,255,255,.14)";
   }
 
-  function renderShop(){
-    const shop = $("shop"); shop.innerHTML = "";
-    ITEMS.forEach(it => {
+  function saveEmojiState(){
+    localStorage.setItem(LS_EMOJI, JSON.stringify(emojiState));
+  }
+
+  function expectedAnswer(w){
+    // If color exists: require "answer + color" (e.g. "un t-shirt rouge")
+    if(w.color) return `${w.answer} ${w.color}`;
+    return w.answer;
+  }
+
+  function renderEmoji(){
+    elEmojiGrid.innerHTML = "";
+
+    EMOJI_WORDS.forEach(w => {
       const card = document.createElement("div");
-      card.className = "item";
+      card.className = "ec";
 
-      const thumb = document.createElement("div");
-      thumb.className = "thumb";
-      thumb.style.cssText += spriteStyle(it.crop, 64);
+      const em = document.createElement("div");
+      em.className = "emo";
+      em.textContent = w.emoji;
 
-      const meta = document.createElement("div");
-      meta.innerHTML = `
-        <div class="fr">${it.fr}</div>
-        <div class="no" style="display:${showNorwegian?'block':'none'}">${it.no}</div>
-        <div class="tag">plass: ${slotLabel(it.slot)}</div>
-      `;
+      const colorRow = document.createElement("div");
+      colorRow.className = "colorPair";
 
-      card.appendChild(thumb);
-      card.appendChild(meta);
+      if(w.color){
+        const dot = document.createElement("span");
+        dot.className = "colorDotSmall";
+        dot.style.background = colorByFr[w.color] || "#fff";
 
-      attachPointerDrag(card, it);
-      shop.appendChild(card);
-    });
-  }
+        const lab = document.createElement("span");
+        lab.className = "pill";
+        lab.textContent = `Farge: ${w.color}`;
 
-  function renderColors(){
-    const grid = $("colors"); grid.innerHTML = "";
-    COLORS.forEach(c => {
-      const btn = document.createElement("button");
-      btn.type="button";
-      btn.className = "cbtn" + (c.fr===selectedColor.fr ? " selected" : "");
-      btn.innerHTML = `<div class="box" style="background:${c.hex}"></div><b>${c.fr}</b><span>${c.no}</span>`;
-      btn.onclick = () => {
-        selectedColor = c;
-        renderColors();
-        const fb = $("colorFeedback");
-        fb.style.display="block";
-        fb.className="msg good";
-        fb.textContent=`Farge valgt: ${c.fr} (${c.no}).`;
-      };
-      grid.appendChild(btn);
-    });
-  }
+        colorRow.appendChild(dot);
+        colorRow.appendChild(lab);
+      }else{
+        const lab = document.createElement("span");
+        lab.className = "pill";
+        lab.textContent = "Ingen farge i denne";
+        colorRow.appendChild(lab);
+      }
 
-  function renderPlaced(){
-    ["head","top","bottom","feet"].forEach(slot => {
-      const box = $("placed_"+slot);
-      box.innerHTML = "";
-      const id = outfit[slot];
-      if(!id){ box.innerHTML = `<span class="small">tom</span>`; return; }
+      const no = document.createElement("div");
+      no.className = "noHint" + (showNoHint ? " show" : "");
+      no.textContent = `Norsk: ${w.no}`;
 
-      const it = ITEMS.find(x=>x.id===id);
+      const input = document.createElement("input");
+      input.type = "text";
+      input.autocomplete = "off";
+      input.spellcheck = false;
+      input.placeholder = w.color ? "Skriv fransk + farge…" : "Skriv fransk…";
+      input.value = emojiState[w.id] ?? "";
+      input.dataset.wordId = w.id;
 
-      const t = document.createElement("div");
-      t.className = "placedThumb";
-      t.style.cssText += spriteStyle(it.crop, 54);
+      const fb = document.createElement("div");
+      fb.className = "fb";
+      fb.dataset.fbFor = w.id;
 
-      const chip = document.createElement("span");
-      chip.className = "chip";
-      chip.innerHTML = `<span>${it.fr}</span><span class="swatch" style="background:${selectedColorHex(outfitColor[slot])}"></span>`;
+      input.addEventListener("input", () => {
+        emojiState[w.id] = input.value;
+        saveEmojiState();
+        input.style.borderColor = "rgba(255,255,255,.16)";
+        fb.textContent = "";
+      });
 
-      box.appendChild(t);
-      box.appendChild(chip);
-    });
-  }
+      card.appendChild(em);
+      card.appendChild(colorRow);
+      card.appendChild(no);
+      card.appendChild(input);
+      card.appendChild(fb);
 
-  // Pointer drag (works on iPad + PC)
-  function attachPointerDrag(card, item){
-    card.addEventListener("pointerdown", (e) => {
-      e.preventDefault();
-      card.setPointerCapture(e.pointerId);
-      dragging = { item, pointerId: e.pointerId };
-
-      ghost.style.cssText += spriteStyle(item.crop, 84);
-      ghost.style.transform = `translate(${e.clientX - 42}px, ${e.clientY - 42}px)`;
-      highlightSlotAt(e.clientX, e.clientY);
+      elEmojiGrid.appendChild(card);
     });
 
-    card.addEventListener("pointermove", (e) => {
-      if(!dragging || dragging.pointerId !== e.pointerId) return;
-      ghost.style.transform = `translate(${e.clientX - 42}px, ${e.clientY - 42}px)`;
-      highlightSlotAt(e.clientX, e.clientY);
+    btnToggleNo.textContent = showNoHint ? "Skjul norsk hint" : "Vis norsk hint";
+  }
+
+  function checkEmojiAll(){
+    let correct = 0;
+    let filled = 0;
+
+    EMOJI_WORDS.forEach(w => {
+      const input = elEmojiGrid.querySelector(`input[data-word-id="${w.id}"]`);
+      const fb = elEmojiGrid.querySelector(`[data-fb-for="${w.id}"]`);
+
+      const user = input.value;
+      if(norm(user).length) filled++;
+
+      const exp = expectedAnswer(w);
+      const ok = norm(user) === norm(exp);
+
+      if(ok){
+        correct++;
+        input.style.borderColor = "rgba(55,214,122,.65)";
+        fb.textContent = "Riktig ✅";
+        fb.style.color = "rgba(55,214,122,.95)";
+      }else{
+        input.style.borderColor = "rgba(255,92,92,.65)";
+        fb.textContent = user.trim() ? "Feil ❌" : "Tomt felt…";
+        fb.style.color = "rgba(255,92,92,.95)";
+      }
     });
 
-    card.addEventListener("pointerup", (e) => {
-      if(!dragging || dragging.pointerId !== e.pointerId) return;
-      clearHighlights();
-      const dropSlot = slotFromPoint(e.clientX, e.clientY);
-      finishDrop(dropSlot, dragging.item);
-      dragging = null;
-      ghost.style.transform = "translate(-9999px,-9999px)";
-      try{ card.releasePointerCapture(e.pointerId); }catch(_){}
-    });
-
-    card.addEventListener("pointercancel", () => {
-      dragging = null;
-      clearHighlights();
-      ghost.style.transform = "translate(-9999px,-9999px)";
-    });
-  }
-
-  function slotFromPoint(x,y){
-    const el = document.elementFromPoint(x,y);
-    const slotEl = el && el.closest ? el.closest(".slot") : null;
-    return slotEl ? slotEl.dataset.slot : null;
-  }
-  function highlightSlotAt(x,y){
-    clearHighlights();
-    const s = slotFromPoint(x,y);
-    if(s) $("slot_"+s).classList.add("hot");
-  }
-  function clearHighlights(){
-    ["head","top","bottom","feet"].forEach(s => $("slot_"+s).classList.remove("hot"));
-  }
-
-  function finishDrop(slot, item){
-    const fb = $("dragFeedback");
-    fb.style.display = "block";
-
-    if(!slot){
-      fb.className = "msg warn";
-      fb.textContent = "Slipp plagget på en av rutene (hode/overdel/underdel/føtter).";
+    if(filled === 0){
+      setEmojiStatus("Skriv noe først 🙂", "bad");
       return;
     }
-    if(item.slot !== slot){
-      fb.className = "msg bad";
-      fb.textContent = `❌ ${item.fr} hører til på ${slotLabel(item.slot)}.`;
-      return;
-    }
-
-    outfit[slot] = item.id;
-    outfitColor[slot] = selectedColor.fr;
-    renderPlaced();
-
-    fb.className = "msg good";
-    fb.textContent = `✅ ${item.fr} plassert på ${slotLabel(slot)} (${selectedColor.fr}).`;
-  }
-
-  function initPersons(){
-    const sel = $("person"); sel.innerHTML = "";
-    PERSONS.forEach(p => {
-      const opt = document.createElement("option");
-      opt.value=p; opt.textContent=p;
-      sel.appendChild(opt);
-    });
-  }
-
-  function checkOutfit(){
-    const filled = ["head","top","bottom","feet"].filter(s=>outfit[s]).length;
-    const fb = $("outfitFeedback");
-    fb.style.display="block";
-    fb.className = filled===4 ? "msg good" : "msg bad";
-    fb.innerHTML = filled===4 ? `🎉 Du har <b>4/4</b> plagg!` : `Du har <b>${filled}/4</b>.`;
-  }
-
-  function saveOutfit(){
-    localStorage.setItem("vetements_outfit_sprite_v2", JSON.stringify({outfit, outfitColor}));
-    const fb = $("outfitFeedback");
-    fb.style.display="block"; fb.className="msg good"; fb.textContent="✅ Outfit lagret.";
-  }
-  function loadOutfit(){
-    const fb = $("outfitFeedback"); fb.style.display="block";
-    try{
-      const raw = localStorage.getItem("vetements_outfit_sprite_v2");
-      if(!raw) throw new Error("none");
-      const obj = JSON.parse(raw);
-      Object.assign(outfit, obj.outfit||{});
-      Object.assign(outfitColor, obj.outfitColor||{});
-      renderPlaced();
-      fb.className="msg good"; fb.textContent="✅ Outfit lastet inn.";
-    }catch(e){
-      fb.className="msg bad"; fb.textContent="Fant ingen lagret outfit ennå.";
-    }
-  }
-  function resetOutfit(){
-    if(!confirm("Nullstill outfit?")) return;
-    outfit.head=outfit.top=outfit.bottom=outfit.feet=null;
-    renderPlaced();
-    $("outfitFeedback").style.display="none";
-  }
-
-  function makeSentence(){
-    const who = $("person").value;
-    const slot = $("pickSlot").value;
-    const id = outfit[slot];
-    const out = $("sentenceOut");
-    out.style.display="block"; out.className="msg";
-
-    if(!id){ out.textContent = `Tips: Dra et plagg til ${slotLabel(slot)} først.`; return; }
-    const it = ITEMS.find(x=>x.id===id);
-    const col = outfitColor[slot] || selectedColor.fr;
-    out.textContent = `${who} porte ${it.fr} ${col}.`;
-  }
-
-  async function copySentence(){
-    const out = $("sentenceOut");
-    if(out.style.display==="none") return;
-    try{
-      await navigator.clipboard.writeText(out.textContent);
-      out.className="msg good"; out.textContent="✅ Kopiert!";
-      setTimeout(()=>{ out.className="msg"; }, 700);
-    }catch(e){ alert("Klarte ikke å kopiere. Marker og kopier manuelt."); }
-  }
-
-  function loadText(){
-    const t = localStorage.getItem("vetements_text_sprite_v2");
-    if(t) $("studentText").value = t;
-  }
-  function saveText(){
-    localStorage.setItem("vetements_text_sprite_v2", $("studentText").value);
-    const fb = $("textFeedback");
-    fb.style.display="block"; fb.className="msg good"; fb.textContent="✅ Tekst lagret.";
-  }
-  async function copyText(){
-    const txt = $("studentText").value.trim();
-    if(!txt){ alert("Skriv litt tekst først 🙂"); return; }
-    try{
-      await navigator.clipboard.writeText(txt);
-      const fb = $("textFeedback");
-      fb.style.display="block"; fb.className="msg good"; fb.textContent="✅ Tekst kopiert.";
-    }catch(e){ alert("Klarte ikke å kopiere. Marker og kopier manuelt."); }
-  }
-  function checkTargets(){
-    const txt = $("studentText").value.toLowerCase();
-    const usedClothes = ITEMS.map(x=>x.fr.toLowerCase()).filter(w => txt.includes(w));
-    const usedColors = COLORS.map(x=>x.fr.toLowerCase()).filter(w => txt.includes(w));
-    const fb = $("textFeedback"); fb.style.display="block";
-    if(usedClothes.length>=3 && usedColors.length>=2){
-      fb.className="msg good"; fb.innerHTML=`✅ Bra! Klær: <b>${usedClothes.length}</b>, farger: <b>${usedColors.length}</b>.`;
+    if(correct === EMOJI_WORDS.length){
+      setEmojiStatus(`Perfekt! ${correct}/${EMOJI_WORDS.length} riktig 🎉`, "good");
     }else{
-      fb.className="msg bad"; fb.innerHTML=`❗ Mål: 3 klesord + 2 farger. Du har: <b>${usedClothes.length}</b> og <b>${usedColors.length}</b>.`;
+      setEmojiStatus(`${correct}/${EMOJI_WORDS.length} riktig. Rett de røde feltene.`, correct > 0 ? null : "bad");
     }
   }
 
-  // Wire up UI
-  $("toggleNor").onclick = () => { showNorwegian = !showNorwegian; renderShop(); };
-  $("checkOutfit").onclick = checkOutfit;
-  $("saveOutfit").onclick = saveOutfit;
-  $("loadOutfit").onclick = loadOutfit;
-  $("resetOutfit").onclick = resetOutfit;
-  $("makeSentence").onclick = makeSentence;
-  $("copySentence").onclick = copySentence;
-  $("saveText").onclick = saveText;
-  $("copyText").onclick = copyText;
-  $("checkTargets").onclick = checkTargets;
+  function hintEmoji(){
+    // For empty fields: put first character + ellipsis, based on expected answer
+    let did = 0;
+    EMOJI_WORDS.forEach(w => {
+      const input = elEmojiGrid.querySelector(`input[data-word-id="${w.id}"]`);
+      if(!input.value.trim()){
+        const exp = expectedAnswer(w).trim();
+        input.value = exp.charAt(0) + "…";
+        emojiState[w.id] = input.value;
+        did++;
+      }
+    });
+    saveEmojiState();
+    setEmojiStatus(did ? `Hint lagt inn i ${did} felt.` : "Alle felt har allerede tekst.", null);
+  }
 
-  // Init
-  renderBase();
-  renderColors();
-  renderShop();
-  renderPlaced();
-  initPersons();
-  loadText();
+  function revealEmoji(){
+    EMOJI_WORDS.forEach(w => {
+      const input = elEmojiGrid.querySelector(`input[data-word-id="${w.id}"]`);
+      input.value = expectedAnswer(w);
+      emojiState[w.id] = input.value;
+    });
+    saveEmojiState();
+    setEmojiStatus("Fasit fylt inn. Trykk Sjekk for grønt.", null);
+  }
+
+  function resetEmoji(){
+    emojiState = {};
+    saveEmojiState();
+    renderEmoji();
+    setEmojiStatus("Nullstilt.", null);
+  }
+
+  btnToggleNo.addEventListener("click", () => {
+    showNoHint = !showNoHint;
+    localStorage.setItem(LS_EMOJI_HINT, showNoHint ? "1" : "0");
+    renderEmoji();
+  });
+
+  btnEmojiCheck.addEventListener("click", checkEmojiAll);
+  btnEmojiHint.addEventListener("click", hintEmoji);
+  btnEmojiReveal.addEventListener("click", revealEmoji);
+  btnEmojiReset.addEventListener("click", resetEmoji);
+
+  // init task 2
+  renderEmoji();
+
+})();
 </script>
 </body>
 </html>
