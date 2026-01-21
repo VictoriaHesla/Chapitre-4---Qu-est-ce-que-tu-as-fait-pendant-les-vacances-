@@ -3,12 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Vêtements – Avatar & spill</title>
+  <title>Vêtements – iPad-vennlig avatar</title>
 
   <style>
     :root{
       --bg:#0b1220;
-      --card:#101a33;
       --text:#eaf0ff;
       --muted:#b7c4ff;
       --accent:#7dd3fc;
@@ -19,22 +18,22 @@
       --shadow: 0 10px 30px rgba(0,0,0,.35);
       --radius:18px;
       --max: 1080px;
+      --card: rgba(255,255,255,.06);
     }
     *{box-sizing:border-box}
     body{
       margin:0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: radial-gradient(1200px 800px at 20% 10%, rgba(125,211,252,.18), transparent 60%),
-                  radial-gradient(1000px 700px at 80% 0%, rgba(52,211,153,.12), transparent 55%),
-                  var(--bg);
+      background:
+        radial-gradient(1200px 800px at 20% 10%, rgba(125,211,252,.18), transparent 60%),
+        radial-gradient(1000px 700px at 80% 0%, rgba(52,211,153,.12), transparent 55%),
+        var(--bg);
       color:var(--text);
       line-height:1.5;
     }
     header{padding:28px 16px 14px;}
     .wrap{max-width:var(--max); margin:0 auto; padding:0 16px 40px;}
-    .topbar{
-      display:flex; gap:12px; align-items:center; justify-content:space-between; flex-wrap:wrap;
-    }
+    .topbar{display:flex; gap:12px; align-items:center; justify-content:space-between; flex-wrap:wrap;}
     a{color:var(--accent); text-decoration:none}
     a:hover{text-decoration:underline}
     .badge{
@@ -47,29 +46,19 @@
       font-size: 13px;
       white-space:nowrap;
     }
-    .title{
-      font-size: clamp(22px, 3.2vw, 34px);
-      margin:10px 0 6px;
-      letter-spacing:.2px;
-    }
+    .title{font-size: clamp(22px, 3.2vw, 34px); margin:10px 0 6px;}
     .subtitle{color:var(--muted); margin:0 0 14px; max-width: 85ch;}
     .pillrow{display:flex; gap:8px; flex-wrap:wrap}
     .pill{
       display:inline-flex; gap:8px; align-items:center;
-      padding:6px 10px;
-      border-radius:999px;
+      padding:6px 10px; border-radius:999px;
       border:1px solid var(--border);
       background: rgba(16,26,51,.6);
-      font-size: 13px;
-      color: var(--muted);
+      font-size: 13px; color: var(--muted);
     }
     .pill b{color:var(--text)}
 
-    .grid{
-      display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap:16px;
-    }
+    .grid{display:grid; grid-template-columns: 1.1fr .9fr; gap:16px;}
     @media (max-width: 980px){ .grid{grid-template-columns:1fr} }
 
     .card{
@@ -79,15 +68,12 @@
       box-shadow: var(--shadow);
       overflow:hidden;
     }
-    .card .hd{
-      padding:16px 16px 0;
-      display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
-    }
-    .card .hd h2{margin:0; font-size:18px;}
-    .card .bd{padding:14px 16px 16px;}
+    .hd{padding:16px 16px 0; display:flex; align-items:flex-start; justify-content:space-between; gap:12px;}
+    .hd h2{margin:0; font-size:18px;}
+    .bd{padding:14px 16px 16px;}
+    .kicker{font-size:12px; text-transform:uppercase; letter-spacing:.12em; color: var(--muted);}
     .small{font-size:13px; color: var(--muted); margin-top:8px;}
     .divider{height:1px; background: var(--border); margin:12px 0;}
-    .kicker{font-size:12px; text-transform:uppercase; letter-spacing:.12em; color: var(--muted);}
 
     button{
       border:1px solid var(--border);
@@ -97,44 +83,153 @@
       border-radius: 12px;
       cursor:pointer;
       font-weight:700;
+      touch-action: manipulation;
     }
     button:hover{background: rgba(255,255,255,.10)}
-    button.primary{
-      background: rgba(125,211,252,.18);
-      border-color: rgba(125,211,252,.35);
-    }
-    button.good{
-      background: rgba(52,211,153,.16);
-      border-color: rgba(52,211,153,.35);
-    }
-    button.warn{
-      background: rgba(251,191,36,.15);
-      border-color: rgba(251,191,36,.35);
-    }
-    button.bad{
-      background: rgba(251,113,133,.12);
-      border-color: rgba(251,113,133,.35);
-    }
-
-    .playbox{
-      border:1px solid var(--border);
-      border-radius: 16px;
-      background: rgba(16,26,51,.35);
-      padding:12px;
-    }
+    button.primary{background: rgba(125,211,252,.18); border-color: rgba(125,211,252,.35);}
+    button.good{background: rgba(52,211,153,.16); border-color: rgba(52,211,153,.35);}
+    button.warn{background: rgba(251,191,36,.15); border-color: rgba(251,191,36,.35);}
+    button.bad{background: rgba(251,113,133,.12); border-color: rgba(251,113,133,.35);}
 
     .msg{
-      margin-top:10px;
-      padding:10px 12px;
-      border-radius: 14px;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.05);
+      margin-top:10px; padding:10px 12px; border-radius: 14px;
+      border:1px solid var(--border); background: rgba(255,255,255,.05);
     }
     .msg.good{border-color: rgba(52,211,153,.45); background: rgba(52,211,153,.10)}
     .msg.bad{border-color: rgba(251,113,133,.45); background: rgba(251,113,133,.10)}
     .msg.warn{border-color: rgba(251,191,36,.45); background: rgba(251,191,36,.10)}
 
-    select, textarea, input[type="text"], input[type="color"]{
+    /* --- sprite item cards --- */
+    .shop{display:grid; grid-template-columns: repeat(2, 1fr); gap:10px;}
+    @media (max-width: 520px){ .shop{grid-template-columns:1fr} }
+
+    .item{
+      display:flex; gap:10px; align-items:center;
+      border:1px solid var(--border);
+      border-radius: 16px;
+      background: rgba(16,26,51,.45);
+      padding:10px;
+      user-select:none;
+      -webkit-user-select:none;
+      touch-action:none; /* IMPORTANT: allows finger dragging */
+    }
+    .thumb{
+      width:64px; height:64px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+      overflow:hidden;
+      flex: 0 0 auto;
+    }
+    .meta{min-width:0}
+    .fr{font-weight:900}
+    .no{color:var(--muted); font-size:13px}
+    .tag{
+      display:inline-block; margin-top:6px;
+      font-size:12px; color: var(--muted);
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      padding:2px 8px; border-radius: 999px;
+    }
+
+    /* --- avatar stage --- */
+    .stage{
+      border:1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(16,26,51,.35);
+      padding:12px;
+    }
+    .mannequinArea{
+      position: relative;
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      overflow:hidden;
+      min-height: 420px;
+    }
+    .baseSprite{
+      position:absolute; inset: 0;
+      display:flex; align-items:center; justify-content:center;
+      padding: 10px;
+    }
+    .baseSprite .baseBox{
+      width: 100%;
+      height: 100%;
+      max-height: 420px;
+      aspect-ratio: 16 / 9;
+      border-radius: 18px;
+      background: rgba(0,0,0,.10);
+      border: 1px solid rgba(255,255,255,.10);
+      overflow:hidden;
+    }
+
+    /* placed clothing preview chips */
+    .slotRow{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+      margin-top:12px;
+    }
+    @media (max-width: 520px){ .slotRow{grid-template-columns:1fr} }
+    .slot{
+      border:1px dashed rgba(255,255,255,.22);
+      border-radius: 16px;
+      background: rgba(0,0,0,.10);
+      padding:10px;
+      min-height: 94px;
+    }
+    .slot strong{font-size:13px}
+    .slot .placed{margin-top:6px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
+    .placedThumb{
+      width:54px; height:54px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.14);
+      overflow:hidden;
+      background: rgba(255,255,255,.04);
+    }
+    .chip{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:6px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      font-size:13px;
+      font-weight:800;
+    }
+    .swatch{
+      width:14px; height:14px; border-radius: 4px;
+      border:1px solid rgba(255,255,255,.25);
+      background:#fff;
+    }
+    .slot.hot{outline: 2px solid rgba(125,211,252,.45);}
+    .controlsRow{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;}
+
+    /* color buttons (touch friendly) */
+    .colors{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:10px;
+      margin-top:10px;
+    }
+    @media (max-width: 520px){ .colors{grid-template-columns: repeat(2, 1fr);} }
+    .cbtn{
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(16,26,51,.35);
+      border-radius: 14px;
+      padding:10px;
+      text-align:left;
+      touch-action: manipulation;
+    }
+    .cbtn .box{
+      height:28px; border-radius:10px;
+      border:1px solid rgba(255,255,255,.18);
+      margin-bottom:6px;
+    }
+    .cbtn b{display:block}
+    .cbtn span{color:var(--muted); font-size:12px}
+    .cbtn.selected{outline: 2px solid rgba(52,211,153,.55);}
+
+    select, textarea{
       width:100%;
       border:1px solid var(--border);
       background: rgba(16,26,51,.35);
@@ -145,7 +240,6 @@
       outline:none;
     }
     textarea{min-height: 140px; resize: vertical;}
-
     .two{display:grid; grid-template-columns: 1fr 1fr; gap:10px;}
     @media (max-width: 780px){ .two{grid-template-columns:1fr} }
 
@@ -157,186 +251,17 @@
       background: rgba(255,255,255,.03);
     }
 
-    /* ---------- VISUAL CLOTHING CARDS ---------- */
-    .shop{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap:10px;
-    }
-    @media (max-width: 680px){ .shop{grid-template-columns: repeat(2, 1fr);} }
-    @media (max-width: 420px){ .shop{grid-template-columns: 1fr;} }
-
-    .item{
-      border:1px solid var(--border);
+    /* floating dragged preview */
+    .dragGhost{
+      position: fixed;
+      width: 84px; height:84px;
       border-radius: 16px;
-      background: rgba(16,26,51,.45);
-      padding:10px;
-      display:flex;
-      gap:10px;
-      align-items:center;
-      cursor:grab;
-      user-select:none;
-    }
-    .item:active{cursor:grabbing}
-    .icon{
-      width:42px; height:42px;
-      border-radius: 14px;
-      border:1px solid var(--border);
-      display:flex; align-items:center; justify-content:center;
-      background: rgba(255,255,255,.05);
-      font-size:22px;
-    }
-    .meta{min-width:0}
-    .fr{font-weight:900}
-    .no{color:var(--muted); font-size:13px}
-    .tag{
-      display:inline-block;
-      margin-top:6px;
-      font-size:12px;
-      color: var(--muted);
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.04);
-      padding:2px 8px;
-      border-radius: 999px;
-    }
-
-    /* ---------- MANNEQUIN / AVATAR ---------- */
-    .avatarWrap{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:10px;
-    }
-
-    .avatarStage{
-      border:1px solid var(--border);
-      border-radius: 18px;
-      background: rgba(16,26,51,.35);
-      padding:12px;
-      position:relative;
+      border:1px solid rgba(255,255,255,.20);
       overflow:hidden;
-    }
-
-    .mannequin{
-      height: 420px;
-      position: relative;
-      border-radius: 18px;
-      border:1px solid rgba(255,255,255,.10);
-      background:
-        radial-gradient(circle at 30% 20%, rgba(125,211,252,.10), transparent 40%),
-        radial-gradient(circle at 70% 0%, rgba(52,211,153,.08), transparent 45%),
-        rgba(255,255,255,.03);
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      padding:10px;
-    }
-
-    /* simplistic mannequin silhouette */
-    .silhouette{
-      width: 220px;
-      height: 400px;
-      position: relative;
-      border-radius: 999px;
-      background: rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.10);
-    }
-    .head{
-      width: 90px; height: 90px;
-      border-radius: 999px;
-      position:absolute;
-      top: 16px; left: 50%;
-      transform: translateX(-50%);
-      background: rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.12);
-    }
-    .torso{
-      width: 160px; height: 190px;
-      border-radius: 40px;
-      position:absolute;
-      top: 105px; left: 50%;
-      transform: translateX(-50%);
-      background: rgba(255,255,255,.07);
-      border:1px solid rgba(255,255,255,.10);
-    }
-    .legs{
-      width: 150px; height: 160px;
-      border-radius: 40px;
-      position:absolute;
-      top: 285px; left: 50%;
-      transform: translateX(-50%);
-      background: rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.10);
-    }
-
-    .slotGrid{
-      position:absolute;
-      inset: 12px;
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 1fr 1fr 1fr;
-      gap:10px;
-      pointer-events:none; /* slots handle pointer; we enable inside */
-    }
-
-    .slot{
-      pointer-events:auto;
-      border:1px dashed rgba(255,255,255,.20);
-      border-radius: 16px;
-      background: rgba(0,0,0,.10);
-      padding:10px;
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-      justify-content:center;
-      align-items:flex-start;
-      min-height: 86px;
-    }
-    .slot strong{font-size:13px}
-    .slot .placed{
-      display:flex; align-items:center; gap:8px; flex-wrap:wrap;
-      font-weight:800;
-    }
-    .chip{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:6px 10px;
-      border-radius: 999px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
-      font-size:13px;
-    }
-    .swatch{
-      width:14px; height:14px;
-      border-radius: 4px;
-      border:1px solid rgba(255,255,255,.25);
-      background: #ffffff;
-    }
-
-    .slot.dropOk{outline: 2px solid rgba(52,211,153,.55);}
-    .slot.dropBad{outline: 2px solid rgba(251,113,133,.55);}
-
-    .controlsRow{
-      display:flex; gap:10px; flex-wrap:wrap;
-      margin-top:10px;
-    }
-
-    /* ---------- COLOR QUIZ ---------- */
-    .colorRow{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:10px;
-      align-items:end;
-    }
-    @media (max-width: 700px){ .colorRow{grid-template-columns:1fr} }
-
-    footer{padding:18px 16px 28px; color: var(--muted); text-align:center}
-    .kbd{
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: 12px;
-      padding:2px 6px;
-      border:1px solid var(--border);
-      border-radius: 8px;
-      background: rgba(255,255,255,.05);
-      color: var(--text);
+      background: rgba(0,0,0,.25);
+      pointer-events:none;
+      z-index: 9999;
+      transform: translate(-9999px,-9999px);
     }
   </style>
 </head>
@@ -346,68 +271,49 @@
     <div class="wrap">
       <div class="topbar">
         <a href="index.html">← Til meny</a>
-        <span class="badge">Salut 9 · Kapittel 4 · Vêtements (Avatar)</span>
+        <span class="badge">Salut 9 · Kapittel 4 · Vêtements (iPad)</span>
       </div>
 
-      <h1 class="title">👕 Vêtements: kle på en manekeng + farger</h1>
+      <h1 class="title">👕 Klær og farger: dra plagg til riktig sted</h1>
       <p class="subtitle">
-        Dra plagg til riktig sted på manekengen, velg farge, og lag en “dagens outfit”-avatar.
-        Til slutt: beskriv outfiten på fransk.
+        iPad-vennlig: dra med finger. Velg farge og lag setninger: <i>Il/Elle porte…</i>
       </p>
 
       <div class="pillrow">
-        <span class="pill"><b>Læringsmål</b> Jeg kan kles- og fargegloser</span>
-        <span class="pill"><b>Læringsmål</b> Jeg kan skrive med <i>Il/Elle porte…</i></span>
-        <span class="pill"><b>Læringsmål</b> Jeg kan bruke farger: <i>un pantalon noir</i></span>
+        <span class="pill"><b>Mål</b> Jeg kan 5 klesord + 3 farger</span>
+        <span class="pill"><b>Mål</b> Jeg kan skrive 6–10 setninger</span>
+        <span class="pill"><b>Touch</b> Hold og dra plagget</span>
       </div>
     </div>
   </header>
 
   <main class="wrap">
     <div class="grid">
-      <!-- LEFT: SHOP + GAMES -->
+      <!-- LEFT -->
       <section class="card">
         <div class="hd">
           <div>
-            <div class="kicker">1) Dra og slipp</div>
-            <h2>Butikk: dra plagg til manekengen</h2>
+            <div class="kicker">1) Plagg</div>
+            <h2>Dra riktig plagg</h2>
           </div>
           <button class="warn" id="toggleNor">Vis/skjul norsk</button>
         </div>
-
         <div class="bd">
-          <p class="small">
-            Dra et plagg til riktig “plass” (hode/overdel/underdel/føtter/tilbehør).
-            Velg farge etterpå. Målet er <b>5 riktige plasseringer</b>.
-          </p>
+          <div class="small">
+            Dra til: <b>Hode</b>, <b>Overdel</b>, <b>Underdel</b>, <b>Føtter</b>.
+          </div>
 
           <div class="shop" id="shop"></div>
 
-          <div class="msg" id="dragFeedback" style="display:none;"></div>
+          <div id="dragFeedback" class="msg" style="display:none;"></div>
 
           <div class="divider"></div>
 
           <div class="playbox">
-            <div class="kicker">2) Fargeoppgave</div>
-            <h2 style="margin:6px 0 8px;">Velg riktig fargeord</h2>
-
-            <div class="colorRow">
-              <div>
-                <div class="small">Se fargen og velg riktig fransk ord:</div>
-                <div id="colorSwatch" style="margin-top:8px; height:52px; border-radius:14px; border:1px solid var(--border); background:#7dd3fc;"></div>
-              </div>
-              <div>
-                <label class="small" for="colorChoice">Farge på fransk</label>
-                <select id="colorChoice"></select>
-              </div>
-            </div>
-
-            <div class="controlsRow">
-              <button class="good" id="checkColor">Sjekk</button>
-              <button class="primary" id="newColorQ">Ny farge</button>
-              <span class="pill">Poeng: <b id="colorScore">0</b>/<b id="colorTotal">0</b></span>
-            </div>
-
+            <div class="kicker">2) Farger</div>
+            <h2 style="margin:6px 0 8px;">Velg farge (touch)</h2>
+            <div class="small">Trykk en farge. Den brukes på setninger (og lagres med plagget).</div>
+            <div class="colors" id="colors"></div>
             <div class="msg" id="colorFeedback" style="display:none;"></div>
           </div>
 
@@ -415,8 +321,7 @@
 
           <div class="playbox">
             <div class="kicker">3) Setningsbygger</div>
-            <h2 style="margin:6px 0 8px;">Beskriv avataren din</h2>
-            <p class="small">Velg hvem + setningstype. Klikk “Lag setning” og bygg teksten din.</p>
+            <h2 style="margin:6px 0 8px;">Lag setning fra outfiten</h2>
 
             <div class="two">
               <div>
@@ -424,11 +329,12 @@
                 <select id="person"></select>
               </div>
               <div>
-                <label class="small" for="style">Setning</label>
-                <select id="style">
-                  <option value="porte">Il/Elle porte…</option>
-                  <option value="a">Il/Elle a… (tilbehør)</option>
-                  <option value="aime">J’aime / Je n’aime pas…</option>
+                <label class="small" for="pickSlot">Hvilket plagg?</label>
+                <select id="pickSlot">
+                  <option value="top">Overdel</option>
+                  <option value="bottom">Underdel</option>
+                  <option value="feet">Føtter</option>
+                  <option value="head">Hode</option>
                 </select>
               </div>
             </div>
@@ -443,163 +349,117 @@
         </div>
       </section>
 
-      <!-- RIGHT: AVATAR + WRITING -->
+      <!-- RIGHT -->
       <aside class="card">
         <div class="hd">
           <div>
             <div class="kicker">Avatar</div>
-            <h2>Manekeng / “Dagens outfit”</h2>
+            <h2>Manneken + slots</h2>
           </div>
-          <button class="primary" id="saveAvatar">Lagre outfit</button>
+          <button class="primary" id="saveOutfit">Lagre outfit</button>
         </div>
-
         <div class="bd">
-          <div class="avatarWrap">
-            <div class="avatarStage">
-              <div class="mannequin" aria-label="mannequin">
-                <div class="silhouette" aria-hidden="true">
-                  <div class="head"></div>
-                  <div class="torso"></div>
-                  <div class="legs"></div>
-                </div>
-
-                <!-- Drop slots overlay -->
-                <div class="slotGrid" aria-label="drop zones">
-                  <div class="slot" data-slot="head">
-                    <strong>Hode</strong>
-                    <div class="small">Dra: chapeau / casquette</div>
-                    <div class="placed" id="slot_head"></div>
-                    <div class="two" style="margin-top:6px;">
-                      <input type="color" id="color_head" title="Velg farge" />
-                      <button id="clear_head">Tøm</button>
-                    </div>
-                  </div>
-
-                  <div class="slot" data-slot="accessory">
-                    <strong>Tilbehør</strong>
-                    <div class="small">Dra: écharpe / lunettes / sac</div>
-                    <div class="placed" id="slot_accessory"></div>
-                    <div class="two" style="margin-top:6px;">
-                      <input type="color" id="color_accessory" title="Velg farge" />
-                      <button id="clear_accessory">Tøm</button>
-                    </div>
-                  </div>
-
-                  <div class="slot" data-slot="top">
-                    <strong>Overdel</strong>
-                    <div class="small">Dra: t-shirt / pull / veste / manteau</div>
-                    <div class="placed" id="slot_top"></div>
-                    <div class="two" style="margin-top:6px;">
-                      <input type="color" id="color_top" title="Velg farge" />
-                      <button id="clear_top">Tøm</button>
-                    </div>
-                  </div>
-
-                  <div class="slot" data-slot="bottom">
-                    <strong>Underdel</strong>
-                    <div class="small">Dra: pantalon / short / jupe / robe</div>
-                    <div class="placed" id="slot_bottom"></div>
-                    <div class="two" style="margin-top:6px;">
-                      <input type="color" id="color_bottom" title="Velg farge" />
-                      <button id="clear_bottom">Tøm</button>
-                    </div>
-                  </div>
-
-                  <div class="slot" data-slot="feet">
-                    <strong>Føtter</strong>
-                    <div class="small">Dra: chaussures / baskets</div>
-                    <div class="placed" id="slot_feet"></div>
-                    <div class="two" style="margin-top:6px;">
-                      <input type="color" id="color_feet" title="Velg farge" />
-                      <button id="clear_feet">Tøm</button>
-                    </div>
-                  </div>
-
-                  <div class="slot" data-slot="extra">
-                    <strong>Ekstra</strong>
-                    <div class="small">Valgfri plass</div>
-                    <div class="placed" id="slot_extra"></div>
-                    <div class="two" style="margin-top:6px;">
-                      <input type="color" id="color_extra" title="Velg farge" />
-                      <button id="clear_extra">Tøm</button>
-                    </div>
-                  </div>
-                </div>
+          <div class="stage">
+            <div class="mannequinArea" id="mannequinArea">
+              <div class="baseSprite">
+                <div class="baseBox" id="baseBox" aria-label="sprite base"></div>
               </div>
-
-              <div class="controlsRow">
-                <button class="good" id="checkOutfit">Sjekk: 5 riktige plasseringer</button>
-                <button class="warn" id="loadAvatar">Last inn lagret outfit</button>
-                <button class="bad" id="resetAvatar">Nullstill</button>
-              </div>
-
-              <div class="msg" id="avatarFeedback" style="display:none;"></div>
             </div>
 
-            <div class="divider"></div>
+            <div class="slotRow">
+              <div class="slot" data-slot="head" id="slot_head">
+                <strong>Hode</strong>
+                <div class="small">casquette</div>
+                <div class="placed" id="placed_head"></div>
+              </div>
 
-            <div class="kicker">4) Skriveoppgave</div>
-            <h2 style="margin:6px 0 8px;">Beskriv outfiten</h2>
+              <div class="slot" data-slot="top" id="slot_top">
+                <strong>Overdel</strong>
+                <div class="small">t-shirt</div>
+                <div class="placed" id="placed_top"></div>
+              </div>
 
-            <p class="small">
-              Skriv <b>6–10 setninger</b>. Bruk minst <b>5</b> klesord og <b>3</b> farger.
-            </p>
+              <div class="slot" data-slot="bottom" id="slot_bottom">
+                <strong>Underdel</strong>
+                <div class="small">pantalon</div>
+                <div class="placed" id="placed_bottom"></div>
+              </div>
 
-            <div class="hint">
-              <b>Støttesetninger:</b><br>
-              • Aujourd’hui, je porte …<br>
-              • Il/Elle porte …<br>
-              • Il/Elle porte un/une … + couleur<br>
-              • J’aime / Je n’aime pas … parce que …<br><br>
-              <b>Mini-regel:</b> fargen kommer ofte <i>etter</i> plagget: <i>un pantalon noir</i>.
-            </div>
-
-            <div style="margin-top:10px;">
-              <label class="small" for="studentText">Din tekst</label>
-              <textarea id="studentText" placeholder="Skriv her... (bruk setningsbyggeren til å komme i gang)"></textarea>
+              <div class="slot" data-slot="feet" id="slot_feet">
+                <strong>Føtter</strong>
+                <div class="small">chaussures</div>
+                <div class="placed" id="placed_feet"></div>
+              </div>
             </div>
 
             <div class="controlsRow">
-              <button class="primary" id="saveText">Lagre tekst lokalt</button>
-              <button id="copyText">Kopier tekst</button>
-              <button id="checkTargets">Sjekk mål</button>
+              <button class="good" id="checkOutfit">Sjekk: 4 plagg plassert</button>
+              <button class="warn" id="loadOutfit">Last inn</button>
+              <button class="bad" id="resetOutfit">Nullstill</button>
             </div>
 
-            <div class="msg" id="textFeedback" style="display:none;"></div>
-
+            <div class="msg" id="outfitFeedback" style="display:none;"></div>
           </div>
+
+          <div class="divider"></div>
+
+          <div class="kicker">4) Skriveoppgave</div>
+          <h2 style="margin:6px 0 8px;">Beskriv antrekket</h2>
+
+          <div class="hint">
+            <b>Støtte:</b><br>
+            • Aujourd’hui, je porte …<br>
+            • Il/Elle porte un/une … + couleur<br>
+            • J’aime / Je n’aime pas …<br><br>
+            <b>Regel:</b> farge ofte etter plagg: <i>un pantalon noir</i>.
+          </div>
+
+          <div style="margin-top:10px;">
+            <label class="small" for="studentText">Din tekst</label>
+            <textarea id="studentText" placeholder="Skriv 6–10 setninger..."></textarea>
+          </div>
+
+          <div class="controlsRow">
+            <button class="primary" id="saveText">Lagre tekst</button>
+            <button id="copyText">Kopier tekst</button>
+            <button id="checkTargets">Sjekk mål</button>
+          </div>
+
+          <div class="msg" id="textFeedback" style="display:none;"></div>
         </div>
       </aside>
     </div>
   </main>
 
-  <footer>
-    GitHub Pages · Alt lagres lokalt · Neste kan være: flere “outfit cards” med ekte bilder
-  </footer>
+  <div class="dragGhost" id="dragGhost"></div>
 
 <script>
-  // ---------------- DATA ----------------
-  // Hver item har: fr/no, slot, icon (for visuelt kort)
+  // =========================================================
+  // 1) SETT RIKTIG FILNAVN HER:
+  // =========================================================
+  const SPRITE_SRC = "assets/img/vetements/SETT-INN-FILNAVN-HER.png";
+
+  // =========================================================
+  // 2) Sprite-klipp (ca. prosent). Juster senere om nødvendig.
+  //    (Dette er basert på bildet du viste: manneken venstre,
+  //     t-skjorte øverst midt, bukse midt, caps øverst høyre,
+  //     sko nede.)
+  // =========================================================
+  // crop: x,y,w,h i 0..1 (andel av hele bildet)
+  const CROPS = {
+    base:      { x:0.03, y:0.05, w:0.28, h:0.88 }, // manneken
+    tshirt:    { x:0.38, y:0.06, w:0.25, h:0.23 },
+    pantalon:  { x:0.41, y:0.32, w:0.22, h:0.36 },
+    casquette: { x:0.73, y:0.07, w:0.24, h:0.22 },
+    chaussures:{ x:0.70, y:0.40, w:0.27, h:0.22 }  // sko (øverst av sko-området)
+  };
+
+  // Items i butikken
   const ITEMS = [
-    { id:"tshirt",  fr:"un t-shirt",     no:"t-skjorte", slot:"top",       icon:"👕" },
-    { id:"pull",    fr:"un pull",        no:"genser",    slot:"top",       icon:"🧶" },
-    { id:"veste",   fr:"une veste",      no:"jakke",     slot:"top",       icon:"🧥" },
-    { id:"manteau", fr:"un manteau",     no:"kåpe",      slot:"top",       icon:"🧥" },
-
-    { id:"pantalon",fr:"un pantalon",    no:"bukse",     slot:"bottom",    icon:"👖" },
-    { id:"short",   fr:"un short",       no:"shorts",    slot:"bottom",    icon:"🩳" },
-    { id:"jupe",    fr:"une jupe",       no:"skjørt",    slot:"bottom",    icon:"👗" },
-    { id:"robe",    fr:"une robe",       no:"kjole",     slot:"bottom",    icon:"👗" },
-
-    { id:"chauss",  fr:"des chaussures", no:"sko",       slot:"feet",      icon:"👞" },
-    { id:"baskets", fr:"des baskets",    no:"joggesko",  slot:"feet",      icon:"👟" },
-
-    { id:"chapeau", fr:"un chapeau",     no:"hatt",      slot:"head",      icon:"🎩" },
-    { id:"casq",    fr:"une casquette",  no:"caps",      slot:"head",      icon:"🧢" },
-
-    { id:"echarpe", fr:"une écharpe",    no:"skjerf",    slot:"accessory", icon:"🧣" },
-    { id:"lunettes",fr:"des lunettes",   no:"briller",   slot:"accessory", icon:"🕶️" },
-    { id:"sac",     fr:"un sac",         no:"veske/sekk",slot:"accessory", icon:"🎒" }
+    { id:"tshirt", fr:"un t-shirt", no:"t-skjorte", slot:"top", crop:"tshirt" },
+    { id:"pantalon", fr:"un pantalon", no:"bukse", slot:"bottom", crop:"pantalon" },
+    { id:"casquette", fr:"une casquette", no:"caps", slot:"head", crop:"casquette" },
+    { id:"chaussures", fr:"des chaussures", no:"sko", slot:"feet", crop:"chaussures" }
   ];
 
   const COLORS = [
@@ -618,71 +478,95 @@
 
   const PERSONS = ["Je", "Il", "Elle", "Mon ami", "Mon amie"];
 
-  // ---------------- HELPERS ----------------
+  // =========================================================
+  // Helpers
+  // =========================================================
   const $ = (id) => document.getElementById(id);
-  const shuffle = (arr) => arr.map(v => [Math.random(), v]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);
 
-  function hexToClosestFrench(hex){
-    // enkel "nærmeste farge": beregn euklidisk avstand i RGB til våre farger
-    const h = hex.replace("#","");
-    const r = parseInt(h.slice(0,2),16);
-    const g = parseInt(h.slice(2,4),16);
-    const b = parseInt(h.slice(4,6),16);
+  function spriteStyle(crop, sizePx=64){
+    // Klassisk sprite: zoom bakgrunnen slik at "crop" fyller boksen.
+    // background-size = (1/crop.w)*100%
+    // background-position = -(crop.x/crop.w)*100%
+    const c = CROPS[crop];
+    const bgSizeX = (1 / c.w) * 100;
+    const bgSizeY = (1 / c.h) * 100;
+    const bgPosX  = -(c.x / c.w) * 100;
+    const bgPosY  = -(c.y / c.h) * 100;
 
-    let best = COLORS[0], bestD = Infinity;
-    for(const c of COLORS){
-      const hh = c.hex.replace("#","");
-      const rr = parseInt(hh.slice(0,2),16);
-      const gg = parseInt(hh.slice(2,4),16);
-      const bb = parseInt(hh.slice(4,6),16);
-      const d = (r-rr)**2 + (g-gg)**2 + (b-bb)**2;
-      if(d < bestD){ bestD = d; best = c; }
-    }
-    return best.fr;
+    return `
+      width:${sizePx}px; height:${sizePx}px;
+      background-image: url('${SPRITE_SRC}');
+      background-repeat:no-repeat;
+      background-size: ${bgSizeX}% ${bgSizeY}%;
+      background-position: ${bgPosX}% ${bgPosY}%;
+    `;
+  }
+
+  function setSpriteEl(el, crop, sizePx){
+    el.style.cssText += spriteStyle(crop, sizePx);
   }
 
   function copyToClipboard(text){
     return navigator.clipboard.writeText(text);
   }
 
-  // ---------------- UI: SHOP (drag items) ----------------
+  // =========================================================
+  // State: outfit + chosen color
+  // =========================================================
+  const outfit = { head:null, top:null, bottom:null, feet:null };
+  const outfitColor = { head:"bleu", top:"bleu", bottom:"bleu", feet:"bleu" }; // store french color word
+  let selectedColor = COLORS[2]; // bleu default
   let showNorwegian = true;
 
+  // =========================================================
+  // Render base sprite (mannequin)
+  // =========================================================
+  function renderBase(){
+    const baseBox = $("baseBox");
+    baseBox.style.cssText = `
+      ${spriteStyle("base", 420)}
+      margin: 0 auto;
+      max-width: 520px;
+      height: 420px;
+      border-radius: 18px;
+    `;
+  }
+
+  // =========================================================
+  // Render shop items (touch-drag)
+  // =========================================================
   function renderShop(){
     const shop = $("shop");
     shop.innerHTML = "";
     ITEMS.forEach(it => {
-      const div = document.createElement("div");
-      div.className = "item";
-      div.draggable = true;
-      div.dataset.itemId = it.id;
+      const card = document.createElement("div");
+      card.className = "item";
+      card.dataset.itemId = it.id;
 
-      div.innerHTML = `
-        <div class="icon" aria-hidden="true">${it.icon}</div>
-        <div class="meta">
-          <div class="fr">${it.fr}</div>
-          <div class="no" style="display:${showNorwegian?'block':'none'}">${it.no}</div>
-          <div class="tag">plass: ${slotLabel(it.slot)}</div>
-        </div>
+      const thumb = document.createElement("div");
+      thumb.className = "thumb";
+      setSpriteEl(thumb, it.crop, 64);
+
+      const meta = document.createElement("div");
+      meta.className = "meta";
+      meta.innerHTML = `
+        <div class="fr">${it.fr}</div>
+        <div class="no" style="display:${showNorwegian?'block':'none'}">${it.no}</div>
+        <div class="tag">plass: ${slotLabel(it.slot)}</div>
       `;
 
-      div.addEventListener("dragstart", (e) => {
-        e.dataTransfer.setData("text/plain", it.id);
-      });
+      card.appendChild(thumb);
+      card.appendChild(meta);
 
-      shop.appendChild(div);
+      // iPad-friendly drag
+      attachPointerDrag(card, it);
+
+      shop.appendChild(card);
     });
   }
 
   function slotLabel(slot){
-    return ({
-      head:"hode",
-      top:"overdel",
-      bottom:"underdel",
-      feet:"føtter",
-      accessory:"tilbehør",
-      extra:"ekstra"
-    })[slot] || slot;
+    return ({head:"hode", top:"overdel", bottom:"underdel", feet:"føtter"})[slot] || slot;
   }
 
   $("toggleNor").addEventListener("click", () => {
@@ -690,231 +574,212 @@
     renderShop();
   });
 
-  // ---------------- AVATAR STATE ----------------
-  const avatar = {
-    head: null,
-    accessory: null,
-    top: null,
-    bottom: null,
-    feet: null,
-    extra: null,
-    colors: {
-      head:"#7dd3fc",
-      accessory:"#7dd3fc",
-      top:"#7dd3fc",
-      bottom:"#7dd3fc",
-      feet:"#7dd3fc",
-      extra:"#7dd3fc"
-    }
-  };
+  // =========================================================
+  // Touch drag system (pointer events)
+  // =========================================================
+  const ghost = $("dragGhost");
+  let dragging = null; // { item, pointerId }
 
-  function getItemById(id){
-    return ITEMS.find(x => x.id === id) || null;
-  }
+  function attachPointerDrag(card, item){
+    card.addEventListener("pointerdown", (e) => {
+      e.preventDefault();
+      card.setPointerCapture(e.pointerId);
 
-  function renderSlot(slot){
-    const place = $("slot_" + slot);
-    place.innerHTML = "";
-    const itId = avatar[slot];
-    if(!itId){
-      place.innerHTML = `<span class="small">tom</span>`;
-      return;
-    }
-    const it = getItemById(itId);
-    const chip = document.createElement("span");
-    chip.className = "chip";
-    chip.innerHTML = `
-      <span>${it.icon}</span>
-      <span>${it.fr}</span>
-      <span class="swatch" style="background:${avatar.colors[slot]}"></span>
-    `;
-    place.appendChild(chip);
-  }
+      dragging = { item, pointerId: e.pointerId };
 
-  function renderAllSlots(){
-    ["head","accessory","top","bottom","feet","extra"].forEach(renderSlot);
-    // sync color inputs
-    ["head","accessory","top","bottom","feet","extra"].forEach(s => {
-      $("color_"+s).value = avatar.colors[s];
+      // show ghost with sprite thumbnail
+      ghost.style.cssText = ghost.style.cssText + spriteStyle(item.crop, 84);
+      moveGhost(e.clientX, e.clientY);
+      ghost.style.transform = `translate(${e.clientX - 42}px, ${e.clientY - 42}px)`;
+
+      highlightSlotAt(e.clientX, e.clientY);
+    });
+
+    card.addEventListener("pointermove", (e) => {
+      if(!dragging || dragging.pointerId !== e.pointerId) return;
+      moveGhost(e.clientX, e.clientY);
+      highlightSlotAt(e.clientX, e.clientY);
+    });
+
+    card.addEventListener("pointerup", (e) => {
+      if(!dragging || dragging.pointerId !== e.pointerId) return;
+      clearHighlights();
+      const dropSlot = slotFromPoint(e.clientX, e.clientY);
+      finishDrop(dropSlot, dragging.item);
+      dragging = null;
+      hideGhost();
+      try{ card.releasePointerCapture(e.pointerId); }catch(_){}
+    });
+
+    card.addEventListener("pointercancel", () => {
+      dragging = null;
+      clearHighlights();
+      hideGhost();
     });
   }
 
-  function attachSlotDnD(){
-    const slots = document.querySelectorAll(".slot");
-    slots.forEach(slotEl => {
-      slotEl.addEventListener("dragover", (e) => {
-        e.preventDefault();
-        slotEl.classList.add("dropOk");
-      });
-      slotEl.addEventListener("dragleave", () => {
-        slotEl.classList.remove("dropOk");
-        slotEl.classList.remove("dropBad");
-      });
-      slotEl.addEventListener("drop", (e) => {
-        e.preventDefault();
-        slotEl.classList.remove("dropOk");
-        slotEl.classList.remove("dropBad");
-
-        const slot = slotEl.dataset.slot;
-        const itemId = e.dataTransfer.getData("text/plain");
-        const it = getItemById(itemId);
-
-        if(!it){
-          flash(slotEl, false);
-          return;
-        }
-
-        // allow "extra" to accept any item
-        const ok = (slot === "extra") || (it.slot === slot);
-
-        if(ok){
-          avatar[slot] = it.id;
-          renderSlot(slot);
-          flash(slotEl, true);
-          showDragMsg(`✅ Riktig! ${it.fr} hører til på ${slotLabel(slot)}.`, true);
-        }else{
-          flash(slotEl, false);
-          showDragMsg(`❌ Ikke helt: ${it.fr} hører til på ${slotLabel(it.slot)} (ikke ${slotLabel(slot)}).`, false);
-        }
-      });
-    });
+  function moveGhost(x,y){
+    ghost.style.transform = `translate(${x - 42}px, ${y - 42}px)`;
+  }
+  function hideGhost(){
+    ghost.style.transform = `translate(-9999px,-9999px)`;
+    ghost.style.backgroundImage = "";
   }
 
-  function flash(el, ok){
-    el.classList.add(ok ? "dropOk" : "dropBad");
-    setTimeout(() => el.classList.remove("dropOk","dropBad"), 700);
+  function slotFromPoint(x,y){
+    const el = document.elementFromPoint(x,y);
+    if(!el) return null;
+    const slotEl = el.closest?.(".slot");
+    return slotEl ? slotEl.dataset.slot : null;
   }
 
-  function showDragMsg(text, ok){
+  function highlightSlotAt(x,y){
+    clearHighlights();
+    const s = slotFromPoint(x,y);
+    if(s) $("slot_"+s).classList.add("hot");
+  }
+  function clearHighlights(){
+    ["head","top","bottom","feet"].forEach(s => $("slot_"+s).classList.remove("hot"));
+  }
+
+  function finishDrop(slot, item){
     const fb = $("dragFeedback");
     fb.style.display = "block";
-    fb.className = "msg " + (ok ? "good" : "bad");
-    fb.textContent = text;
+
+    if(!slot){
+      fb.className = "msg warn";
+      fb.textContent = "Slipp plagget på en av rutene (hode/overdel/underdel/føtter).";
+      return;
+    }
+
+    if(item.slot !== slot){
+      fb.className = "msg bad";
+      fb.textContent = `❌ ${item.fr} hører til på ${slotLabel(item.slot)} (ikke ${slotLabel(slot)}).`;
+      return;
+    }
+
+    outfit[slot] = item.id;
+    outfitColor[slot] = selectedColor.fr;
+    renderPlaced();
+    fb.className = "msg good";
+    fb.textContent = `✅ Riktig! ${item.fr} plassert på ${slotLabel(slot)}. Farge satt til ${selectedColor.fr}.`;
   }
 
-  // color controls
-  function attachColorControls(){
-    ["head","accessory","top","bottom","feet","extra"].forEach(slot => {
-      $("color_"+slot).addEventListener("input", (e) => {
-        avatar.colors[slot] = e.target.value;
-        renderSlot(slot);
-      });
-      $("clear_"+slot).addEventListener("click", () => {
-        avatar[slot] = null;
-        renderSlot(slot);
-      });
+  // =========================================================
+  // Render placed items in slots
+  // =========================================================
+  function renderPlaced(){
+    ["head","top","bottom","feet"].forEach(slot => {
+      const box = $("placed_"+slot);
+      box.innerHTML = "";
+
+      const id = outfit[slot];
+      if(!id){
+        box.innerHTML = `<span class="small">tom</span>`;
+        return;
+      }
+
+      const it = ITEMS.find(x => x.id === id);
+      const thumb = document.createElement("div");
+      thumb.className = "placedThumb";
+      setSpriteEl(thumb, it.crop, 54);
+
+      const chip = document.createElement("span");
+      chip.className = "chip";
+      chip.innerHTML = `<span>${it.fr}</span><span class="swatch" style="background:${selectedColorHex(outfitColor[slot])}"></span>`;
+
+      box.appendChild(thumb);
+      box.appendChild(chip);
     });
   }
 
-  // check outfit: 5 correct placements (ignores extra)
+  function selectedColorHex(fr){
+    const c = COLORS.find(x => x.fr === fr);
+    return c ? c.hex : "#7dd3fc";
+  }
+
+  // =========================================================
+  // Color buttons
+  // =========================================================
+  function renderColors(){
+    const grid = $("colors");
+    grid.innerHTML = "";
+    COLORS.forEach(c => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "cbtn" + (c.fr === selectedColor.fr ? " selected" : "");
+      btn.innerHTML = `
+        <div class="box" style="background:${c.hex}"></div>
+        <b>${c.fr}</b>
+        <span>${c.no}</span>
+      `;
+      btn.addEventListener("click", () => {
+        selectedColor = c;
+        renderColors();
+        const fb = $("colorFeedback");
+        fb.style.display = "block";
+        fb.className = "msg good";
+        fb.textContent = `Farge valgt: ${c.fr} (${c.no}). Dra et plagg og slipp på riktig plass.`;
+      });
+      grid.appendChild(btn);
+    });
+  }
+
+  // =========================================================
+  // Check outfit
+  // =========================================================
   $("checkOutfit").addEventListener("click", () => {
-    let correct = 0;
-    const slots = ["head","accessory","top","bottom","feet"];
-    slots.forEach(s => {
-      const id = avatar[s];
-      if(!id) return;
-      const it = getItemById(id);
-      if(it && it.slot === s) correct += 1;
-    });
-
-    const fb = $("avatarFeedback");
+    const filled = ["head","top","bottom","feet"].filter(s => outfit[s]).length;
+    const fb = $("outfitFeedback");
     fb.style.display = "block";
 
-    if(correct >= 5){
+    if(filled === 4){
       fb.className = "msg good";
-      fb.innerHTML = `🎉 Du har <b>${correct}/5</b> riktige plasseringer! Nå kan du beskrive outfiten i teksten.`;
-    }else{
+      fb.innerHTML = `🎉 Du har plassert <b>4/4</b> plagg! Nå: lag setninger og skriv teksten.`;
+    } else {
       fb.className = "msg bad";
-      fb.innerHTML = `Du har <b>${correct}/5</b> riktige plasseringer. Prøv å fylle alle 5 (hode/tilbehør/overdel/underdel/føtter).`;
+      fb.innerHTML = `Du har plassert <b>${filled}/4</b>. Fyll alle fire rutene.`;
     }
   });
 
-  // save/load avatar
-  const LS_AVATAR = "vetements_avatar_v1";
-  $("saveAvatar").addEventListener("click", () => {
-    localStorage.setItem(LS_AVATAR, JSON.stringify(avatar));
-    const fb = $("avatarFeedback");
+  // Save/load outfit
+  const LS_OUTFIT = "vetements_outfit_sprite_v1";
+  $("saveOutfit").addEventListener("click", () => {
+    localStorage.setItem(LS_OUTFIT, JSON.stringify({outfit, outfitColor}));
+    const fb = $("outfitFeedback");
     fb.style.display = "block";
     fb.className = "msg good";
     fb.textContent = "✅ Outfit lagret lokalt i nettleseren.";
   });
 
-  $("loadAvatar").addEventListener("click", () => {
+  $("loadOutfit").addEventListener("click", () => {
+    const fb = $("outfitFeedback");
+    fb.style.display = "block";
     try{
-      const raw = localStorage.getItem(LS_AVATAR);
-      if(!raw) throw new Error("no");
+      const raw = localStorage.getItem(LS_OUTFIT);
+      if(!raw) throw new Error("none");
       const obj = JSON.parse(raw);
-      // shallow validate
-      ["head","accessory","top","bottom","feet","extra"].forEach(s => avatar[s] = obj[s] || null);
-      if(obj.colors){
-        ["head","accessory","top","bottom","feet","extra"].forEach(s => {
-          avatar.colors[s] = obj.colors[s] || avatar.colors[s];
-        });
-      }
-      renderAllSlots();
-      const fb = $("avatarFeedback");
-      fb.style.display = "block";
+      Object.assign(outfit, obj.outfit || {});
+      Object.assign(outfitColor, obj.outfitColor || {});
+      renderPlaced();
       fb.className = "msg good";
-      fb.textContent = "✅ Outfit lastet inn!";
+      fb.textContent = "✅ Outfit lastet inn.";
     }catch(e){
-      const fb = $("avatarFeedback");
-      fb.style.display = "block";
       fb.className = "msg bad";
       fb.textContent = "Fant ingen lagret outfit ennå.";
     }
   });
 
-  $("resetAvatar").addEventListener("click", () => {
-    if(!confirm("Nullstill avataren?")) return;
-    ["head","accessory","top","bottom","feet","extra"].forEach(s => avatar[s] = null);
-    renderAllSlots();
-    $("avatarFeedback").style.display = "none";
+  $("resetOutfit").addEventListener("click", () => {
+    if(!confirm("Nullstill outfit?")) return;
+    outfit.head = outfit.top = outfit.bottom = outfit.feet = null;
+    renderPlaced();
+    $("outfitFeedback").style.display = "none";
   });
 
-  // ---------------- COLOR QUIZ ----------------
-  let colorScore = 0;
-  let colorTotal = 0;
-  let currentColor = null;
-
-  function initColorSelect(){
-    const sel = $("colorChoice");
-    sel.innerHTML = "";
-    COLORS.forEach(c => {
-      const opt = document.createElement("option");
-      opt.value = c.fr;
-      opt.textContent = `${c.fr} (${c.no})`;
-      sel.appendChild(opt);
-    });
-  }
-
-  function newColorQuestion(){
-    currentColor = shuffle([...COLORS])[0];
-    $("colorSwatch").style.background = currentColor.hex;
-    $("colorFeedback").style.display = "none";
-  }
-
-  $("newColorQ").addEventListener("click", newColorQuestion);
-
-  $("checkColor").addEventListener("click", () => {
-    const choice = $("colorChoice").value;
-    colorTotal += 1;
-    $("colorTotal").textContent = String(colorTotal);
-
-    const ok = (choice === currentColor.fr);
-    if(ok) colorScore += 1;
-    $("colorScore").textContent = String(colorScore);
-
-    const fb = $("colorFeedback");
-    fb.style.display = "block";
-    fb.className = "msg " + (ok ? "good" : "bad");
-    fb.innerHTML = ok
-      ? `✅ Riktig! Det er <b>${currentColor.fr}</b>.`
-      : `❌ Riktig er <b>${currentColor.fr}</b> (${currentColor.no}).`;
-
-    setTimeout(newColorQuestion, 700);
-  });
-
-  // ---------------- SENTENCE BUILDER (based on avatar) ----------------
+  // =========================================================
+  // Sentence builder
+  // =========================================================
   function initPersons(){
     const sel = $("person");
     sel.innerHTML = "";
@@ -926,47 +791,22 @@
     });
   }
 
-  function avatarLines(){
-    // build lines from filled slots
-    const lines = [];
-    const order = ["head","top","bottom","feet","accessory","extra"];
-    for(const slot of order){
-      const id = avatar[slot];
-      if(!id) continue;
-      const it = getItemById(id);
-      const col = avatar.colors[slot] || "#7dd3fc";
-      const frColor = hexToClosestFrench(col);
-      lines.push({ item: it.fr, color: frColor, slot });
-    }
-    return lines;
-  }
-
   function makeSentence(){
     const who = $("person").value;
-    const style = $("style").value;
-    const lines = avatarLines();
-
-    let sentence = "";
-
-    if(lines.length === 0){
-      sentence = "Je porte des vêtements aujourd’hui.";
-    } else if(style === "porte"){
-      // pick one clothing item (prefer top/bottom/feet)
-      const preferred = lines.find(x => ["top","bottom","feet"].includes(x.slot)) || lines[0];
-      sentence = `${who} porte ${preferred.item} ${preferred.color}.`;
-    } else if(style === "a"){
-      const acc = lines.find(x => ["head","accessory","extra"].includes(x.slot)) || lines[0];
-      sentence = `${who} a ${acc.item} ${acc.color}.`;
-    } else {
-      // aime / n'aime pas
-      const any = lines[0];
-      sentence = `J’aime ${any.item} ${any.color}.`;
-    }
-
+    const slot = $("pickSlot").value;
+    const id = outfit[slot];
     const out = $("sentenceOut");
     out.style.display = "block";
     out.className = "msg";
-    out.textContent = sentence;
+
+    if(!id){
+      out.textContent = `Tips: Dra et plagg til ${slotLabel(slot)} først.`;
+      return;
+    }
+
+    const it = ITEMS.find(x => x.id === id);
+    const col = outfitColor[slot] || selectedColor.fr;
+    out.textContent = `${who} porte ${it.fr} ${col}.`;
   }
 
   $("makeSentence").addEventListener("click", makeSentence);
@@ -984,8 +824,10 @@
     }
   });
 
-  // ---------------- WRITING: SAVE/CHECK ----------------
-  const LS_TEXT = "vetements_text_v2";
+  // =========================================================
+  // Writing save/check
+  // =========================================================
+  const LS_TEXT = "vetements_text_sprite_v1";
 
   $("saveText").addEventListener("click", () => {
     localStorage.setItem(LS_TEXT, $("studentText").value);
@@ -1020,22 +862,21 @@
     fb.style.display = "block";
 
     const frClothes = ITEMS.map(x=>x.fr);
-    const frColors  = COLORS.map(x=>x.fr);
+    const frColors = COLORS.map(x=>x.fr);
 
     const usedClothes = countHits(txt, frClothes);
-    const usedColors  = countHits(txt, frColors);
+    const usedColors = countHits(txt, frColors);
 
-    const okC = usedClothes.length >= 5;
-    const okCol = usedColors.length >= 3;
-
+    const okC = usedClothes.length >= 3;   // med bare 4 plagg i sprite nå: sett 3 som mål
+    const okCol = usedColors.length >= 2;  // og 2 farger
     if(okC && okCol){
       fb.className = "msg good";
       fb.innerHTML = `✅ Bra! Du bruker <b>${usedClothes.length}</b> klesord og <b>${usedColors.length}</b> farger.<br>
         <b>Klær:</b> ${usedClothes.join(", ")}<br>
         <b>Farger:</b> ${usedColors.join(", ")}`;
-    }else{
+    } else {
       fb.className = "msg bad";
-      fb.innerHTML = `❗ Mål: <b>5</b> klesord og <b>3</b> farger.<br>
+      fb.innerHTML = `❗ Mål (foreløpig): <b>3</b> klesord og <b>2</b> farger.<br>
         Du har: <b>${usedClothes.length}</b> klesord og <b>${usedColors.length}</b> farger.<br><br>
         <b>Klær brukt:</b> ${usedClothes.join(", ") || "ingen ennå"}<br>
         <b>Farger brukt:</b> ${usedColors.join(", ") || "ingen ennå"}`;
@@ -1045,23 +886,25 @@
   function loadSaved(){
     const t = localStorage.getItem(LS_TEXT);
     if(t) $("studentText").value = t;
-    // avatar farger default:
-    ["head","accessory","top","bottom","feet","extra"].forEach(s => {
-      $("color_"+s).value = avatar.colors[s];
-    });
   }
 
-  // ---------------- INIT ----------------
+  // =========================================================
+  // INIT
+  // =========================================================
+  renderBase();
+  renderColors();
   renderShop();
-  attachSlotDnD();
-  attachColorControls();
-  renderAllSlots();
-
-  initColorSelect();
-  newColorQuestion();
-
+  renderPlaced();
   initPersons();
   loadSaved();
+
+  // Quick warning if sprite path is not set:
+  if(SPRITE_SRC.includes("SETT-INN-FILNAVN-HER")){
+    const fb = $("dragFeedback");
+    fb.style.display = "block";
+    fb.className = "msg warn";
+    fb.textContent = "Husk å sette riktig filnavn i SPRITE_SRC øverst i koden.";
+  }
 </script>
 </body>
 </html>
