@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Vêtements – iPad & PC</title>
+
   <style>
     :root{
       --bg:#0b1220; --text:#eaf0ff; --muted:#b7c4ff; --accent:#7dd3fc;
@@ -57,7 +58,7 @@
     .item{display:flex; gap:10px; align-items:center; border:1px solid var(--border); border-radius:16px;
       background:rgba(16,26,51,.45); padding:10px; user-select:none; -webkit-user-select:none; touch-action:none;}
     .thumb{width:64px; height:64px; border-radius:14px; border:1px solid rgba(255,255,255,.14);
-      background:rgba(255,255,255,.04); overflow:hidden; flex:0 0 auto; display:flex; align-items:center; justify-content:center; font-size:28px;}
+      background:rgba(255,255,255,.04); overflow:hidden; flex:0 0 auto;}
     .fr{font-weight:900}
     .no{color:var(--muted); font-size:13px}
     .tag{display:inline-block; margin-top:6px; font-size:12px; color:var(--muted); border:1px solid var(--border);
@@ -74,8 +75,8 @@
     .slot{border:1px dashed rgba(255,255,255,.22); border-radius:16px; background:rgba(0,0,0,.10); padding:10px; min-height:94px;}
     .slot strong{font-size:13px}
     .placed{margin-top:6px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
-    .placedThumb{width:54px; height:54px; border-radius:14px; border:1px solid rgba(255,255,255,.14); overflow:hidden; background:rgba(255,255,255,.04);
-      display:flex; align-items:center; justify-content:center; font-size:26px;}
+    .placedThumb{width:54px; height:54px; border-radius:14px; border:1px solid rgba(255,255,255,.14);
+      overflow:hidden; background:rgba(255,255,255,.04);}
     .chip{display:inline-flex; gap:8px; align-items:center; padding:6px 10px; border-radius:999px;
       border:1px solid rgba(255,255,255,.14); background:rgba(255,255,255,.06); font-size:13px; font-weight:800;}
     .swatch{width:14px; height:14px; border-radius:4px; border:1px solid rgba(255,255,255,.25); background:#fff;}
@@ -98,22 +99,27 @@
 
     .hint{padding:10px 12px; border-radius:14px; border:1px dashed rgba(255,255,255,.20); color:var(--muted); background:rgba(255,255,255,.03);}
 
-    .dragGhost{position:fixed; width:84px; height:84px; border-radius:16px; border:1px solid rgba(255,255,255,.20);
-      overflow:hidden; background:rgba(0,0,0,.25); pointer-events:none; z-index:9999; transform:translate(-9999px,-9999px);
-      display:flex; align-items:center; justify-content:center; font-size:34px;}
+    .dragGhost{
+      position:fixed; width:84px; height:84px; border-radius:16px; border:1px solid rgba(255,255,255,.20);
+      overflow:hidden; background:rgba(0,0,0,.25); pointer-events:none; z-index:9999;
+      transform:translate(-9999px,-9999px);
+    }
   </style>
 </head>
+
 <body>
   <header>
     <div class="wrap">
       <div class="topbar">
         <a href="index.html">← Til meny</a>
-        <span class="badge">Salut 9 · Kapittel 4 · Vêtements (PC + iPad)</span>
+        <span class="badge">Salut 9 · Kapittel 4 · Vêtements</span>
       </div>
-      <h1 class="title">👕 Klær og farger (touch + mus)</h1>
-      <p class="subtitle">Dra med finger (iPad) eller mus (PC). Hvis bildet ikke lastes, brukes emoji-fallback.</p>
+
+      <h1 class="title">👕 Klær og farger (PC + iPad)</h1>
+      <p class="subtitle">Dra med mus eller finger. Bildene hentes fra <b>assets/img/vetements/sprite.png</b>.</p>
       <div class="pillrow">
-        <span class="pill"><b>Tips</b> Unngå mellomrom i filnavn (bruk f.eks. <b>sprite.png</b>)</span>
+        <span class="pill"><b>Mål</b> 3 klesord + 2 farger i teksten</span>
+        <span class="pill"><b>Tips</b> Hvis plaggene er feil beskåret, justerer vi “CROPS”.</span>
       </div>
     </div>
   </header>
@@ -123,7 +129,7 @@
       <section class="card">
         <div class="hd">
           <div>
-            <div class="kicker">Plagg</div>
+            <div class="kicker">1) Plagg</div>
             <h2>Dra riktig plagg</h2>
           </div>
           <button class="warn" id="toggleNor">Vis/skjul norsk</button>
@@ -134,15 +140,16 @@
 
           <div class="divider"></div>
 
-          <div class="kicker">Farge</div>
+          <div class="kicker">2) Farger</div>
           <h2 style="margin:6px 0 8px;">Velg farge</h2>
           <div class="colors" id="colors"></div>
           <div class="msg" id="colorFeedback" style="display:none;"></div>
 
           <div class="divider"></div>
 
-          <div class="kicker">Setningsbygger</div>
+          <div class="kicker">3) Setningsbygger</div>
           <h2 style="margin:6px 0 8px;">Lag setning</h2>
+
           <div class="two">
             <div>
               <label class="small" for="person">Person</label>
@@ -158,10 +165,12 @@
               </select>
             </div>
           </div>
+
           <div class="controlsRow">
             <button class="good" id="makeSentence">Lag setning</button>
             <button id="copySentence">Kopier setning</button>
           </div>
+
           <div class="msg" id="sentenceOut" style="display:none;"></div>
         </div>
       </section>
@@ -174,6 +183,7 @@
           </div>
           <button class="primary" id="saveOutfit">Lagre outfit</button>
         </div>
+
         <div class="bd">
           <div class="stage">
             <div class="mannequinArea">
@@ -192,26 +202,30 @@
               <button class="warn" id="loadOutfit">Last inn</button>
               <button class="bad" id="resetOutfit">Nullstill</button>
             </div>
+
             <div class="msg" id="outfitFeedback" style="display:none;"></div>
           </div>
 
           <div class="divider"></div>
 
-          <div class="kicker">Skriveoppgave</div>
+          <div class="kicker">4) Skriveoppgave</div>
           <h2 style="margin:6px 0 8px;">Beskriv antrekket</h2>
           <div class="hint">
             • Aujourd’hui, je porte …<br>
             • Il/Elle porte un/une … + couleur<br>
             • J’aime / Je n’aime pas …
           </div>
+
           <div style="margin-top:10px;">
             <textarea id="studentText" placeholder="Skriv 6–10 setninger..."></textarea>
           </div>
+
           <div class="controlsRow">
             <button class="primary" id="saveText">Lagre tekst</button>
             <button id="copyText">Kopier tekst</button>
             <button id="checkTargets">Sjekk mål</button>
           </div>
+
           <div class="msg" id="textFeedback" style="display:none;"></div>
         </div>
       </aside>
@@ -221,10 +235,10 @@
   <div class="dragGhost" id="dragGhost"></div>
 
 <script>
-  // ✅ Dette er filnavnet ditt akkurat nå:
-  // (Anbefalt: last opp samme bilde som "sprite.png" og bytt denne linja.)
-  const SPRITE_SRC = "assets/img/vetements/ChatGPT Image 21. jan. 2026, 11_30_09.png";
+  // ✅ RIKTIG FILSTI (siden du har sprite.png):
+  const SPRITE_SRC = "assets/img/vetements/sprite.png";
 
+  // Crop: x,y,w,h (0..1). Dette er ca-verdier. Vi kan finjustere etterpå.
   const CROPS = {
     base:      { x:0.03, y:0.05, w:0.28, h:0.88 },
     tshirt:    { x:0.38, y:0.06, w:0.25, h:0.23 },
@@ -234,10 +248,10 @@
   };
 
   const ITEMS = [
-    { id:"tshirt", fr:"un t-shirt", no:"t-skjorte", slot:"top", crop:"tshirt", emoji:"👕" },
-    { id:"pantalon", fr:"un pantalon", no:"bukse", slot:"bottom", crop:"pantalon", emoji:"👖" },
-    { id:"casquette", fr:"une casquette", no:"caps", slot:"head", crop:"casquette", emoji:"🧢" },
-    { id:"chaussures", fr:"des chaussures", no:"sko", slot:"feet", crop:"chaussures", emoji:"👟" }
+    { id:"tshirt", fr:"un t-shirt", no:"t-skjorte", slot:"top", crop:"tshirt" },
+    { id:"pantalon", fr:"un pantalon", no:"bukse", slot:"bottom", crop:"pantalon" },
+    { id:"casquette", fr:"une casquette", no:"caps", slot:"head", crop:"casquette" },
+    { id:"chaussures", fr:"des chaussures", no:"sko", slot:"feet", crop:"chaussures" }
   ];
 
   const COLORS = [
@@ -255,13 +269,24 @@
   ];
 
   const PERSONS = ["Je", "Il", "Elle", "Mon ami", "Mon amie"];
+
   const $ = (id) => document.getElementById(id);
 
-  let spriteOk = false;
+  let showNorwegian = true;
+  let selectedColor = COLORS[2]; // bleu
+
+  const outfit = { head:null, top:null, bottom:null, feet:null };
+  const outfitColor = { head:"bleu", top:"bleu", bottom:"bleu", feet:"bleu" };
+
+  const ghost = $("dragGhost");
+  let dragging = null;
+
+  // Preload sprite to avoid “blank” on some devices
   const spriteImg = new Image();
-  spriteImg.onload = () => { spriteOk = true; init(false); };
-  spriteImg.onerror = () => { spriteOk = false; init(true); };
   spriteImg.src = SPRITE_SRC;
+
+  function slotLabel(s){ return ({head:"hode", top:"overdel", bottom:"underdel", feet:"føtter"})[s] || s; }
+  function selectedColorHex(fr){ const c = COLORS.find(x=>x.fr===fr); return c?c.hex:"#7dd3fc"; }
 
   function spriteStyle(crop, sizePx=64){
     const c = CROPS[crop];
@@ -278,55 +303,11 @@
     `;
   }
   function setSpriteEl(el, crop, sizePx){ el.style.cssText += spriteStyle(crop, sizePx); }
-  function slotLabel(s){ return ({head:"hode", top:"overdel", bottom:"underdel", feet:"føtter"})[s] || s; }
-  function selectedColorHex(fr){ const c = COLORS.find(x=>x.fr===fr); return c?c.hex:"#7dd3fc"; }
-
-  const outfit = { head:null, top:null, bottom:null, feet:null };
-  const outfitColor = { head:"bleu", top:"bleu", bottom:"bleu", feet:"bleu" };
-  let selectedColor = COLORS[2];
-  let showNorwegian = true;
-
-  const ghost = $("dragGhost");
-  let dragging = null;
-
-  function init(showError){
-    renderBase();
-    renderColors();
-    renderShop();
-    renderPlaced();
-    initPersons();
-    loadText();
-
-    if(showError){
-      const fb = $("dragFeedback");
-      fb.style.display = "block";
-      fb.className = "msg warn";
-      fb.innerHTML = `Fant ikke bildet på <b>${SPRITE_SRC}</b>.<br>
-      Sjekk filnavn eller last opp samme bilde som <b>sprite.png</b> (anbefalt).`;
-    }
-
-    $("toggleNor").onclick = () => { showNorwegian = !showNorwegian; renderShop(); };
-    $("checkOutfit").onclick = checkOutfit;
-    $("saveOutfit").onclick = saveOutfit;
-    $("loadOutfit").onclick = loadOutfit;
-    $("resetOutfit").onclick = resetOutfit;
-    $("makeSentence").onclick = makeSentence;
-    $("copySentence").onclick = copySentence;
-    $("saveText").onclick = saveText;
-    $("copyText").onclick = copyText;
-    $("checkTargets").onclick = checkTargets;
-  }
 
   function renderBase(){
     const baseBox = $("baseBox");
     baseBox.textContent = "";
-    if(spriteOk){
-      baseBox.style.cssText = `${spriteStyle("base", 420)} max-width:520px; height:420px; border-radius:18px;`;
-    }else{
-      baseBox.style.cssText = `max-width:520px; height:420px; border-radius:18px; display:flex; align-items:center; justify-content:center;
-        color:rgba(234,240,255,.85); font-weight:900;`;
-      baseBox.textContent = "Manneken (bilde mangler)";
-    }
+    baseBox.style.cssText = `${spriteStyle("base", 420)} max-width:520px; height:420px; border-radius:18px;`;
   }
 
   function renderShop(){
@@ -334,33 +315,75 @@
     ITEMS.forEach(it => {
       const card = document.createElement("div");
       card.className = "item";
+
       const thumb = document.createElement("div");
       thumb.className = "thumb";
-      if(spriteOk){ thumb.style.cssText += spriteStyle(it.crop, 64); thumb.textContent=""; }
-      else { thumb.textContent = it.emoji; }
+      thumb.style.cssText += spriteStyle(it.crop, 64);
 
       const meta = document.createElement("div");
-      meta.innerHTML = `<div class="fr">${it.fr}</div>
+      meta.innerHTML = `
+        <div class="fr">${it.fr}</div>
         <div class="no" style="display:${showNorwegian?'block':'none'}">${it.no}</div>
-        <div class="tag">plass: ${slotLabel(it.slot)}</div>`;
+        <div class="tag">plass: ${slotLabel(it.slot)}</div>
+      `;
 
       card.appendChild(thumb);
       card.appendChild(meta);
+
       attachPointerDrag(card, it);
       shop.appendChild(card);
     });
   }
 
+  function renderColors(){
+    const grid = $("colors"); grid.innerHTML = "";
+    COLORS.forEach(c => {
+      const btn = document.createElement("button");
+      btn.type="button";
+      btn.className = "cbtn" + (c.fr===selectedColor.fr ? " selected" : "");
+      btn.innerHTML = `<div class="box" style="background:${c.hex}"></div><b>${c.fr}</b><span>${c.no}</span>`;
+      btn.onclick = () => {
+        selectedColor = c;
+        renderColors();
+        const fb = $("colorFeedback");
+        fb.style.display="block";
+        fb.className="msg good";
+        fb.textContent=`Farge valgt: ${c.fr} (${c.no}).`;
+      };
+      grid.appendChild(btn);
+    });
+  }
+
+  function renderPlaced(){
+    ["head","top","bottom","feet"].forEach(slot => {
+      const box = $("placed_"+slot);
+      box.innerHTML = "";
+      const id = outfit[slot];
+      if(!id){ box.innerHTML = `<span class="small">tom</span>`; return; }
+
+      const it = ITEMS.find(x=>x.id===id);
+
+      const t = document.createElement("div");
+      t.className = "placedThumb";
+      t.style.cssText += spriteStyle(it.crop, 54);
+
+      const chip = document.createElement("span");
+      chip.className = "chip";
+      chip.innerHTML = `<span>${it.fr}</span><span class="swatch" style="background:${selectedColorHex(outfitColor[slot])}"></span>`;
+
+      box.appendChild(t);
+      box.appendChild(chip);
+    });
+  }
+
+  // Pointer drag (works on iPad + PC)
   function attachPointerDrag(card, item){
     card.addEventListener("pointerdown", (e) => {
       e.preventDefault();
       card.setPointerCapture(e.pointerId);
       dragging = { item, pointerId: e.pointerId };
 
-      ghost.textContent = "";
-      if(spriteOk){ ghost.style.cssText += spriteStyle(item.crop, 84); }
-      else { ghost.textContent = item.emoji; }
-
+      ghost.style.cssText += spriteStyle(item.crop, 84);
       ghost.style.transform = `translate(${e.clientX - 42}px, ${e.clientY - 42}px)`;
       highlightSlotAt(e.clientX, e.clientY);
     });
@@ -416,52 +439,13 @@
       fb.textContent = `❌ ${item.fr} hører til på ${slotLabel(item.slot)}.`;
       return;
     }
+
     outfit[slot] = item.id;
     outfitColor[slot] = selectedColor.fr;
     renderPlaced();
+
     fb.className = "msg good";
     fb.textContent = `✅ ${item.fr} plassert på ${slotLabel(slot)} (${selectedColor.fr}).`;
-  }
-
-  function renderPlaced(){
-    ["head","top","bottom","feet"].forEach(slot => {
-      const box = $("placed_"+slot);
-      box.innerHTML = "";
-      const id = outfit[slot];
-      if(!id){ box.innerHTML = `<span class="small">tom</span>`; return; }
-      const it = ITEMS.find(x=>x.id===id);
-
-      const t = document.createElement("div");
-      t.className = "placedThumb";
-      if(spriteOk){ t.style.cssText += spriteStyle(it.crop, 54); t.textContent=""; }
-      else { t.textContent = it.emoji; }
-
-      const chip = document.createElement("span");
-      chip.className = "chip";
-      chip.innerHTML = `<span>${it.fr}</span><span class="swatch" style="background:${selectedColorHex(outfitColor[slot])}"></span>`;
-
-      box.appendChild(t);
-      box.appendChild(chip);
-    });
-  }
-
-  function renderColors(){
-    const grid = $("colors"); grid.innerHTML = "";
-    COLORS.forEach(c => {
-      const btn = document.createElement("button");
-      btn.type="button";
-      btn.className = "cbtn" + (c.fr===selectedColor.fr ? " selected" : "");
-      btn.innerHTML = `<div class="box" style="background:${c.hex}"></div><b>${c.fr}</b><span>${c.no}</span>`;
-      btn.onclick = () => {
-        selectedColor = c;
-        renderColors();
-        const fb = $("colorFeedback");
-        fb.style.display="block";
-        fb.className="msg good";
-        fb.textContent=`Farge valgt: ${c.fr} (${c.no}).`;
-      };
-      grid.appendChild(btn);
-    });
   }
 
   function initPersons(){
@@ -482,14 +466,14 @@
   }
 
   function saveOutfit(){
-    localStorage.setItem("vetements_outfit_sprite_v1", JSON.stringify({outfit, outfitColor}));
+    localStorage.setItem("vetements_outfit_sprite_v2", JSON.stringify({outfit, outfitColor}));
     const fb = $("outfitFeedback");
     fb.style.display="block"; fb.className="msg good"; fb.textContent="✅ Outfit lagret.";
   }
   function loadOutfit(){
     const fb = $("outfitFeedback"); fb.style.display="block";
     try{
-      const raw = localStorage.getItem("vetements_outfit_sprite_v1");
+      const raw = localStorage.getItem("vetements_outfit_sprite_v2");
       if(!raw) throw new Error("none");
       const obj = JSON.parse(raw);
       Object.assign(outfit, obj.outfit||{});
@@ -513,6 +497,7 @@
     const id = outfit[slot];
     const out = $("sentenceOut");
     out.style.display="block"; out.className="msg";
+
     if(!id){ out.textContent = `Tips: Dra et plagg til ${slotLabel(slot)} først.`; return; }
     const it = ITEMS.find(x=>x.id===id);
     const col = outfitColor[slot] || selectedColor.fr;
@@ -530,11 +515,11 @@
   }
 
   function loadText(){
-    const t = localStorage.getItem("vetements_text_sprite_v1");
+    const t = localStorage.getItem("vetements_text_sprite_v2");
     if(t) $("studentText").value = t;
   }
   function saveText(){
-    localStorage.setItem("vetements_text_sprite_v1", $("studentText").value);
+    localStorage.setItem("vetements_text_sprite_v2", $("studentText").value);
     const fb = $("textFeedback");
     fb.style.display="block"; fb.className="msg good"; fb.textContent="✅ Tekst lagret.";
   }
@@ -555,9 +540,29 @@
     if(usedClothes.length>=3 && usedColors.length>=2){
       fb.className="msg good"; fb.innerHTML=`✅ Bra! Klær: <b>${usedClothes.length}</b>, farger: <b>${usedColors.length}</b>.`;
     }else{
-      fb.className="msg bad"; fb.innerHTML=`❗ Mål nå: 3 klesord + 2 farger. Du har: <b>${usedClothes.length}</b> og <b>${usedColors.length}</b>.`;
+      fb.className="msg bad"; fb.innerHTML=`❗ Mål: 3 klesord + 2 farger. Du har: <b>${usedClothes.length}</b> og <b>${usedColors.length}</b>.`;
     }
   }
+
+  // Wire up UI
+  $("toggleNor").onclick = () => { showNorwegian = !showNorwegian; renderShop(); };
+  $("checkOutfit").onclick = checkOutfit;
+  $("saveOutfit").onclick = saveOutfit;
+  $("loadOutfit").onclick = loadOutfit;
+  $("resetOutfit").onclick = resetOutfit;
+  $("makeSentence").onclick = makeSentence;
+  $("copySentence").onclick = copySentence;
+  $("saveText").onclick = saveText;
+  $("copyText").onclick = copyText;
+  $("checkTargets").onclick = checkTargets;
+
+  // Init
+  renderBase();
+  renderColors();
+  renderShop();
+  renderPlaced();
+  initPersons();
+  loadText();
 </script>
 </body>
 </html>
