@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vær – il fait / il y a / il</title>
+  <style>
+    body{
+      margin:0;
+      font-family:"Segoe UI", Arial, sans-serif;
+      background: linear-gradient(120deg,#f6f9ff,#eef6ff);
+      color:#2c3e50;
+    }
+    header{
+      background: linear-gradient(135deg,#4a90e2,#6fc3df);
+      color:#fff;
+      padding:18px 18px 20px 18px;
+      border-radius:0 0 22px 22px;
+    }
+    header .toprow{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      max-width:980px;
+      margin:0 auto;
+    }
+    header a{
+      color:#fff;
+      text-decoration:none;
+      font-weight:800;
+      background: rgba(255,255,255,0.18);
+      padding:10px 14px;
+      border-radius:999px;
+      display:inline-block;
+    }
+    header h1{
+      margin:0;
+      font-size:1.3rem;
+    }
+    header p{
+      margin:6px 0 0 0;
+      opacity:0.95;
+      font-size:0.98rem;
+      max-width:980px;
+      margin-left:auto;
+      margin-right:auto;
+    }
+
+    .wrap{
+      max-width:980px;
+      margin:0 auto;
+      padding:16px;
+    }
+
+    .card{
+      background:#fff;
+      border-radius:18px;
+      padding:16px;
+      margin:14px 0;
+      box-shadow:0 6px 16px rgba(0,0,0,0.08);
+    }
+
+    .pillrow{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+    .pill{
+      background:#e3f2fd;
+      color:#1565c0;
+      padding:6px 10px;
+      border-radius:999px;
+      font-weight:800;
+      font-size:0.95rem;
+    }
+
+    .grid3{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap:12px;
+      margin-top:12px;
+    }
+    .mini{
+      background:#f7fbff;
+      border-radius:16px;
+      padding:12px;
+      border:1px solid #e6eef7;
+    }
+    .mini h3{
+      margin:0 0 6px 0;
+      font-size:1.05rem;
+    }
+    .ex{
+      margin:8px 0 0 0;
+      padding-left:18px;
+    }
+    .ex li{ margin:4px 0; }
+
+    .gameTop{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-bottom:10px;
+    }
+    .score{
+      font-weight:900;
+      background:#eef3f7;
+      padding:8px 12px;
+      border-radius:999px;
+    }
+    .badge{
+      font-weight:900;
+      padding:8px 12px;
+      border-radius:999px;
+      display:none;
+    }
+    .badge.win{ background:#e8f5e9; color:#1b5e20; border-left:6px solid #43a047; }
+    .badge.try{ background:#fff8e1; color:#6d4c41; border-left:6px solid #f9a825; }
+
+    .items{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap:10px;
+    }
+
+    .item{
+      background:#fff;
+      border:1px solid #e6eef7;
+      border-radius:16px;
+      padding:12px;
+    }
+    .item p{
+      margin:0 0 10px 0;
+      font-weight:800;
+      font-size:1.02rem;
+    }
+    .choices{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    button.choice{
+      border:0;
+      cursor:pointer;
+      border-radius:999px;
+      padding:10px 14px;
+      font-weight:900;
+      background: linear-gradient(135deg,#4a90e2,#6fc3df);
+      color:#fff;
+    }
+    button.choice:hover{ opacity:0.92; }
+
+    .result{
+      margin-top:10px;
+      font-weight:900;
+      padding:10px 12px;
+      border-radius:14px;
+      display:none;
+    }
+    .ok{ background:#e8f5e9; border-left:6px solid #43a047; color:#1b5e20; }
+    .no{ background:#fce4ec; border-left:6px solid #d81b60; color:#880e4f; }
+
+    .controls{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:12px;
+    }
+    .btn{
+      border:0;
+      cursor:pointer;
+      border-radius:999px;
+      padding:10px 14px;
+      font-weight:900;
+      background:#2c3e50;
+      color:#fff;
+    }
+    .btn:hover{ opacity:0.92; }
+
+    textarea{
+      width:100%;
+      min-height:92px;
+      border-radius:14px;
+      border:1px solid #dbe6f2;
+      padding:10px;
+      font-size:1rem;
+      font-family:inherit;
+    }
+    .hint{
+      background:#eef3f7;
+      border-radius:14px;
+      padding:10px 12px;
+      margin-top:10px;
+    }
+    code{
+      background:#f1f3f4;
+      padding:2px 6px;
+      border-radius:6px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="toprow">
+    <h1>☀️ Vær – il fait / il y a / il</h1>
+    <a href="index.html">🏠 Til meny</a>
+  </div>
+  <p>Mål: Kunne velge riktig uttrykk og lage egne setninger om været (kap. 4 – Mes vacances).</p>
+</header>
+
+<div class="wrap">
+
+  <div class="card">
+    <h2>1) Forskjellen (superkort)</h2>
+    <div class="pillrow">
+      <span class="pill">il fait + adjektiv</span>
+      <span class="pill">il y a + substantiv</span>
+      <span class="pill">il + verb</span>
+    </div>
+
+    <div class="grid3">
+      <div class="mini">
+        <h3>✅ il fait …</h3>
+        <p>Brukes ofte med <strong>adjektiv</strong> (varmt, kaldt, fint).</p>
+        <ul class="ex">
+          <li>Il fait beau. (Det er fint vær.)</li>
+          <li>Il fait chaud / froid. (Det er varmt / kaldt.)</li>
+          <li>Il fait mauvais. (Dårlig vær.)</li>
+        </ul>
+      </div>
+
+      <div class="mini">
+        <h3>✅ il y a …</h3>
+        <p>Brukes med <strong>substantiv</strong> (sol, skyer, vind).</p>
+        <ul class="ex">
+          <li>Il y a du soleil. (Det er sol.)</li>
+          <li>Il y a des nuages. (Det er skyer.)</li>
+          <li>Il y a du vent. (Det er vind.)</li>
+        </ul>
+      </div>
+
+      <div class="mini">
+        <h3>✅ il …</h3>
+        <p>Brukes med <strong>verb</strong> (regner, snør).</p>
+        <ul class="ex">
+          <li>Il pleut. (Det regner.)</li>
+          <li>Il neige. (Det snør.)</li>
+          <li>Il grêle. (Det hagler.)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>2) Spill: Velg riktig uttrykk</h2>
+
+    <div class="gameTop">
+      <div class="score">Poeng: <span id="score">0</span> / 6</div>
+      <div class="badge win" id="badgeWin">🎉 TRÈS BIEN ! Du klarte alle!</div>
+      <div class="badge try" id="badgeTry">💡 Fortsett! Du er nesten i mål.</div>
+    </div>
+
+    <p><strong>Oppgave:</strong> Trykk på riktig startuttrykk for setningen.</p>
+
+    <div class="items" id="items"></div>
+
+    <div class="controls">
+      <button class="btn" onclick="resetGame()">Start spillet på nytt</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>3) Minioppgave: Lag egne setninger</h2>
+    <p>Skriv 3–5 setninger om været på ferien din (ekte eller oppdiktet). Bruk minst én av hver:</p>
+    <ul>
+      <li><code>il fait</code></li>
+      <li><code>il y a</code></li>
+      <li><code>il</code></li>
+    </ul>
+
+    <textarea placeholder="Eksempel: Pendant mes vacances, il fait beau. Il y a du soleil. Il pleut parfois…"></textarea>
+
+    <div class="hint">
+      <strong>Tips:</strong> Hvis du vil øke nivået: legg til en nektelse: <code>Il n’y a pas de nuages.</code>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // 6 oppgaver – du kan enkelt endre/legge til senere
+  const tasks = [
+    { tail: "beau.", correct: "il fait" },        // adjektiv
+    { tail: "chaud.", correct: "il fait" },       // adjektiv
+    { tail: "du soleil.", correct: "il y a" },    // substantiv
+    { tail: "des nuages.", correct: "il y a" },   // substantiv
+    { tail: "pleut.", correct: "il" },            // verb
+    { tail: "neige.", correct: "il" }             // verb
+  ];
+
+  const items = document.getElementById("items");
+  const scoreEl = document.getElementById("score");
+  const badgeWin = document.getElementById("badgeWin");
+  const badgeTry = document.getElementById("badgeTry");
+
+  let score = 0;
+  let answered = new Set();
+
+  function render(){
+    items.innerHTML = "";
+    tasks.forEach((t, idx) => {
+      const box = document.createElement("div");
+      box.className = "item";
+
+      const p = document.createElement("p");
+      p.textContent = "___ " + t.tail;
+      box.appendChild(p);
+
+      const choices = document.createElement("div");
+      choices.className = "choices";
+
+      ["il fait", "il y a", "il"].forEach(ch => {
+        const b = document.createElement("button");
+        b.className = "choice";
+        b.textContent = ch;
+        b.onclick = () => choose(idx, ch, box);
+        choices.appendChild(b);
+      });
+
+      const res = document.createElement("div");
+      res.className = "result";
+      box.appendChild(choices);
+      box.appendChild(res);
+
+      items.appendChild(box);
+    });
+
+    updateBadges();
+  }
+
+  function choose(idx, ch, box){
+    if (answered.has(idx)) return;
+
+    const correct = tasks[idx].correct;
+    const res = box.querySelector(".result");
+    res.style.display = "block";
+
+    if (ch === correct){
+      res.className = "result ok";
+      res.textContent = "Riktig ✅  → " + correct + " " + tasks[idx].tail;
+      score++;
+      scoreEl.textContent = score;
+    } else {
+      res.className = "result no";
+      res.textContent = "Ikke helt ❌  Riktig er: " + correct + " " + tasks[idx].tail;
+    }
+
+    answered.add(idx);
+    updateBadges();
+  }
+
+  function updateBadges(){
+    badgeWin.style.display = (score === tasks.length) ? "inline-block" : "none";
+    badgeTry.style.display = (score > 0 && score < tasks.length) ? "inline-block" : "none";
+  }
+
+  function resetGame(){
+    score = 0;
+    answered = new Set();
+    scoreEl.textContent = score;
+    badgeWin.style.display = "none";
+    badgeTry.style.display = "none";
+    render();
+  }
+
+  render();
+</script>
+
+</body>
+</html>
