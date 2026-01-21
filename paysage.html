@@ -115,4 +115,513 @@
     }
     button.warn{
       background: rgba(251,191,36,.15);
-      border-color: rgba(251,191,3
+      border-color: rgba(251,191,36,.35);
+    }
+    .small{
+      font-size:13px;
+      color: var(--muted);
+      margin-top:8px;
+    }
+    .divider{
+      height:1px;
+      background: var(--border);
+      margin:12px 0;
+    }
+    .list{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+    }
+    @media (max-width: 540px){
+      .list{grid-template-columns:1fr}
+    }
+    .term{
+      padding:10px 12px;
+      border:1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(16,26,51,.45);
+      display:flex; justify-content:space-between; gap:10px; align-items:center;
+    }
+    .term .fr{font-weight:800}
+    .term .no{color:var(--muted)}
+    .term button{
+      padding:8px 10px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight:700;
+    }
+    .playbox{
+      border:1px solid var(--border);
+      border-radius: 16px;
+      background: rgba(16,26,51,.35);
+      padding:12px;
+    }
+    .qline{
+      display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;
+      margin-bottom:10px;
+    }
+    .score{
+      font-weight:800;
+      color: var(--accent);
+    }
+    .choices{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+    @media (max-width: 540px){
+      .choices{grid-template-columns:1fr}
+    }
+    .msg{
+      margin-top:10px;
+      padding:10px 12px;
+      border-radius: 14px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.05);
+    }
+    .msg.good{border-color: rgba(52,211,153,.45); background: rgba(52,211,153,.10)}
+    .msg.bad{border-color: rgba(251,113,133,.45); background: rgba(251,113,133,.10)}
+    textarea, input[type="text"]{
+      width:100%;
+      border:1px solid var(--border);
+      background: rgba(16,26,51,.35);
+      color: var(--text);
+      border-radius: 14px;
+      padding:10px 12px;
+      font: inherit;
+      outline:none;
+    }
+    textarea{min-height: 140px; resize: vertical;}
+    .two{
+      display:grid; grid-template-columns: 1fr 1fr; gap:10px;
+    }
+    @media (max-width: 780px){ .two{grid-template-columns:1fr} }
+    .hint{
+      padding:10px 12px;
+      border-radius: 14px;
+      border:1px dashed rgba(255,255,255,.20);
+      color: var(--muted);
+      background: rgba(255,255,255,.03);
+    }
+    .kicker{font-size:12px; text-transform:uppercase; letter-spacing:.12em; color: var(--muted);}
+    footer{padding:18px 16px 28px; color: var(--muted); text-align:center}
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+      padding:2px 6px;
+      border:1px solid var(--border);
+      border-radius: 8px;
+      background: rgba(255,255,255,.05);
+      color: var(--text);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="topbar">
+        <a href="index.html">← Til meny</a>
+        <span class="badge">Salut 9 · Kapittel 4 · Paysage</span>
+      </div>
+      <h1 class="title">Paysage: landskap + gloser</h1>
+      <p class="subtitle">
+        Lær sentrale landskapsord, test deg i et spill, og skriv en liten tekst om ferien din med støtteord og setningsstartere.
+      </p>
+
+      <div class="pillrow">
+        <span class="pill"><b>Læringsmål</b> Jeg kan gjenkjenne og bruke landskapsord på fransk</span>
+        <span class="pill"><b>Læringsmål</b> Jeg kan skrive 6–10 setninger om ferie og sted</span>
+        <span class="pill"><b>Tips</b> Bruk <span class="kbd">copier</span> for å kopiere teksten din</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="grid">
+      <!-- LEFT -->
+      <section class="card">
+        <div class="hd">
+          <div>
+            <div class="kicker">1) Gloser</div>
+            <h2>Ordbank: landskap</h2>
+          </div>
+          <button class="warn" id="toggleAll">Vis/Skjul norsk</button>
+        </div>
+        <div class="bd">
+          <p class="small">
+            Klikk på <b>🔊</b> for å få “lesestemme” (hvis nettleseren støtter det). Du kan også skjule norsk for å øve aktivt.
+          </p>
+
+          <div class="list" id="vocabList"></div>
+
+          <div class="divider"></div>
+
+          <div class="playbox">
+            <div class="kicker">2) Spill</div>
+            <h2 style="margin:6px 0 8px;">Mini-quiz: Hva betyr ordet?</h2>
+
+            <div class="qline">
+              <div id="question" style="font-weight:800;"></div>
+              <div class="score">Poeng: <span id="score">0</span> / <span id="total">0</span></div>
+            </div>
+
+            <div class="choices" id="choices"></div>
+            <div id="feedback" class="msg" style="display:none;"></div>
+
+            <div class="btnrow">
+              <button class="primary" id="newQ">Ny oppgave</button>
+              <button id="resetGame">Nullstill</button>
+            </div>
+
+            <p class="small">
+              Differensiering: Spill på norsk→fransk er enklere. Du kan også dekke til norsk og prøve å forklare med egne ord.
+            </p>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="playbox">
+            <div class="kicker">3) Bygg setning</div>
+            <h2 style="margin:6px 0 8px;">Setningsbygger</h2>
+            <p class="small">Velg elementer og få en ferdig setning du kan lime inn i teksten din.</p>
+
+            <div class="two">
+              <div>
+                <label class="small" for="place">Sted / landskap</label>
+                <select id="place" style="width:100%; padding:10px 12px; border-radius:14px; background:rgba(16,26,51,.35); color:var(--text); border:1px solid var(--border);">
+                </select>
+              </div>
+              <div>
+                <label class="small" for="activity">Hva gjorde du?</label>
+                <select id="activity" style="width:100%; padding:10px 12px; border-radius:14px; background:rgba(16,26,51,.35); color:var(--text); border:1px solid var(--border);">
+                </select>
+              </div>
+            </div>
+
+            <div class="btnrow">
+              <button class="good" id="build">Lag setning</button>
+              <button id="copySentence">Kopier setning</button>
+            </div>
+
+            <div class="msg" id="builtSentence" style="display:none;"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT -->
+      <aside class="card">
+        <div class="hd">
+          <div>
+            <div class="kicker">4) Produksjon</div>
+            <h2>Kreativ skriveoppgave</h2>
+          </div>
+          <button class="primary" id="saveText">Lagre lokalt</button>
+        </div>
+        <div class="bd">
+          <p class="small">
+            Skriv om ferien din: <b>6–10 setninger</b>. Bruk minst <b>5</b> landskapsord fra ordbanken.
+          </p>
+
+          <div class="hint">
+            <b>Støtte (setningsstartere):</b><br>
+            • Pendant les vacances, je suis allé(e) à …<br>
+            • J’ai visité … / J’ai vu …<br>
+            • Il y avait … (beaucoup de …)<br>
+            • C’était … (magnifique / calme / incroyable)<br>
+            • J’ai fait … (une promenade / du vélo / de la natation)<br>
+          </div>
+
+          <div style="margin-top:10px;">
+            <label class="small" for="level">Velg nivå (differensiering)</label>
+            <select id="level" style="width:100%; padding:10px 12px; border-radius:14px; background:rgba(16,26,51,.35); color:var(--text); border:1px solid var(--border);">
+              <option value="easy">Nivå 1: korte setninger + mye støtte</option>
+              <option value="mid" selected>Nivå 2: normaltekst</option>
+              <option value="hard">Nivå 3: mer detalj + variasjon</option>
+            </select>
+          </div>
+
+          <div id="rubric" class="msg" style="margin-top:10px;"></div>
+
+          <div style="margin-top:10px;">
+            <label class="small" for="studentText">Din tekst</label>
+            <textarea id="studentText" placeholder="Skriv her..."></textarea>
+          </div>
+
+          <div class="btnrow">
+            <button id="checkVocab">Sjekk: bruker jeg 5 gloser?</button>
+            <button id="copyText">Kopier tekst</button>
+            <button id="clearText">Tøm</button>
+          </div>
+
+          <div id="textFeedback" class="msg" style="display:none;"></div>
+
+          <p class="small">
+            Obs: “Lagre lokalt” lagrer kun i din egen nettleser på denne enheten (ingen innlogging, ingen deling automatisk).
+          </p>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    Laget for GitHub Pages · Kan utvides med lydfiler og flere oppgaver senere
+  </footer>
+
+<script>
+  // ---------- DATA ----------
+  const VOCAB = [
+    { fr:"la montagne", no:"fjellet" },
+    { fr:"la mer", no:"havet" },
+    { fr:"la plage", no:"stranda" },
+    { fr:"la forêt", no:"skogen" },
+    { fr:"le lac", no:"innsjøen" },
+    { fr:"la rivière", no:"elva" },
+    { fr:"la campagne", no:"landet" },
+    { fr:"la ville", no:"byen" },
+    { fr:"le village", no:"landsbyen" },
+    { fr:"le désert", no:"ørkenen" },
+    { fr:"l’île (f.)", no:"øya" },
+    { fr:"la vallée", no:"dalen" },
+    { fr:"la cascade", no:"fossen" },
+    { fr:"le paysage", no:"landskapet" }
+  ];
+
+  const ACTIVITIES = [
+    "J’ai fait une promenade.",
+    "J’ai fait du vélo.",
+    "J’ai nagé.",
+    "J’ai pris des photos.",
+    "J’ai visité un musée.",
+    "J’ai mangé une glace."
+  ];
+
+  // ---------- HELPERS ----------
+  const $ = (id) => document.getElementById(id);
+  const shuffle = (arr) => arr.map(v => [Math.random(), v]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);
+
+  function speakFR(text){
+    if(!("speechSynthesis" in window)) return;
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "fr-FR";
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(u);
+  }
+
+  // ---------- VOCAB LIST ----------
+  let showNorwegian = true;
+
+  function renderVocab(){
+    const box = $("vocabList");
+    box.innerHTML = "";
+    VOCAB.forEach((t, idx) => {
+      const row = document.createElement("div");
+      row.className = "term";
+
+      const left = document.createElement("div");
+      left.innerHTML = `<div class="fr">${t.fr}</div><div class="no" style="display:${showNorwegian?'block':'none'}">${t.no}</div>`;
+
+      const right = document.createElement("div");
+      const btnSpeak = document.createElement("button");
+      btnSpeak.textContent = "🔊";
+      btnSpeak.title = "Les ordet";
+      btnSpeak.addEventListener("click", () => speakFR(t.fr));
+
+      const btnHide = document.createElement("button");
+      btnHide.textContent = showNorwegian ? "Skjul" : "Vis";
+      btnHide.title = "Vis/skjul norsk";
+      btnHide.addEventListener("click", () => {
+        const noEl = left.querySelector(".no");
+        const isHidden = noEl.style.display === "none";
+        noEl.style.display = isHidden ? "block" : "none";
+      });
+
+      right.appendChild(btnSpeak);
+      right.appendChild(btnHide);
+
+      row.appendChild(left);
+      row.appendChild(right);
+      box.appendChild(row);
+    });
+  }
+
+  $("toggleAll").addEventListener("click", () => {
+    showNorwegian = !showNorwegian;
+    renderVocab();
+  });
+
+  // ---------- QUIZ GAME ----------
+  let score = 0;
+  let total = 0;
+  let current = null;
+
+  function newQuestion(){
+    const pool = shuffle([...VOCAB]);
+    current = pool[0];
+
+    // choose 3 distractors
+    const options = shuffle([current, pool[1], pool[2], pool[3]]).map(x => x.no);
+
+    $("question").textContent = `Hva betyr: ${current.fr} ?`;
+    const choices = $("choices");
+    choices.innerHTML = "";
+    options.forEach(no => {
+      const b = document.createElement("button");
+      b.textContent = no;
+      b.addEventListener("click", () => answer(no));
+      choices.appendChild(b);
+    });
+
+    $("feedback").style.display = "none";
+  }
+
+  function answer(choice){
+    total += 1;
+    $("total").textContent = total;
+
+    const ok = (choice === current.no);
+    if(ok) score += 1;
+    $("score").textContent = score;
+
+    const fb = $("feedback");
+    fb.style.display = "block";
+    fb.className = "msg " + (ok ? "good" : "bad");
+    fb.innerHTML = ok
+      ? `✅ Riktig! <b>${current.fr}</b> = <b>${current.no}</b>.`
+      : `❌ Nesten! <b>${current.fr}</b> betyr <b>${current.no}</b>. Du svarte: <b>${choice}</b>.`;
+
+    // auto next after short pause
+    setTimeout(newQuestion, 650);
+  }
+
+  $("newQ").addEventListener("click", newQuestion);
+  $("resetGame").addEventListener("click", () => {
+    score = 0; total = 0;
+    $("score").textContent = "0";
+    $("total").textContent = "0";
+    newQuestion();
+  });
+
+  // ---------- SENTENCE BUILDER ----------
+  function initBuilder(){
+    const placeSel = $("place");
+    placeSel.innerHTML = "";
+    VOCAB.forEach(v => {
+      const opt = document.createElement("option");
+      opt.value = v.fr;
+      opt.textContent = v.fr;
+      placeSel.appendChild(opt);
+    });
+
+    const actSel = $("activity");
+    actSel.innerHTML = "";
+    ACTIVITIES.forEach(a => {
+      const opt = document.createElement("option");
+      opt.value = a;
+      opt.textContent = a;
+      actSel.appendChild(opt);
+    });
+  }
+
+  $("build").addEventListener("click", () => {
+    const place = $("place").value;
+    const act = $("activity").value;
+
+    const sentence = `Pendant les vacances, j’ai été à/au/à la ${place}. ${act}`;
+    const box = $("builtSentence");
+    box.style.display = "block";
+    box.textContent = sentence;
+  });
+
+  $("copySentence").addEventListener("click", async () => {
+    const box = $("builtSentence");
+    if(box.style.display === "none") return;
+    try{
+      await navigator.clipboard.writeText(box.textContent);
+      box.className = "msg good";
+      box.textContent = "✅ Setningen er kopiert! Lim den inn i teksten din.";
+      setTimeout(()=>{ box.className="msg"; }, 900);
+    }catch(e){
+      alert("Klarte ikke å kopiere. Marker teksten og kopier manuelt.");
+    }
+  });
+
+  // ---------- WRITING / DIFFERENTIATION ----------
+  function renderRubric(){
+    const lvl = $("level").value;
+    const r = $("rubric");
+    if(lvl === "easy"){
+      r.innerHTML = `
+        <b>Nivå 1 – mål:</b>
+        6 korte setninger. Bruk 5 landskapsord.
+        <br>Tips: bruk setningsstarterne og setningsbyggeren.
+      `;
+    } else if(lvl === "mid"){
+      r.innerHTML = `
+        <b>Nivå 2 – mål:</b>
+        6–10 setninger. Bruk 5+ landskapsord.
+        <br>Legg til 2 beskrivelser (c’était…, il y avait…).
+      `;
+    } else {
+      r.innerHTML = `
+        <b>Nivå 3 – mål:</b>
+        10–12 setninger. Varier setningsstart og legg til detaljer.
+        <br>Bruk minst 7 landskapsord + 3 adjektiv (magnifique, calme, incroyable…).
+      `;
+    }
+  }
+
+  $("level").addEventListener("change", renderRubric);
+
+  function loadSavedText(){
+    const saved = localStorage.getItem("paysage_text");
+    if(saved) $("studentText").value = saved;
+  }
+
+  $("saveText").addEventListener("click", () => {
+    localStorage.setItem("paysage_text", $("studentText").value);
+    const fb = $("textFeedback");
+    fb.style.display = "block";
+    fb.className = "msg good";
+    fb.textContent = "✅ Lagret lokalt i nettleseren din.";
+  });
+
+  $("copyText").addEventListener("click", async () => {
+    const txt = $("studentText").value.trim();
+    if(!txt){ alert("Skriv litt tekst først 🙂"); return; }
+    try{
+      await navigator.clipboard.writeText(txt);
+      const fb = $("textFeedback");
+      fb.style.display = "block";
+      fb.className = "msg good";
+      fb.textContent = "✅ Teksten er kopiert. Lim den inn der du skal levere.";
+    }catch(e){
+      alert("Klarte ikke å kopiere. Marker teksten og kopier manuelt.");
+    }
+  });
+
+  $("clearText").addEventListener("click", () => {
+    if(confirm("Vil du tømme teksten?")) $("studentText").value = "";
+  });
+
+  $("checkVocab").addEventListener("click", () => {
+    const txt = $("studentText").value.toLowerCase();
+    const used = VOCAB.filter(v => txt.includes(v.fr.toLowerCase().replace(" (f.)","")));
+    const fb = $("textFeedback");
+    fb.style.display = "block";
+
+    if(used.length >= 5){
+      fb.className = "msg good";
+      fb.innerHTML = `✅ Bra! Du bruker <b>${used.length}</b> landskapsord: <b>${used.map(x=>x.fr).join(", ")}</b>.`;
+    } else {
+      fb.className = "msg bad";
+      fb.innerHTML = `❗ Du bruker bare <b>${used.length}</b> landskapsord.
+      Prøv å legge inn flere fra ordbanken (mål: 5).<br>
+      Du har brukt: <b>${used.map(x=>x.fr).join(", ") || "ingen ennå"}</b>.`;
+    }
+  });
+
+  // ---------- INIT ----------
+  renderVocab();
+  initBuilder();
+  renderRubric();
+  loadSavedText();
+  newQuestion();
+</script>
+</body>
+</html>
