@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Passé composé – avoir</title>
+  <style>
+    body{
+      margin:0;
+      font-family:"Segoe UI", Arial, sans-serif;
+      background: linear-gradient(120deg,#f6f9ff,#eef6ff);
+      color:#2c3e50;
+    }
+    header{
+      background: linear-gradient(135deg,#4a90e2,#6fc3df);
+      color:#fff;
+      padding:18px 18px 20px 18px;
+      border-radius:0 0 22px 22px;
+    }
+    header .toprow{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      max-width:980px;
+      margin:0 auto;
+    }
+    header a{
+      color:#fff;
+      text-decoration:none;
+      font-weight:800;
+      background: rgba(255,255,255,0.18);
+      padding:10px 14px;
+      border-radius:999px;
+      display:inline-block;
+    }
+    header h1{ margin:0; font-size:1.3rem; }
+    header p{
+      margin:6px auto 0 auto;
+      max-width:980px;
+      opacity:0.95;
+      font-size:0.98rem;
+    }
+
+    .wrap{ max-width:980px; margin:0 auto; padding:16px; }
+
+    .card{
+      background:#fff;
+      border-radius:18px;
+      padding:16px;
+      margin:14px 0;
+      box-shadow:0 6px 16px rgba(0,0,0,0.08);
+    }
+
+    .pillrow{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+    .pill{
+      background:#e3f2fd; color:#1565c0;
+      padding:6px 10px; border-radius:999px;
+      font-weight:900; font-size:0.95rem;
+    }
+
+    .grid2{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap:12px;
+      margin-top:12px;
+    }
+    .mini{
+      background:#f7fbff;
+      border-radius:16px;
+      padding:12px;
+      border:1px solid #e6eef7;
+    }
+    .mini h3{ margin:0 0 6px 0; font-size:1.05rem; }
+    ul{ margin:8px 0 0 0; padding-left:18px; }
+    li{ margin:4px 0; }
+
+    code{ background:#f1f3f4; padding:2px 6px; border-radius:6px; }
+
+    .gameTop{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:10px; flex-wrap:wrap; margin-bottom:10px;
+    }
+    .score{
+      font-weight:900; background:#eef3f7; padding:8px 12px; border-radius:999px;
+    }
+    .badge{
+      font-weight:900; padding:8px 12px; border-radius:999px; display:none;
+    }
+    .badge.win{ background:#e8f5e9; color:#1b5e20; border-left:6px solid #43a047; }
+    .badge.try{ background:#fff8e1; color:#6d4c41; border-left:6px solid #f9a825; }
+
+    .task{
+      border:1px solid #e6eef7;
+      border-radius:16px;
+      padding:12px;
+      margin-top:10px;
+      background:#fff;
+    }
+    .taskTitle{
+      font-weight:900;
+      margin:0 0 8px 0;
+    }
+
+    .row{
+      display:flex; flex-wrap:wrap; gap:8px; align-items:center;
+      margin-top:8px;
+    }
+
+    select{
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid #dbe6f2;
+      font-size:1rem;
+      background:#fff;
+    }
+
+    button.action{
+      border:0; cursor:pointer;
+      border-radius:999px;
+      padding:10px 14px;
+      font-weight:900;
+      background: linear-gradient(135deg,#4a90e2,#6fc3df);
+      color:#fff;
+    }
+    button.action:hover{ opacity:0.92; }
+
+    .result{
+      margin-top:10px;
+      font-weight:900;
+      padding:10px 12px;
+      border-radius:14px;
+      display:none;
+    }
+    .ok{ background:#e8f5e9; border-left:6px solid #43a047; color:#1b5e20; }
+    .no{ background:#fce4ec; border-left:6px solid #d81b60; color:#880e4f; }
+
+    .controls{ display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+    .btn{
+      border:0; cursor:pointer;
+      border-radius:999px;
+      padding:10px 14px;
+      font-weight:900;
+      background:#2c3e50;
+      color:#fff;
+    }
+
+    textarea{
+      width:100%;
+      min-height:110px;
+      border-radius:14px;
+      border:1px solid #dbe6f2;
+      padding:10px;
+      font-size:1rem;
+      font-family:inherit;
+    }
+    .hint{
+      background:#eef3f7;
+      border-radius:14px;
+      padding:10px 12px;
+      margin-top:10px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="toprow">
+    <h1>⏳ Passé composé – med avoir</h1>
+    <a href="index.html">🏠 Til meny</a>
+  </div>
+  <p>Mål: Kunne lage fortidssetninger med <strong>avoir</strong> + perfektum partisipp (regelrette -ER/-IR/-RE).</p>
+</header>
+
+<div class="wrap">
+
+  <div class="card">
+    <h2>1) Oppskriften (kort og tydelig)</h2>
+
+    <div class="pillrow">
+      <span class="pill">avoir i presens</span>
+      <span class="pill">+</span>
+      <span class="pill">partisipp</span>
+    </div>
+
+    <div class="grid2">
+      <div class="mini">
+        <h3>Avoir (presens)</h3>
+        <ul>
+          <li>j’ai</li>
+          <li>tu as</li>
+          <li>il/elle/on a</li>
+          <li>nous avons</li>
+          <li>vous avez</li>
+          <li>ils/elles ont</li>
+        </ul>
+      </div>
+
+      <div class="mini">
+        <h3>Partisipp (regelrette)</h3>
+        <ul>
+          <li><strong>-ER</strong> → -é (manger → mangé)</li>
+          <li><strong>-IR</strong> → -i (finir → fini)</li>
+          <li><strong>-RE</strong> → -u (vendre → vendu)</li>
+        </ul>
+        <p style="margin:10px 0 0 0;"><strong>Eksempel:</strong> J’ai <em>mangé</em>.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>2) Spill: Bygg riktig setning</h2>
+
+    <div class="gameTop">
+      <div class="score">Poeng: <span id="score">0</span> / 6</div>
+      <div class="badge win" id="badgeWin">🎉 TRÈS BIEN ! Full pott!</div>
+      <div class="badge try" id="badgeTry">💡 Fortsett! Du er i gang.</div>
+    </div>
+
+    <p><strong>Oppgave:</strong> Velg riktig form av <em>avoir</em> + riktig partisipp.</p>
+
+    <div id="tasks"></div>
+
+    <div class="controls">
+      <button class="btn" onclick="resetGame()">Start spillet på nytt</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>3) Minioppgave: Skriv om ferien din</h2>
+    <p>Skriv 5 setninger i passé composé med <strong>avoir</strong>. Bruk gjerne ord som passer kapittelet (vær, klær, landskap).</p>
+
+    <textarea placeholder="Eksempel:
+Pendant mes vacances, j’ai regardé un film.
+J’ai mangé une glace.
+Nous avons visité une ville.
+Je n’ai pas acheté de souvenirs.
+J’ai parlé français un peu."></textarea>
+
+    <div class="hint">
+      <strong>Bonus:</strong> Bruk nektelse i minst én setning: <code>Je n’ai pas …</code>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Spilloppgaver (6 stk). Du kan endre/legge til senere.
+  // Hver oppgave: subjekt + infinitiv + riktig aux + riktig partisipp
+  const game = [
+    { subj: "Je", aux: "ai", inf: "manger", part: "mangé" },     // -ER
+    { subj: "Tu", aux: "as", inf: "regarder", part: "regardé" }, // -ER
+    { subj: "Il", aux: "a", inf: "visiter", part: "visité" },    // -ER
+    { subj: "Nous", aux: "avons", inf: "finir", part: "fini" },  // -IR
+    { subj: "Vous", aux: "avez", inf: "choisir", part: "choisi" },// -IR
+    { subj: "Ils", aux: "ont", inf: "vendre", part: "vendu" }    // -RE
+  ];
+
+  const auxOptions = ["ai","as","a","avons","avez","ont"];
+  // Vi inkluderer noen "feller" for partisipp for å gjøre det læringsrikt:
+  function partOptions(correct){
+    const base = [
+      correct,
+      correct + "e",     // typisk feil
+      correct.replace(/é$/,"er"), // typisk feil (blander infinitiv)
+      correct.replace(/i$/,"ir"),
+      correct.replace(/u$/,"re")
+    ];
+    // Rydd opp litt: unike, maks 4
+    const uniq = [...new Set(base)].filter(x => x && x.length <= 10);
+    // Velg 4 første
+    return uniq.slice(0,4);
+  }
+
+  const tasksEl = document.getElementById("tasks");
+  const scoreEl = document.getElementById("score");
+  const badgeWin = document.getElementById("badgeWin");
+  const badgeTry = document.getElementById("badgeTry");
+
+  let score = 0;
+  let answered = new Set();
+
+  function render(){
+    tasksEl.innerHTML = "";
+    game.forEach((t, idx) => {
+      const box = document.createElement("div");
+      box.className = "task";
+
+      const title = document.createElement("p");
+      title.className = "taskTitle";
+      title.textContent = `(${idx+1}) ${t.subj} ____ ${t.part} (infinitiv: ${t.inf})`;
+      box.appendChild(title);
+
+      const row = document.createElement("div");
+      row.className = "row";
+
+      const auxSel = document.createElement("select");
+      auxOptions.forEach(o => {
+        const opt = document.createElement("option");
+        opt.value = o;
+        opt.textContent = o;
+        auxSel.appendChild(opt);
+      });
+
+      const partSel = document.createElement("select");
+      partOptions(t.part).forEach(o => {
+        const opt = document.createElement("option");
+        opt.value = o;
+        opt.textContent = o;
+        partSel.appendChild(opt);
+      });
+
+      const checkBtn = document.createElement("button");
+      checkBtn.className = "action";
+      checkBtn.textContent = "Sjekk";
+
+      const res = document.createElement("div");
+      res.className = "result";
+
+      checkBtn.onclick = () => check(idx, auxSel.value, partSel.value, res);
+
+      row.appendChild(document.createTextNode("avoir: "));
+      row.appendChild(auxSel);
+      row.appendChild(document.createTextNode("  partisipp: "));
+      row.appendChild(partSel);
+      row.appendChild(checkBtn);
+
+      box.appendChild(row);
+      box.appendChild(res);
+      tasksEl.appendChild(box);
+    });
+
+    updateBadges();
+  }
+
+  function check(idx, aux, part, res){
+    if (answered.has(idx)) return;
+
+    const t = game[idx];
+    res.style.display = "block";
+
+    if (aux === t.aux && part === t.part){
+      res.className = "result ok";
+      res.textContent = `Riktig ✅ → ${t.subj} ${t.aux} ${t.part}.`;
+      score++;
+      scoreEl.textContent = score;
+    } else {
+      res.className = "result no";
+      res.textContent = `Ikke helt ❌ Riktig er: ${t.subj} ${t.aux} ${t.part}.`;
+    }
+
+    answered.add(idx);
+    updateBadges();
+  }
+
+  function updateBadges(){
+    badgeWin.style.display = (score === game.length) ? "inline-block" : "none";
+    badgeTry.style.display = (score > 0 && score < game.length) ? "inline-block" : "none";
+  }
+
+  function resetGame(){
+    score = 0;
+    answered = new Set();
+    scoreEl.textContent = score;
+    badgeWin.style.display = "none";
+    badgeTry.style.display = "none";
+    render();
+  }
+
+  render();
+</script>
+
+</body>
+</html>
