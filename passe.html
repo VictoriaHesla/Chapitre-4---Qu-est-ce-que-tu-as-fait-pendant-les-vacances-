@@ -1,376 +1,568 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="no">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Passé composé – avoir</title>
-  <style>
-    body{
-      margin:0;
-      font-family:"Segoe UI", Arial, sans-serif;
-      background: linear-gradient(120deg,#f6f9ff,#eef6ff);
-      color:#2c3e50;
-    }
-    header{
-      background: linear-gradient(135deg,#4a90e2,#6fc3df);
-      color:#fff;
-      padding:18px 18px 20px 18px;
-      border-radius:0 0 22px 22px;
-    }
-    header .toprow{
-      display:flex;
-      gap:12px;
-      align-items:center;
-      justify-content:space-between;
-      flex-wrap:wrap;
-      max-width:980px;
-      margin:0 auto;
-    }
-    header a{
-      color:#fff;
-      text-decoration:none;
-      font-weight:800;
-      background: rgba(255,255,255,0.18);
-      padding:10px 14px;
-      border-radius:999px;
-      display:inline-block;
-    }
-    header h1{ margin:0; font-size:1.3rem; }
-    header p{
-      margin:6px auto 0 auto;
-      max-width:980px;
-      opacity:0.95;
-      font-size:0.98rem;
-    }
-
-    .wrap{ max-width:980px; margin:0 auto; padding:16px; }
-
-    .card{
-      background:#fff;
-      border-radius:18px;
-      padding:16px;
-      margin:14px 0;
-      box-shadow:0 6px 16px rgba(0,0,0,0.08);
-    }
-
-    .pillrow{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
-    .pill{
-      background:#e3f2fd; color:#1565c0;
-      padding:6px 10px; border-radius:999px;
-      font-weight:900; font-size:0.95rem;
-    }
-
-    .grid2{
-      display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap:12px;
-      margin-top:12px;
-    }
-    .mini{
-      background:#f7fbff;
-      border-radius:16px;
-      padding:12px;
-      border:1px solid #e6eef7;
-    }
-    .mini h3{ margin:0 0 6px 0; font-size:1.05rem; }
-    ul{ margin:8px 0 0 0; padding-left:18px; }
-    li{ margin:4px 0; }
-
-    code{ background:#f1f3f4; padding:2px 6px; border-radius:6px; }
-
-    .gameTop{
-      display:flex; align-items:center; justify-content:space-between;
-      gap:10px; flex-wrap:wrap; margin-bottom:10px;
-    }
-    .score{
-      font-weight:900; background:#eef3f7; padding:8px 12px; border-radius:999px;
-    }
-    .badge{
-      font-weight:900; padding:8px 12px; border-radius:999px; display:none;
-    }
-    .badge.win{ background:#e8f5e9; color:#1b5e20; border-left:6px solid #43a047; }
-    .badge.try{ background:#fff8e1; color:#6d4c41; border-left:6px solid #f9a825; }
-
-    .task{
-      border:1px solid #e6eef7;
-      border-radius:16px;
-      padding:12px;
-      margin-top:10px;
-      background:#fff;
-    }
-    .taskTitle{
-      font-weight:900;
-      margin:0 0 8px 0;
-    }
-
-    .row{
-      display:flex; flex-wrap:wrap; gap:8px; align-items:center;
-      margin-top:8px;
-    }
-
-    select{
-      padding:10px 12px;
-      border-radius:12px;
-      border:1px solid #dbe6f2;
-      font-size:1rem;
-      background:#fff;
-    }
-
-    button.action{
-      border:0; cursor:pointer;
-      border-radius:999px;
-      padding:10px 14px;
-      font-weight:900;
-      background: linear-gradient(135deg,#4a90e2,#6fc3df);
-      color:#fff;
-    }
-    button.action:hover{ opacity:0.92; }
-
-    .result{
-      margin-top:10px;
-      font-weight:900;
-      padding:10px 12px;
-      border-radius:14px;
-      display:none;
-    }
-    .ok{ background:#e8f5e9; border-left:6px solid #43a047; color:#1b5e20; }
-    .no{ background:#fce4ec; border-left:6px solid #d81b60; color:#880e4f; }
-
-    .controls{ display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
-    .btn{
-      border:0; cursor:pointer;
-      border-radius:999px;
-      padding:10px 14px;
-      font-weight:900;
-      background:#2c3e50;
-      color:#fff;
-    }
-
-    textarea{
-      width:100%;
-      min-height:110px;
-      border-radius:14px;
-      border:1px solid #dbe6f2;
-      padding:10px;
-      font-size:1rem;
-      font-family:inherit;
-    }
-    .hint{
-      background:#eef3f7;
-      border-radius:14px;
-      padding:10px 12px;
-      margin-top:10px;
-    }
-  </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Salut 9 · Kapittel 4 · Passé composé (avoir)</title>
+  <link rel="stylesheet" href="assets/style.css" />
 </head>
 
 <body>
-
-<header>
-  <div class="toprow">
-    <h1>⏳ Passé composé – med avoir</h1>
-    <a href="index.html">🏠 Til meny</a>
-  </div>
-  <p>Mål: Kunne lage fortidssetninger med <strong>avoir</strong> + perfektum partisipp (regelrette -ER/-IR/-RE).</p>
-</header>
-
-<div class="wrap">
-
-  <div class="card">
-    <h2>1) Oppskriften (kort og tydelig)</h2>
-
-    <div class="pillrow">
-      <span class="pill">avoir i presens</span>
-      <span class="pill">+</span>
-      <span class="pill">partisipp</span>
+  <header class="topbar">
+    <div class="brand">
+      Salut 9 <small>Kapittel 4</small>
     </div>
+    <div class="pills">
+      <span class="badge" id="xpBadge">⭐ XP: 0</span>
+      <a class="btn" href="index.html">← Til meny</a>
+    </div>
+  </header>
 
-    <div class="grid2">
-      <div class="mini">
-        <h3>Avoir (presens)</h3>
-        <ul>
-          <li>j’ai</li>
-          <li>tu as</li>
-          <li>il/elle/on a</li>
-          <li>nous avons</li>
-          <li>vous avez</li>
-          <li>ils/elles ont</li>
-        </ul>
+  <main class="container">
+    <section class="hero">
+      <div>
+        <h1>⏱️ Passé composé (avec <i>avoir</i>)</h1>
+        <p>Terp hjelpeverbet <b>avoir</b> + perfektum partisipp (ER/IR/RE).</p>
+      </div>
+      <div style="min-width:260px; width:360px; max-width:100%;">
+        <div class="small" style="display:flex; justify-content:space-between; margin-bottom:6px;">
+          <span>Fremdrift</span><span id="progressText">0%</span>
+        </div>
+        <div class="progress"><div id="progressBar"></div></div>
+        <div class="small" style="margin-top:6px;">Tips: Fullfør oppgavene for å låse opp 🏅</div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>🎯 Mål</h2>
+      <div class="grid">
+        <div class="toast">
+          <b>Jeg kan…</b>
+          <ul class="small" style="margin:8px 0 0; padding-left:18px;">
+            <li>velge riktig form av <b>avoir</b> i presens</li>
+            <li>lage perfektum partisipp av <b>ER/IR/RE</b>-verb</li>
+            <li>skrive setninger i <b>passé composé</b> med <b>avoir</b></li>
+          </ul>
+        </div>
+        <div class="toast">
+          <b>Belønning</b>
+          <p class="small" style="margin:8px 0 0;">
+            Du får XP for riktige treff og fullførte deler.
+            Når du når 100 XP → 🏅 “Passé Pro”.
+          </p>
+        </div>
       </div>
 
-      <div class="mini">
-        <h3>Partisipp (regelrette)</h3>
-        <ul>
-          <li><strong>-ER</strong> → -é (manger → mangé)</li>
-          <li><strong>-IR</strong> → -i (finir → fini)</li>
-          <li><strong>-RE</strong> → -u (vendre → vendu)</li>
-        </ul>
-        <p style="margin:10px 0 0 0;"><strong>Eksempel:</strong> J’ai <em>mangé</em>.</p>
+      <div class="nav">
+        <a class="btn" href="meteo.html">La météo</a>
+        <a class="btn" href="vetements.html">Vêtements</a>
+        <a class="btn" href="negation.html">Négation</a>
+        <a class="btn" href="defi.html">Défi</a>
       </div>
-    </div>
-  </div>
+    </section>
 
-  <div class="card">
-    <h2>2) Spill: Bygg riktig setning</h2>
+    <!-- DEL 1: MODELL -->
+    <section class="card" id="sectionModels">
+      <h2>1) Modell (byggestein)</h2>
+      <div class="grid">
+        <div class="toast">
+          <b>Struktur</b>
+          <p class="small" style="margin:8px 0 0;">
+            <b>Subjekt</b> + <b>avoir</b> (i presens) + <b>participe passé</b>.
+          </p>
+        </div>
+        <div class="toast">
+          <b>Huskeliste</b>
+          <p class="small" style="margin:8px 0 0;">
+            ER → ofte slutter på <b>-é</b><br>
+            IR → ofte slutter på <b>-i</b><br>
+            RE → ofte slutter på <b>-u</b>
+          </p>
+        </div>
+      </div>
+      <p class="small" style="margin-top:10px;">
+        Merk: På denne siden trener vi <b>bare</b> passé composé med <b>avoir</b> (ikke être).
+      </p>
+    </section>
 
-    <div class="gameTop">
-      <div class="score">Poeng: <span id="score">0</span> / 6</div>
-      <div class="badge win" id="badgeWin">🎉 TRÈS BIEN ! Full pott!</div>
-      <div class="badge try" id="badgeTry">💡 Fortsett! Du er i gang.</div>
-    </div>
+    <!-- DEL 2: UTFYLLING -->
+    <section class="card" id="sectionFill">
+      <h2>2) Fyll inn (avoir + perfektum partisipp)</h2>
+      <p class="small">
+        Fyll inn riktig form av <b>avoir</b> og riktig <b>participe passé</b>.
+        (Hint: infinitiv står i parentes.)
+      </p>
 
-    <p><strong>Oppgave:</strong> Velg riktig form av <em>avoir</em> + riktig partisipp.</p>
+      <div id="fillRoot"></div>
 
-    <div id="tasks"></div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+        <button id="saveFill" class="btn btn-success">Lagre lokalt</button>
+        <button id="resetFill" class="btn btn-danger">Nullstill</button>
+      </div>
 
-    <div class="controls">
-      <button class="btn" onclick="resetGame()">Start spillet på nytt</button>
-    </div>
-  </div>
+      <p id="fillTotal" style="margin:10px 0 0; font-weight:800;"></p>
+      <p id="fillSaved" class="small" style="margin:6px 0 0;"></p>
+      <div class="toast" id="fillToast" style="display:none;"></div>
+    </section>
 
-  <div class="card">
-    <h2>3) Minioppgave: Skriv om ferien din</h2>
-    <p>Skriv 5 setninger i passé composé med <strong>avoir</strong>. Bruk gjerne ord som passer kapittelet (vær, klær, landskap).</p>
+    <!-- DEL 3: KONVERTER -->
+    <section class="card" id="sectionConvert">
+      <h2>3) Gjør om (presens → passé composé med avoir)</h2>
+      <p class="small">
+        Skriv hele setningen på nytt i <b>passé composé</b>. (Ikke kopier presens – skriv den om.)
+      </p>
 
-    <textarea placeholder="Eksempel:
-Pendant mes vacances, j’ai regardé un film.
-J’ai mangé une glace.
-Nous avons visité une ville.
-Je n’ai pas acheté de souvenirs.
-J’ai parlé français un peu."></textarea>
+      <div id="convertRoot"></div>
 
-    <div class="hint">
-      <strong>Bonus:</strong> Bruk nektelse i minst én setning: <code>Je n’ai pas …</code>
-    </div>
-  </div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+        <button id="saveConvert" class="btn btn-success">Lagre lokalt</button>
+        <button id="resetConvert" class="btn btn-danger">Nullstill</button>
+      </div>
 
-</div>
+      <p id="convertTotal" style="margin:10px 0 0; font-weight:800;"></p>
+      <p id="convertSaved" class="small" style="margin:6px 0 0;"></p>
+      <div class="toast" id="convertToast" style="display:none;"></div>
+    </section>
+
+    <!-- DEL 4: OVERSSETTELSER -->
+    <section class="card" id="sectionTranslate">
+      <h2>4) Enkle oversettelser (til fransk i passé composé)</h2>
+      <p class="small">
+        Oversett til fransk. Bruk <b>passé composé med avoir</b>.
+      </p>
+
+      <div id="transRoot"></div>
+
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+        <button id="saveTrans" class="btn btn-success">Lagre lokalt</button>
+        <button id="resetTrans" class="btn btn-danger">Nullstill</button>
+      </div>
+
+      <p id="transTotal" style="margin:10px 0 0; font-weight:800;"></p>
+      <p id="transSaved" class="small" style="margin:6px 0 0;"></p>
+      <div class="toast" id="transToast" style="display:none;"></div>
+    </section>
+
+    <section class="card">
+      <h2>🏁 Ferdig?</h2>
+      <p class="small">Når du har gjort alt, gå videre til neste modul.</p>
+      <div class="nav">
+        <a class="btn btn-primary" href="meteo.html">Tilbake: La météo →</a>
+        <a class="btn" href="index.html">Til meny</a>
+      </div>
+    </section>
+  </main>
+
+  <canvas id="confetti" style="position:fixed; inset:0; pointer-events:none; z-index:999;"></canvas>
 
 <script>
-  // Spilloppgaver (6 stk). Du kan endre/legge til senere.
-  // Hver oppgave: subjekt + infinitiv + riktig aux + riktig partisipp
-  const game = [
-    { subj: "Je", aux: "ai", inf: "manger", part: "mangé" },     // -ER
-    { subj: "Tu", aux: "as", inf: "regarder", part: "regardé" }, // -ER
-    { subj: "Il", aux: "a", inf: "visiter", part: "visité" },    // -ER
-    { subj: "Nous", aux: "avons", inf: "finir", part: "fini" },  // -IR
-    { subj: "Vous", aux: "avez", inf: "choisir", part: "choisi" },// -IR
-    { subj: "Ils", aux: "ont", inf: "vendre", part: "vendu" }    // -RE
-  ];
+(() => {
+  // -------------------------
+  // GLOBAL: XP + Progress + Confetti
+  // -------------------------
+  const XP_KEY = "salut9_xp_v1";
+  const DONE_KEY = "passe_avoir_done_v1";
 
-  const auxOptions = ["ai","as","a","avons","avez","ont"];
-  // Vi inkluderer noen "feller" for partisipp for å gjøre det læringsrikt:
-  function partOptions(correct){
-    const base = [
-      correct,
-      correct + "e",     // typisk feil
-      correct.replace(/é$/,"er"), // typisk feil (blander infinitiv)
-      correct.replace(/i$/,"ir"),
-      correct.replace(/u$/,"re")
-    ];
-    // Rydd opp litt: unike, maks 4
-    const uniq = [...new Set(base)].filter(x => x && x.length <= 10);
-    // Velg 4 første
-    return uniq.slice(0,4);
+  const xpBadge = document.getElementById("xpBadge");
+  const progressText = document.getElementById("progressText");
+  const progressBar = document.getElementById("progressBar");
+
+  const confetti = document.getElementById("confetti");
+  const ctx = confetti.getContext("2d");
+  let confettiPieces = [];
+  let confettiRAF = null;
+
+  function resizeConfetti(){
+    confetti.width = Math.floor(window.innerWidth * devicePixelRatio);
+    confetti.height = Math.floor(window.innerHeight * devicePixelRatio);
+  }
+  window.addEventListener("resize", resizeConfetti);
+  resizeConfetti();
+
+  function getXP(){ return Number(localStorage.getItem(XP_KEY) || "0"); }
+  function setXP(v){
+    localStorage.setItem(XP_KEY, String(v));
+    xpBadge.textContent = `⭐ XP: ${v}`;
+    updateProgress();
   }
 
-  const tasksEl = document.getElementById("tasks");
-  const scoreEl = document.getElementById("score");
-  const badgeWin = document.getElementById("badgeWin");
-  const badgeTry = document.getElementById("badgeTry");
-
-  let score = 0;
-  let answered = new Set();
-
-  function render(){
-    tasksEl.innerHTML = "";
-    game.forEach((t, idx) => {
-      const box = document.createElement("div");
-      box.className = "task";
-
-      const title = document.createElement("p");
-      title.className = "taskTitle";
-      title.textContent = `(${idx+1}) ${t.subj} ____ ${t.part} (infinitiv: ${t.inf})`;
-      box.appendChild(title);
-
-      const row = document.createElement("div");
-      row.className = "row";
-
-      const auxSel = document.createElement("select");
-      auxOptions.forEach(o => {
-        const opt = document.createElement("option");
-        opt.value = o;
-        opt.textContent = o;
-        auxSel.appendChild(opt);
-      });
-
-      const partSel = document.createElement("select");
-      partOptions(t.part).forEach(o => {
-        const opt = document.createElement("option");
-        opt.value = o;
-        opt.textContent = o;
-        partSel.appendChild(opt);
-      });
-
-      const checkBtn = document.createElement("button");
-      checkBtn.className = "action";
-      checkBtn.textContent = "Sjekk";
-
-      const res = document.createElement("div");
-      res.className = "result";
-
-      checkBtn.onclick = () => check(idx, auxSel.value, partSel.value, res);
-
-      row.appendChild(document.createTextNode("avoir: "));
-      row.appendChild(auxSel);
-      row.appendChild(document.createTextNode("  partisipp: "));
-      row.appendChild(partSel);
-      row.appendChild(checkBtn);
-
-      box.appendChild(row);
-      box.appendChild(res);
-      tasksEl.appendChild(box);
-    });
-
-    updateBadges();
+  function toast(el, msg){
+    if (!el) return;
+    el.style.display = "block";
+    el.textContent = msg;
+    clearTimeout(el._t);
+    el._t = setTimeout(() => { el.style.display = "none"; }, 1600);
   }
 
-  function check(idx, aux, part, res){
-    if (answered.has(idx)) return;
+  function toastGlobal(msg){
+    // vis en toast i den delen som finnes (fungerer fint på mobil)
+    const el = document.getElementById("fillToast") || document.getElementById("convertToast") || document.getElementById("transToast");
+    toast(el, msg);
+  }
 
-    const t = game[idx];
-    res.style.display = "block";
+  function addXP(delta, reason){
+    const before = getXP();
+    const after = Math.max(0, before + delta);
+    setXP(after);
+    if (delta > 0) toastGlobal(`+${delta} XP ${reason ? "· " + reason : ""}`);
+    if (before < 100 && after >= 100){
+      toastGlobal("🏅 Låst opp: Passé Pro!");
+      burstConfetti();
+    }
+  }
 
-    if (aux === t.aux && part === t.part){
-      res.className = "result ok";
-      res.textContent = `Riktig ✅ → ${t.subj} ${t.aux} ${t.part}.`;
-      score++;
-      scoreEl.textContent = score;
-    } else {
-      res.className = "result no";
-      res.textContent = `Ikke helt ❌ Riktig er: ${t.subj} ${t.aux} ${t.part}.`;
+  function updateProgress(){
+    const done = JSON.parse(localStorage.getItem(DONE_KEY) || "{}");
+    const parts = [!!done.fill, !!done.convert, !!done.translate, true]; // + modell
+    const pct = Math.round((parts.filter(Boolean).length / parts.length) * 100);
+    progressText.textContent = `${pct}%`;
+    progressBar.style.width = `${pct}%`;
+  }
+
+  function markDone(part){
+    const done = JSON.parse(localStorage.getItem(DONE_KEY) || "{}");
+    if (!done[part]){
+      done[part] = true;
+      localStorage.setItem(DONE_KEY, JSON.stringify(done));
+      addXP(10, "Fullført del");
+      if (done.fill && done.convert && done.translate) burstConfetti();
+    }
+    updateProgress();
+  }
+
+  function burstConfetti(){
+    const n = 120;
+    confettiPieces = [];
+    for (let i=0;i<n;i++){
+      confettiPieces.push({
+        x: (Math.random()*window.innerWidth) * devicePixelRatio,
+        y: (-20 - Math.random()*200) * devicePixelRatio,
+        vx: (Math.random()*2-1) * devicePixelRatio * 2.2,
+        vy: (Math.random()*2+2) * devicePixelRatio * 2.6,
+        r: (Math.random()*6+3) * devicePixelRatio,
+        a: Math.random()*Math.PI*2,
+        va: (Math.random()*0.2-0.1),
+        life: 220 + Math.random()*120
+      });
+    }
+    if (!confettiRAF) confettiRAF = requestAnimationFrame(drawConfetti);
+  }
+
+  function drawConfetti(){
+    ctx.clearRect(0,0,confetti.width, confetti.height);
+    ctx.save();
+    ctx.globalAlpha = 0.9;
+
+    for (const p of confettiPieces){
+      p.x += p.vx;
+      p.y += p.vy;
+      p.a += p.va;
+      p.vy += 0.01 * devicePixelRatio; // gravitasjon
+      p.life -= 1;
+
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.a);
+      ctx.fillStyle = `hsl(${Math.floor((p.a*50)%360)}, 90%, 60%)`;
+      ctx.fillRect(-p.r, -p.r/2, p.r*2, p.r);
+      ctx.restore();
     }
 
-    answered.add(idx);
-    updateBadges();
+    ctx.restore();
+    confettiPieces = confettiPieces.filter(p => p.life > 0 && p.y < confetti.height + 50*devicePixelRatio);
+
+    if (confettiPieces.length){
+      confettiRAF = requestAnimationFrame(drawConfetti);
+    } else {
+      cancelAnimationFrame(confettiRAF);
+      confettiRAF = null;
+      ctx.clearRect(0,0,confetti.width, confetti.height);
+    }
   }
 
-  function updateBadges(){
-    badgeWin.style.display = (score === game.length) ? "inline-block" : "none";
-    badgeTry.style.display = (score > 0 && score < game.length) ? "inline-block" : "none";
+  // init badge/progress
+  setXP(getXP());
+  updateProgress();
+
+  // -------------------------
+  // HELPERS: normalisering og “snill” sjekk
+  // -------------------------
+  const norm = (s) => (s || "")
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .replace(/[’']/g, "'")
+    .trim();
+
+  // Tillat småvariasjoner (f.eks. "j'ai" vs "jai" er ikke tillatt — men ekstra mellomrom ok)
+  const eq = (a,b) => norm(a) === norm(b);
+
+  // -------------------------
+  // DEL 2: Fill (avoir + participe passé)
+  // -------------------------
+  const FILL_KEY = "passe_avoir_fill_v1";
+  const fillRoot = document.getElementById("fillRoot");
+  const fillTotal = document.getElementById("fillTotal");
+  const fillSaved = document.getElementById("fillSaved");
+
+  const fillItems = [
+    { left: "Hier, je", hint: "(manger)", right: "une pizza.", a:["ai"], pp:["mangé"] },
+    { left: "Nous", hint: "(finir)", right: "nos devoirs.", a:["avons"], pp:["fini"] },
+    { left: "Tu", hint: "(vendre)", right: "ton vélo.", a:["as"], pp:["vendu"] },
+    { left: "Ils", hint: "(choisir)", right: "un film.", a:["ont"], pp:["choisi"] },
+    { left: "Elle", hint: "(attendre)", right: "le bus.", a:["a"], pp:["attendu"] },
+    { left: "Vous", hint: "(répondre)", right: "à la question.", a:["avez"], pp:["répondu"] },
+    { left: "On", hint: "(regarder)", right: "la télé.", a:["a"], pp:["regardé"] },
+    { left: "J’", hint: "(réussir)", right: "le test.", a:["ai"], pp:["réussi"] },
+  ];
+
+  function renderFill(){
+    const saved = JSON.parse(localStorage.getItem(FILL_KEY) || "{}");
+    fillRoot.innerHTML = "";
+
+    fillItems.forEach((it, i) => {
+      const row = document.createElement("div");
+      row.className = "row";
+      row.style.display = "grid";
+      row.style.gridTemplateColumns = "1fr 110px 140px 1fr";
+      row.style.gap = "10px";
+      row.style.alignItems = "center";
+      row.style.margin = "10px 0";
+
+      const s1 = document.createElement("div");
+      s1.innerHTML = `<span class="small">${it.left}</span>`;
+
+      const inA = document.createElement("input");
+      inA.className = "input";
+      inA.placeholder = "avoir";
+      inA.value = saved[`a_${i}`] || "";
+
+      const inPP = document.createElement("input");
+      inPP.className = "input";
+      inPP.placeholder = "participe";
+      inPP.value = saved[`pp_${i}`] || "";
+
+      const s2 = document.createElement("div");
+      s2.innerHTML = `<span class="small">${it.hint} ${it.right}</span>`;
+
+      // feedback på blur
+      function checkOne(){
+        const okA = it.a.some(ans => eq(inA.value, ans));
+        const okPP = it.pp.some(ans => eq(inPP.value, ans));
+        inA.style.outline = okA ? "2px solid var(--success)" : (norm(inA.value) ? "2px solid var(--danger)" : "");
+        inPP.style.outline = okPP ? "2px solid var(--success)" : (norm(inPP.value) ? "2px solid var(--danger)" : "");
+        if (okA) addXP(1, "avoir");
+        if (okPP) addXP(1, "participe");
+        updateFillScore();
+      }
+      inA.addEventListener("blur", checkOne);
+      inPP.addEventListener("blur", checkOne);
+
+      row.appendChild(s1);
+      row.appendChild(inA);
+      row.appendChild(inPP);
+      row.appendChild(s2);
+      fillRoot.appendChild(row);
+    });
+
+    updateFillScore();
   }
 
-  function resetGame(){
-    score = 0;
-    answered = new Set();
-    scoreEl.textContent = score;
-    badgeWin.style.display = "none";
-    badgeTry.style.display = "none";
-    render();
+  function updateFillScore(){
+    const inputs = [...fillRoot.querySelectorAll("input")];
+    let ok = 0;
+    let total = fillItems.length * 2;
+
+    fillItems.forEach((it, i) => {
+      const inA = inputs[i*2];
+      const inPP = inputs[i*2+1];
+      if (it.a.some(ans => eq(inA.value, ans))) ok++;
+      if (it.pp.some(ans => eq(inPP.value, ans))) ok++;
+    });
+
+    fillTotal.textContent = `Treff: ${ok} / ${total}`;
+    if (ok === total) markDone("fill");
   }
 
-  render();
+  document.getElementById("saveFill").addEventListener("click", () => {
+    const inputs = [...fillRoot.querySelectorAll("input")];
+    const data = {};
+    fillItems.forEach((_, i) => {
+      data[`a_${i}`] = inputs[i*2].value;
+      data[`pp_${i}`] = inputs[i*2+1].value;
+    });
+    localStorage.setItem(FILL_KEY, JSON.stringify(data));
+    fillSaved.textContent = `Lagret: ${new Date().toLocaleString("no-NO")}`;
+    toast(document.getElementById("fillToast"), "✅ Lagret!");
+  });
+
+  document.getElementById("resetFill").addEventListener("click", () => {
+    localStorage.removeItem(FILL_KEY);
+    renderFill();
+    fillSaved.textContent = "";
+    toast(document.getElementById("fillToast"), "🧹 Nullstilt!");
+  });
+
+  // -------------------------
+  // DEL 3: Convert (presens -> passé composé)
+  // -------------------------
+  const CONVERT_KEY = "passe_avoir_convert_v1";
+  const convertRoot = document.getElementById("convertRoot");
+  const convertTotal = document.getElementById("convertTotal");
+  const convertSaved = document.getElementById("convertSaved");
+
+  const convertItems = [
+    { present: "Je mange à la cantine.", answers: ["j'ai mangé à la cantine."] },
+    { present: "Nous finissons le travail.", answers: ["nous avons fini le travail."] },
+    { present: "Tu réponds à la question.", answers: ["tu as répondu à la question."] },
+    { present: "Ils regardent la télé.", answers: ["ils ont regardé la télé."] },
+    { present: "Elle choisit une robe.", answers: ["elle a choisi une robe."] },
+    { present: "Vous vendez des livres.", answers: ["vous avez vendu des livres."] },
+    { present: "On attend le bus.", answers: ["on a attendu le bus."] },
+  ];
+
+  function renderConvert(){
+    const saved = JSON.parse(localStorage.getItem(CONVERT_KEY) || "{}");
+    convertRoot.innerHTML = "";
+
+    convertItems.forEach((it, i) => {
+      const wrap = document.createElement("div");
+      wrap.className = "toast";
+      wrap.style.margin = "10px 0";
+
+      const p = document.createElement("div");
+      p.innerHTML = `<b>${i+1}.</b> <span class="small">${it.present}</span>`;
+
+      const input = document.createElement("input");
+      input.className = "input";
+      input.placeholder = "Skriv setningen i passé composé…";
+      input.value = saved[`c_${i}`] || "";
+      input.style.marginTop = "8px";
+
+      input.addEventListener("blur", () => {
+        const ok = it.answers.some(ans => eq(input.value, ans));
+        input.style.outline = ok ? "2px solid var(--success)" : (norm(input.value) ? "2px solid var(--danger)" : "");
+        if (ok) addXP(3, "konvertering");
+        updateConvertScore();
+      });
+
+      wrap.appendChild(p);
+      wrap.appendChild(input);
+      convertRoot.appendChild(wrap);
+    });
+
+    updateConvertScore();
+  }
+
+  function updateConvertScore(){
+    const inputs = [...convertRoot.querySelectorAll("input")];
+    let ok = 0;
+    convertItems.forEach((it, i) => {
+      if (it.answers.some(ans => eq(inputs[i].value, ans))) ok++;
+    });
+    convertTotal.textContent = `Treff: ${ok} / ${convertItems.length}`;
+    if (ok === convertItems.length) markDone("convert");
+  }
+
+  document.getElementById("saveConvert").addEventListener("click", () => {
+    const inputs = [...convertRoot.querySelectorAll("input")];
+    const data = {};
+    convertItems.forEach((_, i) => data[`c_${i}`] = inputs[i].value);
+    localStorage.setItem(CONVERT_KEY, JSON.stringify(data));
+    convertSaved.textContent = `Lagret: ${new Date().toLocaleString("no-NO")}`;
+    toast(document.getElementById("convertToast"), "✅ Lagret!");
+  });
+
+  document.getElementById("resetConvert").addEventListener("click", () => {
+    localStorage.removeItem(CONVERT_KEY);
+    renderConvert();
+    convertSaved.textContent = "";
+    toast(document.getElementById("convertToast"), "🧹 Nullstilt!");
+  });
+
+  // -------------------------
+  // DEL 4: Translate (NO -> FR, passé composé avec avoir)
+  // -------------------------
+  const TRANS_KEY = "passe_avoir_trans_v1";
+  const transRoot = document.getElementById("transRoot");
+  const transTotal = document.getElementById("transTotal");
+  const transSaved = document.getElementById("transSaved");
+
+  const transItems = [
+    { no: "Jeg spiste frokost.", answers: ["j'ai mangé le petit déjeuner.", "j'ai mangé le petit-déjeuner."] },
+    { no: "Vi solgte huset.", answers: ["nous avons vendu la maison."] },
+    { no: "Hun valgte en bok.", answers: ["elle a choisi un livre."] },
+    { no: "De ventet på læreren.", answers: ["ils ont attendu le professeur.", "ils ont attendu la professeure."] },
+    { no: "Du fullførte oppgaven.", answers: ["tu as fini l'exercice.", "tu as fini le devoir.", "tu as fini le travail."] },
+    { no: "Dere svarte på meldingen.", answers: ["vous avez répondu au message."] },
+  ];
+
+  function renderTrans(){
+    const saved = JSON.parse(localStorage.getItem(TRANS_KEY) || "{}");
+    transRoot.innerHTML = "";
+
+    transItems.forEach((it, i) => {
+      const wrap = document.createElement("div");
+      wrap.className = "toast";
+      wrap.style.margin = "10px 0";
+
+      const p = document.createElement("div");
+      p.innerHTML = `<b>${i+1}.</b> <span class="small">${it.no}</span>`;
+
+      const input = document.createElement("input");
+      input.className = "input";
+      input.placeholder = "Skriv på fransk i passé composé…";
+      input.value = saved[`t_${i}`] || "";
+      input.style.marginTop = "8px";
+
+      input.addEventListener("blur", () => {
+        const ok = it.answers.some(ans => eq(input.value, ans));
+        input.style.outline = ok ? "2px solid var(--success)" : (norm(input.value) ? "2px solid var(--danger)" : "");
+        if (ok) addXP(4, "oversettelse");
+        updateTransScore();
+      });
+
+      wrap.appendChild(p);
+      wrap.appendChild(input);
+      transRoot.appendChild(wrap);
+    });
+
+    updateTransScore();
+  }
+
+  function updateTransScore(){
+    const inputs = [...transRoot.querySelectorAll("input")];
+    let ok = 0;
+    transItems.forEach((it, i) => {
+      if (it.answers.some(ans => eq(inputs[i].value, ans))) ok++;
+    });
+    transTotal.textContent = `Treff: ${ok} / ${transItems.length}`;
+    if (ok === transItems.length) markDone("translate");
+  }
+
+  document.getElementById("saveTrans").addEventListener("click", () => {
+    const inputs = [...transRoot.querySelectorAll("input")];
+    const data = {};
+    transItems.forEach((_, i) => data[`t_${i}`] = inputs[i].value);
+    localStorage.setItem(TRANS_KEY, JSON.stringify(data));
+    transSaved.textContent = `Lagret: ${new Date().toLocaleString("no-NO")}`;
+    toast(document.getElementById("transToast"), "✅ Lagret!");
+  });
+
+  document.getElementById("resetTrans").addEventListener("click", () => {
+    localStorage.removeItem(TRANS_KEY);
+    renderTrans();
+    transSaved.textContent = "";
+    toast(document.getElementById("transToast"), "🧹 Nullstilt!");
+  });
+
+  // -------------------------
+  // START: render alt
+  // -------------------------
+  renderFill();
+  renderConvert();
+  renderTrans();
+
+})();
 </script>
-
 </body>
 </html>
