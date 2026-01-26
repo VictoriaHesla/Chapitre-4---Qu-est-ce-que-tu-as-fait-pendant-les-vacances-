@@ -3,672 +3,458 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>La négation – Salut 9 kap. 4</title>
+  <title>La négation – Chapitre 4</title>
 
   <style>
     :root{
-      --bg:#0b1220;
-      --card:#101a33;
-      --text:#eaf0ff;
-      --muted:#b7c4ff;
-      --accent:#7dd3fc;
-      --good:#34d399;
-      --bad:#fb7185;
-      --warn:#fbbf24;
-      --border:rgba(255,255,255,.12);
+      --bg:#0b1020;
+      --card:#121a33;
+      --card2:#0f1630;
+      --text:#e9ecff;
+      --muted:#b7c0ff;
+      --accent:#8b7bff;
+      --good:#47d18c;
+      --bad:#ff5c7a;
+      --line:rgba(255,255,255,.12);
       --shadow: 0 10px 30px rgba(0,0,0,.35);
-      --radius:18px;
-      --max: 980px;
     }
     *{box-sizing:border-box}
     body{
       margin:0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: radial-gradient(1200px 800px at 20% 10%, rgba(125,211,252,.18), transparent 60%),
-                  radial-gradient(1000px 700px at 80% 0%, rgba(52,211,153,.12), transparent 55%),
-                  var(--bg);
+      background:
+        radial-gradient(1200px 700px at 30% 0%, rgba(139,123,255,.25), transparent 60%),
+        radial-gradient(900px 600px at 80% 20%, rgba(71,209,140,.18), transparent 55%),
+        var(--bg);
       color:var(--text);
-      line-height:1.5;
     }
-    header{padding:28px 16px 14px;}
-    .wrap{max-width:var(--max); margin:0 auto; padding:0 16px 40px;}
+    .container{max-width:980px;margin:0 auto;padding:18px 16px 60px}
+    a{color:inherit;text-decoration:none}
+    h1{margin:18px 0 8px; font-size:2rem}
+    .subtitle{color:var(--muted); margin:0 0 16px}
+
     .topbar{
-      display:flex; gap:12px; align-items:center; justify-content:space-between; flex-wrap:wrap;
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px; padding:10px 12px;
+      border:1px solid var(--line);
+      background:rgba(18,26,51,.7);
+      backdrop-filter: blur(10px);
+      border-radius:16px;
+      box-shadow: var(--shadow);
+      position: sticky; top: 10px; z-index: 20;
     }
-    a{color:var(--accent); text-decoration:none}
-    a:hover{text-decoration:underline}
+    .topbar .left, .topbar .right{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+    .pill{
+      border:1px solid var(--line);
+      background:rgba(15,22,48,.8);
+      padding:6px 10px;
+      border-radius:999px;
+      font-weight:650;
+      display:inline-flex; align-items:center; gap:8px;
+    }
+    .small{font-size:.92rem;color:var(--muted)}
+    .grid{display:grid; gap:14px}
+    .card{
+      background: linear-gradient(180deg, rgba(18,26,51,.95), rgba(15,22,48,.95));
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:14px;
+      box-shadow: var(--shadow);
+    }
+    .card h2{margin:0 0 10px; font-size:1.2rem}
+    hr.sep{border:none;border-top:1px dashed var(--line);margin:14px 0}
+
+    .btn{
+      cursor:pointer;
+      border:none;
+      background: linear-gradient(180deg, rgba(139,123,255,1), rgba(108,94,255,1));
+      color:white;
+      padding:10px 12px;
+      border-radius:12px;
+      font-weight:800;
+    }
+    .btn.secondary{
+      background: rgba(255,255,255,.08);
+      border:1px solid var(--line);
+    }
+    .btn:active{transform: translateY(1px)}
+    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+
     .badge{
       display:inline-flex; align-items:center; gap:8px;
-      padding:6px 10px;
-      border:1px solid var(--border);
-      border-radius:999px;
+      padding:8px 10px;
+      border-radius:14px;
+      border:1px solid var(--line);
       background: rgba(255,255,255,.06);
-      color: var(--muted);
-      font-size: 13px;
-      white-space:nowrap;
     }
-    .title{
-      font-size: clamp(22px, 3.2vw, 34px);
-      margin:10px 0 6px;
-      letter-spacing:.2px;
-    }
-    .subtitle{color:var(--muted); margin:0 0 14px; max-width: 82ch;}
-    .pillrow{display:flex; gap:8px; flex-wrap:wrap}
-    .pill{
-      display:inline-flex; gap:8px; align-items:center;
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid var(--border);
-      background: rgba(16,26,51,.6);
-      font-size: 13px;
-      color: var(--muted);
-    }
-    .pill b{color:var(--text)}
-    .grid{
-      display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap:16px;
-    }
-    @media (max-width: 900px){ .grid{grid-template-columns:1fr} }
-    .card{
-      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
-      border:1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-    .card .hd{
-      padding:16px 16px 0;
-      display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
-    }
-    .card .hd h2{margin:0; font-size:18px;}
-    .card .bd{padding:14px 16px 16px;}
-    .small{font-size:13px; color: var(--muted); margin-top:8px;}
-    .divider{height:1px; background: var(--border); margin:12px 0;}
-    .kicker{font-size:12px; text-transform:uppercase; letter-spacing:.12em; color: var(--muted);}
+    .good{color:var(--good); font-weight:900}
+    .bad{color:var(--bad); font-weight:900}
 
-    button{
-      border:1px solid var(--border);
+    .progressWrap{min-width:210px}
+    .progressLabel{display:flex; justify-content:space-between; font-size:.9rem; color:var(--muted); margin-bottom:6px}
+    .progressBar{
+      height:10px; border-radius:999px; background: rgba(255,255,255,.10);
+      border:1px solid var(--line); overflow:hidden;
+    }
+    .progressFill{height:100%; width:0%; background: linear-gradient(90deg, var(--good), var(--accent))}
+    .feedback{
+      margin-top:10px; padding:10px 12px; border-radius:14px;
+      border:1px solid var(--line);
       background: rgba(255,255,255,.06);
-      color: var(--text);
-      padding:10px 12px;
-      border-radius: 12px;
-      cursor:pointer;
-      font-weight:600;
     }
-    button:hover{background: rgba(255,255,255,.10)}
-    button.primary{
-      background: rgba(125,211,252,.18);
-      border-color: rgba(125,211,252,.35);
-    }
-    button.good{
-      background: rgba(52,211,153,.16);
-      border-color: rgba(52,211,153,.35);
-    }
-    button.warn{
-      background: rgba(251,191,36,.15);
-      border-color: rgba(251,191,36,.35);
-    }
-
-    .playbox{
-      border:1px solid var(--border);
-      border-radius: 16px;
-      background: rgba(16,26,51,.35);
-      padding:12px;
-    }
-    .msg{
-      margin-top:10px;
-      padding:10px 12px;
-      border-radius: 14px;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.05);
-    }
-    .msg.good{border-color: rgba(52,211,153,.45); background: rgba(52,211,153,.10)}
-    .msg.bad{border-color: rgba(251,113,133,.45); background: rgba(251,113,133,.10)}
-
-    .qline{
-      display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;
-      margin-bottom:10px;
-    }
-    .score{font-weight:800; color: var(--accent);}
-
-    input[type="text"], textarea, select{
+    .kbd{font-family: ui-monospace, SFMono-Regular, Menlo, monospace; background:rgba(0,0,0,.25); padding:2px 6px; border-radius:8px; border:1px solid var(--line)}
+    .choice{
       width:100%;
-      border:1px solid var(--border);
-      background: rgba(16,26,51,.35);
-      color: var(--text);
-      border-radius: 14px;
+      text-align:left;
       padding:10px 12px;
-      font: inherit;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      cursor:pointer;
+      font-weight:750;
+    }
+    .choice:hover{background: rgba(255,255,255,.09)}
+    .footerNav{display:flex; justify-content:space-between; gap:10px; margin-top:16px; flex-wrap:wrap}
+
+    .sparkle{
+      display:inline-block;
+      animation: pop .6s ease;
+    }
+    @keyframes pop{
+      0%{transform: scale(.85); opacity:.4}
+      100%{transform: scale(1); opacity:1}
+    }
+    .input{
+      flex:1;min-width:240px;padding:10px 12px;border-radius:12px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.06);
+      color:var(--text);
       outline:none;
     }
-    textarea{min-height: 140px; resize: vertical;}
-    .two{display:grid; grid-template-columns: 1fr 1fr; gap:10px;}
-    @media (max-width: 780px){ .two{grid-template-columns:1fr} }
-
-    .hint{
-      padding:10px 12px;
-      border-radius: 14px;
-      border:1px dashed rgba(255,255,255,.20);
-      color: var(--muted);
-      background: rgba(255,255,255,.03);
-    }
-    .kbd{
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: 12px;
-      padding:2px 6px;
-      border:1px solid var(--border);
-      border-radius: 8px;
-      background: rgba(255,255,255,.05);
-      color: var(--text);
-    }
-    footer{padding:18px 16px 28px; color: var(--muted); text-align:center}
   </style>
 </head>
 
 <body>
-  <header>
-    <div class="wrap">
-      <div class="topbar">
-        <a href="index.html">← Til meny</a>
-        <span class="badge">Salut 9 · Kapittel 4 · La négation</span>
+  <div class="container">
+
+    <!-- TOPPBAR (fremdrift øverst til høyre + XP) -->
+    <div class="topbar">
+      <div class="left">
+        <a class="pill" href="index.html">← Til meny</a>
+        <span class="pill">Salut 9 · Kapittel 4</span>
+        <span class="pill">⭐ XP: <span id="xp">0</span></span>
       </div>
 
-      <h1 class="title">La négation: <span class="kbd">ne … pas</span></h1>
-      <p class="subtitle">
-        Lær å gjøre setninger negative på fransk. Øv med spill, bygg setninger, og skriv en kort tekst.
-      </p>
-
-      <div class="pillrow">
-        <span class="pill"><b>Læringsmål</b> Jeg kan plassere <i>ne</i> og <i>pas</i> rundt verbet</span>
-        <span class="pill"><b>Læringsmål</b> Jeg kan skrive 6–10 negative setninger</span>
-        <span class="pill"><b>Tips</b> Husk: <i>ne</i> + VERB + <i>pas</i></span>
+      <div class="right">
+        <span class="pill" id="badge">🥉 Négation Starter</span>
+        <div class="progressWrap">
+          <div class="progressLabel">
+            <span>Fremdrift</span>
+            <strong id="pct">0%</strong>
+          </div>
+          <div class="progressBar"><div class="progressFill" id="fill"></div></div>
+        </div>
       </div>
     </div>
-  </header>
 
-  <main class="wrap">
+    <h1>🚫 La négation: <span class="kbd">ne</span> … <span class="kbd">pas</span></h1>
+    <p class="subtitle">Svar på oppgaver, samle XP og lås opp badges. 🎁</p>
+
+    <!-- Modulknapper (tilpass hvis du vil) -->
+    <div class="row" style="margin:10px 0 6px;">
+      <a class="pill" href="meteo.html">☀️ Météo</a>
+      <a class="pill" href="passecompose.html">⏳ Passé composé</a>
+      <a class="pill" href="vetements.html">👕 Vêtements</a>
+      <a class="pill" href="defi.html">🏁 Défi</a>
+    </div>
+
     <div class="grid">
-      <!-- LEFT -->
+
       <section class="card">
-        <div class="hd">
-          <div>
-            <div class="kicker">1) Mini-regel</div>
-            <h2>Hvordan lager vi ne…pas?</h2>
-          </div>
+        <h2>1) Mini-regel 🧩</h2>
+        <div class="small">
+          Hovedregel: <span class="kbd">ne</span> + VERB + <span class="kbd">pas</span><br>
+          Passé composé: negasjonen står rundt hjelpeverbet (<span class="kbd">avoir/être</span>)<br>
+          <span class="kbd">n’</span> foran vokal / h: <span class="kbd">je n’ai pas</span>, <span class="kbd">il n’habite pas</span>
+        </div>
+        <hr class="sep">
+        <div class="badge">✅ Eksempel: Je regarde Netflix. → <strong>Je ne regarde pas Netflix.</strong></div>
+        <div class="badge">✅ PC: J’ai visité Paris. → <strong>Je n’ai pas visité Paris.</strong></div>
+      </section>
+
+      <section class="card">
+        <h2>2) Negasjons-quiz 🎯 (12 oppgaver)</h2>
+        <div class="row">
+          <span class="pill">Poeng: <strong id="score">0</strong> / <span id="total">0</span></span>
+          <button class="btn secondary" id="reset">Nullstill</button>
+          <button class="btn" id="next">Ny oppgave ➜</button>
         </div>
 
-        <div class="bd">
-          <div class="hint">
-            <b>Hovedregel:</b> Sett <b>ne</b> foran verbet og <b>pas</b> etter verbet.<br>
-            Eksempel: <i>Je regarde Netflix.</i> → <i>Je <b>ne</b> regarde <b>pas</b> Netflix.</i><br><br>
-
-            <b>Viktig i passé composé:</b> ne … pas rundt <b>hjelpeverbet</b> (avoir/être).<br>
-            Eksempel: <i>J’ai visité Paris.</i> → <i>Je <b>n’</b>ai <b>pas</b> visité Paris.</i><br><br>
-
-            <b>n’</b> brukes foran vokal/h: <i>je n’ai pas</i>, <i>il n’habite pas</i>.
-          </div>
-
-          <div class="divider"></div>
-
-          <div class="playbox">
-            <div class="kicker">2) Spill</div>
-            <h2 style="margin:6px 0 8px;">Negasjons-quiz: velg riktig</h2>
-
-            <div class="qline">
-              <div id="question" style="font-weight:800;"></div>
-              <div class="score">Poeng: <span id="score">0</span> / <span id="total">0</span></div>
-            </div>
-
-            <div id="choices" style="display:grid; grid-template-columns:1fr; gap:10px;"></div>
-            <div id="feedback" class="msg" style="display:none;"></div>
-
-            <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px">
-              <button class="primary" id="newQ">Ny oppgave</button>
-              <button id="resetGame">Nullstill</button>
-            </div>
-
-            <p class="small">
-              Målet er at du “ser mønsteret” automatisk: <b>ne + verb + pas</b> (eller <b>n’</b> + verb + pas).
-            </p>
-          </div>
-
-          <div class="divider"></div>
-
-          <div class="playbox">
-            <div class="kicker">3) Bygg setning</div>
-            <h2 style="margin:6px 0 8px;">Gjør setningen negativ</h2>
-
-            <div class="small">Skriv en positiv setning (fransk), trykk knappen og få en negativ versjon.</div>
-            <input id="posInput" type="text" placeholder="Eks: Je regarde la télé." />
-
-            <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px">
-              <button class="good" id="makeNeg">Lag ne…pas</button>
-              <button id="copyNeg">Kopier</button>
-              <button class="warn" id="examples">Sett inn eksempel</button>
-            </div>
-
-            <div id="negOutput" class="msg" style="display:none;"></div>
-            <div id="builderFeedback" class="msg" style="display:none;"></div>
-
-            <p class="small">
-              Obs: Dette er en “læringshjelper” med enkle regler. Den fungerer best på korte setninger som starter med
-              <i>Je / Tu / Il / Elle / On / Nous / Vous / Ils / Elles</i>.
-            </p>
-          </div>
-
+        <div class="feedback" id="quizBox">
+          <div class="small">Oppgave:</div>
+          <div style="font-size:1.1rem; font-weight:900; margin:6px 0 8px;" id="prompt">—</div>
+          <div class="small" id="question">—</div>
+          <div class="grid" style="margin-top:10px" id="choices"></div>
+          <div class="feedback" id="result" style="margin-top:12px">Svar og få XP! ✨</div>
         </div>
       </section>
 
-      <!-- RIGHT -->
-      <aside class="card">
-        <div class="hd">
-          <div>
-            <div class="kicker">4) Produksjon</div>
-            <h2>Skriveoppgave: Hva gjorde du <i>ikke</i>?</h2>
-          </div>
-          <button class="primary" id="saveText">Lagre lokalt</button>
+      <section class="card">
+        <h2>3) Bygg setning 🛠️</h2>
+        <p class="small">Skriv en kort setning og trykk “Lag ne…pas”. (Dette er en enkel “hjelper”, ikke perfekt grammatikk.)</p>
+        <div class="row">
+          <input id="pos" class="input" placeholder="Ex: Je mange une pizza." />
+          <button class="btn" id="makeNeg">Lag ne…pas ✨</button>
+          <button class="btn secondary" id="example">Sett inn eksempel</button>
         </div>
+        <div class="feedback" id="negOut">Din negasjon dukker opp her 🙂</div>
+      </section>
 
-        <div class="bd">
-          <p class="small">
-            Skriv <b>6–10 setninger</b> der du bruker <b>ne…pas</b>. Minst <b>2</b> setninger i passé composé.
-          </p>
-
-          <div class="hint">
-            <b>Setningsstartere:</b><br>
-            • Pendant les vacances, je n’ai pas …<br>
-            • Je ne suis pas allé(e) à …<br>
-            • Je n’ai pas mangé … / Je n’ai pas visité …<br>
-            • Je ne regarde pas … / Je ne joue pas à …<br><br>
-            <b>Tips:</b> Varier mellom nåtid og passé composé.
-          </div>
-
-          <div style="margin-top:10px;">
-            <label class="small" for="level">Velg nivå (differensiering)</label>
-            <select id="level">
-              <option value="easy">Nivå 1: 6 setninger, mye støtte</option>
-              <option value="mid" selected>Nivå 2: 6–10 setninger</option>
-              <option value="hard">Nivå 3: 10–12 setninger + variasjon</option>
-            </select>
-          </div>
-
-          <div id="rubric" class="msg" style="margin-top:10px;"></div>
-
-          <div style="margin-top:10px;">
-            <label class="small" for="studentText">Din tekst</label>
-            <textarea id="studentText" placeholder="Skriv her..."></textarea>
-          </div>
-
-          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px">
-            <button id="checkNeg">Sjekk: har jeg ne…pas?</button>
-            <button id="copyText">Kopier tekst</button>
-            <button id="clearText">Tøm</button>
-          </div>
-
-          <div id="textFeedback" class="msg" style="display:none;"></div>
-
-          <p class="small">
-            “Lagre lokalt” lagrer bare på denne enheten i nettleseren (ingen innlogging).
-          </p>
+      <section class="card">
+        <h2>4) Bonus-belønning 🎁</h2>
+        <p class="small">Skriv 6–10 setninger: “Hva gjorde du ikke?”. Minst 2 i passé composé.</p>
+        <div class="badge">💡 Start: Pendant les vacances, je n’ai pas … / Je ne suis pas allé(e) à …</div>
+        <div class="badge">🏅 Bonus: 20 XP hvis du skriver 10+ setninger og varierer tid!</div>
+        <div class="row" style="margin-top:10px;">
+          <button class="btn secondary" id="bonus20">Jeg har skrevet 10+ setninger ✅ (+20 XP)</button>
         </div>
-      </aside>
+      </section>
+
     </div>
-  </main>
 
-  <footer>
-    Laget for GitHub Pages · Neste: Défi final (poeng + belønning)
-  </footer>
+    <div class="footerNav">
+      <a class="pill" href="meteo.html">← La météo</a>
+      <a class="pill" href="defi.html">Neste: Défi final →</a>
+    </div>
 
-<script>
-  // ---------- QUIZ DATA ----------
-  // Vi inkluderer både presens og passé composé for å koble til kapitteltemaet.
-  const QUIZ = [
-    {
-      pos: "Je regarde la télé.",
-      correct: "Je ne regarde pas la télé.",
-      wrong: [
-        "Je regarde ne pas la télé.",
-        "Je ne pas regarde la télé."
-      ]
-    },
-    {
-      pos: "Tu manges une glace.",
-      correct: "Tu ne manges pas une glace.",
-      wrong: [
-        "Tu manges ne pas une glace.",
-        "Tu ne pas manges une glace."
-      ]
-    },
-    {
-      pos: "Il habite à Oslo.",
-      correct: "Il n’habite pas à Oslo.",
-      wrong: [
-        "Il ne habite pas à Oslo.",
-        "Il n’habite à Oslo pas."
-      ]
-    },
-    {
-      pos: "Elle aime la musique.",
-      correct: "Elle n’aime pas la musique.",
-      wrong: [
-        "Elle ne aime pas la musique.",
-        "Elle n’aime la musique pas."
-      ]
-    },
-    {
-      pos: "Nous jouons au foot.",
-      correct: "Nous ne jouons pas au foot.",
-      wrong: [
-        "Nous jouons ne pas au foot.",
-        "Nous ne pas jouons au foot."
-      ]
-    },
-    {
-      pos: "Vous parlez français.",
-      correct: "Vous ne parlez pas français.",
-      wrong: [
-        "Vous parlez ne pas français.",
-        "Vous ne pas parlez français."
-      ]
-    },
-    {
-      pos: "J’ai visité Paris.",
-      correct: "Je n’ai pas visité Paris.",
-      wrong: [
-        "Je ne ai pas visité Paris.",
-        "Je n’ai visité pas Paris."
-      ]
-    },
-    {
-      pos: "Tu as mangé une pizza.",
-      correct: "Tu n’as pas mangé une pizza.",
-      wrong: [
-        "Tu ne as pas mangé une pizza.",
-        "Tu n’as mangé pas une pizza."
-      ]
-    },
-    {
-      pos: "Il a regardé un film.",
-      correct: "Il n’a pas regardé un film.",
-      wrong: [
-        "Il ne a pas regardé un film.",
-        "Il n’a regardé pas un film."
-      ]
-    },
-    {
-      pos: "Elle est allée à la plage.",
-      correct: "Elle n’est pas allée à la plage.",
-      wrong: [
-        "Elle ne est pas allée à la plage.",
-        "Elle n’est allée pas à la plage."
-      ]
-    }
-  ];
+  </div>
 
-  // ---------- HELPERS ----------
-  const $ = (id) => document.getElementById(id);
-  const shuffle = (arr) => arr.map(v => [Math.random(), v]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);
-
-  // ---------- QUIZ GAME ----------
-  let score = 0, total = 0, current = null;
-
-  function newQuestion(){
-    current = shuffle([...QUIZ])[0];
-    $("question").textContent = `Gjør setningen negativ: ${current.pos}`;
-
-    const options = shuffle([current.correct, ...current.wrong]);
-    const box = $("choices");
-    box.innerHTML = "";
-
-    options.forEach(opt => {
-      const b = document.createElement("button");
-      b.textContent = opt;
-      b.addEventListener("click", () => answer(opt));
-      box.appendChild(b);
-    });
-
-    $("feedback").style.display = "none";
-  }
-
-  function answer(choice){
-    total += 1;
-    $("total").textContent = total;
-
-    const ok = (choice === current.correct);
-    if(ok) score += 1;
-    $("score").textContent = score;
-
-    const fb = $("feedback");
-    fb.style.display = "block";
-    fb.className = "msg " + (ok ? "good" : "bad");
-    fb.innerHTML = ok
-      ? `✅ Riktig! <b>${current.correct}</b>`
-      : `❌ Ikke helt. Riktig er: <b>${current.correct}</b>`;
-
-    setTimeout(newQuestion, 850);
-  }
-
-  $("newQ").addEventListener("click", newQuestion);
-  $("resetGame").addEventListener("click", () => {
-    score = 0; total = 0;
-    $("score").textContent = "0";
-    $("total").textContent = "0";
-    newQuestion();
-  });
-
-  // ---------- NEGATION BUILDER ----------
-  const EXAMPLES = [
-    "Je regarde Netflix.",
-    "Tu joues au foot.",
-    "Il habite à Lille.",
-    "Elle aime le chocolat.",
-    "Nous parlons français.",
-    "Vous écoutez la musique.",
-    "J’ai visité Paris.",
-    "Tu as mangé une glace.",
-    "Il a regardé un film.",
-    "Elle est allée à la mer."
-  ];
-
-  function startsWithVowelOrH(word){
-    return /^[aeiouhâàéèêëîïôöùûü]/i.test(word);
-  }
-
-  // Enkle regler:
-  // - Hvis setningen har "ai/as/a/avons/avez/ont" => ne ... pas rundt hjelpeverbet
-  // - Hvis setningen har "suis/es/est/sommes/êtes/sont" og også et perfektum partisipp (slutter ofte på é/ie/i/u/it/rt) => ne ... pas rundt hjelpeverbet
-  // - Ellers: ne før første verb etter subjekt (forenklet ved å plassere etter første ord)
-  function makeNegation(sentence){
-    let s = sentence.trim();
-    if(!s) return { ok:false, out:"", note:"Skriv en setning først." };
-
-    // behold punktum hvis finnes
-    const hasDot = /[.!?]$/.test(s);
-    const endPunct = hasDot ? s.slice(-1) : ".";
-    s = s.replace(/[.!?]$/, "");
-
-    const tokens = s.split(/\s+/);
-    if(tokens.length < 2){
-      return { ok:false, out:"", note:"Setningen er litt for kort. Prøv f.eks. «Je regarde la télé.»" };
-    }
-
-    // Subjekt = første token (Je/Tu/Il/Elle/On/Nous/Vous/Ils/Elles/Mon/Ma etc.)
-    const subject = tokens[0];
-    const rest = tokens.slice(1);
-
-    // hjelpeverb-lister
-    const avoir = ["ai","as","a","avons","avez","ont"];
-    const etre  = ["suis","es","est","sommes","êtes","sont"];
-
-    const firstVerb = rest[0] || "";
-    const firstVerbClean = firstVerb.toLowerCase().replace(/[’']/g,"'");
-
-    let negStarter = "ne";
-    // n' hvis verb starter med vokal/h
-    const apostrophe = startsWithVowelOrH(firstVerbClean);
-    negStarter = apostrophe ? "n’" : "ne";
-
-    // hvis hjelpeverb: ne/n' + hjelpeverb + pas + resten
-    const verbLower = firstVerbClean.replace(/^j'/,"").replace(/^n'/,"");
-    const isAvoir = avoir.includes(verbLower);
-    const isEtre = etre.includes(verbLower);
-
-    if(isAvoir || isEtre){
-      const out = `${subject} ${negStarter}${rest[0]} pas ${rest.slice(1).join(" ")}${endPunct}`.replace(/\s+/g," ").trim();
-      return { ok:true, out, note:"Tipset: I passé composé setter vi ne…pas rundt hjelpeverbet (avoir/être)." };
-    }
-
-    // ellers: subjekt + ne/n' + verb + pas + resten
-    const out = `${subject} ${negStarter} ${rest[0]} pas ${rest.slice(1).join(" ")}${endPunct}`.replace(/\s+/g," ").trim();
-    return { ok:true, out, note:"Husk mønsteret: ne + verb + pas (n’ før vokal/h)." };
-  }
-
-  $("makeNeg").addEventListener("click", () => {
-    const inp = $("posInput").value;
-    const res = makeNegation(inp);
-
-    const out = $("negOutput");
-    const fb  = $("builderFeedback");
-
-    if(!res.ok){
-      out.style.display = "none";
-      fb.style.display = "block";
-      fb.className = "msg bad";
-      fb.textContent = res.note;
-      return;
-    }
-
-    out.style.display = "block";
-    out.className = "msg";
-    out.textContent = res.out;
-
-    fb.style.display = "block";
-    fb.className = "msg good";
-    fb.textContent = res.note;
-  });
-
-  $("copyNeg").addEventListener("click", async () => {
-    const out = $("negOutput");
-    if(out.style.display === "none") return;
-    try{
-      await navigator.clipboard.writeText(out.textContent);
-      out.className = "msg good";
-      out.textContent = "✅ Kopiert! Lim inn i teksten din.";
-      setTimeout(()=>{ out.className="msg"; }, 900);
-    }catch(e){
-      alert("Klarte ikke å kopiere. Marker teksten og kopier manuelt.");
-    }
-  });
-
-  $("examples").addEventListener("click", () => {
-    const ex = shuffle([...EXAMPLES])[0];
-    $("posInput").value = ex;
-    $("builderFeedback").style.display = "block";
-    $("builderFeedback").className = "msg";
-    $("builderFeedback").textContent = "Eksempel satt inn. Trykk «Lag ne…pas» 🙂";
-  });
-
-  // ---------- WRITING / DIFFERENTIATION ----------
-  function renderRubric(){
-    const lvl = $("level").value;
-    const r = $("rubric");
-    if(lvl === "easy"){
-      r.innerHTML = `
-        <b>Nivå 1 – mål:</b> 6 setninger med <b>ne…pas</b>.
-        <br>Minst 1 i passé composé.
-        <br>Bruk setningsstarterne.
-      `;
-    } else if(lvl === "mid"){
-      r.innerHTML = `
-        <b>Nivå 2 – mål:</b> 6–10 setninger med <b>ne…pas</b>.
-        <br>Minst 2 i passé composé.
-        <br>Varier subjekt (je/tu/il/elle/nous…).
-      `;
-    } else {
-      r.innerHTML = `
-        <b>Nivå 3 – mål:</b> 10–12 setninger med <b>ne…pas</b>.
-        <br>Minst 3 i passé composé + 2 i presens.
-        <br>Legg til detaljer (tid/sted/aktivitet).
-      `;
-    }
-  }
-  $("level").addEventListener("change", renderRubric);
-
-  function loadSavedText(){
-    const saved = localStorage.getItem("negation_text");
-    if(saved) $("studentText").value = saved;
-  }
-
-  $("saveText").addEventListener("click", () => {
-    localStorage.setItem("negation_text", $("studentText").value);
-    const fb = $("textFeedback");
-    fb.style.display = "block";
-    fb.className = "msg good";
-    fb.textContent = "✅ Lagret lokalt i nettleseren din.";
-  });
-
-  $("copyText").addEventListener("click", async () => {
-    const txt = $("studentText").value.trim();
-    if(!txt){ alert("Skriv litt tekst først 🙂"); return; }
-    try{
-      await navigator.clipboard.writeText(txt);
-      const fb = $("textFeedback");
-      fb.style.display = "block";
-      fb.className = "msg good";
-      fb.textContent = "✅ Teksten er kopiert. Lim den inn der du skal levere.";
-    }catch(e){
-      alert("Klarte ikke å kopiere. Marker teksten og kopier manuelt.");
-    }
-  });
-
-  $("clearText").addEventListener("click", () => {
-    if(confirm("Vil du tømme teksten?")) $("studentText").value = "";
-  });
-
-  $("checkNeg").addEventListener("click", () => {
-    const txt = $("studentText").value;
-    const fb = $("textFeedback");
-    fb.style.display = "block";
-
-    // enkel sjekk: teller " ne " og " pas " / "n’" og "pas"
-    const lower = txt.toLowerCase().replace(/n’/g,"n'");
-    const neCount = (lower.match(/\bne\b/g) || []).length + (lower.match(/\bn'\b/g) || []).length;
-    const pasCount = (lower.match(/\bpas\b/g) || []).length;
-
-    // sjekk ca. 2 passé composé: "n'ai pas", "n'as pas", "n'a pas", "n'est pas", "ne ... pas" + hjelpeverb
-    const pcCount =
-      (lower.match(/n'\s*ai\s*pas/g) || []).length +
-      (lower.match(/n'\s*as\s*pas/g) || []).length +
-      (lower.match(/n'\s*a\s*pas/g) || []).length +
-      (lower.match(/n'\s*est\s*pas/g) || []).length +
-      (lower.match(/\bne\s+ai\s+pas/g) || []).length +
-      (lower.match(/\bne\s+as\s+pas/g) || []).length +
-      (lower.match(/\bne\s+a\s+pas/g) || []).length +
-      (lower.match(/\bne\s+est\s+pas/g) || []).length +
-      (lower.match(/\bne\s+suis\s+pas/g) || []).length;
-
-    if(neCount >= 2 && pasCount >= 2){
-      fb.className = "msg good";
-      fb.innerHTML = `✅ Du bruker ne…pas (fant <b>${neCount}</b> “ne/n’” og <b>${pasCount}</b> “pas”).<br>
-      Passé composé-negasjoner (ca.): <b>${pcCount}</b> (mål: minst 2).`;
-      if(pcCount < 2){
-        fb.className = "msg bad";
-        fb.innerHTML = `✅ Du bruker ne…pas (fant <b>${neCount}</b> og <b>${pasCount}</b>), men du trenger flere i passé composé.<br>
-        Passé composé-negasjoner (ca.): <b>${pcCount}</b> (mål: minst 2).<br>
-        Tips: bruk «Je n’ai pas… / Tu n’as pas… / Il n’a pas… / Elle n’est pas allée…»`;
+  <script>
+    // ---------- LAGRING (XP + fremdrift) ----------
+    const LS_KEY = "chap4_progress_v1";
+    function loadState(){
+      try{
+        return JSON.parse(localStorage.getItem(LS_KEY)) || { xp:0, done:{} };
+      }catch(e){
+        return { xp:0, done:{} };
       }
-    } else {
-      fb.className = "msg bad";
-      fb.innerHTML = `❗ Jeg finner lite ne…pas i teksten din (fant <b>${neCount}</b> “ne/n’” og <b>${pasCount}</b> “pas”).<br>
-      Tips: skriv flere negative setninger, f.eks. «Je n’ai pas…» eller «Je ne regarde pas…».`;
     }
-  });
+    function saveState(s){ localStorage.setItem(LS_KEY, JSON.stringify(s)); }
+    function addXP(amount){
+      state.xp = Math.max(0, (state.xp||0) + amount);
+      saveState(state);
+      renderHeader();
+    }
+    function markDone(id){
+      state.done = state.done || {};
+      state.done[id] = true;
+      saveState(state);
+      renderHeader();
+    }
+    function calcProgress(ids){
+      const done = state.done || {};
+      const total = ids.length;
+      const doneCount = ids.filter(id => done[id]).length;
+      const pct = total ? Math.round((doneCount/total)*100) : 0;
+      return { pct, doneCount, total };
+    }
 
-  // ---------- INIT ----------
-  renderRubric();
-  loadSavedText();
-  newQuestion();
-</script>
+    // ---------- OPPGAVER (minst 10) ----------
+    const QUIZ = [
+      { prompt:"🎬 Je regarde Netflix.", question:"Velg riktig negasjon:", choices:[
+        "Je ne regarde pas Netflix.", "Je n’ regarde pas Netflix.", "Je ne pas regarde Netflix."
+      ], answer:0 },
+
+      { prompt:"🍕 Je mange une pizza.", question:"Velg riktig negasjon:", choices:[
+        "Je ne mange pas une pizza.", "Je ne pas mange une pizza.", "Je n’ mange pas une pizza."
+      ], answer:0 },
+
+      { prompt:"🏖️ Je vais à la plage.", question:"Velg riktig negasjon:", choices:[
+        "Je ne vais pas à la plage.", "Je n’vais pas à la plage.", "Je ne pas vais à la plage."
+      ], answer:0 },
+
+      { prompt:"🎧 J’écoute de la musique.", question:"Velg riktig negasjon (n’ foran vokal):", choices:[
+        "Je ne écoute pas de la musique.", "Je n’écoute pas de la musique.", "Je n’ écoute pas de la musique."
+      ], answer:1 },
+
+      { prompt:"🏫 Il habite à Oslo.", question:"Velg riktig negasjon (n’ foran h):", choices:[
+        "Il n’habite pas à Oslo.", "Il ne habite pas à Oslo.", "Il n’ habite pas à Oslo."
+      ], answer:0 },
+
+      { prompt:"🧳 Nous visitons Paris.", question:"Velg riktig negasjon:", choices:[
+        "Nous ne visitons pas Paris.", "Nous n’visitons pas Paris.", "Nous ne pas visitons Paris."
+      ], answer:0 },
+
+      { prompt:"🍦 Tu aimes les glaces.", question:"Velg riktig negasjon:", choices:[
+        "Tu n’aimes pas les glaces.", "Tu ne aimes pas les glaces.", "Tu n’ aimes pas les glaces."
+      ], answer:0 },
+
+      { prompt:"⚽ Ils jouent au foot.", question:"Velg riktig negasjon:", choices:[
+        "Ils ne jouent pas au foot.", "Ils ne pas jouent au foot.", "Ils n’jouent pas au foot."
+      ], answer:0 },
+
+      // Passé composé (ne ... pas rundt hjelpeverbet)
+      { prompt:"🗼 J’ai visité Paris.", question:"Velg riktig negasjon i passé composé:", choices:[
+        "Je n’ai pas visité Paris.", "Je n’ai visité pas Paris.", "Je ne ai pas visité Paris."
+      ], answer:0 },
+
+      { prompt:"🚶 Je suis allé(e) au cinéma.", question:"Velg riktig negasjon i passé composé:", choices:[
+        "Je ne suis pas allé(e) au cinéma.", "Je suis ne pas allé(e) au cinéma.", "Je ne suis allé(e) pas au cinéma."
+      ], answer:0 },
+
+      { prompt:"🍰 Nous avons mangé un gâteau.", question:"Velg riktig negasjon i passé composé:", choices:[
+        "Nous n’avons pas mangé un gâteau.", "Nous n’avons mangé pas un gâteau.", "Nous ne avons pas mangé un gâteau."
+      ], answer:0 },
+
+      { prompt:"🎮 Vous jouez aux jeux vidéo.", question:"Velg riktig negasjon:", choices:[
+        "Vous ne jouez pas aux jeux vidéo.", "Vous n’ jouez pas aux jeux vidéo.", "Vous ne pas jouez aux jeux vidéo."
+      ], answer:0 },
+    ];
+
+    // Fremdrift knyttet til 3 ting: sett siden åpnet, tatt quiz, brukt setningsbygger, bonus
+    const TASKS = ["neg_rule","neg_quiz","neg_build","neg_bonus"];
+
+    // ---------- UI refs ----------
+    const xpEl = document.getElementById("xp");
+    const badgeEl = document.getElementById("badge");
+    const pctEl = document.getElementById("pct");
+    const fillEl = document.getElementById("fill");
+
+    const totalEl = document.getElementById("total");
+    const scoreEl = document.getElementById("score");
+    const promptEl = document.getElementById("prompt");
+    const questionEl = document.getElementById("question");
+    const choicesEl = document.getElementById("choices");
+    const resultEl = document.getElementById("result");
+
+    const btnNext = document.getElementById("next");
+    const btnReset = document.getElementById("reset");
+
+    const posEl = document.getElementById("pos");
+    const negOutEl = document.getElementById("negOut");
+    const makeNegBtn = document.getElementById("makeNeg");
+    const exampleBtn = document.getElementById("example");
+    const bonusBtn = document.getElementById("bonus20");
+
+    // ---------- state ----------
+    let state = loadState();
+    let score = 0;
+    let idx = 0;
+
+    function renderHeader(){
+      xpEl.textContent = state.xp || 0;
+
+      const xp = state.xp || 0;
+      if(xp >= 120) badgeEl.textContent = "🏆 Négation Légende";
+      else if(xp >= 80) badgeEl.textContent = "🥇 Négation Ninja";
+      else if(xp >= 40) badgeEl.textContent = "🥈 Négation Pro";
+      else badgeEl.textContent = "🥉 Négation Starter";
+
+      const { pct } = calcProgress(TASKS);
+      pctEl.textContent = pct + "%";
+      fillEl.style.width = pct + "%";
+    }
+
+    function flash(el, html, kind){
+      el.innerHTML = html;
+      el.style.borderColor =
+        kind === "good" ? "rgba(71,209,140,.7)" :
+        kind === "bad"  ? "rgba(255,92,122,.7)" :
+        "rgba(255,255,255,.18)";
+    }
+
+    // ---------- quiz ----------
+    totalEl.textContent = QUIZ.length;
+
+    function pick(i){
+      idx = (i + QUIZ.length) % QUIZ.length;
+      const q = QUIZ[idx];
+      promptEl.textContent = q.prompt;
+      questionEl.textContent = q.question;
+      choicesEl.innerHTML = "";
+      q.choices.forEach((c, ci) => {
+        const b = document.createElement("button");
+        b.className = "choice";
+        b.textContent = (ci+1) + ") " + c;
+        b.onclick = () => answer(ci);
+        choicesEl.appendChild(b);
+      });
+      flash(resultEl, "Svar og få XP! ✨", "info");
+    }
+
+    function answer(ci){
+      const q = QUIZ[idx];
+      if(ci === q.answer){
+        score++;
+        scoreEl.textContent = score;
+
+        addXP(10);
+        markDone("neg_quiz");
+
+        flash(resultEl, `🎉 Riktig! <span class="sparkle">+10 XP</span>`, "good");
+      }else{
+        addXP(2); // litt trøstepoeng
+        flash(resultEl, `❌ Nesten! Riktig er: <strong>${q.choices[q.answer]}</strong> <span class="sparkle">(+2 XP)</span>`, "bad");
+      }
+    }
+
+    btnNext.onclick = () => pick(idx + 1);
+    btnReset.onclick = () => { score = 0; scoreEl.textContent = "0"; pick(0); };
+
+    // ---------- setningsbygger (enkel) ----------
+    function toNeg(s){
+      let t = (s || "").trim();
+      if(!t) return "";
+
+      // enkel heuristikk: sett ne/n' før ord 2, pas etter ord 2 (nå ord 3)
+      const words = t.replace(/\s+/g," ").split(" ");
+      if(words.length < 2) return t;
+
+      const verb = words[1];
+      const startsVowel = /^[aeiouhâàäéèêëîïôöùûüœ]/i.test(verb);
+      const neg = startsVowel ? "n’" : "ne";
+
+      words.splice(1, 0, neg);
+      words.splice(3, 0, "pas");
+
+      // rydde litt
+      return words.join(" ").replace("n’ ", "n’");
+    }
+
+    makeNegBtn.onclick = () => {
+      const out = toNeg(posEl.value);
+      if(!out){
+        flash(negOutEl, "Skriv en setning først 🙂", "info");
+        return;
+      }
+      flash(negOutEl, `✨ Negasjon: <strong>${out}</strong> <span class="sparkle">(+5 XP)</span>`, "good");
+      addXP(5);
+      markDone("neg_build");
+    };
+
+    exampleBtn.onclick = () => {
+      posEl.value = "J’ai visité Paris.";
+      flash(negOutEl, "Trykk «Lag ne…pas» 🙂", "info");
+    };
+
+    bonusBtn.onclick = () => {
+      if(state.done && state.done["neg_bonus"]){
+        flash(bonusBtn, "Allerede tatt! 🎉", "good");
+        return;
+      }
+      addXP(20);
+      markDone("neg_bonus");
+      bonusBtn.textContent = "Bonus tatt! 🎉 (+20 XP)";
+    };
+
+    // markér at regelen er “lest”
+    setTimeout(() => {
+      markDone("neg_rule");
+    }, 900);
+
+    // init
+    renderHeader();
+    pick(0);
+  </script>
 </body>
 </html>
