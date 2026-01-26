@@ -1,566 +1,39 @@
-<!doctype html>
-<html lang="no">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Salut 9 · Kapittel 4 · Vêtements & couleurs</title>
-  <style>
-    :root{
-      --bg:#0b1220;
-      --panel:#111b2e;
-      --panel2:#0f172a;
-      --text:#e6eefc;
-      --muted:#9fb2d6;
-      --accent:#7c3aed;
-      --accent2:#22c55e;
-      --warn:#f59e0b;
-      --bad:#ef4444;
-      --card:#0b1530;
-      --border:rgba(255,255,255,.12);
-      --shadow:0 12px 30px rgba(0,0,0,.35);
-      --radius:18px;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
-      background:
-        radial-gradient(1200px 800px at 20% 10%, rgba(124,58,237,.25), transparent 60%),
-        radial-gradient(900px 700px at 90% 30%, rgba(34,197,94,.18), transparent 55%),
-        var(--bg);
-      color:var(--text);
-    }
-    a{color:inherit; text-decoration:none}
-    .wrap{max-width:980px; margin:0 auto; padding:20px 16px 80px}
-    .topbar{
-      display:flex; align-items:center; justify-content:space-between; gap:10px;
-      padding:14px 14px;
-      background:rgba(255,255,255,.04);
-      border:1px solid var(--border);
-      border-radius:var(--radius);
-      box-shadow: var(--shadow);
-      position:sticky; top:12px; z-index:20;
-      backdrop-filter: blur(10px);
-    }
-    .top-left{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
-    .xp-pill{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:8px 12px; border-radius:999px;
-      background:rgba(124,58,237,.18);
-      border:1px solid rgba(124,58,237,.35);
-      font-weight:700;
-    }
-    .link-pill{
-      padding:8px 12px; border-radius:999px;
-      background:rgba(255,255,255,.06);
-      border:1px solid var(--border);
-      color:var(--muted);
-      font-weight:600;
-    }
-    .right{display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:flex-end;}
-    .progress{min-width:220px;}
-    .progress-label{display:flex; justify-content:space-between; font-size:12px; color:var(--muted); margin:0 2px 6px}
-    .bar{height:10px; border-radius:999px; background:rgba(255,255,255,.08); border:1px solid var(--border); overflow:hidden}
-    .bar > div{height:100%; width:0%; background:linear-gradient(90deg, var(--accent), #60a5fa, var(--accent2)); border-radius:999px; transition:width .35s ease}
-    .badge{padding:8px 12px; border-radius:999px; border:1px solid var(--border); background:rgba(34,197,94,.14); font-weight:800;}
-    h1{font-size:34px; margin:22px 0 10px}
-    .lead{color:var(--muted); margin:0 0 14px; line-height:1.45}
-    .grid{display:grid; grid-template-columns:1fr; gap:14px;}
-    @media (min-width:900px){ .grid{grid-template-columns:1.1fr .9fr} }
-    .card{
-      background:rgba(255,255,255,.04);
-      border:1px solid var(--border);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      padding:16px;
-    }
-    .card h2{margin:0 0 8px; font-size:18px}
-    .card h3{margin:12px 0 8px; font-size:16px}
-    .muted{color:var(--muted)}
-    .hr{height:1px; background:rgba(255,255,255,.08); margin:14px 0}
-    .nav{display:flex; flex-wrap:wrap; gap:10px; margin-top:10px}
-    .btn{
-      cursor:pointer; user-select:none;
-      border:1px solid var(--border);
-      background:rgba(255,255,255,.06);
-      color:var(--text);
-      padding:10px 12px;
-      border-radius:14px;
-      font-weight:700;
-      transition:transform .06s ease, background .2s ease;
-    }
-    .btn:hover{background:rgba(255,255,255,.09)}
-    .btn:active{transform:translateY(1px)}
-    .btn.primary{background:rgba(124,58,237,.22); border-color:rgba(124,58,237,.45)}
-    .btn.good{background:rgba(34,197,94,.18); border-color:rgba(34,197,94,.38)}
-    .btn.warn{background:rgba(245,158,11,.16); border-color:rgba(245,158,11,.35)}
-    .btn.bad{background:rgba(239,68,68,.14); border-color:rgba(239,68,68,.35)}
-    .pill{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:8px 10px; border-radius:999px;
-      border:1px solid var(--border);
-      background:rgba(255,255,255,.06);
-      color:var(--muted);
-      font-weight:650;
-      font-size:13px;
-    }
-    .two{display:grid; grid-template-columns:1fr; gap:12px;}
-    @media(min-width:740px){ .two{grid-template-columns:1fr 1fr} }
-
-    /* Ordbank */
-    .controls{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
-    input[type="text"], textarea, select{
-      width:100%;
-      padding:10px 12px;
-      border-radius:14px;
-      border:1px solid var(--border);
-      background:rgba(11,21,48,.6);
-      color:var(--text);
-      outline:none;
-    }
-    textarea{min-height:120px; resize:vertical}
-    .list{
-      display:grid; grid-template-columns:1fr; gap:8px;
-      margin-top:10px; max-height:330px; overflow:auto; padding-right:6px;
-    }
-    .row{
-      display:flex; align-items:center; justify-content:space-between; gap:12px;
-      padding:10px 12px; border-radius:14px;
-      border:1px solid var(--border);
-      background:rgba(11,21,48,.4);
-    }
-    .row strong{font-size:15px}
-    .row small{display:block; color:var(--muted); margin-top:2px}
-    .tag{
-      font-size:12px; font-weight:800; letter-spacing:.2px;
-      padding:6px 10px; border-radius:999px;
-      border:1px solid var(--border);
-      background:rgba(255,255,255,.06);
-      color:var(--muted);
-      white-space:nowrap;
-    }
-
-    /* Flashcards */
-    .fc{display:grid; gap:10px;}
-    .flash{
-      background:linear-gradient(180deg, rgba(124,58,237,.18), rgba(11,21,48,.65));
-      border:1px solid rgba(124,58,237,.35);
-      border-radius:18px;
-      padding:16px;
-      min-height:160px;
-      display:flex; flex-direction:column; justify-content:space-between;
-    }
-    .flash .front{font-size:28px; font-weight:900; letter-spacing:.2px}
-    .flash .back{font-size:16px; color:var(--muted); margin-top:8px; display:none}
-    .flash.revealed .back{display:block}
-    .flash .hint{color:var(--muted); font-size:13px; margin-top:10px}
-    .fc-actions{display:flex; gap:10px; flex-wrap:wrap}
-    .mini{font-size:12px; color:var(--muted)}
-
-    /* Drag & drop */
-    .dd{display:grid; gap:12px;}
-    .dd-grid{display:grid; grid-template-columns:1fr; gap:12px;}
-    @media(min-width:760px){ .dd-grid{grid-template-columns:1fr 1fr} }
-    .bank{
-      border:1px dashed rgba(255,255,255,.22);
-      border-radius:18px;
-      padding:12px;
-      background:rgba(255,255,255,.03);
-      min-height:180px;
-    }
-    .chips{display:flex; flex-wrap:wrap; gap:8px}
-    .chip{
-      padding:10px 12px;
-      border-radius:999px;
-      border:1px solid var(--border);
-      background:rgba(255,255,255,.06);
-      font-weight:800;
-      cursor:grab;
-    }
-    .targets{display:grid; gap:10px}
-    .target{
-      border-radius:18px;
-      border:1px solid var(--border);
-      background:rgba(11,21,48,.45);
-      padding:12px;
-      display:flex; align-items:center; justify-content:space-between; gap:10px;
-    }
-    .target .left{display:flex; align-items:center; gap:10px;}
-    .emoji{font-size:24px}
-    .drop{
-      min-width:160px;
-      padding:10px 12px;
-      border-radius:14px;
-      border:1px dashed rgba(255,255,255,.25);
-      background:rgba(255,255,255,.04);
-      color:var(--muted);
-      text-align:center;
-      font-weight:800;
-    }
-    .drop.filled{border-style:solid; color:var(--text); background:rgba(34,197,94,.10); border-color:rgba(34,197,94,.35)}
-    .drop.bad{background:rgba(239,68,68,.10); border-color:rgba(239,68,68,.35)}
-    .scoreline{display:flex; justify-content:space-between; color:var(--muted); font-size:13px}
-
-    /* Sentence builder */
-    .sb{display:grid; gap:10px;}
-    .sentence{
-      padding:12px;
-      border-radius:18px;
-      border:1px solid var(--border);
-      background:rgba(11,21,48,.45);
-      font-size:16px;
-      line-height:1.45;
-    }
-    .fb{
-      padding:10px 12px;
-      border-radius:14px;
-      border:1px solid var(--border);
-      background:rgba(255,255,255,.06);
-      color:var(--muted);
-    }
-    .fb.good{background:rgba(34,197,94,.12); border-color:rgba(34,197,94,.35); color:var(--text)}
-    .fb.bad{background:rgba(239,68,68,.10); border-color:rgba(239,68,68,.35); color:var(--text)}
-
-    /* Confetti */
-    .confetti{position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:9999;}
-    .confetti span{
-      position:absolute; top:-10px;
-      width:10px; height:16px;
-      background:rgba(255,255,255,.9);
-      border-radius:3px;
-      animation:fall 1.2s linear forwards;
-      opacity:.95;
-    }
-    @keyframes fall{
-      to{ transform: translateY(calc(100vh + 40px)) rotate(520deg); opacity:.9; }
-    }
-
-    /* Toast */
-    .toast{
-      position:fixed;
-      left:50%;
-      bottom:18px;
-      transform:translateX(-50%);
-      background:rgba(11,21,48,.92);
-      border:1px solid var(--border);
-      color:var(--text);
-      padding:10px 12px;
-      border-radius:14px;
-      box-shadow:var(--shadow);
-      z-index:10000;
-      max-width:min(560px, calc(100vw - 24px));
-      opacity:0;
-      pointer-events:none;
-      transition:opacity .2s ease, transform .2s ease;
-      font-weight:700;
-    }
-    .toast.show{
-      opacity:1;
-      transform:translateX(-50%) translateY(-4px);
-    }
-
-    .footer-nav{
-      margin-top:18px;
-      display:flex; gap:10px;
-      flex-wrap:wrap;
-      justify-content:space-between;
-    }
-  </style>
-</head>
-
-<body>
-  <div class="wrap">
-    <div class="topbar">
-      <div class="top-left">
-        <div class="xp-pill">⭐ XP: <span id="xp">0</span></div>
-        <a class="link-pill" href="./index.html">← Til meny</a>
-        <span class="pill" id="levelPill">Nivå: 1 · Novice</span>
-      </div>
-      <div class="right">
-        <div class="progress">
-          <div class="progress-label">
-            <span>Fremdrift</span>
-            <span id="progressPct">0%</span>
-          </div>
-          <div class="bar"><div id="progressBar"></div></div>
-        </div>
-        <div class="badge" id="badge">🔒 Låst</div>
-      </div>
-    </div>
-
-    <h1>👕 Vêtements & 🎨 Couleurs</h1>
-    <p class="lead">Øv klær og farger, få tilbakemelding, og samle XP. Fullfør oppgavene for å låse opp en badge.</p>
-
-    <div class="nav">
-      <a class="btn" href="./passe-compose.html">Passé composé</a>
-      <a class="btn primary" href="./vetements.html">Vêtements</a>
-      <a class="btn" href="./negation.html">Négation</a>
-      <a class="btn" href="./defi.html">Défi</a>
-      <a class="btn" href="./meteo.html">La météo</a>
-    </div>
-
-    <div class="grid" style="margin-top:14px;">
-      <div class="card">
-        <h2>🎯 Mål</h2>
-        <p class="muted" style="margin:0 0 8px;">Jeg kan…</p>
-        <ul class="muted" style="margin:0 0 8px; line-height:1.55;">
-          <li>navn på vanlige klær (un/une/des)</li>
-          <li>navn på farger</li>
-          <li>lage setninger: <strong>Je porte…</strong> / <strong>J’aime…</strong> / <strong>Je n’aime pas…</strong></li>
-        </ul>
-        <div class="hr"></div>
-        <h2>🏆 Belønning</h2>
-        <p class="muted" style="margin:0 0 10px;">
-          Du får XP for: riktige flashcards, fullført matching, riktige setninger og god bruk av mønstre i minioppgaven.
-          Ved <strong>100 XP</strong> låser du opp: <strong>“Fashion Master”</strong>.
-        </p>
-        <div class="controls">
-          <button class="btn warn" id="saveBtn">Lagre lokalt</button>
-          <button class="btn" id="resetBtn">Nullstill alt</button>
-          <span class="mini" id="saveNote">Lagrer automatisk også.</span>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2>📚 Gloser (fra boka)</h2>
-        <div class="two">
-          <div class="pill">👕 Klær: <strong id="countClothes">0</strong></div>
-          <div class="pill">🎨 Farger: <strong id="countColors">0</strong></div>
-        </div>
-        <div class="hr"></div>
-        <p class="muted" style="margin:0;">
-          Alt ligger inne i denne fila, så du får aldri “tom ordbank” igjen.
-          Hvis du senere vil hente fra JSON-filer, kan vi koble det på – men dette er “bombesikkert”.
-        </p>
-        <div class="hr"></div>
-        <p class="muted" style="margin:0;">
-          <strong>Daglig XP:</strong> Dagens del-XP (flash/matching/setning/tekst) nullstilles automatisk ved ny dato.
-        </p>
-      </div>
-    </div>
-
-    <div class="card" style="margin-top:14px;">
-      <h2>1) Ordbank (søk + filter)</h2>
-      <div class="controls">
-        <div style="flex:1; min-width:220px;">
-          <input id="search" type="text" placeholder="Søk (fransk eller norsk)…" />
-        </div>
-        <div style="min-width:190px;">
-          <select id="filter">
-            <option value="all">Alle</option>
-            <option value="clothes">Klær</option>
-            <option value="colors">Farger</option>
-          </select>
-        </div>
-        <button class="btn" id="toggleLang">Vis: FR → NO</button>
-      </div>
-      <div class="list" id="wordList" aria-live="polite"></div>
-      <div class="hr"></div>
-      <div class="muted">Tips: Trykk på “Vis: …” for å bytte visning.</div>
-    </div>
-
-    <div class="card" style="margin-top:14px;">
-      <h2>2) Flashcards (mestring + XP)</h2>
-      <p class="muted" style="margin-top:0;">Klikk “Vis svar”. Deretter velger du hvor godt du kunne det. Systemet husker mestring per kort.</p>
-      <div class="fc">
-        <div class="flash" id="flashCard">
-          <div>
-            <div class="front" id="fcFront">—</div>
-            <div class="back" id="fcBack">—</div>
-            <div class="hint" id="fcHint">
-              Kort <span id="fcIndex">1</span> / <span id="fcTotal">0</span> · Mestring: <span id="fcMastery">0</span>/3
-            </div>
-          </div>
-          <div class="fc-actions">
-            <button class="btn" id="revealBtn">Vis svar</button>
-            <button class="btn good" id="knewBtn" disabled>Visste</button>
-            <button class="btn warn" id="almostBtn" disabled>Nesten</button>
-            <button class="btn bad" id="nopeBtn" disabled>Ikke</button>
-            <button class="btn" id="nextBtn">Neste</button>
-          </div>
-        </div>
-        <div class="scoreline">
-          <span>Mastered: <strong id="masteredCount">0</strong> / <span id="deckCount">0</span></span>
-          <span>Flashcard-XP i dag: <strong id="fcXP">0</strong></span>
-        </div>
-      </div>
-    </div>
-
-    <div class="card" style="margin-top:14px;">
-      <h2>3) Matching (dra riktig ord til riktig emoji)</h2>
-      <p class="muted" style="margin-top:0;">Dra franske ord fra “banken” og slipp på riktig mål. Riktig gir XP.</p>
-      <div class="dd">
-        <div class="scoreline">
-          <span>Poeng: <strong id="ddScore">0</strong> / <span id="ddTotal">0</span></span>
-          <span>XP fra matching i dag: <strong id="ddXP">0</strong></span>
-        </div>
-        <div class="dd-grid">
-          <div class="bank">
-            <div class="muted" style="margin-bottom:10px; font-weight:800;">Ord å dra</div>
-            <div class="chips" id="ddBank"></div>
-          </div>
-          <div class="targets" id="ddTargets"></div>
-        </div>
-        <div class="controls" style="margin-top:8px;">
-          <button class="btn warn" id="ddSave">Lagre</button>
-          <button class="btn" id="ddReset">Start på nytt</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="card" style="margin-top:14px;">
-      <h2>4) Setningsbygger (med fasit + riktig fargeavtale)</h2>
-      <p class="muted" style="margin-top:0;">Velg riktig plagg + farge for å treffe fasit. Du får XP for treff.</p>
-      <div class="sb">
-        <div class="sentence" id="sbPrompt">—</div>
-        <div class="two">
-          <div>
-            <label class="muted" for="sbCloth">Plagg</label>
-            <select id="sbCloth"></select>
-          </div>
-          <div>
-            <label class="muted" for="sbColor">Farge</label>
-            <select id="sbColor"></select>
-          </div>
-        </div>
-        <div class="controls">
-          <button class="btn primary" id="sbCheck">Sjekk</button>
-          <button class="btn" id="sbNext">Ny setning</button>
-          <span class="pill">Treff: <strong id="sbHits">0</strong> / <span id="sbRounds">0</span></span>
-          <span class="pill">XP i dag: <strong id="sbXP">0</strong></span>
-        </div>
-        <div class="fb" id="sbFeedback">Tips: Plagg og farger kan du lære raskt ved å variere setningene.</div>
-      </div>
-    </div>
-
-    <div class="card" style="margin-top:14px;">
-      <h2>5) Fri minioppgave (smart feedback)</h2>
-      <p class="muted" style="margin-top:0;">
-        Skriv 4–8 setninger om hva du liker å ha på deg. Du får “mønsterpoeng” når du bruker gode uttrykk.
-      </p>
-      <div class="two">
-        <div>
-          <label class="muted" for="freeText">Din tekst</label>
-          <textarea id="freeText" placeholder="Ex: Aujourd’hui, je porte un pull bleu. J’aime la jupe rouge parce que…"></textarea>
-          <div class="controls" style="margin-top:10px;">
-            <button class="btn warn" id="freeSave">Lagre</button>
-            <button class="btn" id="freeReset">Nullstill</button>
-            <span class="pill">Feedback: <strong id="freeScore">0</strong> / 6</span>
-            <span class="pill">XP i dag: <strong id="freeXP">0</strong></span>
-          </div>
-          <div class="hr"></div>
-          <div class="fb" id="freeFeedback">Skriv, så får du smart feedback (mønstre + ord).</div>
-        </div>
-        <div>
-          <h3>Setningsstartere</h3>
-          <ul class="muted" style="margin-top:0; line-height:1.55;">
-            <li>Aujourd’hui, …</li>
-            <li>En été / En hiver, …</li>
-            <li>Je porte …</li>
-            <li>J’aime … parce que …</li>
-            <li>Je n’aime pas …</li>
-          </ul>
-          <h3>Bonus-ord</h3>
-          <div class="muted" style="line-height:1.55;">souvent, parfois, mais, parce que, et, aussi</div>
-          <div class="hr"></div>
-          <div class="muted">
-            Smart feedback sjekker om du bruker:
-            <strong>Je porte</strong>, <strong>J’aime</strong>, <strong>Je n’aime pas</strong>, <strong>parce que</strong>,
-            minst <strong>1 farge</strong>, og minst <strong>2 klesord</strong>.
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="footer-nav">
-      <a class="btn" href="./index.html">← Til meny</a>
-      <a class="btn primary" href="./passe-compose.html">Neste: Passé composé →</a>
-    </div>
-  </div>
-
-  <div class="confetti" id="confetti"></div>
-  <div class="toast" id="toast"></div>
-
 <script>
-/* ========================= HELPERS ========================= */
-function escapeHtml(s){
-  return String(s ?? "")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-}
-let toastTimer = null;
-function toast(msg){
-  const el = document.getElementById("toast");
-  el.textContent = msg;
-  el.classList.add("show");
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(()=> el.classList.remove("show"), 1400);
-}
-function confetti(){
-  const host = document.getElementById("confetti");
-  host.innerHTML = "";
-  const n = 80;
-  for(let i=0;i<n;i++){
-    const s = document.createElement("span");
-    s.style.left = Math.floor(Math.random()*100) + "vw";
-    s.style.animationDelay = (Math.random()*0.25) + "s";
-    s.style.transform = "rotate("+(Math.random()*360)+"deg)";
-    host.appendChild(s);
-  }
-  setTimeout(()=> host.innerHTML="", 1600);
-}
-
-/* ========================= DATA ========================= */
-// Klær: legger inn grammatikk fra artikkel: un(m), une(f), des(p=plural)
-function inferNounMeta(frWithArticle){
-  const s = (frWithArticle||"").trim().toLowerCase();
-  if(s.startsWith("une ")) return {gender:"f", number:"s"};
-  if(s.startsWith("un "))  return {gender:"m", number:"s"};
-  if(s.startsWith("des ")) return {gender:"m", number:"p"}; // plural (kjønn lite viktig)
-  return {gender:"m", number:"s"};
-}
-
+/* =========================
+   DATA (fra vedlegget)
+   ========================= */
 const CLOTHES = [
-  { id:"debardeur",  fr:"un débardeur",        no:"en singlet",                 emoji:"🩱" },
-  { id:"tshirt",     fr:"un T-shirt",          no:"en t-skjorte",               emoji:"👕" },
-  { id:"robe",       fr:"une robe",            no:"en kjole",                   emoji:"👗" },
-  { id:"jupe",       fr:"une jupe",            no:"et skjørt",                  emoji:"🩳" },
-  { id:"chemise",    fr:"une chemise",         no:"en skjorte",                 emoji:"👔" },
-  { id:"pull",       fr:"un pull",             no:"en genser",                  emoji:"🧶" },
-  { id:"short",      fr:"un short",            no:"en shorts",                  emoji:"🩳" },
-  { id:"pantalon",   fr:"un pantalon",         no:"en bukse",                   emoji:"👖" },
-  { id:"manteau",    fr:"un manteau",          no:"en frakk",                   emoji:"🧥" },
-  { id:"veste",      fr:"une veste",           no:"en jakke",                   emoji:"🧥" },
-  { id:"chaussettes",fr:"des chaussettes",     no:"sokker",                     emoji:"🧦" },
-  { id:"chaussures", fr:"des chaussures",      no:"sko",                        emoji:"👞" },
-  { id:"baskets",    fr:"des baskets",         no:"joggesko",                   emoji:"👟" },
-  { id:"gants",      fr:"des gants",           no:"hansker",                    emoji:"🧤" },
-  { id:"bonnet",     fr:"un bonnet",           no:"en lue",                     emoji:"🧢" },
-  { id:"echarpe",    fr:"une écharpe",         no:"et skjerf",                  emoji:"🧣" },
-  { id:"bottes",     fr:"des bottes",          no:"støvler",                    emoji:"🥾" },
-  { id:"ceinture",   fr:"une ceinture",        no:"et belte",                   emoji:"🧷" },
-  { id:"casquette",  fr:"une casquette",       no:"en caps",                    emoji:"🧢" },
-  { id:"maillot",    fr:"un maillot de bain",  no:"en badedrakt / badebukse",   emoji:"🩱" }
-].map(x => ({...x, ...inferNounMeta(x.fr)}));
+  { id:"debardeur", fr:"un débardeur", no:"en singlet", emoji:"🩱" },
+  { id:"tshirt", fr:"un T-shirt", no:"en t-skjorte", emoji:"👕" },
+  { id:"robe", fr:"une robe", no:"en kjole", emoji:"👗" },
+  { id:"jupe", fr:"une jupe", no:"et skjørt", emoji:"🩳" },
+  { id:"chemise", fr:"une chemise", no:"en skjorte", emoji:"👔" },
+  { id:"pull", fr:"un pull", no:"en genser", emoji:"🧶" },
+  { id:"short", fr:"un short", no:"en shorts", emoji:"🩳" },
+  { id:"pantalon", fr:"un pantalon", no:"en bukse", emoji:"👖" },
+  { id:"manteau", fr:"un manteau", no:"en frakk", emoji:"🧥" },
+  { id:"veste", fr:"une veste", no:"en jakke", emoji:"🧥" },
+  { id:"chaussettes", fr:"des chaussettes", no:"sokker", emoji:"🧦" },
+  { id:"chaussures", fr:"des chaussures", no:"sko", emoji:"👞" },
+  { id:"baskets", fr:"des baskets", no:"joggesko", emoji:"👟" },
+  { id:"gants", fr:"des gants", no:"hansker", emoji:"🧤" },
+  { id:"bonnet", fr:"un bonnet", no:"en lue", emoji:"🧢" },
+  { id:"echarpe", fr:"une écharpe", no:"et skjerf", emoji:"🧣" },
+  { id:"bottes", fr:"des bottes", no:"støvler", emoji:"🥾" },
+  { id:"ceinture", fr:"une ceinture", no:"et belte", emoji:"🧷" },
+  { id:"casquette", fr:"une casquette", no:"en caps", emoji:"🧢" },
+  { id:"maillot", fr:"un maillot de bain", no:"en badedrakt / badebukse", emoji:"🩱" }
+];
 
-/* Farger: bøyning for setninger.
-   - m_s: maskulin entall
-   - f_s: feminin entall
-   - m_p: maskulin flertall
-   - f_p: feminin flertall
-*/
 const COLORS = [
-  { id:"marron", fr:"marron", no:"brun",  emoji:"🟤", m_s:"marron", f_s:"marron",  m_p:"marron",  f_p:"marron" },
-  { id:"noir",   fr:"noir",   no:"svart", emoji:"⚫", m_s:"noir",   f_s:"noire",   m_p:"noirs",   f_p:"noires" },
-  { id:"bleu",   fr:"bleu",   no:"blå",   emoji:"🔵", m_s:"bleu",   f_s:"bleue",   m_p:"bleus",   f_p:"bleues" },
-  { id:"vert",   fr:"vert",   no:"grønn", emoji:"🟢", m_s:"vert",   f_s:"verte",   m_p:"verts",   f_p:"vertes" },
-  { id:"jaune",  fr:"jaune",  no:"gul",   emoji:"🟡", m_s:"jaune",  f_s:"jaune",   m_p:"jaunes",  f_p:"jaunes" },
-  { id:"gris",   fr:"gris",   no:"grå",   emoji:"⚙️", m_s:"gris",   f_s:"grise",   m_p:"gris",    f_p:"grises" },
-  { id:"rose",   fr:"rose",   no:"rosa",  emoji:"🌸", m_s:"rose",   f_s:"rose",    m_p:"roses",   f_p:"roses" },
-  { id:"violet", fr:"violet", no:"lilla", emoji:"🟣", m_s:"violet", f_s:"violette",m_p:"violets", f_p:"violettes" }
+  { id:"marron", fr:"marron", no:"brun", emoji:"🟤" },
+  { id:"noir", fr:"noir", no:"svart", emoji:"⚫" },
+  { id:"bleu", fr:"bleu", no:"blå", emoji:"🔵" },
+  { id:"vert", fr:"vert", no:"grønn", emoji:"🟢" },
+  { id:"jaune", fr:"jaune", no:"gul", emoji:"🟡" },
+  { id:"gris", fr:"gris", no:"grå", emoji:"⚙️" },
+  { id:"rose", fr:"rose", no:"rosa", emoji:"🌸" },
+  { id:"violet", fr:"violet", no:"lilla", emoji:"🟣" }
 ];
 
 const DECK = [
@@ -568,20 +41,13 @@ const DECK = [
   ...COLORS.map(x => ({...x, cat:"colors"}))
 ];
 
-/* ========================= STATE + STORAGE ========================= */
-const LS_KEY = "salut9_vetements_v2";
-
-function todayKey(){
-  const d = new Date();
-  const y = d.getFullYear();
-  const m = String(d.getMonth()+1).padStart(2,"0");
-  const day = String(d.getDate()).padStart(2,"0");
-  return `${y}-${m}-${day}`;
-}
+/* =========================
+   STATE + STORAGE
+   ========================= */
+const LS_KEY = "salut9_vetements_v1";
 
 const defaultState = () => ({
   xp: 0,
-  daily: { date: todayKey() },
   fc: { idx: 0, revealed: false, mastery: {}, sessionXP: 0 },
   dd: { solved: {}, score: 0, sessionXP: 0, seed: Date.now() },
   sb: { hits: 0, rounds: 0, sessionXP: 0, current: null },
@@ -598,40 +64,27 @@ function loadState(){
     const raw = localStorage.getItem(LS_KEY);
     if(!raw) return defaultState();
     const parsed = JSON.parse(raw);
-    const base = defaultState();
-    const merged = {
-      ...base, ...parsed,
-      daily: {...base.daily, ...(parsed.daily||{})},
-      fc: {...base.fc, ...(parsed.fc||{})},
-      dd: {...base.dd, ...(parsed.dd||{})},
-      sb: {...base.sb, ...(parsed.sb||{})},
-      free: {...base.free, ...(parsed.free||{})},
-      ui: {...base.ui, ...(parsed.ui||{})},
-      achieved: {...base.achieved, ...(parsed.achieved||{})},
-      stats: {...base.stats, ...(parsed.stats||{})}
+    return {...defaultState(), ...parsed,
+      fc: {...defaultState().fc, ...(parsed.fc||{})},
+      dd: {...defaultState().dd, ...(parsed.dd||{})},
+      sb: {...defaultState().sb, ...(parsed.sb||{})},
+      free: {...defaultState().free, ...(parsed.free||{})},
+      ui: {...defaultState().ui, ...(parsed.ui||{})},
+      achieved: {...defaultState().achieved, ...(parsed.achieved||{})},
+      stats: {...defaultState().stats, ...(parsed.stats||{})}
     };
-    if(!merged.daily?.date) merged.daily = { date: todayKey() };
-    if(!merged.fc.mastery) merged.fc.mastery = {};
-    if(!merged.dd.solved) merged.dd.solved = {};
-    return merged;
   }catch(e){
     return defaultState();
   }
 }
 
-let saveTimer = null;
-function autoSaveSoft(){
-  clearTimeout(saveTimer);
-  saveTimer = setTimeout(()=> {
-    localStorage.setItem(LS_KEY, JSON.stringify(S));
-  }, 250);
-}
 function saveState(){
   S.stats.lastSaved = Date.now();
   localStorage.setItem(LS_KEY, JSON.stringify(S));
   toast("✅ Lagret lokalt");
   renderAll();
 }
+
 function resetAll(){
   if(!confirm("Nullstill alt (XP + fremdrift)?")) return;
   S = defaultState();
@@ -640,24 +93,13 @@ function resetAll(){
   toast("🔄 Nullstilt");
 }
 
-/* ========================= DAGLIG RESET (DEL-XP) ========================= */
-function dailyRollOverIfNeeded(){
-  const t = todayKey();
-  if(S.daily?.date !== t){
-    S.daily = { date: t };
-    S.fc.sessionXP = 0;
-    S.dd.sessionXP = 0;
-    S.sb.sessionXP = 0;
-    S.free.sessionXP = 0;
-    toast("📅 Ny dag! Daglig XP-teller er nullstilt.");
-    autoSaveSoft();
-  }
-}
-
-/* ========================= XP + PROGRESS + REWARDS ========================= */
+/* =========================
+   XP + PROGRESS + REWARDS
+   ========================= */
 function addXP(n){
   if(n <= 0) return;
   S.xp += n;
+
   if(S.xp >= 100 && !S.achieved.badge){
     S.achieved.badge = true;
     confetti();
@@ -669,9 +111,9 @@ function addXP(n){
 
 function levelFromXP(xp){
   if(xp >= 100) return {lvl:5, name:"Fashion Master"};
-  if(xp >= 75)  return {lvl:4, name:"Stylish"};
-  if(xp >= 50)  return {lvl:3, name:"På vei"};
-  if(xp >= 25)  return {lvl:2, name:"Learner"};
+  if(xp >= 75) return {lvl:4, name:"Stylish"};
+  if(xp >= 50) return {lvl:3, name:"På vei"};
+  if(xp >= 25) return {lvl:2, name:"Learner"};
   return {lvl:1, name:"Novice"};
 }
 
@@ -679,34 +121,7 @@ function masteredCount(){
   return DECK.filter(c => (S.fc.mastery[c.id]||0) >= 3).length;
 }
 
-function mulberry32(seed){
-  let a = seed >>> 0;
-  return function() {
-    a |= 0;
-    a = a + 0x6D2B79F5 | 0;
-    let t = Math.imul(a ^ a >>> 15, 1 | a);
-    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
-    return ((t ^ t >>> 14) >>> 0) / 4294967296;
-  };
-}
-function shuffleWithSeed(arr, seed){
-  const rnd = mulberry32(seed);
-  const a = arr.slice();
-  for(let i=a.length-1; i>0; i--){
-    const j = Math.floor(rnd() * (i+1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
-function currentDDItems(){
-  const base = CLOTHES.slice();
-  const seed = S.dd.seed || Date.now();
-  const shuffled = shuffleWithSeed(base, seed);
-  return shuffled.slice(0, Math.min(8, shuffled.length));
-}
-
 function progressPercent(){
-  // Flashcards (0-40), Matching (0-25), Sentence builder (0-20), Free (0-15)
   const mastered = masteredCount();
   const fcPart = Math.min(40, Math.round((mastered / DECK.length) * 40));
 
@@ -730,9 +145,11 @@ function progressPercent(){
 
 function renderTop(){
   document.getElementById("xp").textContent = S.xp;
+
   const p = progressPercent();
   document.getElementById("progressPct").textContent = `${p}%`;
   document.getElementById("progressBar").style.width = `${p}%`;
+
   const lv = levelFromXP(S.xp);
   document.getElementById("levelPill").textContent = `Nivå: ${lv.lvl} · ${lv.name}`;
 
@@ -741,7 +158,17 @@ function renderTop(){
   badge.style.background = S.achieved.badge ? "rgba(34,197,94,.18)" : "rgba(255,255,255,.06)";
 }
 
-/* ========================= ORDBANK ========================= */
+let saveTimer = null;
+function autoSaveSoft(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(()=> {
+    localStorage.setItem(LS_KEY, JSON.stringify(S));
+  }, 250);
+}
+
+/* =========================
+   ORDBANK
+   ========================= */
 const wordListEl = document.getElementById("wordList");
 const searchEl = document.getElementById("search");
 const filterEl = document.getElementById("filter");
@@ -771,10 +198,10 @@ toggleLangBtn.addEventListener("click", () => {
 function renderWordbank(){
   const q = (S.ui.search || "").trim().toLowerCase();
   const f = S.ui.filter;
-  let items = DECK.slice();
 
+  let items = DECK.slice();
   if(f === "clothes") items = items.filter(x => x.cat === "clothes");
-  if(f === "colors")  items = items.filter(x => x.cat === "colors");
+  if(f === "colors") items = items.filter(x => x.cat === "colors");
 
   if(q){
     items = items.filter(x => {
@@ -787,8 +214,9 @@ function renderWordbank(){
 
   wordListEl.innerHTML = "";
   items.forEach(x => {
-    const left  = S.ui.showFR ? x.fr : x.no;
+    const left = S.ui.showFR ? x.fr : x.no;
     const right = S.ui.showFR ? x.no : x.fr;
+
     const row = document.createElement("div");
     row.className = "row";
     row.innerHTML = `
@@ -805,16 +233,20 @@ function renderWordbank(){
   document.getElementById("countColors").textContent = COLORS.length;
 }
 
-/* ========================= FLASHCARDS ========================= */
+/* =========================
+   FLASHCARDS
+   ========================= */
 const flashCardEl = document.getElementById("flashCard");
 const fcFrontEl = document.getElementById("fcFront");
 const fcBackEl = document.getElementById("fcBack");
+const fcHintEl = document.getElementById("fcHint");
 const fcIndexEl = document.getElementById("fcIndex");
 const fcTotalEl = document.getElementById("fcTotal");
 const fcMasteryEl = document.getElementById("fcMastery");
 const masteredCountEl = document.getElementById("masteredCount");
 const deckCountEl = document.getElementById("deckCount");
 const fcXPEl = document.getElementById("fcXP");
+
 const revealBtn = document.getElementById("revealBtn");
 const knewBtn = document.getElementById("knewBtn");
 const almostBtn = document.getElementById("almostBtn");
@@ -828,8 +260,11 @@ function currentCard(){
 
 function renderFlashcard(){
   const card = currentCard();
-  fcFrontEl.textContent = `${card.emoji} ${card.fr}`;
-  fcBackEl.textContent = `${card.no}`;
+  const showFR = true; // flash: alltid fr på front
+
+  fcFrontEl.textContent = `${card.emoji} ${showFR ? card.fr : card.no}`;
+  fcBackEl.textContent = `${showFR ? card.no : card.fr}`;
+
   fcTotalEl.textContent = DECK.length;
   fcIndexEl.textContent = (S.fc.idx % DECK.length) + 1;
 
@@ -838,6 +273,7 @@ function renderFlashcard(){
 
   deckCountEl.textContent = DECK.length;
   masteredCountEl.textContent = masteredCount();
+
   fcXPEl.textContent = S.fc.sessionXP;
 
   flashCardEl.classList.toggle("revealed", !!S.fc.revealed);
@@ -853,16 +289,22 @@ revealBtn.addEventListener("click", () => {
 });
 
 function answerFlash(kind){
-  dailyRollOverIfNeeded();
   const card = currentCard();
   const m = S.fc.mastery[card.id] || 0;
 
   let deltaM = 0;
   let gained = 0;
 
-  if(kind === "knew"){ deltaM = 1; gained = 3; }
-  else if(kind === "almost"){ deltaM = 1; gained = 1; }
-  else { deltaM = 0; gained = 0; }
+  if(kind === "knew"){
+    deltaM = 1;
+    gained = 3;
+  }else if(kind === "almost"){
+    deltaM = 1;
+    gained = 1;
+  }else{
+    deltaM = 0;
+    gained = 0;
+  }
 
   const newM = Math.min(3, m + deltaM);
   S.fc.mastery[card.id] = newM;
@@ -875,6 +317,7 @@ function answerFlash(kind){
 
   S.fc.revealed = false;
   S.fc.idx = (S.fc.idx + 1) % DECK.length;
+
   autoSaveSoft();
   renderAll();
 }
@@ -882,6 +325,7 @@ function answerFlash(kind){
 knewBtn.addEventListener("click", () => answerFlash("knew"));
 almostBtn.addEventListener("click", () => answerFlash("almost"));
 nopeBtn.addEventListener("click", () => answerFlash("nope"));
+
 nextBtn.addEventListener("click", () => {
   S.fc.revealed = false;
   S.fc.idx = (S.fc.idx + 1) % DECK.length;
@@ -889,14 +333,45 @@ nextBtn.addEventListener("click", () => {
   renderFlashcard();
 });
 
-/* ========================= MATCHING (Drag & Drop) ========================= */
+/* =========================
+   MATCHING (Drag & Drop)
+   ========================= */
 const ddBankEl = document.getElementById("ddBank");
 const ddTargetsEl = document.getElementById("ddTargets");
 const ddScoreEl = document.getElementById("ddScore");
 const ddTotalEl = document.getElementById("ddTotal");
 const ddXPEl = document.getElementById("ddXP");
+
 const ddSaveBtn = document.getElementById("ddSave");
 const ddResetBtn = document.getElementById("ddReset");
+
+function mulberry32(seed){
+  let a = seed >>> 0;
+  return function() {
+    a |= 0; a = a + 0x6D2B79F5 | 0;
+    let t = Math.imul(a ^ a >>> 15, 1 | a);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  }
+}
+
+function shuffleWithSeed(arr, seed){
+  const rnd = mulberry32(seed);
+  const a = arr.slice();
+  for(let i=a.length-1; i>0; i--){
+    const j = Math.floor(rnd() * (i+1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function currentDDItems(){
+  // 8 klær (blanding), litt “passe stor” oppgave
+  const base = CLOTHES.slice();
+  const seed = S.dd.seed || Date.now();
+  const shuffled = shuffleWithSeed(base, seed);
+  return shuffled.slice(0, Math.min(8, shuffled.length));
+}
 
 function renderDD(){
   const items = currentDDItems();
@@ -904,6 +379,7 @@ function renderDD(){
   ddScoreEl.textContent = S.dd.score;
   ddXPEl.textContent = S.dd.sessionXP;
 
+  // Bank: ord som ikke er løst
   ddBankEl.innerHTML = "";
   items.forEach(it => {
     if(S.dd.solved[it.id]) return;
@@ -912,4 +388,370 @@ function renderDD(){
     chip.draggable = true;
     chip.textContent = it.fr;
     chip.dataset.id = it.id;
-    chip.addEventListener("dragstart", (e) =>
+    chip.addEventListener("dragstart", (e) => {
+      e.dataTransfer.setData("text/plain", it.id);
+      e.dataTransfer.effectAllowed = "move";
+    });
+    ddBankEl.appendChild(chip);
+  });
+
+  // Targets
+  ddTargetsEl.innerHTML = "";
+  items.forEach(it => {
+    const solved = !!S.dd.solved[it.id];
+    const target = document.createElement("div");
+    target.className = "target";
+    target.innerHTML = `
+      <div class="left">
+        <div class="emoji">${escapeHtml(it.emoji)}</div>
+        <div>
+          <strong>${escapeHtml(it.no)}</strong>
+          <div class="mini muted">Slipp riktig FR-ord her</div>
+        </div>
+      </div>
+      <div class="drop ${solved ? "filled" : ""}" data-accept="${escapeHtml(it.id)}">
+        ${solved ? escapeHtml(it.fr) : "Dra ord hit"}
+      </div>
+    `;
+
+    const drop = target.querySelector(".drop");
+    drop.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = "move";
+    });
+    drop.addEventListener("drop", (e) => {
+      e.preventDefault();
+      const draggedId = e.dataTransfer.getData("text/plain");
+      const acceptId = drop.dataset.accept;
+
+      if(!draggedId) return;
+      if(S.dd.solved[acceptId]) return;
+
+      if(draggedId === acceptId){
+        S.dd.solved[acceptId] = true;
+        S.dd.score = Object.keys(S.dd.solved).filter(k => S.dd.solved[k]).length;
+
+        const gained = 3;
+        S.dd.sessionXP += gained;
+        addXP(gained);
+
+        toast("✅ Riktig! +3 XP");
+        drop.classList.remove("bad");
+        drop.classList.add("filled");
+        autoSaveSoft();
+        renderDD();
+        renderTop();
+      }else{
+        drop.classList.add("bad");
+        toast("❌ Ikke helt – prøv igjen");
+        setTimeout(()=> drop.classList.remove("bad"), 450);
+      }
+    });
+
+    ddTargetsEl.appendChild(target);
+  });
+}
+
+ddSaveBtn.addEventListener("click", saveState);
+ddResetBtn.addEventListener("click", () => {
+  if(!confirm("Starte matching på nytt?")) return;
+  S.dd = {...defaultState().dd, seed: Date.now()};
+  autoSaveSoft();
+  renderDD();
+  renderTop();
+  toast("🔁 Ny matching klar");
+});
+
+/* =========================
+   SETNINGSBYGGER
+   ========================= */
+const sbPromptEl = document.getElementById("sbPrompt");
+const sbClothEl = document.getElementById("sbCloth");
+const sbColorEl = document.getElementById("sbColor");
+const sbCheckBtn = document.getElementById("sbCheck");
+const sbNextBtn = document.getElementById("sbNext");
+const sbHitsEl = document.getElementById("sbHits");
+const sbRoundsEl = document.getElementById("sbRounds");
+const sbXPEl = document.getElementById("sbXP");
+const sbFeedbackEl = document.getElementById("sbFeedback");
+
+function fillSBSelects(){
+  sbClothEl.innerHTML = "";
+  CLOTHES.forEach(c => {
+    const opt = document.createElement("option");
+    opt.value = c.id;
+    opt.textContent = `${c.emoji} ${c.fr}`;
+    sbClothEl.appendChild(opt);
+  });
+
+  sbColorEl.innerHTML = "";
+  COLORS.forEach(c => {
+    const opt = document.createElement("option");
+    opt.value = c.id;
+    opt.textContent = `${c.emoji} ${c.fr}`;
+    sbColorEl.appendChild(opt);
+  });
+}
+
+function newSBRound(){
+  const cloth = CLOTHES[Math.floor(Math.random()*CLOTHES.length)];
+  const color = COLORS[Math.floor(Math.random()*COLORS.length)];
+
+  // tre typer prompt
+  const patterns = [
+    { id:"porte", text:`Lag setningen: Je porte ${cloth.fr} ${color.fr}.` , answer:`Je porte ${cloth.fr} ${color.fr}.`},
+    { id:"aime", text:`Velg riktig for: J’aime ${cloth.fr} ${color.fr}.`, answer:`J’aime ${cloth.fr} ${color.fr}.`},
+    { id:"naime", text:`Velg riktig for: Je n’aime pas ${cloth.fr} ${color.fr}.`, answer:`Je n’aime pas ${cloth.fr} ${color.fr}.`}
+  ];
+  const p = patterns[Math.floor(Math.random()*patterns.length)];
+
+  S.sb.current = { clothId: cloth.id, colorId: color.id, pattern: p.id, answer: p.answer, prompt: p.text };
+  autoSaveSoft();
+
+  sbPromptEl.textContent = p.text;
+  sbFeedbackEl.className = "fb";
+  sbFeedbackEl.textContent = "Velg plagg + farge og trykk Sjekk.";
+}
+
+function renderSB(){
+  sbHitsEl.textContent = S.sb.hits;
+  sbRoundsEl.textContent = S.sb.rounds;
+  sbXPEl.textContent = S.sb.sessionXP;
+
+  if(!S.sb.current) newSBRound();
+
+  // sett selects til noe “fornuftig” (behold brukerens valg hvis mulig)
+  if(!sbClothEl.value) sbClothEl.value = CLOTHES[0]?.id || "";
+  if(!sbColorEl.value) sbColorEl.value = COLORS[0]?.id || "";
+
+  sbPromptEl.textContent = S.sb.current.prompt;
+}
+
+sbCheckBtn.addEventListener("click", () => {
+  if(!S.sb.current) return;
+
+  const chosenCloth = sbClothEl.value;
+  const chosenColor = sbColorEl.value;
+
+  S.sb.rounds += 1;
+
+  const ok = (chosenCloth === S.sb.current.clothId) && (chosenColor === S.sb.current.colorId);
+
+  if(ok){
+    S.sb.hits += 1;
+    const gained = 4;
+    S.sb.sessionXP += gained;
+    addXP(gained);
+
+    sbFeedbackEl.className = "fb good";
+    sbFeedbackEl.textContent = `✅ Riktig! +${gained} XP · Fasit: ${S.sb.current.answer}`;
+    toast(`✅ +${gained} XP (setning)`);
+  }else{
+    const cloth = CLOTHES.find(x => x.id === S.sb.current.clothId);
+    const color = COLORS.find(x => x.id === S.sb.current.colorId);
+    sbFeedbackEl.className = "fb bad";
+    sbFeedbackEl.textContent = `❌ Nesten. Fasit: ${S.sb.current.answer} (${cloth?.emoji||""} ${cloth?.fr||""} + ${color?.emoji||""} ${color?.fr||""})`;
+  }
+
+  autoSaveSoft();
+  renderSB();
+  renderTop();
+});
+
+sbNextBtn.addEventListener("click", () => {
+  newSBRound();
+  renderSB();
+});
+
+/* =========================
+   FRI MINIOPPGAVE (smart feedback)
+   ========================= */
+const freeTextEl = document.getElementById("freeText");
+const freeSaveBtn = document.getElementById("freeSave");
+const freeResetBtn = document.getElementById("freeReset");
+const freeScoreEl = document.getElementById("freeScore");
+const freeXPEl = document.getElementById("freeXP");
+
+freeTextEl.value = S.free.text || "";
+
+function normalize(s){
+  return (s||"")
+    .toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // fjern aksenter (é -> e)
+}
+
+function freeFeedbackScore(text){
+  const t = normalize(text);
+
+  const checks = [
+    { key:"jeporte", ok: /je\s+porte/.test(t) },
+    { key:"jaime", ok: /j[' ]aime/.test(t) },
+    { key:"jenaimepas", ok: /je\s+n[' ]aime\s+pas/.test(t) },
+    { key:"parceque", ok: /parce\s+que/.test(t) },
+    { key:"color", ok: COLORS.some(c => t.includes(normalize(c.fr))) },
+    { key:"clothes2", ok: countClothesMentions(t) >= 2 }
+  ];
+
+  return checks.reduce((sum, c) => sum + (c.ok ? 1 : 0), 0);
+}
+
+function countClothesMentions(tNorm){
+  let count = 0;
+  CLOTHES.forEach(c => {
+    const fr = normalize(c.fr);
+    // fjern artikkel for å øke treffsjansen
+    const bare = fr.replace(/^un\s+|^une\s+|^des\s+/,"");
+    if(tNorm.includes(fr) || tNorm.includes(bare)) count += 1;
+  });
+  return count;
+}
+
+function renderFree(){
+  freeScoreEl.textContent = S.free.score;
+  freeXPEl.textContent = S.free.sessionXP;
+}
+
+function evaluateFree(){
+  const text = freeTextEl.value || "";
+  const score = freeFeedbackScore(text);
+
+  const prev = S.free.score || 0;
+  S.free.text = text;
+  S.free.score = score;
+
+  // XP: gi bare når du forbedrer deg
+  const diff = Math.max(0, score - prev);
+  if(diff > 0){
+    const gained = diff * 2; // 2 XP per nytt “mønster”
+    S.free.sessionXP += gained;
+    addXP(gained);
+    toast(`✨ +${gained} XP (mønstre)`);
+  }
+
+  autoSaveSoft();
+  renderFree();
+  renderTop();
+}
+
+freeTextEl.addEventListener("input", () => {
+  // live-score uten XP-spam: bare oppdater score, ingen XP før “Lagre”
+  const score = freeFeedbackScore(freeTextEl.value || "");
+  S.free.text = freeTextEl.value || "";
+  S.free.score = score;
+  autoSaveSoft();
+  renderFree();
+});
+
+freeSaveBtn.addEventListener("click", () => {
+  evaluateFree();
+  saveState();
+});
+
+freeResetBtn.addEventListener("click", () => {
+  if(!confirm("Nullstille teksten din?")) return;
+  S.free = {...defaultState().free};
+  freeTextEl.value = "";
+  autoSaveSoft();
+  renderFree();
+  renderTop();
+  toast("🧽 Tekst nullstilt");
+});
+
+/* =========================
+   TOP BUTTONS
+   ========================= */
+document.getElementById("saveBtn").addEventListener("click", saveState);
+document.getElementById("resetBtn").addEventListener("click", resetAll);
+
+/* =========================
+   TOAST + CONFETTI + HELPERS
+   ========================= */
+let toastTimer = null;
+function toast(msg){
+  clearTimeout(toastTimer);
+  let el = document.getElementById("toast");
+  if(!el){
+    el = document.createElement("div");
+    el.id = "toast";
+    el.style.position = "fixed";
+    el.style.left = "50%";
+    el.style.bottom = "18px";
+    el.style.transform = "translateX(-50%)";
+    el.style.padding = "10px 12px";
+    el.style.borderRadius = "14px";
+    el.style.border = "1px solid rgba(255,255,255,.14)";
+    el.style.background = "rgba(15,23,42,.85)";
+    el.style.color = "white";
+    el.style.fontWeight = "800";
+    el.style.boxShadow = "0 12px 30px rgba(0,0,0,.35)";
+    el.style.zIndex = "99999";
+    document.body.appendChild(el);
+  }
+  el.textContent = msg;
+  el.style.opacity = "1";
+  toastTimer = setTimeout(() => { el.style.opacity = "0"; }, 1400);
+}
+
+function confetti(){
+  const box = document.getElementById("confetti");
+  if(!box) return;
+  box.innerHTML = "";
+
+  const colors = ["rgba(124,58,237,.95)","rgba(34,197,94,.95)","rgba(96,165,250,.95)","rgba(245,158,11,.95)"];
+  const n = 64;
+
+  for(let i=0; i<n; i++){
+    const s = document.createElement("span");
+    s.style.left = Math.random()*100 + "vw";
+    s.style.animationDelay = (Math.random()*0.25) + "s";
+    s.style.transform = `rotate(${Math.random()*360}deg)`;
+    s.style.background = colors[Math.floor(Math.random()*colors.length)];
+    s.style.width = (8 + Math.random()*8) + "px";
+    s.style.height = (10 + Math.random()*14) + "px";
+    box.appendChild(s);
+  }
+  setTimeout(()=> box.innerHTML="", 1400);
+}
+
+function escapeHtml(str){
+  return String(str)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+/* =========================
+   RENDER ALL + INIT
+   ========================= */
+function renderAll(){
+  renderTop();
+  renderWordbank();
+  renderFlashcard();
+  renderDD();
+  renderSB();
+  renderFree();
+}
+
+function init(){
+  fillSBSelects();
+
+  // oppdater tellerbokser
+  document.getElementById("countClothes").textContent = CLOTHES.length;
+  document.getElementById("countColors").textContent = COLORS.length;
+
+  // sett dd seed hvis mangler
+  if(!S.dd.seed) S.dd.seed = Date.now();
+
+  // hvis dd.score ikke matcher solved, sync:
+  S.dd.score = Object.keys(S.dd.solved || {}).filter(k => S.dd.solved[k]).length;
+
+  // hvis sb.current mangler, lag en
+  if(!S.sb.current) newSBRound();
+
+  renderAll();
+}
+
+init();
+</script>
