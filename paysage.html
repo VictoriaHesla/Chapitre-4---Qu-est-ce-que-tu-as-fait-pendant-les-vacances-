@@ -1,676 +1,608 @@
-<!doctype html>
-<html lang="no">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Salut 9 · Kapittel 4 · Paysage</title>
-  <link rel="stylesheet" href="assets/style.css" />
-</head>
-
-<body>
-  <header class="topbar">
-    <div class="brand">
-      Salut 9 <small>Kapittel 4</small>
-    </div>
-    <div class="pills">
-      <a class="btn" href="index.html">← Til meny</a>
-    </div>
-  </header>
-
-  <main class="container">
-    <section class="hero">
-      <div>
-        <h1>🏞️ Paysage: landskap + gloser</h1>
-        <p>Lær sentrale landskapsord, test deg i et spill, og skriv en liten tekst om ferien din med støtteord og setningsstartere.</p>
-      </div>
-      <div style="min-width:260px; width:360px; max-width:100%;">
-        <div class="toast">
-          <b>Læringsmål</b>
-          <ul class="small" style="margin:8px 0 0; padding-left:18px;">
-            <li>Jeg kan gjenkjenne og bruke landskapsord på fransk</li>
-            <li>Jeg kan skrive 6–10 setninger om ferie og sted</li>
-          </ul>
-          <p class="small" style="margin:8px 0 0;">Tips: Bruk <b>Legg til i teksten</b> i setningsbyggeren.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- 1) GLOSER -->
-    <section class="card" id="sectionVocab">
-      <h2>1) Gloser</h2>
-      <h3>## Ordbank: landskap</h3>
-
-      <div style="display:flex; gap:10px; flex-wrap:wrap; margin:10px 0;">
-        <button class="btn" id="toggleNo">Vis/Skjul norsk</button>
-        <button class="btn" id="toggleTTS">🔊 Lesestemme: AV</button>
-      </div>
-
-      <p class="small" style="margin:0 0 10px;">
-        Klikk på 🔊 ved et ord for å høre uttale (hvis nettleseren støtter det). Du kan også skjule norsk for å øve aktivt.
-      </p>
-
-      <div id="vocabGrid" class="grid"></div>
-    </section>
-
-    <!-- 2) SPILL -->
-    <section class="card" id="sectionGame">
-      <h2>2) Spill</h2>
-      <h3>## Mini-quiz: Hva betyr ordet?</h3>
-
-      <div class="toast" style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
-        <div style="font-weight:800;">Poeng: <span id="score">0</span> / <span id="attempts">0</span></div>
-        <div style="display:flex; gap:10px; flex-wrap:wrap;">
-          <button class="btn btn-primary" id="newQ">Ny oppgave</button>
-          <button class="btn btn-danger" id="resetGame">Nullstill</button>
-        </div>
-      </div>
-
-      <div class="toast" style="margin-top:10px;">
-        <div class="small" id="modeText" style="font-weight:800; margin-bottom:6px;">Modus: FR → NO</div>
-        <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
-          <div style="font-size:22px; font-weight:900;" id="question">—</div>
-          <button class="btn" id="sayQ">🔊</button>
-        </div>
-
-        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
-          <input class="input" id="answer" placeholder="Skriv svaret…" style="flex:1; min-width:220px;" />
-          <button class="btn btn-success" id="checkA">Sjekk</button>
-        </div>
-
-        <div class="small" style="margin-top:8px;">
-          Differensiering: Spill på norsk→fransk er enklere. Du kan også dekke til norsk og prøve å forklare med egne ord.
-        </div>
-      </div>
-
-      <div class="toast" id="gameToast" style="display:none; margin-top:10px;"></div>
-    </section>
-
-    <!-- 3) BYGG SETNING (4 stk) -->
-    <section class="card" id="sectionBuilder">
-      <h2>3) Bygg setning</h2>
-      <h3>## Setningsbygger</h3>
-      <p class="small">Velg elementer og få en ferdig setning du kan lime inn i teksten din.</p>
-
-      <div class="grid">
-        <div class="toast">
-          <b>A) Jeg dro til… (passé composé – être)</b>
-          <div id="builderA"></div>
-        </div>
-
-        <div class="toast">
-          <b>B) Jeg gjorde… (passé composé – avoir)</b>
-          <div id="builderB"></div>
-        </div>
-
-        <div class="toast">
-          <b>C) Det var / det fantes… (beskrivelse)</b>
-          <div id="builderC"></div>
-        </div>
-
-        <div class="toast">
-          <b>D) Det var … fordi … (mening + grunn)</b>
-          <div id="builderD"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 4) PRODUKSJON -->
-    <section class="card" id="sectionWrite">
-      <h2>4) Produksjon</h2>
-      <h3>## Kreativ skriveoppgave</h3>
-
-      <div style="display:flex; gap:10px; flex-wrap:wrap; margin:10px 0;">
-        <button class="btn btn-success" id="saveText">Lagre lokalt</button>
-      </div>
-
-      <p class="small" style="margin:0 0 10px;">
-        Skriv om ferien din: <b>6–10 setninger</b>. Bruk minst <b>5 landskapsord</b> fra ordbanken.
-      </p>
-
-      <div class="toast">
-        <b>Støtte (setningsstartere):</b>
-        <div class="small" id="starterList" style="margin-top:8px; line-height:1.5;"></div>
-      </div>
-
-      <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:10px;">
-        <label class="small" style="font-weight:800;">Velg nivå (differensiering)</label>
-        <select class="input" id="level" style="min-width:280px;">
-          <option value="1">Nivå 1: korte setninger + mye støtte</option>
-          <option value="2" selected>Nivå 2: normaltekst</option>
-          <option value="3">Nivå 3: mer detalj + variasjon</option>
-        </select>
-      </div>
-
-      <div style="margin-top:10px;">
-        <b>Din tekst</b>
-        <textarea class="input" id="text" rows="8" placeholder="Skriv her…"></textarea>
-      </div>
-
-      <div class="toast" style="margin-top:10px;">
-        <b>Sjekk:</b> bruker jeg 5 gloser?
-        <div class="small" id="glossCheck" style="margin-top:6px;"></div>
-      </div>
-
-      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
-        <button class="btn btn-primary" id="copyText">Kopier tekst</button>
-        <button class="btn" id="clearText">Tøm</button>
-      </div>
-
-      <p class="small" style="margin-top:10px;">
-        Obs: “Lagre lokalt” lagrer kun i din egen nettleser på denne enheten (ingen innlogging, ingen deling automatisk).
-      </p>
-    </section>
-
-    <section class="card">
-      <p class="small">Laget for GitHub Pages · Kan utvides med flere oppgaver senere</p>
-    </section>
-  </main>
-
 <script>
-(() => {
-  // -------------------------
-  // DATA
-  // -------------------------
-  const VOCAB = [
-    { fr: "la montagne", no: "fjellet / fjell" },
-    { fr: "la mer", no: "havet" },
-    { fr: "la plage", no: "stranden" },
-    { fr: "le lac", no: "innsjøen" },
-    { fr: "la campagne", no: "landsbygda" },
-    { fr: "la forêt", no: "skogen" },
-    { fr: "la rivière", no: "elven" },
-    { fr: "le désert", no: "ørkenen" },
-    { fr: "les rochers", no: "steinene / klippene" },
-    { fr: "une île", no: "en øy" },
-    { fr: "une vallée", no: "en dal" },
-    { fr: "une cascade", no: "en foss" },
-    { fr: "le soleil", no: "sola" },
-    { fr: "le vent", no: "vinden" }
-  ];
+  // ------------------ PROGRESJON / XP ------------------
+  const LS_KEY = "chap4_progress_v1";
+  function loadState(){
+    try{ return JSON.parse(localStorage.getItem(LS_KEY)) || { xp:0, done:{} }; }
+    catch(e){ return { xp:0, done:{} }; }
+  }
+  function saveState(s){ localStorage.setItem(LS_KEY, JSON.stringify(s)); }
+  let state = loadState();
 
-  // -------------------------
-  // UI helpers
-  // -------------------------
-  const $ = (id) => document.getElementById(id);
-
-  function toast(el, msg){
-    if (!el) return;
-    el.style.display = "block";
-    el.textContent = msg;
-    clearTimeout(el._t);
-    el._t = setTimeout(() => { el.style.display = "none"; }, 1600);
+  function addXP(amount){
+    state.xp = Math.max(0, (state.xp||0) + amount);
+    saveState(state);
+    renderHeader();
+  }
+  function markDone(id){
+    state.done = state.done || {};
+    state.done[id] = true;
+    saveState(state);
+    renderHeader();
+  }
+  function calcProgress(ids){
+    const done = state.done || {};
+    const total = ids.length;
+    const doneCount = ids.filter(id => done[id]).length;
+    const pct = total ? Math.round((doneCount/total)*100) : 0;
+    return { pct, doneCount, total };
   }
 
-  const norm = (s) => (s || "")
-    .toLowerCase()
-    .replace(/\s+/g, " ")
-    .replace(/[’']/g, "'")
-    .trim();
+  const TASKS = ["pay_open","pay_vocab","pay_quiz","pay_builder","pay_write","pay_bonus"];
 
-  // -------------------------
-  // TTS
-  // -------------------------
+  const xpEl = document.getElementById("xp");
+  const badgeEl = document.getElementById("badge");
+  const pctEl = document.getElementById("pct");
+  const fillEl = document.getElementById("fill");
+
+  function renderHeader(){
+    xpEl.textContent = state.xp || 0;
+
+    const xp = state.xp || 0;
+    if(xp >= 140) badgeEl.textContent = "🏆 Paysage Légende";
+    else if(xp >= 95) badgeEl.textContent = "🥇 Paysage Ninja";
+    else if(xp >= 55) badgeEl.textContent = "🥈 Paysage Pro";
+    else badgeEl.textContent = "🥉 Paysage Starter";
+
+    const { pct } = calcProgress(TASKS);
+    pctEl.textContent = pct + "%";
+    fillEl.style.width = pct + "%";
+  }
+
+  function flash(el, html, kind){
+    el.innerHTML = html;
+    el.style.borderColor =
+      kind === "good" ? "rgba(71,209,140,.7)" :
+      kind === "bad"  ? "rgba(255,92,122,.7)" :
+      "rgba(255,255,255,.18)";
+  }
+
+  // mark open
+  setTimeout(()=>markDone("pay_open"), 600);
+  renderHeader();
+
+  // ------------------ ORDBANK ------------------
+  const WORDS = [
+    { fr:"la montagne", no:"fjellet", emoji:"⛰️" },
+    { fr:"la mer", no:"havet", emoji:"🌊" },
+    { fr:"la plage", no:"stranden", emoji:"🏖️" },
+    { fr:"la forêt", no:"skogen", emoji:"🌲" },
+    { fr:"le lac", no:"innsjøen", emoji:"🏞️" },
+    { fr:"la rivière", no:"elva", emoji:"🏞️" },
+    { fr:"la campagne", no:"landskapet (bygda)", emoji:"🌾" },
+    { fr:"la ville", no:"byen", emoji:"🏙️" },
+    { fr:"le village", no:"landsbyen", emoji:"🏘️" },
+    { fr:"l’île", no:"øya", emoji:"🏝️" },
+    { fr:"le désert", no:"ørkenen", emoji:"🏜️" },
+    { fr:"la vallée", no:"dalen", emoji:"🏔️" }
+  ];
+
+  const wordGrid = document.getElementById("wordGrid");
+  const toggleNoBtn = document.getElementById("toggleNo");
+  const ttsBtn = document.getElementById("ttsToggle");
+  const ttsStateEl = document.getElementById("ttsState");
+  const vocabMsg = document.getElementById("vocabMsg");
+  const claimVocabBtn = document.getElementById("claimVocab");
+
+  let showNo = true;
   let ttsOn = false;
 
   function speakFR(text){
-    if (!ttsOn) return;
-    if (!("speechSynthesis" in window)) return;
+    if(!ttsOn) return;
+    if(!("speechSynthesis" in window)) return;
     const u = new SpeechSynthesisUtterance(text);
     u.lang = "fr-FR";
-    u.rate = 0.95;
     window.speechSynthesis.cancel();
     window.speechSynthesis.speak(u);
   }
 
-  $("toggleTTS").addEventListener("click", () => {
-    ttsOn = !ttsOn;
-    $("toggleTTS").textContent = ttsOn ? "🔊 Lesestemme: PÅ" : "🔊 Lesestemme: AV";
-  });
-
-  // -------------------------
-  // 1) VOCAB render + hide/show NO
-  // -------------------------
-  let showNO = true;
-
-  function renderVocab(){
-    const grid = $("vocabGrid");
-    grid.innerHTML = "";
-    VOCAB.forEach((w) => {
-      const card = document.createElement("div");
-      card.className = "toast";
-
-      const top = document.createElement("div");
-      top.style.display = "flex";
-      top.style.alignItems = "center";
-      top.style.justifyContent = "space-between";
-      top.style.gap = "10px";
-
-      const fr = document.createElement("div");
-      fr.style.fontWeight = "900";
-      fr.textContent = w.fr;
-
-      const btn = document.createElement("button");
-      btn.className = "btn";
-      btn.textContent = "🔊";
-      btn.addEventListener("click", () => speakFR(w.fr));
-
-      top.appendChild(fr);
-      top.appendChild(btn);
-
-      const no = document.createElement("div");
-      no.className = "small";
-      no.style.marginTop = "8px";
-      no.textContent = w.no;
-      no.style.opacity = showNO ? "1" : "0";
-      no.style.height = showNO ? "auto" : "0";
-      no.style.overflow = "hidden";
-
-      card.appendChild(top);
-      card.appendChild(no);
-      grid.appendChild(card);
+  function renderWords(){
+    wordGrid.innerHTML = "";
+    WORDS.forEach(w=>{
+      const div = document.createElement("div");
+      div.className = "wordCard";
+      div.innerHTML = `
+        <div class="wordMain">
+          <div class="fr">${w.emoji} ${w.fr}</div>
+          <div class="no" style="${showNo ? "" : "display:none"}">${w.no}</div>
+          <div class="tiny">Klikk 🔊 for fransk</div>
+        </div>
+        <button class="btn secondary" style="padding:8px 10px" aria-label="uttale">🔊</button>
+      `;
+      div.querySelector("button").onclick = ()=>{
+        speakFR(w.fr);
+        flash(vocabMsg, `🔊 Uttale: <strong>${w.fr}</strong> <span class="sparkle">(+1 XP)</span>`, "good");
+        addXP(1);
+      };
+      wordGrid.appendChild(div);
     });
   }
+  renderWords();
 
-  $("toggleNo").addEventListener("click", () => {
-    showNO = !showNO;
-    renderVocab();
-  });
+  toggleNoBtn.onclick = ()=>{
+    showNo = !showNo;
+    renderWords();
+    flash(vocabMsg, showNo ? "Norsk vises ✅" : "Norsk skjult 🙈 (bra øving!)", "info");
+  };
 
-  renderVocab();
+  ttsBtn.onclick = ()=>{
+    ttsOn = !ttsOn;
+    ttsStateEl.textContent = ttsOn ? "PÅ" : "AV";
+    flash(vocabMsg, ttsOn ? "Lesestemme er PÅ 🔊" : "Lesestemme er AV", "info");
+  };
 
-  // -------------------------
-  // 2) GAME
-  // -------------------------
-  let score = 0;
-  let attempts = 0;
-  let mode = "FR_NO"; // or "NO_FR"
+  claimVocabBtn.onclick = ()=>{
+    if(state.done && state.done["pay_vocab"]){
+      flash(vocabMsg, "Allerede tatt! 🎉", "good");
+      return;
+    }
+    addXP(15);
+    markDone("pay_vocab");
+    flash(vocabMsg, `🎉 Super! Du har øvd på glosene <span class="sparkle">(+15 XP)</span>`, "good");
+  };
+
+  // ------------------ MINI-QUIZ ------------------
+  const scoreEl = document.getElementById("score");
+  const totalEl = document.getElementById("total");
+  const modeBtn = document.getElementById("mode");
+  const modeTxt = document.getElementById("modeTxt");
+  const newQBtn = document.getElementById("newQ");
+  const resetBtn = document.getElementById("reset");
+  const checkBtn = document.getElementById("check");
+  const qPromptEl = document.getElementById("qPrompt");
+  const qChoicesEl = document.getElementById("qChoices");
+  const qResultEl = document.getElementById("qResult");
+
+  let modeFRtoNO = true; // true = FR->NO, false = NO->FR
   let current = null;
+  let selected = null;
+  let score = 0;
 
-  function newQuestion(){
-    current = VOCAB[Math.floor(Math.random()*VOCAB.length)];
-    mode = Math.random() < 0.5 ? "FR_NO" : "NO_FR";
-    $("modeText").textContent = mode === "FR_NO" ? "Modus: FR → NO" : "Modus: NO → FR";
-    $("question").textContent = mode === "FR_NO" ? current.fr : current.no;
-    $("answer").value = "";
-    $("answer").focus();
+  totalEl.textContent = WORDS.length;
+
+  function shuffle(arr){
+    const a = arr.slice();
+    for(let i = a.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function pickQuestion(){
+    current = WORDS[Math.floor(Math.random() * WORDS.length)];
+    selected = null;
+
+    const prompt = modeFRtoNO ? current.fr : current.no;
+    qPromptEl.textContent = prompt;
+
+    // svaralternativer (1 riktig + 3 feil)
+    const pool = WORDS.filter(w => w !== current);
+    const wrong = shuffle(pool).slice(0, 3);
+
+    const choices = shuffle([current, ...wrong]).map(w => {
+      return modeFRtoNO ? w.no : w.fr;
+    });
+
+    qChoicesEl.innerHTML = "";
+    choices.forEach(txt=>{
+      const b = document.createElement("button");
+      b.className = "choice";
+      b.type = "button";
+      b.textContent = txt;
+      b.onclick = ()=>{
+        selected = txt;
+        [...qChoicesEl.querySelectorAll(".choice")].forEach(x=>x.style.outline="none");
+        b.style.outline = "2px solid rgba(139,123,255,.9)";
+        flash(qResultEl, `Valgt: <strong>${txt}</strong>`, "info");
+      };
+      qChoicesEl.appendChild(b);
+    });
+
+    flash(qResultEl, `Velg et svar og trykk <span class="kbd">Sjekk</span>.`, "info");
+  }
+
+  function correctAnswerText(){
+    return modeFRtoNO ? current.no : current.fr;
   }
 
   function checkAnswer(){
-    if (!current) return;
-    const a = norm($("answer").value);
-    if (!a) return;
+    if(!current){ pickQuestion(); return; }
+    if(!selected){
+      flash(qResultEl, `Velg et svar først 🙂`, "bad");
+      return;
+    }
+    const ok = (selected === correctAnswerText());
 
-    attempts++;
-    $("attempts").textContent = attempts;
+    if(ok){
+      score += 1;
+      scoreEl.textContent = score;
+      addXP(5);
+      flash(qResultEl, `✅ Riktig! <span class="sparkle">(+5 XP)</span>`, "good");
 
-    const ok = (mode === "FR_NO")
-      ? norm(current.no).includes(a) || a.includes(norm(current.no))
-      : a === norm(current.fr);
-
-    if (ok){
-      score++;
-      $("score").textContent = score;
-      toast($("gameToast"), "✅ Riktig!");
-      speakFR(current.fr);
-      setTimeout(newQuestion, 450);
-    } else {
-      toast($("gameToast"), "❌ Prøv igjen!");
+      // marker quiz ferdig når man har 5 riktige (enkel “completion”)
+      if(score >= 5 && !(state.done && state.done["pay_quiz"])){
+        markDone("pay_quiz");
+        flash(qResultEl, `✅ Riktig! Du har nå <strong>5</strong> riktige og låser inn quiz-modulen 🎉`, "good");
+      }
+    }else{
+      addXP(1); // trøstepoeng
+      flash(qResultEl,
+        `❌ Nesten! Riktig svar er: <strong>${correctAnswerText()}</strong> <span class="sparkle">(+1 XP for forsøk)</span>`,
+        "bad"
+      );
     }
   }
 
-  $("newQ").addEventListener("click", newQuestion);
-  $("resetGame").addEventListener("click", () => {
-    score = 0; attempts = 0;
-    $("score").textContent = "0";
-    $("attempts").textContent = "0";
-    newQuestion();
-  });
-  $("checkA").addEventListener("click", checkAnswer);
-  $("answer").addEventListener("keydown", (e) => { if (e.key === "Enter") checkAnswer(); });
-  $("sayQ").addEventListener("click", () => {
-    if (!current) return;
-    if (mode === "FR_NO") speakFR(current.fr);
-  });
-
-  newQuestion();
-
-  // -------------------------
-  // 3) BUILDERS (4 stk) + "Legg til i teksten"
-  // -------------------------
-  function appendToText(sentence){
-    const ta = $("text");
-    if (!ta) return;
-
-    const s = sentence.trim();
-    if (!s) return;
-
-    const current = ta.value.trim();
-    ta.value = current ? (current + "\n" + s) : s;
-
-    // oppdater glosesjekk
-    vocabCheck();
-
-    // scroll og fokus
-    ta.scrollIntoView({ behavior: "smooth", block: "center" });
-    ta.focus();
-  }
-
-  function makeBuilder(mountId, config){
-    const root = document.getElementById(mountId);
-    if (!root) return;
-
-    // “Samme mal”-følelse: rader + jevn bredde + knapper under
-    const rows = document.createElement("div");
-    rows.style.display = "grid";
-    rows.style.gap = "10px";
-    rows.style.marginTop = "10px";
-
-    const selects = config.parts.map(p => {
-      const row = document.createElement("div");
-      row.className = "row";
-      row.style.display = "grid";
-      row.style.gridTemplateColumns = "140px 1fr";
-      row.style.gap = "10px";
-      row.style.alignItems = "center";
-
-      const label = document.createElement("div");
-      label.className = "small";
-      label.style.fontWeight = "800";
-      label.textContent = p.label;
-
-      const sel = document.createElement("select");
-      sel.className = "input";
-
-      p.options.forEach(opt => {
-        const o = document.createElement("option");
-        o.value = opt.value;
-        o.textContent = opt.text;
-        sel.appendChild(o);
-      });
-
-      row.appendChild(label);
-      row.appendChild(sel);
-      rows.appendChild(row);
-
-      return sel;
-    });
-
-    const btnRow = document.createElement("div");
-    btnRow.style.display = "flex";
-    btnRow.style.gap = "10px";
-    btnRow.style.flexWrap = "wrap";
-    btnRow.style.marginTop = "10px";
-
-    const btnMake = document.createElement("button");
-    btnMake.className = "btn btn-primary";
-    btnMake.textContent = "Lag setning";
-
-    const btnCopy = document.createElement("button");
-    btnCopy.className = "btn";
-    btnCopy.textContent = "Kopier setning";
-
-    const btnAdd = document.createElement("button");
-    btnAdd.className = "btn btn-success";
-    btnAdd.textContent = "Legg til i teksten";
-
-    btnRow.appendChild(btnMake);
-    btnRow.appendChild(btnCopy);
-    btnRow.appendChild(btnAdd);
-
-    const out = document.createElement("div");
-    out.className = "toast";
-    out.style.marginTop = "10px";
-    out.style.display = "none";
-
-    const outText = document.createElement("div");
-    outText.style.fontWeight = "900";
-
-    function buildSentence(){
-      const values = selects.map(s => s.value);
-      const sentence = config.build(values);
-      outText.textContent = sentence;
-      out.style.display = "block";
-      speakFR(sentence);
-      return sentence;
-    }
-
-    btnMake.addEventListener("click", buildSentence);
-
-    btnCopy.addEventListener("click", async () => {
-      const s = outText.textContent.trim();
-      if (!s) return;
-      try{
-        await navigator.clipboard.writeText(s);
-        toast($("gameToast"), "📋 Kopiert!");
-      }catch(e){
-        const ta = document.createElement("textarea");
-        ta.value = s;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand("copy");
-        ta.remove();
-        toast($("gameToast"), "📋 Kopiert!");
-      }
-    });
-
-    btnAdd.addEventListener("click", () => {
-      const s = outText.textContent.trim() || buildSentence();
-      appendToText(s);
-      toast($("gameToast"), "➕ Lagt til i teksten!");
-    });
-
-    out.appendChild(outText);
-    root.appendChild(rows);
-    root.appendChild(btnRow);
-    root.appendChild(out);
-  }
-
-  // A) être
-  makeBuilder("builderA", {
-    parts: [
-      {
-        label: "Sted",
-        options: [
-          { text: "à la montagne", value: "à la montagne" },
-          { text: "à la mer", value: "à la mer" },
-          { text: "à la plage", value: "à la plage" },
-          { text: "au lac", value: "au lac" },
-          { text: "à la campagne", value: "à la campagne" },
-          { text: "en forêt", value: "en forêt" },
-          { text: "dans le désert", value: "dans le désert" },
-          { text: "près d’une rivière", value: "près d’une rivière" }
-        ]
-      },
-      {
-        label: "Med hvem",
-        options: [
-          { text: "avec ma famille", value: "avec ma famille" },
-          { text: "avec mes amis", value: "avec mes amis" },
-          { text: "avec mon frère", value: "avec mon frère" },
-          { text: "avec ma sœur", value: "avec ma sœur" },
-          { text: "seul(e)", value: "seul(e)" }
-        ]
-      }
-    ],
-    build: ([place, who]) => `Pendant les vacances, je suis allé(e) ${place} ${who}.`
-  });
-
-  // B) avoir
-  makeBuilder("builderB", {
-    parts: [
-      {
-        label: "Aktivitet",
-        options: [
-          { text: "faire une promenade", value: "fait une promenade" },
-          { text: "faire du vélo", value: "fait du vélo" },
-          { text: "faire de la natation", value: "fait de la natation" },
-          { text: "visiter un musée", value: "visité un musée" },
-          { text: "regarder un film", value: "regardé un film" },
-          { text: "manger une glace", value: "mangé une glace" },
-          { text: "prendre des photos", value: "pris des photos" },
-          { text: "jouer au foot", value: "joué au foot" }
-        ]
-      },
-      {
-        label: "Hvor",
-        options: [
-          { text: "à la plage", value: "à la plage" },
-          { text: "en ville", value: "en ville" },
-          { text: "à la montagne", value: "à la montagne" },
-          { text: "au parc", value: "au parc" },
-          { text: "au bord du lac", value: "au bord du lac" },
-          { text: "dans la forêt", value: "dans la forêt" }
-        ]
-      }
-    ],
-    build: ([pp, where]) => `J’ai ${pp} ${where}.`
-  });
-
-  // C) Il y avait
-  makeBuilder("builderC", {
-    parts: [
-      {
-        label: "Il y avait",
-        options: [
-          { text: "beaucoup d’arbres", value: "beaucoup d’arbres" },
-          { text: "des montagnes", value: "des montagnes" },
-          { text: "une belle plage", value: "une belle plage" },
-          { text: "un grand lac", value: "un grand lac" },
-          { text: "une rivière", value: "une rivière" },
-          { text: "des rochers", value: "des rochers" },
-          { text: "du soleil", value: "du soleil" },
-          { text: "du vent", value: "du vent" }
-        ]
-      },
-      {
-        label: "Sted",
-        options: [
-          { text: "là-bas", value: "là-bas" },
-          { text: "dans la région", value: "dans la région" },
-          { text: "près de l’hôtel", value: "près de l’hôtel" },
-          { text: "autour de nous", value: "autour de nous" }
-        ]
-      }
-    ],
-    build: ([thing, place]) => `Il y avait ${thing} ${place}.`
-  });
-
-  // D) C’était … parce que …
-  makeBuilder("builderD", {
-    parts: [
-      {
-        label: "C’était",
-        options: [
-          { text: "magnifique", value: "magnifique" },
-          { text: "calme", value: "calme" },
-          { text: "incroyable", value: "incroyable" },
-          { text: "amusant", value: "amusant" },
-          { text: "ennuyeux", value: "ennuyeux" },
-          { text: "fatigant", value: "fatigant" }
-        ]
-      },
-      {
-        label: "Parce que",
-        options: [
-          { text: "il faisait beau", value: "parce qu’il faisait beau" },
-          { text: "il faisait chaud", value: "parce qu’il faisait chaud" },
-          { text: "il y avait du soleil", value: "parce qu’il y avait du soleil" },
-          { text: "j’ai vu la mer", value: "parce que j’ai vu la mer" },
-          { text: "j’ai fait du sport", value: "parce que j’ai fait du sport" },
-          { text: "j’étais avec mes amis", value: "parce que j’étais avec mes amis" }
-        ]
-      }
-    ],
-    build: ([adj, reason]) => `C’était ${adj} ${reason}.`
-  });
-
-  // -------------------------
-  // 4) Writing: starters, save/copy, vocab check
-  // -------------------------
-  const WRITE_KEY = "paysage_text_v1";
-
-  const starters = {
-    1: [
-      "• Pendant les vacances, je suis allé(e) à …",
-      "• J’ai vu …",
-      "• Il y avait …",
-      "• C’était …",
-      "• J’ai fait …"
-    ],
-    2: [
-      "• Pendant les vacances, je suis allé(e) à … avec …",
-      "• J’ai visité … / J’ai vu …",
-      "• Il y avait … (beaucoup de …)",
-      "• C’était … (magnifique / calme / incroyable)",
-      "• J’ai fait … (une promenade / du vélo / de la natation)"
-    ],
-    3: [
-      "• Pendant les vacances, je suis allé(e) à … avec … et j’ai …",
-      "• J’ai visité … puis j’ai pris des photos.",
-      "• Il y avait … autour de nous, et c’était …",
-      "• C’était … parce que …",
-      "• J’ai fait … et j’ai mangé …"
-    ]
+  modeBtn.onclick = ()=>{
+    modeFRtoNO = !modeFRtoNO;
+    modeTxt.textContent = modeFRtoNO ? "FR → NO" : "NO → FR";
+    pickQuestion();
   };
 
-  function renderStarters(){
-    const lvl = $("level").value;
-    $("starterList").innerHTML = starters[lvl].map(s => `<div>${s}</div>`).join("");
+  newQBtn.onclick = ()=>pickQuestion();
+
+  resetBtn.onclick = ()=>{
+    score = 0;
+    scoreEl.textContent = score;
+    pickQuestion();
+    flash(qResultEl, "Nullstilt. Kjør på! 💪", "info");
+  };
+
+  checkBtn.onclick = ()=>checkAnswer();
+
+  // start
+  pickQuestion();
+
+  // ------------------ SETNINGSBYGGER ------------------
+  const A_place = document.getElementById("A_place");
+  const B_verb  = document.getElementById("B_verb");
+  const B_where = document.getElementById("B_where");
+  const C_desc  = document.getElementById("C_desc");
+  const D_op    = document.getElementById("D_op");
+  const D_reason= document.getElementById("D_reason");
+
+  const A_make  = document.getElementById("A_make");
+  const B_make  = document.getElementById("B_make");
+  const C_make  = document.getElementById("C_make");
+  const D_make  = document.getElementById("D_make");
+
+  const builtEl = document.getElementById("built");
+  const addToTextBtn = document.getElementById("addToText");
+  const copyBuiltBtn = document.getElementById("copyBuilt");
+  const clearBuiltBtn = document.getElementById("clearBuilt");
+
+  // steder fra glosene (med riktig preposisjon)
+  const PLACES = [
+    { label:"à la montagne (på fjellet)", fr:"à la montagne" },
+    { label:"à la mer (ved havet)", fr:"à la mer" },
+    { label:"à la plage (på stranden)", fr:"à la plage" },
+    { label:"dans la forêt (i skogen)", fr:"dans la forêt" },
+    { label:"au lac (ved innsjøen)", fr:"au lac" },
+    { label:"à la rivière (ved elva)", fr:"à la rivière" },
+    { label:"à la campagne (på landet)", fr:"à la campagne" },
+    { label:"en ville (i byen)", fr:"en ville" },
+    { label:"dans un village (i en landsby)", fr:"dans un village" },
+    { label:"sur une île (på en øy)", fr:"sur une île" },
+    { label:"dans le désert (i ørkenen)", fr:"dans le désert" },
+    { label:"dans la vallée (i dalen)", fr:"dans la vallée" }
+  ];
+
+  const ACTIVITIES = [
+    { label:"fait une randonnée (gått på tur)", fr:"fait une randonnée" },
+    { label:"pris des photos (tatt bilder)", fr:"pris des photos" },
+    { label:"fait du vélo (syklet)", fr:"fait du vélo" },
+    { label:"nagé (badet/svømt)", fr:"nagé" },
+    { label:"campé (campet)", fr:"campé" },
+    { label:"visité un musée (besøkt museum)", fr:"visité un musée" },
+    { label:"mangé au restaurant (spist på restaurant)", fr:"mangé au restaurant" },
+    { label:"joué au foot (spilt fotball)", fr:"joué au foot" }
+  ];
+
+  const WHERES = [
+    { label:"à la plage", fr:"à la plage" },
+    { label:"en ville", fr:"en ville" },
+    { label:"à la campagne", fr:"à la campagne" },
+    { label:"dans la forêt", fr:"dans la forêt" },
+    { label:"au lac", fr:"au lac" },
+    { label:"à la montagne", fr:"à la montagne" }
+  ];
+
+  const DESCS = [
+    { label:"Il y avait du soleil. (Det var sol.)", fr:"Il y avait du soleil." },
+    { label:"Il faisait chaud. (Det var varmt.)", fr:"Il faisait chaud." },
+    { label:"Il faisait froid. (Det var kaldt.)", fr:"Il faisait froid." },
+    { label:"Il y avait du vent. (Det var vind.)", fr:"Il y avait du vent." },
+    { label:"C’était magnifique. (Det var nydelig.)", fr:"C’était magnifique." },
+    { label:"C’était calme. (Det var rolig.)", fr:"C’était calme." }
+  ];
+
+  const OPS = [
+    { label:"J’ai adoré. (Jeg elsket det.)", fr:"J’ai adoré." },
+    { label:"J’ai aimé. (Jeg likte det.)", fr:"J’ai aimé." },
+    { label:"Je n’ai pas aimé. (Jeg likte det ikke.)", fr:"Je n’ai pas aimé." },
+    { label:"C’était super. (Det var kjempebra.)", fr:"C’était super." },
+    { label:"C’était intéressant. (Det var interessant.)", fr:"C’était intéressant." }
+  ];
+
+  const REASONS = [
+    { label:"parce que c’était beau. (fordi det var fint.)", fr:"parce que c’était beau." },
+    { label:"parce qu’il faisait beau. (fordi det var fint vær.)", fr:"parce qu’il faisait beau." },
+    { label:"parce que c’était calme. (fordi det var rolig.)", fr:"parce que c’était calme." },
+    { label:"parce que j’étais avec ma famille. (fordi jeg var med familien.)", fr:"parce que j’étais avec ma famille." },
+    { label:"parce que j’ai pris des photos. (fordi jeg tok bilder.)", fr:"parce que j’ai pris des photos." }
+  ];
+
+  function fillSelect(sel, items){
+    items.forEach(it=>{
+      const opt = document.createElement("option");
+      opt.value = it.fr;
+      opt.textContent = it.label;
+      sel.appendChild(opt);
+    });
   }
 
-  function vocabCheck(){
-    const t = norm($("text").value);
-    const used = VOCAB
-      .map(v => v.fr)
-      .filter(fr => t.includes(norm(fr)));
+  fillSelect(A_place, PLACES);
+  fillSelect(B_verb, ACTIVITIES);
+  fillSelect(B_where, WHERES);
+  fillSelect(C_desc, DESCS);
+  fillSelect(D_op, OPS);
+  fillSelect(D_reason, REASONS);
 
-    const uniq = [...new Set(used)];
-    const need = 5;
-
-    $("glossCheck").innerHTML =
-      `<div>Brukte ord: <b>${uniq.length}</b> / ${need}</div>` +
-      (uniq.length
-        ? `<div class="small" style="margin-top:6px;">${uniq.map(x => `• ${x}`).join("<br>")}</div>`
-        : `<div class="small" style="margin-top:6px;">Tips: prøv å bruke ord som <i>la montagne</i>, <i>la mer</i>, <i>la forêt</i>…</div>`
-      );
+  function setBuilt(sentence){
+    if(!sentence){
+      builtEl.textContent = "Setningen din dukker opp her 🙂";
+      return;
+    }
+    builtEl.innerHTML = `🧩 <strong>${sentence}</strong>`;
+    if(!(state.done && state.done["pay_builder"])){
+      // marker “builder” som ferdig når man faktisk lager en setning
+      markDone("pay_builder");
+    }
   }
 
-  $("level").addEventListener("change", renderStarters);
-  $("text").addEventListener("input", vocabCheck);
+  A_make.onclick = ()=>{
+    const place = A_place.value;
+    if(!place) return flash(builtEl, "Velg et sted først 🙂", "bad");
+    const s = `Je suis allé(e) ${place}.`;
+    setBuilt(s);
+    addXP(2);
+    flash(builtEl, `🧩 <strong>${s}</strong> <span class="sparkle">(+2 XP)</span>`, "good");
+  };
 
-  $("saveText").addEventListener("click", () => {
-    localStorage.setItem(WRITE_KEY, $("text").value);
-    toast($("gameToast"), "✅ Teksten er lagret lokalt!");
-  });
+  B_make.onclick = ()=>{
+    const v = B_verb.value;
+    if(!v) return flash(builtEl, "Velg en aktivitet først 🙂", "bad");
+    const w = B_where.value;
+    const s = w ? `J’ai ${v} ${w}.` : `J’ai ${v}.`;
+    setBuilt(s);
+    addXP(2);
+    flash(builtEl, `🧩 <strong>${s}</strong> <span class="sparkle">(+2 XP)</span>`, "good");
+  };
 
-  $("copyText").addEventListener("click", async () => {
-    const text = $("text").value.trim();
-    if (!text) return;
+  C_make.onclick = ()=>{
+    const d = C_desc.value;
+    if(!d) return flash(builtEl, "Velg en beskrivelse først 🙂", "bad");
+    setBuilt(d);
+    addXP(2);
+    flash(builtEl, `🧩 <strong>${d}</strong> <span class="sparkle">(+2 XP)</span>`, "good");
+  };
+
+  D_make.onclick = ()=>{
+    const op = D_op.value;
+    if(!op) return flash(builtEl, "Velg en mening først 🙂", "bad");
+    const r = D_reason.value;
+    const s = r ? `${op} ${r}` : op;
+    setBuilt(s);
+    addXP(2);
+    flash(builtEl, `🧩 <strong>${s}</strong> <span class="sparkle">(+2 XP)</span>`, "good");
+  };
+
+  function getBuiltSentence(){
+    // builtEl inneholder ofte HTML – hent ut bare tekst
+    const txt = builtEl.textContent || "";
+    // fjerner emoji/prefix hvis den finnes
+    return txt.replace(/^🧩\s*/,"").trim();
+  }
+
+  addToTextBtn.onclick = ()=>{
+    const s = getBuiltSentence();
+    if(!s || s.includes("Setningen din dukker opp her")) {
+      flash(builtEl, "Lag en setning først 🙂", "bad");
+      return;
+    }
+    const textArea = document.getElementById("text");
+    const sep = textArea.value.trim().length ? "\n" : "";
+    textArea.value += sep + s;
+    addXP(2);
+    flash(builtEl, `✅ La til i teksten <span class="sparkle">(+2 XP)</span>`, "good");
+  };
+
+  copyBuiltBtn.onclick = async ()=>{
+    const s = getBuiltSentence();
+    if(!s || s.includes("Setningen din dukker opp her")) {
+      flash(builtEl, "Ingenting å kopiere ennå 🙂", "bad");
+      return;
+    }
     try{
-      await navigator.clipboard.writeText(text);
-      toast($("gameToast"), "📋 Kopiert!");
+      await navigator.clipboard.writeText(s);
+      flash(builtEl, `📋 Kopiert!`, "good");
     }catch(e){
-      const ta = document.createElement("textarea");
-      ta.value = text;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand("copy");
-      ta.remove();
-      toast($("gameToast"), "📋 Kopiert!");
+      flash(builtEl, `Kunne ikke kopiere (nettleser-blokkering). Marker setningen og kopier manuelt.`, "bad");
+    }
+  };
+
+  clearBuiltBtn.onclick = ()=>setBuilt("");
+
+  // ------------------ PRODUKSJON ------------------
+  const LS_TEXT = "chap4_paysage_text_v1";
+  const textEl = document.getElementById("text");
+  const prodMsg = document.getElementById("prodMsg");
+
+  const saveLocalBtn = document.getElementById("saveLocal");
+  const loadLocalBtn = document.getElementById("loadLocal");
+  const clearTextBtn = document.getElementById("clearText");
+  const copyTextBtn = document.getElementById("copyText");
+  const checkVocabBtn = document.getElementById("checkVocab");
+  const bonus20Btn = document.getElementById("bonus20");
+
+  const levelSel = document.getElementById("level");
+  const insertStartersBtn = document.getElementById("insertStarters");
+
+  function countSentences(text){
+    // enkel setnings-teller: ., !, ? eller linjeskift
+    const parts = text
+      .split(/[\.\!\?\n]+/g)
+      .map(x=>x.trim())
+      .filter(Boolean);
+    return parts.length;
+  }
+
+  function normalize(str){
+    return (str||"")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g,""); // fjern aksenter
+  }
+
+  function findUsedVocab(text){
+    const t = normalize(text);
+    const hits = [];
+    WORDS.forEach(w=>{
+      const fr = normalize(w.fr);
+      // sjekk om fr-ordet finnes i teksten
+      if(t.includes(fr)) hits.push(w.fr);
+    });
+    return hits;
+  }
+
+  function insertStarters(level){
+    const starters = {
+      1: [
+        "Je suis allé(e) …",
+        "J’ai …",
+        "Il y avait …",
+        "C’était …",
+        "J’ai aimé …",
+        "Parce que …"
+      ],
+      2: [
+        "Pendant les vacances, je suis allé(e) …",
+        "J’ai fait …",
+        "Il faisait …",
+        "J’ai visité …",
+        "J’ai adoré … parce que …",
+        "Ensuite, …"
+      ],
+      3: [
+        "Pendant les vacances, je suis allé(e) … avec …",
+        "Nous avons passé du temps …",
+        "Il y avait … et l’ambiance était …",
+        "J’ai fait … et j’ai pris …",
+        "Ce que j’ai préféré, c’était …",
+        "Enfin, …"
+      ]
+    };
+    const list = starters[level] || starters[2];
+    const block = list.map(s=>`• ${s}`).join("\n");
+    return `📌 Setningsstartere:\n${block}\n\n`;
+  }
+
+  saveLocalBtn.onclick = ()=>{
+    localStorage.setItem(LS_TEXT, textEl.value);
+    flash(prodMsg, "💾 Lagret lokalt i nettleseren din ✅", "good");
+  };
+
+  loadLocalBtn.onclick = ()=>{
+    const saved = localStorage.getItem(LS_TEXT) || "";
+    textEl.value = saved;
+    flash(prodMsg, saved ? "📥 Hentet lagret tekst ✅" : "Ingen lagret tekst funnet.", saved ? "good" : "bad");
+  };
+
+  clearTextBtn.onclick = ()=>{
+    textEl.value = "";
+    flash(prodMsg, "Tømt. Start på nytt ✍️", "info");
+  };
+
+  insertStartersBtn.onclick = ()=>{
+    const lvl = String(levelSel.value || "2");
+    const prefix = insertStarters(lvl);
+    textEl.value = prefix + (textEl.value || "");
+    flash(prodMsg, "📌 La inn setningsstartere (du kan slette dem når du vil).", "good");
+  };
+
+  copyTextBtn.onclick = async ()=>{
+    const t = textEl.value || "";
+    if(!t.trim()){
+      flash(prodMsg, "Ingenting å kopiere ennå 🙂", "bad");
+      return;
+    }
+    try{
+      await navigator.clipboard.writeText(t);
+      flash(prodMsg, "📋 Teksten er kopiert!", "good");
+    }catch(e){
+      flash(prodMsg, "Kunne ikke kopiere (nettleser-blokkering). Marker teksten og kopier manuelt.", "bad");
+    }
+  };
+
+  checkVocabBtn.onclick = ()=>{
+    const t = textEl.value || "";
+    const used = findUsedVocab(t);
+    const needed = 5;
+    if(used.length >= needed){
+      addXP(10);
+      markDone("pay_write");
+      flash(prodMsg,
+        `✅ Du bruker <strong>${used.length}</strong> landskapsord: <span class="kbd">${used.join("</span> <span class='kbd'>")}</span> <span class="sparkle">(+10 XP)</span>`,
+        "good"
+      );
+    }else{
+      const missing = needed - used.length;
+      flash(prodMsg,
+        `ℹ️ Du har <strong>${used.length}</strong> / ${needed} landskapsord. Mangler <strong>${missing}</strong>.<br>
+         Tips: legg inn noen av disse: <span class="kbd">${WORDS.slice(0,6).map(w=>w.fr).join("</span> <span class='kbd'>")}</span>`,
+        "bad"
+      );
+    }
+  };
+
+  bonus20Btn.onclick = ()=>{
+    if(state.done && state.done["pay_bonus"]){
+      flash(prodMsg, "Allerede tatt! 🎉", "good");
+      return;
+    }
+    const n = countSentences(textEl.value || "");
+    if(n >= 10){
+      addXP(20);
+      markDone("pay_bonus");
+      flash(prodMsg, `🏅 10+ setninger registrert (${n}). <span class="sparkle">(+20 XP)</span>`, "good");
+    }else{
+      flash(prodMsg, `Du har ca. <strong>${n}</strong> setninger. Skriv litt mer (mål: 10) 🙂`, "bad");
+    }
+  };
+
+  // liten auto-progress: om de begynner å skrive, gi et lite “kick” én gang
+  let wroteKickGiven = (state.done && state.done["_wroteKick"]);
+  textEl.addEventListener("input", ()=>{
+    if(wroteKickGiven) return;
+    if((textEl.value||"").trim().length >= 60){
+      wroteKickGiven = true;
+      state.done = state.done || {};
+      state.done["_wroteKick"] = true;
+      saveState(state);
+      addXP(5);
+      flash(prodMsg, `🔥 Du er i gang! <span class="sparkle">(+5 XP)</span>`, "good");
     }
   });
 
-  $("clearText").addEventListener("click", () => {
-    $("text").value = "";
-    vocabCheck();
-  });
+  // ------------------ KVALITET: tastatur ------------------
+  // Enter i quiz: sjekk (hvis fokus ikke er i textarea)
+  document.addEventListener("keydown", (e)=>{
+    const tag = (document.activeElement && document.activeElement.tagName || "").toLowerCase();
+    if(tag === "textarea") return;
 
-  // init
-  const saved = localStorage.getItem(WRITE_KEY);
-  if (saved) $("text").value = saved;
-  renderStarters();
-  vocabCheck();
-})();
+    if(e.key === "Enter"){
+      // hvis vi er i quiz-kortet-ish, sjekk
+      checkAnswer();
+    }
+  });
 </script>
-</body>
-</html>
