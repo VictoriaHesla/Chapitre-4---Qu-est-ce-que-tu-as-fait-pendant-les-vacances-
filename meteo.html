@@ -674,6 +674,53 @@
       `<div class="small">${c.ok ? "✅" : "⬜"} ${c.label}</div>`
     ).join("");
 
+    // liten toast for “godt i gang”
+    if (freeText.value.trim().length && score >= 2 && freeToast){
+      freeToast.style.display = "block";
+      freeToast.textContent = "👍 Bra! Prøv å få alle 5 sjekkene ✅";
+      clearTimeout(freeToast._t);
+      freeToast._t = setTimeout(()=> freeToast.style.display="none", 1200);
+    }
+
     if (score === max && !freeAwarded){
       freeAwarded = true;
-      addXP(12, "
+      addXP(12, "Fullført fri tekst");
+      toastGlobal("🏁 Del 4 fullført! +12 XP");
+      markDone("free");
+    }
+    if (score < max) {
+      // hvis de endrer teksten ned igjen, kan de “fullføre” på nytt i samme økt
+      freeAwarded = false;
+    }
+  }
+
+  freeText.addEventListener("input", () => {
+    localStorage.setItem(FREE_KEY, freeText.value);
+    updateFree();
+  });
+
+  document.getElementById("saveFree").addEventListener("click", () => {
+    localStorage.setItem(FREE_KEY, freeText.value);
+    toastGlobal("✅ Lagret lokalt.");
+    addXP(2, "Lagret fri tekst");
+
+    const { score, max } = smartFeedback(freeText.value);
+    if (score === max) markDone("free");
+  });
+
+  document.getElementById("resetFree").addEventListener("click", () => {
+    localStorage.removeItem(FREE_KEY);
+    freeText.value = "";
+    freeAwarded = false;
+    updateFree();
+    toastGlobal("🗑️ Fri tekst nullstilt.");
+  });
+
+  // init del 4
+  updateFree();
+
+})();
+</script>
+
+</body>
+</html>
