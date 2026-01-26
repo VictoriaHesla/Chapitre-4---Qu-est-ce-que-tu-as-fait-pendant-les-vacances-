@@ -112,7 +112,8 @@
     <section class="card" id="sectionSentences">
       <h2>3) Skriv setninger (med tilbakemelding)</h2>
       <p class="small">
-        Du får “rette ord” mot modellsetninger. Målet er å treffe alle ordene (stavemåte teller).
+        Nå står modellene på <b>norsk</b>. Du skriver setningen på <b>fransk</b> i feltet.
+        Du får “rette ord” mot fasit-setningen (stavemåte teller).
       </p>
 
       <div id="meteoWrite"></div>
@@ -227,7 +228,6 @@
   }
 
   function toastGlobal(msg){
-    // mini, ikke-invasiv: bruker emojiToast om synlig, ellers sentenceToast, ellers freeToast
     const el = document.getElementById("emojiToast") || document.getElementById("sentenceToast") || document.getElementById("freeToast");
     if (!el) return;
     el.style.display = "block";
@@ -237,14 +237,8 @@
   }
 
   function updateProgress(){
-    // 4 seksjoner: emoji fullført, modellsetninger fullført, fri tekst (min 4 setninger), + "har åpnet siden"
     const done = JSON.parse(localStorage.getItem(DONE_KEY) || "{}");
-    const parts = [
-      !!done.emoji,
-      !!done.sentences,
-      !!done.free,
-      true
-    ];
+    const parts = [!!done.emoji, !!done.sentences, !!done.free, true];
     const pct = Math.round((parts.filter(Boolean).length / parts.length) * 100);
     progressText.textContent = `${pct}%`;
     progressBar.style.width = `${pct}%`;
@@ -293,7 +287,6 @@
       ctx.save();
       ctx.translate(p.x, p.y);
       ctx.rotate(p.a);
-      // ingen fargevalg spesifisert? (vi bruker default stroke/fill via random grayscale-ish)
       ctx.fillStyle = `rgba(255,255,255,${0.55 + Math.random()*0.35})`;
       ctx.fillRect(-p.r, -p.r, p.r*2, p.r*2);
       ctx.restore();
@@ -307,7 +300,6 @@
     }
   }
 
-  // init XP badge + progress
   setXP(getXP());
   updateProgress();
 
@@ -401,7 +393,6 @@
         } else {
           slot.style.outline = "3px solid rgba(255,107,107,.95)";
           setTimeout(()=> slot.style.outline = "none", 420);
-          addXP(0, "");
         }
       }
 
@@ -468,7 +459,6 @@
   }
 
   document.getElementById("saveEmoji").addEventListener("click", () => {
-    // state lagres fortløpende, men denne knappen gir “belønning”
     addXP(2, "Lagret");
     toastGlobal("✅ Lagret lokalt.");
   });
@@ -482,16 +472,16 @@
   renderEmoji();
 
   // -------------------------
-  // DEL 3: Modellsetninger med rette ord
+  // DEL 3: Modellsetninger med rette ord (NORSK MODELL, FRANSK FASIT)
   // -------------------------
   const SENT_KEY = "meteo_sentences_v2";
 
   const targets = [
-    "Il fait beau.",
-    "Il fait chaud.",
-    "Il y a du soleil.",
-    "Il y a du vent.",
-    "Il pleut."
+    { no: "Det er pent vær.",      fr: "Il fait beau." },
+    { no: "Det er varmt.",         fr: "Il fait chaud." },
+    { no: "Det er sol.",           fr: "Il y a du soleil." },
+    { no: "Det er vind.",          fr: "Il y a du vent." },
+    { no: "Det regner.",           fr: "Il pleut." }
   ];
 
   const writeRoot = document.getElementById("meteoWrite");
@@ -540,7 +530,7 @@
     let c = 0, tot = 0;
     targets.forEach((t, i) => {
       const val = document.getElementById(`in-${i}`)?.value || "";
-      const s = scoreSentence(val, t);
+      const s = scoreSentence(val, t.fr);
       c += s.correct;
       tot += s.total;
     });
@@ -557,10 +547,13 @@
       wrap.style.margin = "10px 0";
       wrap.innerHTML = `
         <div style="display:flex; justify-content:space-between; gap:10px; align-items:baseline;">
-          <div><b>Setning ${i+1}</b> <span class="small">(modell: ${t})</span></div>
+          <div>
+            <b>Setning ${i+1}</b>
+            <span class="small">(norsk: ${t.no})</span>
+          </div>
           <div id="fb-${i}" style="font-weight:900;"></div>
         </div>
-        <input id="in-${i}" class="input" type="text" placeholder="Skriv her…" />
+        <input id="in-${i}" class="input" type="text" placeholder="Skriv setningen på fransk…" />
       `;
       writeRoot.appendChild(wrap);
 
@@ -569,7 +562,7 @@
       input.value = saved[i] || "";
 
       const update = () => {
-        const {correct,total} = scoreSentence(input.value, t);
+        const {correct,total} = scoreSentence(input.value, t.fr);
         fb.textContent = `${correct} / ${total}`;
         fb.style.color = (correct === total) ? "rgba(125,255,178,.95)"
                      : (correct >= Math.ceil(total/2)) ? "rgba(255,209,102,.95)"
@@ -577,7 +570,6 @@
 
         const totals = updateTotal();
 
-        // XP-boost når de fullfører en modellsetning helt (første gang)
         const markerKey = `meteo_model_done_${i}_v1`;
         if (correct === total && localStorage.getItem(markerKey) !== "1"){
           localStorage.setItem(markerKey, "1");
@@ -588,17 +580,15 @@
           sentenceToast._t = setTimeout(()=> sentenceToast.style.display="none", 1600);
         }
 
-        // Sjekk om alle er perfekte
         const allPerfect = targets.every((_, k) => {
           const v = document.getElementById(`in-${k}`)?.value || "";
-          const s = scoreSentence(v, targets[k]);
+          const s = scoreSentence(v, targets[k].fr);
           return s.correct === s.total;
         });
         if (allPerfect){
           markDone("sentences");
         }
 
-        // Progress hint
         if (totals.c === totals.tot){
           sentenceToast.style.display = "block";
           sentenceToast.textContent = "🌟 Alt riktig i del 3!";
@@ -642,7 +632,6 @@
   freeText.value = localStorage.getItem(FREE_KEY) || "";
 
   function countSentences(text){
-    // enkel: tell ., !, ? som setningsslutt
     const m = text.match(/[.!?]+/g);
     return m ? m.length : (text.trim().length ? 1 : 0);
   }
@@ -674,24 +663,13 @@
       `<div class="small">${c.ok ? "✅" : "⬜"} ${c.label}</div>`
     ).join("");
 
-    // liten toast for “godt i gang”
-    if (freeText.value.trim().length && score >= 2 && freeToast){
-      freeToast.style.display = "block";
-      freeToast.textContent = "👍 Bra! Prøv å få alle 5 sjekkene ✅";
-      clearTimeout(freeToast._t);
-      freeToast._t = setTimeout(()=> freeToast.style.display="none", 1200);
-    }
-
     if (score === max && !freeAwarded){
       freeAwarded = true;
       addXP(12, "Fullført fri tekst");
       toastGlobal("🏁 Del 4 fullført! +12 XP");
       markDone("free");
     }
-    if (score < max) {
-      // hvis de endrer teksten ned igjen, kan de “fullføre” på nytt i samme økt
-      freeAwarded = false;
-    }
+    if (score < max) freeAwarded = false;
   }
 
   freeText.addEventListener("input", () => {
@@ -703,7 +681,6 @@
     localStorage.setItem(FREE_KEY, freeText.value);
     toastGlobal("✅ Lagret lokalt.");
     addXP(2, "Lagret fri tekst");
-
     const { score, max } = smartFeedback(freeText.value);
     if (score === max) markDone("free");
   });
@@ -716,7 +693,6 @@
     toastGlobal("🗑️ Fri tekst nullstilt.");
   });
 
-  // init del 4
   updateFree();
 
 })();
