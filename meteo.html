@@ -1,387 +1,679 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="no">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Vær – il fait / il y a / il</title>
-  <style>
-    body{
-      margin:0;
-      font-family:"Segoe UI", Arial, sans-serif;
-      background: linear-gradient(120deg,#f6f9ff,#eef6ff);
-      color:#2c3e50;
-    }
-    header{
-      background: linear-gradient(135deg,#4a90e2,#6fc3df);
-      color:#fff;
-      padding:18px 18px 20px 18px;
-      border-radius:0 0 22px 22px;
-    }
-    header .toprow{
-      display:flex;
-      gap:12px;
-      align-items:center;
-      justify-content:space-between;
-      flex-wrap:wrap;
-      max-width:980px;
-      margin:0 auto;
-    }
-    header a{
-      color:#fff;
-      text-decoration:none;
-      font-weight:800;
-      background: rgba(255,255,255,0.18);
-      padding:10px 14px;
-      border-radius:999px;
-      display:inline-block;
-    }
-    header h1{
-      margin:0;
-      font-size:1.3rem;
-    }
-    header p{
-      margin:6px 0 0 0;
-      opacity:0.95;
-      font-size:0.98rem;
-      max-width:980px;
-      margin-left:auto;
-      margin-right:auto;
-    }
-
-    .wrap{
-      max-width:980px;
-      margin:0 auto;
-      padding:16px;
-    }
-
-    .card{
-      background:#fff;
-      border-radius:18px;
-      padding:16px;
-      margin:14px 0;
-      box-shadow:0 6px 16px rgba(0,0,0,0.08);
-    }
-
-    .pillrow{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:10px;
-    }
-    .pill{
-      background:#e3f2fd;
-      color:#1565c0;
-      padding:6px 10px;
-      border-radius:999px;
-      font-weight:800;
-      font-size:0.95rem;
-    }
-
-    .grid3{
-      display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap:12px;
-      margin-top:12px;
-    }
-    .mini{
-      background:#f7fbff;
-      border-radius:16px;
-      padding:12px;
-      border:1px solid #e6eef7;
-    }
-    .mini h3{
-      margin:0 0 6px 0;
-      font-size:1.05rem;
-    }
-    .ex{
-      margin:8px 0 0 0;
-      padding-left:18px;
-    }
-    .ex li{ margin:4px 0; }
-
-    .gameTop{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-bottom:10px;
-    }
-    .score{
-      font-weight:900;
-      background:#eef3f7;
-      padding:8px 12px;
-      border-radius:999px;
-    }
-    .badge{
-      font-weight:900;
-      padding:8px 12px;
-      border-radius:999px;
-      display:none;
-    }
-    .badge.win{ background:#e8f5e9; color:#1b5e20; border-left:6px solid #43a047; }
-    .badge.try{ background:#fff8e1; color:#6d4c41; border-left:6px solid #f9a825; }
-
-    .items{
-      display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap:10px;
-    }
-
-    .item{
-      background:#fff;
-      border:1px solid #e6eef7;
-      border-radius:16px;
-      padding:12px;
-    }
-    .item p{
-      margin:0 0 10px 0;
-      font-weight:800;
-      font-size:1.02rem;
-    }
-    .choices{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-    }
-    button.choice{
-      border:0;
-      cursor:pointer;
-      border-radius:999px;
-      padding:10px 14px;
-      font-weight:900;
-      background: linear-gradient(135deg,#4a90e2,#6fc3df);
-      color:#fff;
-    }
-    button.choice:hover{ opacity:0.92; }
-
-    .result{
-      margin-top:10px;
-      font-weight:900;
-      padding:10px 12px;
-      border-radius:14px;
-      display:none;
-    }
-    .ok{ background:#e8f5e9; border-left:6px solid #43a047; color:#1b5e20; }
-    .no{ background:#fce4ec; border-left:6px solid #d81b60; color:#880e4f; }
-
-    .controls{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:12px;
-    }
-    .btn{
-      border:0;
-      cursor:pointer;
-      border-radius:999px;
-      padding:10px 14px;
-      font-weight:900;
-      background:#2c3e50;
-      color:#fff;
-    }
-    .btn:hover{ opacity:0.92; }
-
-    textarea{
-      width:100%;
-      min-height:92px;
-      border-radius:14px;
-      border:1px solid #dbe6f2;
-      padding:10px;
-      font-size:1rem;
-      font-family:inherit;
-    }
-    .hint{
-      background:#eef3f7;
-      border-radius:14px;
-      padding:10px 12px;
-      margin-top:10px;
-    }
-    code{
-      background:#f1f3f4;
-      padding:2px 6px;
-      border-radius:6px;
-    }
-  </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Salut 9 · Kapittel 4 · La météo</title>
+  <link rel="stylesheet" href="assets/style.css" />
 </head>
 
 <body>
-
-<header>
-  <div class="toprow">
-    <h1>☀️ Vær – il fait / il y a / il</h1>
-    <a href="index.html">🏠 Til meny</a>
-  </div>
-  <p>Mål: Kunne velge riktig uttrykk og lage egne setninger om været (kap. 4 – Mes vacances).</p>
-</header>
-
-<div class="wrap">
-
-  <div class="card">
-    <h2>1) Forskjellen (superkort)</h2>
-    <div class="pillrow">
-      <span class="pill">il fait + adjektiv</span>
-      <span class="pill">il y a + substantiv</span>
-      <span class="pill">il + verb</span>
+  <header class="topbar">
+    <div class="brand">
+      Salut 9 <small>Kapittel 4</small>
     </div>
+    <div class="pills">
+      <span class="badge" id="xpBadge">⭐ XP: 0</span>
+      <a class="btn" href="index.html">← Til meny</a>
+    </div>
+  </header>
 
-    <div class="grid3">
-      <div class="mini">
-        <h3>✅ il fait …</h3>
-        <p>Brukes ofte med <strong>adjektiv</strong> (varmt, kaldt, fint).</p>
-        <ul class="ex">
-          <li>Il fait beau. (Det er fint vær.)</li>
-          <li>Il fait chaud / froid. (Det er varmt / kaldt.)</li>
-          <li>Il fait mauvais. (Dårlig vær.)</li>
-        </ul>
+  <main class="container">
+    <section class="hero">
+      <div>
+        <h1>☁️ La météo</h1>
+        <p>Øv væruttrykk, få tilbakemelding, og samle poeng.</p>
+      </div>
+      <div style="min-width:260px; width:360px; max-width:100%;">
+        <div class="small" style="display:flex; justify-content:space-between; margin-bottom:6px;">
+          <span>Fremdrift</span><span id="progressText">0%</span>
+        </div>
+        <div class="progress"><div id="progressBar"></div></div>
+        <div class="small" style="margin-top:6px;">Tips: Fullfør oppgavene for å låse opp 🏅</div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>🎯 Mål</h2>
+      <div class="grid">
+        <div class="toast">
+          <b>Jeg kan…</b>
+          <ul class="small" style="margin:8px 0 0; padding-left:18px;">
+            <li>bruke <b>il fait</b> + adjektiv</li>
+            <li>bruke <b>il y a</b> + substantiv</li>
+            <li>skrive 4–8 setninger om været</li>
+          </ul>
+        </div>
+        <div class="toast">
+          <b>Belønning</b>
+          <p class="small" style="margin:8px 0 0;">
+            Du får XP for: riktige treff, fullført drag&drop og ferdige setninger.
+            Når du når 100 XP → 🏅 “Météo Master”.
+          </p>
+        </div>
       </div>
 
-      <div class="mini">
-        <h3>✅ il y a …</h3>
-        <p>Brukes med <strong>substantiv</strong> (sol, skyer, vind).</p>
-        <ul class="ex">
-          <li>Il y a du soleil. (Det er sol.)</li>
-          <li>Il y a des nuages. (Det er skyer.)</li>
-          <li>Il y a du vent. (Det er vind.)</li>
-        </ul>
+      <div class="nav">
+        <a class="btn" href="passe.html">Passé composé</a>
+        <a class="btn" href="vetements.html">Vêtements</a>
+        <a class="btn" href="negation.html">Négation</a>
+        <a class="btn" href="defi.html">Défi</a>
+      </div>
+    </section>
+
+    <!-- DEL 1: MINI-ORDLISTE / MODELLER -->
+    <section class="card" id="sectionModels">
+      <h2>1) Modeller (byggesteiner)</h2>
+      <div class="grid">
+        <div class="toast">
+          <b>Il fait + adjektiv</b>
+          <p class="small" style="margin:8px 0 0;">
+            Il fait beau / chaud / froid / mauvais.
+          </p>
+        </div>
+        <div class="toast">
+          <b>Il y a + substantiv</b>
+          <p class="small" style="margin:8px 0 0;">
+            Il y a du soleil / du vent / du brouillard / des nuages.
+          </p>
+        </div>
+      </div>
+      <p class="small" style="margin-top:10px;">
+        Tipp: Bruk <b>du</b> (masseord) og <b>des</b> (flertall).
+      </p>
+    </section>
+
+    <!-- DEL 2: EMOJI MATCH DRAG&DROP -->
+    <section class="card" id="sectionEmoji">
+      <h2>2) Dra riktig uttrykk til riktig emoji</h2>
+      <p class="small">Dra kortet til riktig emoji (touch + mus). Riktig gir XP.</p>
+
+      <div id="emojiBoard" class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));"></div>
+
+      <hr>
+
+      <div>
+        <b>Uttrykk å dra</b>
+        <div id="chips" class="chips" style="margin-top:10px;"></div>
       </div>
 
-      <div class="mini">
-        <h3>✅ il …</h3>
-        <p>Brukes med <strong>verb</strong> (regner, snør).</p>
-        <ul class="ex">
-          <li>Il pleut. (Det regner.)</li>
-          <li>Il neige. (Det snør.)</li>
-          <li>Il grêle. (Det hagler.)</li>
-        </ul>
+      <div class="kudos" style="margin-top:12px;">
+        <div><b id="emojiScore">Poeng: 0 / 8</b> <span class="small" id="emojiHint"></span></div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button class="btn btn-success" id="saveEmoji">Lagre</button>
+          <button class="btn btn-danger" id="resetEmoji">Start på nytt</button>
+        </div>
       </div>
-    </div>
-  </div>
 
-  <div class="card">
-    <h2>2) Spill: Velg riktig uttrykk</h2>
+      <div class="toast" id="emojiToast" style="display:none;"></div>
+    </section>
 
-    <div class="gameTop">
-      <div class="score">Poeng: <span id="score">0</span> / 6</div>
-      <div class="badge win" id="badgeWin">🎉 TRÈS BIEN ! Du klarte alle!</div>
-      <div class="badge try" id="badgeTry">💡 Fortsett! Du er nesten i mål.</div>
-    </div>
+    <!-- DEL 3: SETNINGER MED TILBAKEMELDING -->
+    <section class="card" id="sectionSentences">
+      <h2>3) Skriv setninger (med tilbakemelding)</h2>
+      <p class="small">
+        Du får “rette ord” mot modellsetninger. Målet er å treffe alle ordene (stavemåte teller).
+      </p>
 
-    <p><strong>Oppgave:</strong> Trykk på riktig startuttrykk for setningen.</p>
+      <div id="meteoWrite"></div>
 
-    <div class="items" id="items"></div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+        <button id="saveMeteo" class="btn btn-success">Lagre lokalt</button>
+        <button id="resetMeteo" class="btn btn-danger">Nullstill</button>
+      </div>
 
-    <div class="controls">
-      <button class="btn" onclick="resetGame()">Start spillet på nytt</button>
-    </div>
-  </div>
+      <p id="meteoTotal" style="margin:10px 0 0; font-weight:800;"></p>
+      <p id="meteoSaved" class="small" style="margin:6px 0 0;"></p>
 
-  <div class="card">
-    <h2>3) Minioppgave: Lag egne setninger</h2>
-    <p>Skriv 3–5 setninger om været på ferien din (ekte eller oppdiktet). Bruk minst én av hver:</p>
-    <ul>
-      <li><code>il fait</code></li>
-      <li><code>il y a</code></li>
-      <li><code>il</code></li>
-    </ul>
+      <div class="toast" id="sentenceToast" style="display:none;"></div>
+    </section>
 
-    <textarea placeholder="Eksempel: Pendant mes vacances, il fait beau. Il y a du soleil. Il pleut parfois…"></textarea>
+    <!-- DEL 4: FRI SKRIVING MED SMART FEEDBACK -->
+    <section class="card" id="sectionFree">
+      <h2>4) Fri minioppgave (smart feedback)</h2>
+      <p class="small">
+        Skriv 4–8 setninger om været i dag eller i helga. Du får hint om du bruker gode “mønstre”.
+      </p>
 
-    <div class="hint">
-      <strong>Tips:</strong> Hvis du vil øke nivået: legg til en nektelse: <code>Il n’y a pas de nuages.</code>
-    </div>
-  </div>
+      <div class="grid">
+        <div class="toast">
+          <b>Setningsstartere</b>
+          <ul class="small" style="margin:8px 0 0; padding-left:18px;">
+            <li>Aujourd’hui, …</li>
+            <li>Dans ma ville, …</li>
+            <li>Le matin, … et l’après-midi, …</li>
+            <li>J’aime / Je n’aime pas parce que …</li>
+          </ul>
+        </div>
 
-</div>
+        <div class="toast">
+          <b>Bonus-ord</b>
+          <p class="small" style="margin:8px 0 0;">
+            orage, brouillard, température, souvent, parfois, mais, parce que
+          </p>
+        </div>
+      </div>
+
+      <textarea id="freeText" rows="8" placeholder="Skriv her…"></textarea>
+
+      <div class="kudos" style="margin-top:10px;">
+        <div>
+          <b id="freeScore">Feedback: 0 / 5</b>
+          <div class="small" id="freeFeedback"></div>
+        </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button class="btn btn-success" id="saveFree">Lagre</button>
+          <button class="btn btn-danger" id="resetFree">Nullstill</button>
+        </div>
+      </div>
+
+      <div class="toast" id="freeToast" style="display:none;"></div>
+    </section>
+
+    <section class="card">
+      <h2>🏁 Ferdig?</h2>
+      <p class="small">Når du har gjort alt, gå videre til neste modul.</p>
+      <div class="nav">
+        <a class="btn btn-primary" href="passe.html">Neste: Passé composé →</a>
+        <a class="btn" href="index.html">Til meny</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Confetti canvas -->
+  <canvas id="confetti" style="position:fixed; inset:0; pointer-events:none; z-index:999;"></canvas>
 
 <script>
-  // 6 oppgaver – du kan enkelt endre/legge til senere
-  const tasks = [
-    { tail: "beau.", correct: "il fait" },        // adjektiv
-    { tail: "chaud.", correct: "il fait" },       // adjektiv
-    { tail: "du soleil.", correct: "il y a" },    // substantiv
-    { tail: "des nuages.", correct: "il y a" },   // substantiv
-    { tail: "pleut.", correct: "il" },            // verb
-    { tail: "neige.", correct: "il" }             // verb
-  ];
+(() => {
+  // -------------------------
+  // GLOBAL: XP + Progress + Confetti
+  // -------------------------
+  const XP_KEY = "salut9_xp_v1";
+  const DONE_KEY = "meteo_done_v1";
 
-  const items = document.getElementById("items");
-  const scoreEl = document.getElementById("score");
-  const badgeWin = document.getElementById("badgeWin");
-  const badgeTry = document.getElementById("badgeTry");
+  const xpBadge = document.getElementById("xpBadge");
+  const progressText = document.getElementById("progressText");
+  const progressBar = document.getElementById("progressBar");
 
-  let score = 0;
-  let answered = new Set();
+  const confetti = document.getElementById("confetti");
+  const ctx = confetti.getContext("2d");
+  let confettiPieces = [];
+  let confettiRAF = null;
 
-  function render(){
-    items.innerHTML = "";
-    tasks.forEach((t, idx) => {
-      const box = document.createElement("div");
-      box.className = "item";
+  function resizeConfetti(){
+    confetti.width = window.innerWidth * devicePixelRatio;
+    confetti.height = window.innerHeight * devicePixelRatio;
+  }
+  window.addEventListener("resize", resizeConfetti);
+  resizeConfetti();
 
-      const p = document.createElement("p");
-      p.textContent = "___ " + t.tail;
-      box.appendChild(p);
+  function getXP(){
+    return Number(localStorage.getItem(XP_KEY) || "0");
+  }
+  function setXP(v){
+    localStorage.setItem(XP_KEY, String(v));
+    xpBadge.textContent = `⭐ XP: ${v}`;
+    updateProgress();
+  }
+  function addXP(delta, reason){
+    const before = getXP();
+    const after = Math.max(0, before + delta);
+    setXP(after);
+    if (delta > 0) toastGlobal(`+${delta} XP ${reason ? "· " + reason : ""}`);
+    if (before < 100 && after >= 100) {
+      toastGlobal("🏅 Låst opp: Météo Master!");
+      burstConfetti();
+    }
+  }
 
-      const choices = document.createElement("div");
-      choices.className = "choices";
+  function toastGlobal(msg){
+    // mini, ikke-invasiv: bruker emojiToast om synlig, ellers sentenceToast, ellers freeToast
+    const el = document.getElementById("emojiToast") || document.getElementById("sentenceToast") || document.getElementById("freeToast");
+    if (!el) return;
+    el.style.display = "block";
+    el.textContent = msg;
+    clearTimeout(el._t);
+    el._t = setTimeout(() => { el.style.display = "none"; }, 1600);
+  }
 
-      ["il fait", "il y a", "il"].forEach(ch => {
-        const b = document.createElement("button");
-        b.className = "choice";
-        b.textContent = ch;
-        b.onclick = () => choose(idx, ch, box);
-        choices.appendChild(b);
+  function updateProgress(){
+    // 4 seksjoner: emoji fullført, modellsetninger fullført, fri tekst (min 4 setninger), + "har åpnet siden"
+    const done = JSON.parse(localStorage.getItem(DONE_KEY) || "{}");
+    const parts = [
+      !!done.emoji,
+      !!done.sentences,
+      !!done.free,
+      true
+    ];
+    const pct = Math.round((parts.filter(Boolean).length / parts.length) * 100);
+    progressText.textContent = `${pct}%`;
+    progressBar.style.width = `${pct}%`;
+  }
+
+  function markDone(part){
+    const done = JSON.parse(localStorage.getItem(DONE_KEY) || "{}");
+    if (!done[part]){
+      done[part] = true;
+      localStorage.setItem(DONE_KEY, JSON.stringify(done));
+      addXP(10, "Fullført del");
+      if (Object.keys(done).length >= 3) burstConfetti();
+    }
+    updateProgress();
+  }
+
+  function burstConfetti(){
+    const n = 120;
+    confettiPieces = [];
+    for (let i=0;i<n;i++){
+      confettiPieces.push({
+        x: (Math.random()*window.innerWidth) * devicePixelRatio,
+        y: (-20 - Math.random()*200) * devicePixelRatio,
+        vx: (Math.random()*2-1) * devicePixelRatio * 2.2,
+        vy: (Math.random()*2+2) * devicePixelRatio * 2.6,
+        r: (Math.random()*6+3) * devicePixelRatio,
+        a: Math.random()*Math.PI*2,
+        va: (Math.random()*0.2-0.1),
+        life: 220 + Math.random()*80
       });
+    }
+    if (confettiRAF) cancelAnimationFrame(confettiRAF);
+    animateConfetti();
+  }
 
-      const res = document.createElement("div");
-      res.className = "result";
-      box.appendChild(choices);
-      box.appendChild(res);
+  function animateConfetti(){
+    ctx.clearRect(0,0,confetti.width, confetti.height);
+    confettiPieces.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy *= 0.995;
+      p.vx *= 0.995;
+      p.a += p.va;
+      p.life -= 1;
 
-      items.appendChild(box);
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.a);
+      // ingen fargevalg spesifisert? (vi bruker default stroke/fill via random grayscale-ish)
+      ctx.fillStyle = `rgba(255,255,255,${0.55 + Math.random()*0.35})`;
+      ctx.fillRect(-p.r, -p.r, p.r*2, p.r*2);
+      ctx.restore();
     });
 
-    updateBadges();
-  }
-
-  function choose(idx, ch, box){
-    if (answered.has(idx)) return;
-
-    const correct = tasks[idx].correct;
-    const res = box.querySelector(".result");
-    res.style.display = "block";
-
-    if (ch === correct){
-      res.className = "result ok";
-      res.textContent = "Riktig ✅  → " + correct + " " + tasks[idx].tail;
-      score++;
-      scoreEl.textContent = score;
+    confettiPieces = confettiPieces.filter(p => p.life > 0 && p.y < confetti.height + 40);
+    if (confettiPieces.length){
+      confettiRAF = requestAnimationFrame(animateConfetti);
     } else {
-      res.className = "result no";
-      res.textContent = "Ikke helt ❌  Riktig er: " + correct + " " + tasks[idx].tail;
+      ctx.clearRect(0,0,confetti.width, confetti.height);
     }
-
-    answered.add(idx);
-    updateBadges();
   }
 
-  function updateBadges(){
-    badgeWin.style.display = (score === tasks.length) ? "inline-block" : "none";
-    badgeTry.style.display = (score > 0 && score < tasks.length) ? "inline-block" : "none";
+  // init XP badge + progress
+  setXP(getXP());
+  updateProgress();
+
+  // -------------------------
+  // DEL 2: Emoji drag & drop (pointer events)
+  // -------------------------
+  const EMOJI_KEY = "meteo_emoji_match_v2";
+
+  const tasks = [
+    { id:"sun",    emoji:"☀️", label:"sol",        answer:"Il y a du soleil." },
+    { id:"cloud",  emoji:"☁️", label:"skyer",      answer:"Il y a des nuages." },
+    { id:"wind",   emoji:"💨", label:"vind",       answer:"Il y a du vent." },
+    { id:"rain",   emoji:"🌧️", label:"regn",       answer:"Il pleut." },
+    { id:"snow",   emoji:"❄️", label:"snø",        answer:"Il neige." },
+    { id:"storm",  emoji:"⛈️", label:"torden",     answer:"Il y a de l'orage." },
+    { id:"fog",    emoji:"🌫️", label:"tåke",       answer:"Il y a du brouillard." },
+    { id:"cold",   emoji:"🥶", label:"kaldt",      answer:"Il fait froid." }
+  ];
+
+  const board = document.getElementById("emojiBoard");
+  const chips = document.getElementById("chips");
+  const emojiScoreEl = document.getElementById("emojiScore");
+  const emojiHint = document.getElementById("emojiHint");
+
+  function shuffle(arr){
+    const a = [...arr];
+    for (let i=a.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [a[i],a[j]]=[a[j],a[i]];
+    }
+    return a;
   }
 
-  function resetGame(){
-    score = 0;
-    answered = new Set();
-    scoreEl.textContent = score;
-    badgeWin.style.display = "none";
-    badgeTry.style.display = "none";
-    render();
+  function loadEmojiState(){
+    try { return JSON.parse(localStorage.getItem(EMOJI_KEY) || "{}"); }
+    catch { return {}; }
+  }
+  function saveEmojiState(state){
+    localStorage.setItem(EMOJI_KEY, JSON.stringify(state));
   }
 
-  render();
-</script>
+  function makeDraggable(el){
+    let startX=0, startY=0, origX=0, origY=0, dragging=false;
 
-</body>
-</html>
+    el.style.touchAction = "none";
+
+    el.addEventListener("pointerdown", (e) => {
+      dragging = true;
+      el.setPointerCapture(e.pointerId);
+      const r = el.getBoundingClientRect();
+      startX = e.clientX; startY = e.clientY;
+      origX = r.left; origY = r.top;
+
+      el.style.position = "fixed";
+      el.style.left = r.left + "px";
+      el.style.top = r.top + "px";
+      el.style.width = r.width + "px";
+      el.style.zIndex = 9999;
+      el.style.cursor = "grabbing";
+    });
+
+    el.addEventListener("pointermove", (e) => {
+      if (!dragging) return;
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      el.style.left = (origX + dx) + "px";
+      el.style.top  = (origY + dy) + "px";
+    });
+
+    el.addEventListener("pointerup", (e) => {
+      if (!dragging) return;
+      dragging = false;
+
+      const drop = document.elementFromPoint(e.clientX, e.clientY);
+      const slot = drop?.closest?.("[data-slot]");
+      if (slot){
+        const slotId = slot.dataset.slot;
+        const expected = tasks.find(t => t.id === slotId)?.answer;
+        const myText = el.dataset.text;
+
+        if (myText === expected){
+          slot.querySelector(".slotText").textContent = myText;
+          slot.dataset.filled = "true";
+          slot.style.outline = "3px solid rgba(125,255,178,.9)";
+          el.remove();
+          const state = loadEmojiState();
+          state[slotId] = myText;
+          saveEmojiState(state);
+          addXP(5, "Riktig match");
+          updateEmojiScore();
+        } else {
+          slot.style.outline = "3px solid rgba(255,107,107,.95)";
+          setTimeout(()=> slot.style.outline = "none", 420);
+          addXP(0, "");
+        }
+      }
+
+      if (document.body.contains(el)){
+        el.style.position = "";
+        el.style.left = "";
+        el.style.top = "";
+        el.style.width = "";
+        el.style.zIndex = "";
+        el.style.cursor = "grab";
+      }
+    });
+  }
+
+  function updateEmojiScore(){
+    const state = loadEmojiState();
+    const correct = tasks.filter(t => state[t.id] === t.answer).length;
+    emojiScoreEl.textContent = `Poeng: ${correct} / ${tasks.length}`;
+    emojiHint.textContent = correct === tasks.length ? "✅ Ferdig!" : "→ Fortsett!";
+    if (correct === tasks.length){
+      markDone("emoji");
+    }
+  }
+
+  function renderEmoji(){
+    board.innerHTML = "";
+    chips.innerHTML = "";
+
+    const state = loadEmojiState();
+
+    tasks.forEach(t => {
+      const div = document.createElement("div");
+      div.className = "slot";
+      div.dataset.slot = t.id;
+      div.dataset.filled = state[t.id] ? "true" : "false";
+      div.innerHTML = `
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
+          <div style="font-size:34px;">${t.emoji}</div>
+          <div style="opacity:.88;"><b>${t.label}</b></div>
+        </div>
+        <div class="slotDrop">
+          <div class="slotText">${state[t.id] ? state[t.id] : "<span style='opacity:.55'>Slipp uttrykk her…</span>"}</div>
+        </div>
+      `;
+      if (state[t.id] === t.answer){
+        div.style.outline = "3px solid rgba(125,255,178,.9)";
+      }
+      board.appendChild(div);
+    });
+
+    const remaining = shuffle(tasks.map(t => t.answer))
+      .filter(ans => !Object.values(state).includes(ans));
+
+    remaining.forEach(text => {
+      const chip = document.createElement("div");
+      chip.className = "chip";
+      chip.dataset.text = text;
+      chip.textContent = text;
+      chips.appendChild(chip);
+      makeDraggable(chip);
+    });
+
+    updateEmojiScore();
+  }
+
+  document.getElementById("saveEmoji").addEventListener("click", () => {
+    // state lagres fortløpende, men denne knappen gir “belønning”
+    addXP(2, "Lagret");
+    toastGlobal("✅ Lagret lokalt.");
+  });
+
+  document.getElementById("resetEmoji").addEventListener("click", () => {
+    localStorage.removeItem(EMOJI_KEY);
+    renderEmoji();
+    toastGlobal("🗑️ Emoji-oppgave nullstilt.");
+  });
+
+  renderEmoji();
+
+  // -------------------------
+  // DEL 3: Modellsetninger med rette ord
+  // -------------------------
+  const SENT_KEY = "meteo_sentences_v2";
+
+  const targets = [
+    "Il fait beau.",
+    "Il fait chaud.",
+    "Il y a du soleil.",
+    "Il y a du vent.",
+    "Il pleut."
+  ];
+
+  const writeRoot = document.getElementById("meteoWrite");
+  const totalEl = document.getElementById("meteoTotal");
+  const savedEl = document.getElementById("meteoSaved");
+  const sentenceToast = document.getElementById("sentenceToast");
+
+  function stripAccents(s){
+    return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  }
+  function normalizeWords(s){
+    return stripAccents(s.toLowerCase())
+      .replace(/[’]/g, "'")
+      .replace(/[^a-z'\s]/g, " ")
+      .split(/\s+/)
+      .filter(Boolean);
+  }
+
+  function scoreSentence(input, target){
+    const a = normalizeWords(input);
+    const b = normalizeWords(target);
+
+    const counts = new Map();
+    for (const w of b) counts.set(w, (counts.get(w) || 0) + 1);
+
+    let correct = 0;
+    for (const w of a){
+      const c = counts.get(w) || 0;
+      if (c > 0){
+        correct++;
+        counts.set(w, c - 1);
+      }
+    }
+    return { correct, total: b.length };
+  }
+
+  function loadSent(){
+    try { return JSON.parse(localStorage.getItem(SENT_KEY) || "[]"); }
+    catch { return []; }
+  }
+  function saveSent(arr){
+    localStorage.setItem(SENT_KEY, JSON.stringify(arr));
+  }
+
+  function updateTotal(){
+    let c = 0, tot = 0;
+    targets.forEach((t, i) => {
+      const val = document.getElementById(`in-${i}`)?.value || "";
+      const s = scoreSentence(val, t);
+      c += s.correct;
+      tot += s.total;
+    });
+    totalEl.textContent = `Totalt: ${c} / ${tot} riktige ord`;
+    return {c, tot};
+  }
+
+  function renderSentences(){
+    writeRoot.innerHTML = "";
+    const saved = loadSent();
+
+    targets.forEach((t, i) => {
+      const wrap = document.createElement("div");
+      wrap.style.margin = "10px 0";
+      wrap.innerHTML = `
+        <div style="display:flex; justify-content:space-between; gap:10px; align-items:baseline;">
+          <div><b>Setning ${i+1}</b> <span class="small">(modell: ${t})</span></div>
+          <div id="fb-${i}" style="font-weight:900;"></div>
+        </div>
+        <input id="in-${i}" class="input" type="text" placeholder="Skriv her…" />
+      `;
+      writeRoot.appendChild(wrap);
+
+      const input = wrap.querySelector(`#in-${i}`);
+      const fb = wrap.querySelector(`#fb-${i}`);
+      input.value = saved[i] || "";
+
+      const update = () => {
+        const {correct,total} = scoreSentence(input.value, t);
+        fb.textContent = `${correct} / ${total}`;
+        fb.style.color = (correct === total) ? "rgba(125,255,178,.95)"
+                     : (correct >= Math.ceil(total/2)) ? "rgba(255,209,102,.95)"
+                     : "rgba(255,107,107,.95)";
+
+        const totals = updateTotal();
+
+        // XP-boost når de fullfører en modellsetning helt (første gang)
+        const markerKey = `meteo_model_done_${i}_v1`;
+        if (correct === total && localStorage.getItem(markerKey) !== "1"){
+          localStorage.setItem(markerKey, "1");
+          addXP(6, "Modellsetning fullført");
+          sentenceToast.style.display = "block";
+          sentenceToast.textContent = `✅ Setning ${i+1} perfekt! +6 XP`;
+          clearTimeout(sentenceToast._t);
+          sentenceToast._t = setTimeout(()=> sentenceToast.style.display="none", 1600);
+        }
+
+        // Sjekk om alle er perfekte
+        const allPerfect = targets.every((_, k) => {
+          const v = document.getElementById(`in-${k}`)?.value || "";
+          const s = scoreSentence(v, targets[k]);
+          return s.correct === s.total;
+        });
+        if (allPerfect){
+          markDone("sentences");
+        }
+
+        // Progress hint
+        if (totals.c === totals.tot){
+          sentenceToast.style.display = "block";
+          sentenceToast.textContent = "🌟 Alt riktig i del 3!";
+          clearTimeout(sentenceToast._t);
+          sentenceToast._t = setTimeout(()=> sentenceToast.style.display="none", 1600);
+        }
+      };
+
+      input.addEventListener("input", update);
+      update();
+    });
+
+    updateTotal();
+  }
+
+  document.getElementById("saveMeteo").addEventListener("click", () => {
+    const arr = targets.map((_, i) => (document.getElementById(`in-${i}`)?.value || "").trim());
+    saveSent(arr);
+    savedEl.textContent = "✅ Lagret lokalt i nettleseren.";
+    addXP(2, "Lagret setninger");
+  });
+
+  document.getElementById("resetMeteo").addEventListener("click", () => {
+    localStorage.removeItem(SENT_KEY);
+    targets.forEach((_, i) => localStorage.removeItem(`meteo_model_done_${i}_v1`));
+    savedEl.textContent = "🗑️ Nullstilt.";
+    renderSentences();
+  });
+
+  renderSentences();
+
+  // -------------------------
+  // DEL 4: Fri skriving med smart feedback
+  // -------------------------
+  const FREE_KEY = "meteo_free_text_v2";
+  const freeText = document.getElementById("freeText");
+  const freeScoreEl = document.getElementById("freeScore");
+  const freeFeedbackEl = document.getElementById("freeFeedback");
+  const freeToast = document.getElementById("freeToast");
+
+  freeText.value = localStorage.getItem(FREE_KEY) || "";
+
+  function countSentences(text){
+    // enkel: tell ., !, ? som setningsslutt
+    const m = text.match(/[.!?]+/g);
+    return m ? m.length : (text.trim().length ? 1 : 0);
+  }
+
+  function smartFeedback(text){
+    const t = text.toLowerCase().replace(/[’]/g,"'");
+    const checks = [
+      { id:"ilfait",  label:"Har du brukt “il fait”?", ok: /il\s+fait/.test(t) },
+      { id:"ilya",    label:"Har du brukt “il y a”?", ok: /il\s+y\s+a/.test(t) },
+      { id:"weather", label:"Har du brukt værord (soleil, vent, nuages, pleut, neige…)?",
+        ok: /(soleil|vent|nuage|pleut|neige|orage|brouillard|chaud|froid|beau|mauvais)/.test(t)
+      },
+      { id:"connect", label:"Har du brukt et bindeord (mais, parce que, et, ou)?",
+        ok: /\b(mais|parce que|et|ou|donc)\b/.test(t)
+      },
+      { id:"len",     label:"Har du 4+ setninger?", ok: countSentences(text) >= 4 }
+    ];
+
+    const score = checks.filter(c => c.ok).length;
+    return { score, max: checks.length, checks };
+  }
+
+  let freeAwarded = false;
+
+  function updateFree(){
+    const {score, max, checks} = smartFeedback(freeText.value);
+    freeScoreEl.textContent = `Feedback: ${score} / ${max}`;
+    freeFeedbackEl.innerHTML = checks.map(c =>
+      `<div class="small">${c.ok ? "✅" : "⬜"} ${c.label}</div>`
+    ).join("");
+
+    if (score === max && !freeAwarded){
+      freeAwarded = true;
+      addXP(12, "
