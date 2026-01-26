@@ -2,591 +2,914 @@
 <html lang="no">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Salut 9 · Kapittel 4 · Vêtements</title>
-  <link rel="stylesheet" href="assets/style.css" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Salut 9 · Kapittel 4 · Vêtements & couleurs</title>
+  <style>
+    :root{
+      --bg:#0b1220;
+      --panel:#111b2e;
+      --panel2:#0f172a;
+      --text:#e6eefc;
+      --muted:#9fb2d6;
+      --accent:#7c3aed;
+      --accent2:#22c55e;
+      --warn:#f59e0b;
+      --bad:#ef4444;
+      --card:#0b1530;
+      --border:rgba(255,255,255,.12);
+      --shadow:0 12px 30px rgba(0,0,0,.35);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      background:
+        radial-gradient(1200px 800px at 20% 10%, rgba(124,58,237,.25), transparent 60%),
+        radial-gradient(900px 700px at 90% 30%, rgba(34,197,94,.18), transparent 55%),
+        var(--bg);
+      color:var(--text);
+    }
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:980px; margin:0 auto; padding:20px 16px 80px}
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      padding:14px 14px;
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow: var(--shadow);
+      position:sticky; top:12px; z-index:20;
+      backdrop-filter: blur(10px);
+    }
+    .top-left{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+    .xp-pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 12px; border-radius:999px;
+      background:rgba(124,58,237,.18);
+      border:1px solid rgba(124,58,237,.35);
+      font-weight:700;
+    }
+    .link-pill{
+      padding:8px 12px; border-radius:999px;
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--border);
+      color:var(--muted);
+      font-weight:600;
+    }
+    .right{display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:flex-end;}
+    .progress{min-width:220px;}
+    .progress-label{display:flex; justify-content:space-between; font-size:12px; color:var(--muted); margin:0 2px 6px}
+    .bar{height:10px; border-radius:999px; background:rgba(255,255,255,.08); border:1px solid var(--border); overflow:hidden}
+    .bar > div{height:100%; width:0%; background:linear-gradient(90deg, var(--accent), #60a5fa, var(--accent2)); border-radius:999px; transition:width .35s ease}
+    .badge{padding:8px 12px; border-radius:999px; border:1px solid var(--border); background:rgba(34,197,94,.14); font-weight:800;}
+    h1{font-size:34px; margin:22px 0 10px}
+    .lead{color:var(--muted); margin:0 0 14px; line-height:1.45}
+    .grid{display:grid; grid-template-columns:1fr; gap:14px;}
+    @media (min-width:900px){ .grid{grid-template-columns:1.1fr .9fr} }
+    .card{
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:16px;
+    }
+    .card h2{margin:0 0 8px; font-size:18px}
+    .card h3{margin:12px 0 8px; font-size:16px}
+    .muted{color:var(--muted)}
+    .hr{height:1px; background:rgba(255,255,255,.08); margin:14px 0}
+    .nav{display:flex; flex-wrap:wrap; gap:10px; margin-top:10px}
+    .btn{
+      cursor:pointer; user-select:none;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.06);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:14px;
+      font-weight:700;
+      transition:transform .06s ease, background .2s ease;
+    }
+    .btn:hover{background:rgba(255,255,255,.09)}
+    .btn:active{transform:translateY(1px)}
+    .btn.primary{background:rgba(124,58,237,.22); border-color:rgba(124,58,237,.45)}
+    .btn.good{background:rgba(34,197,94,.18); border-color:rgba(34,197,94,.38)}
+    .btn.warn{background:rgba(245,158,11,.16); border-color:rgba(245,158,11,.35)}
+    .btn.bad{background:rgba(239,68,68,.14); border-color:rgba(239,68,68,.35)}
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 10px; border-radius:999px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.06);
+      color:var(--muted);
+      font-weight:650;
+      font-size:13px;
+    }
+    .two{display:grid; grid-template-columns:1fr; gap:12px;}
+    @media(min-width:740px){ .two{grid-template-columns:1fr 1fr} }
+
+    /* Ordbank */
+    .controls{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+    input[type="text"], textarea, select{
+      width:100%;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:rgba(11,21,48,.6);
+      color:var(--text);
+      outline:none;
+    }
+    textarea{min-height:120px; resize:vertical}
+    .list{
+      display:grid; grid-template-columns:1fr; gap:8px;
+      margin-top:10px; max-height:330px; overflow:auto; padding-right:6px;
+    }
+    .row{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding:10px 12px; border-radius:14px;
+      border:1px solid var(--border);
+      background:rgba(11,21,48,.4);
+    }
+    .row strong{font-size:15px}
+    .row small{display:block; color:var(--muted); margin-top:2px}
+    .tag{
+      font-size:12px; font-weight:800; letter-spacing:.2px;
+      padding:6px 10px; border-radius:999px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.06);
+      color:var(--muted);
+      white-space:nowrap;
+    }
+
+    /* Flashcards */
+    .fc{display:grid; gap:10px;}
+    .flash{
+      background:linear-gradient(180deg, rgba(124,58,237,.18), rgba(11,21,48,.65));
+      border:1px solid rgba(124,58,237,.35);
+      border-radius:18px;
+      padding:16px;
+      min-height:160px;
+      display:flex; flex-direction:column; justify-content:space-between;
+    }
+    .flash .front{font-size:28px; font-weight:900; letter-spacing:.2px}
+    .flash .back{font-size:16px; color:var(--muted); margin-top:8px; display:none}
+    .flash.revealed .back{display:block}
+    .flash .hint{color:var(--muted); font-size:13px; margin-top:10px}
+    .fc-actions{display:flex; gap:10px; flex-wrap:wrap}
+    .mini{font-size:12px; color:var(--muted)}
+
+    /* Drag & drop */
+    .dd{display:grid; gap:12px;}
+    .dd-grid{display:grid; grid-template-columns:1fr; gap:12px;}
+    @media(min-width:760px){ .dd-grid{grid-template-columns:1fr 1fr} }
+    .bank{
+      border:1px dashed rgba(255,255,255,.22);
+      border-radius:18px;
+      padding:12px;
+      background:rgba(255,255,255,.03);
+      min-height:180px;
+    }
+    .chips{display:flex; flex-wrap:wrap; gap:8px}
+    .chip{
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.06);
+      font-weight:800;
+      cursor:grab;
+    }
+    .targets{display:grid; gap:10px}
+    .target{
+      border-radius:18px;
+      border:1px solid var(--border);
+      background:rgba(11,21,48,.45);
+      padding:12px;
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+    }
+    .target .left{display:flex; align-items:center; gap:10px;}
+    .emoji{font-size:24px}
+    .drop{
+      min-width:160px;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px dashed rgba(255,255,255,.25);
+      background:rgba(255,255,255,.04);
+      color:var(--muted);
+      text-align:center;
+      font-weight:800;
+    }
+    .drop.filled{border-style:solid; color:var(--text); background:rgba(34,197,94,.10); border-color:rgba(34,197,94,.35)}
+    .drop.bad{background:rgba(239,68,68,.10); border-color:rgba(239,68,68,.35)}
+    .scoreline{display:flex; justify-content:space-between; color:var(--muted); font-size:13px}
+
+    /* Sentence builder */
+    .sb{display:grid; gap:10px;}
+    .sentence{
+      padding:12px;
+      border-radius:18px;
+      border:1px solid var(--border);
+      background:rgba(11,21,48,.45);
+      font-size:16px;
+      line-height:1.45;
+    }
+    .fb{
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.06);
+      color:var(--muted);
+    }
+    .fb.good{background:rgba(34,197,94,.12); border-color:rgba(34,197,94,.35); color:var(--text)}
+    .fb.bad{background:rgba(239,68,68,.10); border-color:rgba(239,68,68,.35); color:var(--text)}
+
+    /* Confetti */
+    .confetti{position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:9999;}
+    .confetti span{
+      position:absolute; top:-10px;
+      width:10px; height:16px;
+      background:rgba(255,255,255,.9);
+      border-radius:3px;
+      animation:fall 1.2s linear forwards;
+      opacity:.95;
+    }
+    @keyframes fall{
+      to{ transform: translateY(calc(100vh + 40px)) rotate(520deg); opacity:.9; }
+    }
+
+    /* Toast */
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:18px;
+      transform:translateX(-50%);
+      background:rgba(11,21,48,.92);
+      border:1px solid var(--border);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:14px;
+      box-shadow:var(--shadow);
+      z-index:10000;
+      max-width:min(560px, calc(100vw - 24px));
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .2s ease, transform .2s ease;
+      font-weight:700;
+    }
+    .toast.show{
+      opacity:1;
+      transform:translateX(-50%) translateY(-4px);
+    }
+
+    .footer-nav{
+      margin-top:18px;
+      display:flex; gap:10px;
+      flex-wrap:wrap;
+      justify-content:space-between;
+    }
+  </style>
 </head>
 
 <body>
-  <header class="topbar">
-    <div class="brand">
-      Salut 9 <small>Kapittel 4</small>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="top-left">
+        <div class="xp-pill">⭐ XP: <span id="xp">0</span></div>
+        <a class="link-pill" href="./index.html">← Til meny</a>
+        <span class="pill" id="levelPill">Nivå: 1 · Novice</span>
+      </div>
+      <div class="right">
+        <div class="progress">
+          <div class="progress-label">
+            <span>Fremdrift</span>
+            <span id="progressPct">0%</span>
+          </div>
+          <div class="bar"><div id="progressBar"></div></div>
+        </div>
+        <div class="badge" id="badge">🔒 Låst</div>
+      </div>
     </div>
-    <div class="pills">
-      <span class="badge" id="scoreBadge">✅ Treff: 0</span>
-      <a class="btn" href="index.html">← Til meny</a>
+
+    <h1>👕 Vêtements & 🎨 Couleurs</h1>
+    <p class="lead">Øv klær og farger, få tilbakemelding, og samle XP. Fullfør oppgavene for å låse opp en badge.</p>
+
+    <div class="nav">
+      <a class="btn" href="./passe-compose.html">Passé composé</a>
+      <a class="btn primary" href="./vetements.html">Vêtements</a>
+      <a class="btn" href="./negation.html">Négation</a>
+      <a class="btn" href="./defi.html">Défi</a>
+      <a class="btn" href="./meteo.html">La météo</a>
     </div>
-  </header>
 
-  <main class="container">
-    <section class="hero">
-      <div>
-        <h1>👕 Vêtements & couleurs</h1>
-        <p>Tren gloser for klær og farger – og skriv små beskrivelser med tilbakemelding.</p>
-      </div>
-      <div style="min-width:260px; width:360px; max-width:100%;">
-        <div class="small" style="display:flex; justify-content:space-between; margin-bottom:6px;">
-          <span>Fremdrift</span><span id="progressText">0%</span>
-        </div>
-        <div class="progress"><div id="progressBar"></div></div>
-        <div class="small" style="margin-top:6px;">Tips: Trykk <b>Ferdig</b> for å få score og tilbakemelding.</div>
-      </div>
-    </section>
-
-    <section class="card">
-      <h2>🎯 Mål</h2>
-      <div class="grid">
-        <div class="toast">
-          <b>Jeg kan…</b>
-          <ul class="small" style="margin:8px 0 0; padding-left:18px;">
-            <li>navn på vanlige <b>klær</b> på fransk</li>
-            <li>navn på vanlige <b>farger</b> på fransk</li>
-            <li>beskrive antrekk: <b>Je porte…</b></li>
-          </ul>
-        </div>
-        <div class="toast">
-          <b>Viktig</b>
-          <p class="small" style="margin:8px 0 0;">
-            Denne siden bruker bare knapper, dropdowns og tekstfelt – stabilt på iPad/PC.
-          </p>
+    <div class="grid" style="margin-top:14px;">
+      <div class="card">
+        <h2>🎯 Mål</h2>
+        <p class="muted" style="margin:0 0 8px;">Jeg kan…</p>
+        <ul class="muted" style="margin:0 0 8px; line-height:1.55;">
+          <li>navn på vanlige klær (un/une/des)</li>
+          <li>navn på farger</li>
+          <li>lage setninger: <strong>Je porte…</strong> / <strong>J’aime…</strong> / <strong>Je n’aime pas…</strong></li>
+        </ul>
+        <div class="hr"></div>
+        <h2>🏆 Belønning</h2>
+        <p class="muted" style="margin:0 0 10px;">
+          Du får XP for: riktige flashcards, fullført matching, riktige setninger og god bruk av mønstre i minioppgaven.
+          Ved <strong>100 XP</strong> låser du opp: <strong>“Fashion Master”</strong>.
+        </p>
+        <div class="controls">
+          <button class="btn warn" id="saveBtn">Lagre lokalt</button>
+          <button class="btn" id="resetBtn">Nullstill alt</button>
+          <span class="mini" id="saveNote">Lagrer automatisk også.</span>
         </div>
       </div>
 
-      <div class="nav">
-        <a class="btn" href="meteo.html">La météo</a>
-        <a class="btn" href="passe_avoir.html">Passé composé (avoir)</a>
-        <a class="btn" href="negation.html">Négation</a>
-        <a class="btn" href="defi.html">Défi</a>
-      </div>
-    </section>
-
-    <!-- 1) ORDBANK -->
-    <section class="card" id="sectionVocab">
-      <h2>1) Ordbank</h2>
-      <div class="grid">
-        <div class="toast">
-          <b>👚 Klær</b>
-          <div id="vocabClothes" class="small" style="margin-top:8px; line-height:1.6;"></div>
+      <div class="card">
+        <h2>📚 Gloser (fra boka)</h2>
+        <div class="two">
+          <div class="pill">👕 Klær: <strong id="countClothes">0</strong></div>
+          <div class="pill">🎨 Farger: <strong id="countColors">0</strong></div>
         </div>
-        <div class="toast">
-          <b>🎨 Farger</b>
-          <div id="vocabColors" class="small" style="margin-top:8px; line-height:1.6;"></div>
+        <div class="hr"></div>
+        <p class="muted" style="margin:0;">
+          Alt ligger inne i denne fila, så du får aldri “tom ordbank” igjen.
+          Hvis du senere vil hente fra JSON-filer, kan vi koble det på – men dette er “bombesikkert”.
+        </p>
+        <div class="hr"></div>
+        <p class="muted" style="margin:0;">
+          <strong>Daglig XP:</strong> Dagens del-XP (flash/matching/setning/tekst) nullstilles automatisk ved ny dato.
+        </p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px;">
+      <h2>1) Ordbank (søk + filter)</h2>
+      <div class="controls">
+        <div style="flex:1; min-width:220px;">
+          <input id="search" type="text" placeholder="Søk (fransk eller norsk)…" />
+        </div>
+        <div style="min-width:190px;">
+          <select id="filter">
+            <option value="all">Alle</option>
+            <option value="clothes">Klær</option>
+            <option value="colors">Farger</option>
+          </select>
+        </div>
+        <button class="btn" id="toggleLang">Vis: FR → NO</button>
+      </div>
+      <div class="list" id="wordList" aria-live="polite"></div>
+      <div class="hr"></div>
+      <div class="muted">Tips: Trykk på “Vis: …” for å bytte visning.</div>
+    </div>
+
+    <div class="card" style="margin-top:14px;">
+      <h2>2) Flashcards (mestring + XP)</h2>
+      <p class="muted" style="margin-top:0;">Klikk “Vis svar”. Deretter velger du hvor godt du kunne det. Systemet husker mestring per kort.</p>
+      <div class="fc">
+        <div class="flash" id="flashCard">
+          <div>
+            <div class="front" id="fcFront">—</div>
+            <div class="back" id="fcBack">—</div>
+            <div class="hint" id="fcHint">
+              Kort <span id="fcIndex">1</span> / <span id="fcTotal">0</span> · Mestring: <span id="fcMastery">0</span>/3
+            </div>
+          </div>
+          <div class="fc-actions">
+            <button class="btn" id="revealBtn">Vis svar</button>
+            <button class="btn good" id="knewBtn" disabled>Visste</button>
+            <button class="btn warn" id="almostBtn" disabled>Nesten</button>
+            <button class="btn bad" id="nopeBtn" disabled>Ikke</button>
+            <button class="btn" id="nextBtn">Neste</button>
+          </div>
+        </div>
+        <div class="scoreline">
+          <span>Mastered: <strong id="masteredCount">0</strong> / <span id="deckCount">0</span></span>
+          <span>Flashcard-XP i dag: <strong id="fcXP">0</strong></span>
         </div>
       </div>
-      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
-        <button class="btn" id="toggleNo">Vis/Skjul norsk</button>
-        <button class="btn" id="shuffleAll">Bland rekkefølge</button>
-      </div>
-    </section>
+    </div>
 
-    <!-- 2) QUIZLET-LIGNENDE: FLASHCARDS -->
-    <section class="card" id="sectionCards">
-      <h2>2) Flashcards (Quizlet-stil)</h2>
-      <p class="small">Klikk kortet for å snu. Trykk deretter om du hadde rett.</p>
-
-      <div class="toast" style="display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; align-items:center;">
-        <div style="font-weight:900;">Kort <span id="cardIdx">1</span> / <span id="cardTotal">0</span></div>
-        <div style="display:flex; gap:10px; flex-wrap:wrap;">
-          <button class="btn" id="prevCard">← Forrige</button>
-          <button class="btn btn-primary" id="flipCard">Snu</button>
-          <button class="btn" id="nextCard">Neste →</button>
+    <div class="card" style="margin-top:14px;">
+      <h2>3) Matching (dra riktig ord til riktig emoji)</h2>
+      <p class="muted" style="margin-top:0;">Dra franske ord fra “banken” og slipp på riktig mål. Riktig gir XP.</p>
+      <div class="dd">
+        <div class="scoreline">
+          <span>Poeng: <strong id="ddScore">0</strong> / <span id="ddTotal">0</span></span>
+          <span>XP fra matching i dag: <strong id="ddXP">0</strong></span>
+        </div>
+        <div class="dd-grid">
+          <div class="bank">
+            <div class="muted" style="margin-bottom:10px; font-weight:800;">Ord å dra</div>
+            <div class="chips" id="ddBank"></div>
+          </div>
+          <div class="targets" id="ddTargets"></div>
+        </div>
+        <div class="controls" style="margin-top:8px;">
+          <button class="btn warn" id="ddSave">Lagre</button>
+          <button class="btn" id="ddReset">Start på nytt</button>
         </div>
       </div>
+    </div>
 
-      <div class="toast" id="cardBox" style="margin-top:10px; text-align:center; padding:18px;">
-        <div class="small" id="cardHint" style="opacity:.8; margin-bottom:8px;">Trykk “Snu” eller klikk kortet</div>
-        <div id="cardFront" style="font-size:26px; font-weight:1000;">—</div>
-        <div id="cardBack" class="small" style="display:none; margin-top:10px; font-weight:900;">—</div>
+    <div class="card" style="margin-top:14px;">
+      <h2>4) Setningsbygger (med fasit + riktig fargeavtale)</h2>
+      <p class="muted" style="margin-top:0;">Velg riktig plagg + farge for å treffe fasit. Du får XP for treff.</p>
+      <div class="sb">
+        <div class="sentence" id="sbPrompt">—</div>
+        <div class="two">
+          <div>
+            <label class="muted" for="sbCloth">Plagg</label>
+            <select id="sbCloth"></select>
+          </div>
+          <div>
+            <label class="muted" for="sbColor">Farge</label>
+            <select id="sbColor"></select>
+          </div>
+        </div>
+        <div class="controls">
+          <button class="btn primary" id="sbCheck">Sjekk</button>
+          <button class="btn" id="sbNext">Ny setning</button>
+          <span class="pill">Treff: <strong id="sbHits">0</strong> / <span id="sbRounds">0</span></span>
+          <span class="pill">XP i dag: <strong id="sbXP">0</strong></span>
+        </div>
+        <div class="fb" id="sbFeedback">Tips: Plagg og farger kan du lære raskt ved å variere setningene.</div>
       </div>
+    </div>
 
-      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
-        <button class="btn btn-success" id="cardRight">Jeg kunne det ✅</button>
-        <button class="btn btn-danger" id="cardWrong">Jeg bommet ❌</button>
-      </div>
-
-      <div class="toast" id="cardsToast" style="display:none; margin-top:10px;"></div>
-    </section>
-
-    <!-- 3) MATCHING (iPad-safe): EMOJI + DROPDOWN -->
-    <section class="card" id="sectionMatch">
-      <h2>3) Match: emoji → ord</h2>
-      <p class="small">Velg riktig fransk ord i dropdown. Trykk <b>Sjekk</b> for tilbakemelding.</p>
-
-      <div id="matchRoot"></div>
-
-      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
-        <button class="btn btn-primary" id="checkMatch">Sjekk</button>
-        <button class="btn" id="resetMatch">Nullstill</button>
-      </div>
-
-      <p id="matchScore" style="margin:10px 0 0; font-weight:900;"></p>
-      <div class="toast" id="matchToast" style="display:none; margin-top:10px;"></div>
-    </section>
-
-    <!-- 4) SKRIVING + TILBAKEMELDING -->
-    <section class="card" id="sectionWrite">
-      <h2>4) Skriv: jeg + sidemann + drømmeantrekk</h2>
-      <p class="small">
-        Bruk <b>Je porte…</b> / <b>Il/Elle porte…</b>. Bruk så mange gloser du klarer (klær + farger).
+    <div class="card" style="margin-top:14px;">
+      <h2>5) Fri minioppgave (smart feedback)</h2>
+      <p class="muted" style="margin-top:0;">
+        Skriv 4–8 setninger om hva du liker å ha på deg. Du får “mønsterpoeng” når du bruker gode uttrykk.
       </p>
-
-      <div class="grid">
-        <div class="toast">
-          <b>A) Beskriv deg selv</b>
-          <textarea class="input" id="textMe" rows="5" placeholder="Ex: Je porte un T-shirt noir et un pantalon bleu…"></textarea>
-          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
-            <button class="btn btn-primary" data-finish="me">Ferdig</button>
-            <button class="btn" data-clear="me">Tøm</button>
+      <div class="two">
+        <div>
+          <label class="muted" for="freeText">Din tekst</label>
+          <textarea id="freeText" placeholder="Ex: Aujourd’hui, je porte un pull bleu. J’aime la jupe rouge parce que…"></textarea>
+          <div class="controls" style="margin-top:10px;">
+            <button class="btn warn" id="freeSave">Lagre</button>
+            <button class="btn" id="freeReset">Nullstill</button>
+            <span class="pill">Feedback: <strong id="freeScore">0</strong> / 6</span>
+            <span class="pill">XP i dag: <strong id="freeXP">0</strong></span>
           </div>
-          <p class="small" id="fbMe" style="margin-top:8px;"></p>
+          <div class="hr"></div>
+          <div class="fb" id="freeFeedback">Skriv, så får du smart feedback (mønstre + ord).</div>
         </div>
-
-        <div class="toast">
-          <b>B) Beskriv sidemannen</b>
-          <textarea class="input" id="textFriend" rows="5" placeholder="Ex: Il porte… / Elle porte…"></textarea>
-          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
-            <button class="btn btn-primary" data-finish="friend">Ferdig</button>
-            <button class="btn" data-clear="friend">Tøm</button>
+        <div>
+          <h3>Setningsstartere</h3>
+          <ul class="muted" style="margin-top:0; line-height:1.55;">
+            <li>Aujourd’hui, …</li>
+            <li>En été / En hiver, …</li>
+            <li>Je porte …</li>
+            <li>J’aime … parce que …</li>
+            <li>Je n’aime pas …</li>
+          </ul>
+          <h3>Bonus-ord</h3>
+          <div class="muted" style="line-height:1.55;">souvent, parfois, mais, parce que, et, aussi</div>
+          <div class="hr"></div>
+          <div class="muted">
+            Smart feedback sjekker om du bruker:
+            <strong>Je porte</strong>, <strong>J’aime</strong>, <strong>Je n’aime pas</strong>, <strong>parce que</strong>,
+            minst <strong>1 farge</strong>, og minst <strong>2 klesord</strong>.
           </div>
-          <p class="small" id="fbFriend" style="margin-top:8px;"></p>
-        </div>
-
-        <div class="toast">
-          <b>C) Drømmeantrekk</b>
-          <textarea class="input" id="textDream" rows="5" placeholder="Ex: Je porte… parce que…"></textarea>
-          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
-            <button class="btn btn-primary" data-finish="dream">Ferdig</button>
-            <button class="btn" data-clear="dream">Tøm</button>
-          </div>
-          <p class="small" id="fbDream" style="margin-top:8px;"></p>
-        </div>
-
-        <div class="toast">
-          <b>🧾 Samle alt</b>
-          <p class="small" style="margin-top:8px;">Trykk for å samle tekstene og kopiere til innlevering.</p>
-          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
-            <button class="btn btn-success" id="saveAll">Lagre lokalt</button>
-            <button class="btn btn-primary" id="copyAll">Kopier alt</button>
-            <button class="btn btn-danger" id="resetAll">Nullstill alt</button>
-          </div>
-          <div class="toast" id="allToast" style="display:none; margin-top:10px;"></div>
         </div>
       </div>
-    </section>
+    </div>
 
-    <section class="card">
-      <h2>🏁 Ferdig?</h2>
-      <p class="small">Gå videre når du har prøvd alle delene.</p>
-      <div class="nav">
-        <a class="btn" href="index.html">Til meny</a>
-      </div>
-    </section>
-  </main>
+    <div class="footer-nav">
+      <a class="btn" href="./index.html">← Til meny</a>
+      <a class="btn primary" href="./passe-compose.html">Neste: Passé composé →</a>
+    </div>
+  </div>
+
+  <div class="confetti" id="confetti"></div>
+  <div class="toast" id="toast"></div>
 
 <script>
-(() => {
-  // =========================================================
-  // 0) GLOSER – OPPDATER HER så de matcher dine eksisterende
-  // =========================================================
-  // Tips: bruk akkurat samme skrivemåte (aksenter, artikkel)
-  const CLOTHES = [
-    { fr: "un T-shirt", no: "en t-skjorte", emoji:"👕" },
-    { fr: "un pull", no: "en genser", emoji:"🧶" },
-    { fr: "une chemise", no: "en skjorte", emoji:"👔" },
-    { fr: "un pantalon", no: "en bukse", emoji:"👖" },
-    { fr: "un short", no: "en shorts", emoji:"🩳" },
-    { fr: "une jupe", no: "et skjørt", emoji:"👗" },
-    { fr: "une robe", no: "en kjole", emoji:"👗" },
-    { fr: "une veste", no: "en jakke", emoji:"🧥" },
-    { fr: "un manteau", no: "en kåpe", emoji:"🧥" },
-    { fr: "des chaussures", no: "sko", emoji:"👟" },
-    { fr: "des baskets", no: "joggesko", emoji:"👟" },
-    { fr: "des bottes", no: "støvler", emoji:"🥾" },
-    { fr: "un chapeau", no: "en hatt", emoji:"🎩" },
-    { fr: "une casquette", no: "en caps", emoji:"🧢" }
-  ];
-
-  const COLORS = [
-    { fr: "noir", no: "svart", emoji:"⬛" },
-    { fr: "blanc", no: "hvit", emoji:"⬜" },
-    { fr: "rouge", no: "rød", emoji:"🟥" },
-    { fr: "bleu", no: "blå", emoji:"🟦" },
-    { fr: "vert", no: "grønn", emoji:"🟩" },
-    { fr: "jaune", no: "gul", emoji:"🟨" },
-    { fr: "rose", no: "rosa", emoji:"🩷" },
-    { fr: "violet", no: "lilla", emoji:"🟪" },
-    { fr: "gris", no: "grå", emoji:"🩶" },
-    { fr: "marron", no: "brun", emoji:"🟫" }
-  ];
-
-  // =========================================================
-  // 1) Helpers
-  // =========================================================
-  const $ = (id) => document.getElementById(id);
-
-  const norm = (s) => (s || "")
-    .toLowerCase()
-    .replace(/\s+/g, " ")
-    .replace(/[’']/g, "'")
-    .replace(/[.,!?;:()]/g, "")
-    .trim();
-
-  function toast(el, msg){
-    if (!el) return;
-    el.style.display = "block";
-    el.textContent = msg;
-    clearTimeout(el._t);
-    el._t = setTimeout(() => { el.style.display = "none"; }, 1600);
+/* ========================= HELPERS ========================= */
+function escapeHtml(s){
+  return String(s ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+let toastTimer = null;
+function toast(msg){
+  const el = document.getElementById("toast");
+  el.textContent = msg;
+  el.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> el.classList.remove("show"), 1400);
+}
+function confetti(){
+  const host = document.getElementById("confetti");
+  host.innerHTML = "";
+  const n = 80;
+  for(let i=0;i<n;i++){
+    const s = document.createElement("span");
+    s.style.left = Math.floor(Math.random()*100) + "vw";
+    s.style.animationDelay = (Math.random()*0.25) + "s";
+    s.style.transform = "rotate("+(Math.random()*360)+"deg)";
+    host.appendChild(s);
   }
+  setTimeout(()=> host.innerHTML="", 1600);
+}
 
-  function shuffle(arr){
-    const a = arr.slice();
-    for (let i=a.length-1;i>0;i--){
-      const j = Math.floor(Math.random()*(i+1));
-      [a[i], a[j]] = [a[j], a[i]];
-    }
-    return a;
-  }
+/* ========================= DATA ========================= */
+// Klær: legger inn grammatikk fra artikkel: un(m), une(f), des(p=plural)
+function inferNounMeta(frWithArticle){
+  const s = (frWithArticle||"").trim().toLowerCase();
+  if(s.startsWith("une ")) return {gender:"f", number:"s"};
+  if(s.startsWith("un "))  return {gender:"m", number:"s"};
+  if(s.startsWith("des ")) return {gender:"m", number:"p"}; // plural (kjønn lite viktig)
+  return {gender:"m", number:"s"};
+}
 
-  function uniq(arr){ return [...new Set(arr)]; }
+const CLOTHES = [
+  { id:"debardeur",  fr:"un débardeur",        no:"en singlet",                 emoji:"🩱" },
+  { id:"tshirt",     fr:"un T-shirt",          no:"en t-skjorte",               emoji:"👕" },
+  { id:"robe",       fr:"une robe",            no:"en kjole",                   emoji:"👗" },
+  { id:"jupe",       fr:"une jupe",            no:"et skjørt",                  emoji:"🩳" },
+  { id:"chemise",    fr:"une chemise",         no:"en skjorte",                 emoji:"👔" },
+  { id:"pull",       fr:"un pull",             no:"en genser",                  emoji:"🧶" },
+  { id:"short",      fr:"un short",            no:"en shorts",                  emoji:"🩳" },
+  { id:"pantalon",   fr:"un pantalon",         no:"en bukse",                   emoji:"👖" },
+  { id:"manteau",    fr:"un manteau",          no:"en frakk",                   emoji:"🧥" },
+  { id:"veste",      fr:"une veste",           no:"en jakke",                   emoji:"🧥" },
+  { id:"chaussettes",fr:"des chaussettes",     no:"sokker",                     emoji:"🧦" },
+  { id:"chaussures", fr:"des chaussures",      no:"sko",                        emoji:"👞" },
+  { id:"baskets",    fr:"des baskets",         no:"joggesko",                   emoji:"👟" },
+  { id:"gants",      fr:"des gants",           no:"hansker",                    emoji:"🧤" },
+  { id:"bonnet",     fr:"un bonnet",           no:"en lue",                     emoji:"🧢" },
+  { id:"echarpe",    fr:"une écharpe",         no:"et skjerf",                  emoji:"🧣" },
+  { id:"bottes",     fr:"des bottes",          no:"støvler",                    emoji:"🥾" },
+  { id:"ceinture",   fr:"une ceinture",        no:"et belte",                   emoji:"🧷" },
+  { id:"casquette",  fr:"une casquette",       no:"en caps",                    emoji:"🧢" },
+  { id:"maillot",    fr:"un maillot de bain",  no:"en badedrakt / badebukse",   emoji:"🩱" }
+].map(x => ({...x, ...inferNounMeta(x.fr)}));
 
-  // Progress (3 deler: cards, match, writing) + vocab er “info”
-  const DONE_KEY = "vetements_done_v1";
-  function getDone(){ return JSON.parse(localStorage.getItem(DONE_KEY) || "{}"); }
-  function setDone(part){
-    const d = getDone();
-    d[part] = true;
-    localStorage.setItem(DONE_KEY, JSON.stringify(d));
-    updateProgress();
-  }
-  function updateProgress(){
-    const d = getDone();
-    const parts = [!!d.cards, !!d.match, !!d.write, true];
-    const pct = Math.round((parts.filter(Boolean).length / parts.length) * 100);
-    $("progressText").textContent = pct + "%";
-    $("progressBar").style.width = pct + "%";
-  }
+/* Farger: bøyning for setninger.
+   - m_s: maskulin entall
+   - f_s: feminin entall
+   - m_p: maskulin flertall
+   - f_p: feminin flertall
+*/
+const COLORS = [
+  { id:"marron", fr:"marron", no:"brun",  emoji:"🟤", m_s:"marron", f_s:"marron",  m_p:"marron",  f_p:"marron" },
+  { id:"noir",   fr:"noir",   no:"svart", emoji:"⚫", m_s:"noir",   f_s:"noire",   m_p:"noirs",   f_p:"noires" },
+  { id:"bleu",   fr:"bleu",   no:"blå",   emoji:"🔵", m_s:"bleu",   f_s:"bleue",   m_p:"bleus",   f_p:"bleues" },
+  { id:"vert",   fr:"vert",   no:"grønn", emoji:"🟢", m_s:"vert",   f_s:"verte",   m_p:"verts",   f_p:"vertes" },
+  { id:"jaune",  fr:"jaune",  no:"gul",   emoji:"🟡", m_s:"jaune",  f_s:"jaune",   m_p:"jaunes",  f_p:"jaunes" },
+  { id:"gris",   fr:"gris",   no:"grå",   emoji:"⚙️", m_s:"gris",   f_s:"grise",   m_p:"gris",    f_p:"grises" },
+  { id:"rose",   fr:"rose",   no:"rosa",  emoji:"🌸", m_s:"rose",   f_s:"rose",    m_p:"roses",   f_p:"roses" },
+  { id:"violet", fr:"violet", no:"lilla", emoji:"🟣", m_s:"violet", f_s:"violette",m_p:"violets", f_p:"violettes" }
+];
 
-  // Score badge: totalt “treff” fra cards (riktig), match (riktig) og writing (glosetreff)
-  let totalScore = Number(localStorage.getItem("vetements_score_v1") || "0");
-  function setScore(v){
-    totalScore = Math.max(0, v);
-    localStorage.setItem("vetements_score_v1", String(totalScore));
-    $("scoreBadge").textContent = `✅ Treff: ${totalScore}`;
-  }
-  function addScore(delta){
-    setScore(totalScore + delta);
-  }
-  setScore(totalScore);
-  updateProgress();
+const DECK = [
+  ...CLOTHES.map(x => ({...x, cat:"clothes"})),
+  ...COLORS.map(x => ({...x, cat:"colors"}))
+];
 
-  // =========================================================
-  // 2) Ordbank render + toggle norsk
-  // =========================================================
-  let showNO = true;
-  let clothesView = CLOTHES.slice();
-  let colorsView = COLORS.slice();
+/* ========================= STATE + STORAGE ========================= */
+const LS_KEY = "salut9_vetements_v2";
 
-  function renderVocab(){
-    const clothes = clothesView.map(w =>
-      `• ${w.emoji} <b>${w.fr}</b>` + (showNO ? ` — ${w.no}` : "")
-    ).join("<br>");
-    const colors = colorsView.map(w =>
-      `• ${w.emoji} <b>${w.fr}</b>` + (showNO ? ` — ${w.no}` : "")
-    ).join("<br>");
+function todayKey(){
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth()+1).padStart(2,"0");
+  const day = String(d.getDate()).padStart(2,"0");
+  return `${y}-${m}-${day}`;
+}
 
-    $("vocabClothes").innerHTML = clothes;
-    $("vocabColors").innerHTML = colors;
-  }
+const defaultState = () => ({
+  xp: 0,
+  daily: { date: todayKey() },
+  fc: { idx: 0, revealed: false, mastery: {}, sessionXP: 0 },
+  dd: { solved: {}, score: 0, sessionXP: 0, seed: Date.now() },
+  sb: { hits: 0, rounds: 0, sessionXP: 0, current: null },
+  free: { text: "", score: 0, sessionXP: 0 },
+  ui: { showFR: true, filter:"all", search:"" },
+  achieved: { badge:false },
+  stats: { lastSaved: 0 }
+});
 
-  $("toggleNo").addEventListener("click", () => {
-    showNO = !showNO;
-    renderVocab();
-  });
+let S = loadState();
 
-  $("shuffleAll").addEventListener("click", () => {
-    clothesView = shuffle(clothesView);
-    colorsView = shuffle(colorsView);
-    renderVocab();
-    toast($("cardsToast"), "🔀 Blandet!");
-  });
-
-  renderVocab();
-
-  // =========================================================
-  // 3) Flashcards (Quizlet-ish)
-  // =========================================================
-  const ALL = CLOTHES.map(x => ({...x, type:"clothes"}))
-    .concat(COLORS.map(x => ({...x, type:"colors"}));
-  let cards = shuffle(ALL);
-  let cardIndex = 0;
-  let flipped = false;
-
-  $("cardTotal").textContent = String(cards.length);
-
-  function renderCard(){
-    const c = cards[cardIndex];
-    $("cardIdx").textContent = String(cardIndex + 1);
-    $("cardFront").textContent = c.fr;
-    $("cardBack").textContent = `${c.emoji} ${c.no}`;
-    $("cardBack").style.display = flipped ? "block" : "none";
-    $("cardHint").textContent = flipped ? "Trykk ✅/❌" : "Trykk “Snu” eller klikk kortet";
-  }
-
-  function flip(){
-    flipped = !flipped;
-    renderCard();
-  }
-
-  $("flipCard").addEventListener("click", flip);
-  $("cardBox").addEventListener("click", flip);
-
-  $("prevCard").addEventListener("click", () => {
-    cardIndex = (cardIndex - 1 + cards.length) % cards.length;
-    flipped = false;
-    renderCard();
-  });
-  $("nextCard").addEventListener("click", () => {
-    cardIndex = (cardIndex + 1) % cards.length;
-    flipped = false;
-    renderCard();
-  });
-
-  $("cardRight").addEventListener("click", () => {
-    if (!flipped) flip();
-    addScore(1);
-    toast($("cardsToast"), "✅ Bra!");
-    if (cardIndex === cards.length - 1) setDone("cards");
-    $("nextCard").click();
-  });
-
-  $("cardWrong").addEventListener("click", () => {
-    if (!flipped) flip();
-    toast($("cardsToast"), "❌ Notér og prøv igjen");
-    $("nextCard").click();
-  });
-
-  renderCard();
-
-  // =========================================================
-  // 4) Match: emoji -> fr (dropdown) (iPad-safe)
-  // =========================================================
-  const MATCH_KEY = "vetements_match_v1";
-  const matchRoot = $("matchRoot");
-
-  const matchItems = shuffle(CLOTHES).slice(0, 8).map(w => ({
-    prompt: `${w.emoji} ${w.no}`,
-    answer: w.fr
-  }));
-
-  const options = shuffle(CLOTHES.map(w => w.fr)); // kun klær her (bevisst)
-
-  function renderMatch(){
-    const saved = JSON.parse(localStorage.getItem(MATCH_KEY) || "{}");
-    matchRoot.innerHTML = "";
-
-    matchItems.forEach((it, i) => {
-      const row = document.createElement("div");
-      row.className = "toast";
-      row.style.display = "grid";
-      row.style.gridTemplateColumns = "1fr 1fr";
-      row.style.gap = "10px";
-      row.style.alignItems = "center";
-      row.style.margin = "10px 0";
-
-      const left = document.createElement("div");
-      left.innerHTML = `<b>${i+1}.</b> <span class="small">${it.prompt}</span>`;
-
-      const sel = document.createElement("select");
-      sel.className = "input";
-      const ph = document.createElement("option");
-      ph.value = "";
-      ph.textContent = "Velg fransk ord…";
-      sel.appendChild(ph);
-      options.forEach(o => {
-        const opt = document.createElement("option");
-        opt.value = o;
-        opt.textContent = o;
-        sel.appendChild(opt);
-      });
-      sel.value = saved["m_"+i] || "";
-
-      row.appendChild(left);
-      row.appendChild(sel);
-      matchRoot.appendChild(row);
-    });
-
-    $("matchScore").textContent = "";
-  }
-
-  function checkMatch(){
-    const rows = [...matchRoot.querySelectorAll(".toast")];
-    let ok = 0;
-
-    rows.forEach((row, i) => {
-      const sel = row.querySelector("select");
-      const isOk = norm(sel.value) === norm(matchItems[i].answer);
-      sel.style.outline = sel.value
-        ? (isOk ? "2px solid var(--success)" : "2px solid var(--danger)")
-        : "";
-      if (isOk) ok++;
-    });
-
-    $("matchScore").textContent = `Treff: ${ok} / ${matchItems.length}`;
-    toast($("matchToast"), ok === matchItems.length ? "✅ Perfekt!" : "📌 Se etter røde felt og prøv igjen.");
-    addScore(ok); // belønn for riktige (enkelt + motiverende)
-    if (ok === matchItems.length) setDone("match");
-
-    // lagre valg
-    const data = {};
-    rows.forEach((row, i) => data["m_"+i] = row.querySelector("select").value);
-    localStorage.setItem(MATCH_KEY, JSON.stringify(data));
-  }
-
-  $("checkMatch").addEventListener("click", checkMatch);
-  $("resetMatch").addEventListener("click", () => {
-    localStorage.removeItem(MATCH_KEY);
-    renderMatch();
-    toast($("matchToast"), "🧹 Nullstilt!");
-  });
-
-  renderMatch();
-
-  // =========================================================
-  // 5) Skriving med tilbakemelding (tell riktige gloser brukt)
-  // =========================================================
-  const WRITE_KEY = "vetements_write_v1";
-
-  const allWordsFR = CLOTHES.map(x => x.fr).concat(COLORS.map(x => x.fr));
-  const allWordsNorm = allWordsFR.map(w => norm(w));
-
-  function countVocabHits(text){
-    const t = norm(text);
-
-    // teller “hele uttrykk” – enklest robust: sjekk substring på normalisert tekst
-    const used = allWordsNorm.filter(w => t.includes(w));
-    const uniqueUsed = uniq(used);
-
-    // gi også litt “råd”
-    const clothesUsed = uniq(CLOTHES.map(x => norm(x.fr)).filter(w => t.includes(w))).length;
-    const colorsUsed = uniq(COLORS.map(x => norm(x.fr)).filter(w => t.includes(w))).length;
-
-    return { total: uniqueUsed.length, clothesUsed, colorsUsed, list: uniqueUsed };
-  }
-
-  function feedbackText(hits){
-    // nivåer (kan justeres)
-    if (hits.total >= 10) return `🔥 Kjempebra! Du brukte ${hits.total} gloser (klær: ${hits.clothesUsed}, farger: ${hits.colorsUsed}).`;
-    if (hits.total >= 6) return `✅ Bra! Du brukte ${hits.total} gloser (klær: ${hits.clothesUsed}, farger: ${hits.colorsUsed}). Prøv å legge til 1–2 farger til.`;
-    if (hits.total >= 3) return `👍 På vei! Du brukte ${hits.total} gloser. Legg inn flere klær + minst 2 farger.`;
-    return `📌 Du brukte ${hits.total} gloser. Tips: start med “Je porte…” + 2–3 plagg + 2 farger.`;
-  }
-
-  function finish(which){
-    const map = {
-      me: { ta: $("textMe"), fb: $("fbMe") },
-      friend: { ta: $("textFriend"), fb: $("fbFriend") },
-      dream: { ta: $("textDream"), fb: $("fbDream") }
+function loadState(){
+  try{
+    const raw = localStorage.getItem(LS_KEY);
+    if(!raw) return defaultState();
+    const parsed = JSON.parse(raw);
+    const base = defaultState();
+    const merged = {
+      ...base, ...parsed,
+      daily: {...base.daily, ...(parsed.daily||{})},
+      fc: {...base.fc, ...(parsed.fc||{})},
+      dd: {...base.dd, ...(parsed.dd||{})},
+      sb: {...base.sb, ...(parsed.sb||{})},
+      free: {...base.free, ...(parsed.free||{})},
+      ui: {...base.ui, ...(parsed.ui||{})},
+      achieved: {...base.achieved, ...(parsed.achieved||{})},
+      stats: {...base.stats, ...(parsed.stats||{})}
     };
-    const item = map[which];
-    if (!item) return;
-
-    const hits = countVocabHits(item.ta.value);
-    item.fb.textContent = feedbackText(hits);
-
-    // belønn “antall gloser” (men uten å eksplodere score)
-    addScore(Math.min(5, hits.total)); // maks 5 per ferdig-trykk
-
-    // mark write done hvis de har minst 6 gloser i minst én tekst
-    if (hits.total >= 6) setDone("write");
+    if(!merged.daily?.date) merged.daily = { date: todayKey() };
+    if(!merged.fc.mastery) merged.fc.mastery = {};
+    if(!merged.dd.solved) merged.dd.solved = {};
+    return merged;
+  }catch(e){
+    return defaultState();
   }
+}
 
-  function clearOne(which){
-    const map = {
-      me: { ta: $("textMe"), fb: $("fbMe") },
-      friend: { ta: $("textFriend"), fb: $("fbFriend") },
-      dream: { ta: $("textDream"), fb: $("fbDream") }
-    };
-    const item = map[which];
-    if (!item) return;
-    item.ta.value = "";
-    item.fb.textContent = "";
+let saveTimer = null;
+function autoSaveSoft(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(()=> {
+    localStorage.setItem(LS_KEY, JSON.stringify(S));
+  }, 250);
+}
+function saveState(){
+  S.stats.lastSaved = Date.now();
+  localStorage.setItem(LS_KEY, JSON.stringify(S));
+  toast("✅ Lagret lokalt");
+  renderAll();
+}
+function resetAll(){
+  if(!confirm("Nullstill alt (XP + fremdrift)?")) return;
+  S = defaultState();
+  localStorage.removeItem(LS_KEY);
+  renderAll();
+  toast("🔄 Nullstilt");
+}
+
+/* ========================= DAGLIG RESET (DEL-XP) ========================= */
+function dailyRollOverIfNeeded(){
+  const t = todayKey();
+  if(S.daily?.date !== t){
+    S.daily = { date: t };
+    S.fc.sessionXP = 0;
+    S.dd.sessionXP = 0;
+    S.sb.sessionXP = 0;
+    S.free.sessionXP = 0;
+    toast("📅 Ny dag! Daglig XP-teller er nullstilt.");
+    autoSaveSoft();
   }
+}
 
-  document.querySelectorAll("[data-finish]").forEach(btn => {
-    btn.addEventListener("click", () => finish(btn.getAttribute("data-finish")));
-  });
-
-  document.querySelectorAll("[data-clear]").forEach(btn => {
-    btn.addEventListener("click", () => clearOne(btn.getAttribute("data-clear")));
-  });
-
-  function saveAll(){
-    const data = {
-      me: $("textMe").value,
-      friend: $("textFriend").value,
-      dream: $("textDream").value
-    };
-    localStorage.setItem(WRITE_KEY, JSON.stringify(data));
-    toast($("allToast"), "✅ Lagret lokalt!");
+/* ========================= XP + PROGRESS + REWARDS ========================= */
+function addXP(n){
+  if(n <= 0) return;
+  S.xp += n;
+  if(S.xp >= 100 && !S.achieved.badge){
+    S.achieved.badge = true;
+    confetti();
+    toast("🏆 Badge låst opp: Fashion Master!");
   }
+  autoSaveSoft();
+  renderTop();
+}
 
-  function loadAll(){
-    const raw = localStorage.getItem(WRITE_KEY);
-    if (!raw) return;
-    try{
-      const data = JSON.parse(raw);
-      $("textMe").value = data.me || "";
-      $("textFriend").value = data.friend || "";
-      $("textDream").value = data.dream || "";
-    }catch(e){}
+function levelFromXP(xp){
+  if(xp >= 100) return {lvl:5, name:"Fashion Master"};
+  if(xp >= 75)  return {lvl:4, name:"Stylish"};
+  if(xp >= 50)  return {lvl:3, name:"På vei"};
+  if(xp >= 25)  return {lvl:2, name:"Learner"};
+  return {lvl:1, name:"Novice"};
+}
+
+function masteredCount(){
+  return DECK.filter(c => (S.fc.mastery[c.id]||0) >= 3).length;
+}
+
+function mulberry32(seed){
+  let a = seed >>> 0;
+  return function() {
+    a |= 0;
+    a = a + 0x6D2B79F5 | 0;
+    let t = Math.imul(a ^ a >>> 15, 1 | a);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+function shuffleWithSeed(arr, seed){
+  const rnd = mulberry32(seed);
+  const a = arr.slice();
+  for(let i=a.length-1; i>0; i--){
+    const j = Math.floor(rnd() * (i+1));
+    [a[i], a[j]] = [a[j], a[i]];
   }
+  return a;
+}
+function currentDDItems(){
+  const base = CLOTHES.slice();
+  const seed = S.dd.seed || Date.now();
+  const shuffled = shuffleWithSeed(base, seed);
+  return shuffled.slice(0, Math.min(8, shuffled.length));
+}
 
-  function copyAll(){
-    const parts = [
-      $("textMe").value.trim(),
-      $("textFriend").value.trim(),
-      $("textDream").value.trim()
-    ].filter(Boolean);
+function progressPercent(){
+  // Flashcards (0-40), Matching (0-25), Sentence builder (0-20), Free (0-15)
+  const mastered = masteredCount();
+  const fcPart = Math.min(40, Math.round((mastered / DECK.length) * 40));
 
-    const out = parts.join("\n\n");
-    if (!out) return;
+  const ddItems = currentDDItems();
+  const ddTotal = Math.max(1, ddItems.length);
+  const ddDone = (S.dd.score >= ddTotal) ? 25 : Math.round((S.dd.score / ddTotal) * 25);
 
-    navigator.clipboard.writeText(out).then(() => {
-      toast($("allToast"), "📋 Kopiert!");
-    }).catch(() => {
-      const ta = document.createElement("textarea");
-      ta.value = out;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand("copy");
-      ta.remove();
-      toast($("allToast"), "📋 Kopiert!");
+  const sbGoalRounds = 6;
+  const sbPart = Math.min(
+    20,
+    Math.round(
+      (Math.min(S.sb.rounds, sbGoalRounds) / sbGoalRounds) * 14 +
+      (Math.min(S.sb.hits, 4) / 4) * 6
+    )
+  );
+
+  const freePart = Math.min(15, Math.round((S.free.score / 6) * 15));
+
+  return Math.max(0, Math.min(100, fcPart + ddDone + sbPart + freePart));
+}
+
+function renderTop(){
+  document.getElementById("xp").textContent = S.xp;
+  const p = progressPercent();
+  document.getElementById("progressPct").textContent = `${p}%`;
+  document.getElementById("progressBar").style.width = `${p}%`;
+  const lv = levelFromXP(S.xp);
+  document.getElementById("levelPill").textContent = `Nivå: ${lv.lvl} · ${lv.name}`;
+
+  const badge = document.getElementById("badge");
+  badge.textContent = S.achieved.badge ? "🏆 Fashion Master" : "🔒 Låst";
+  badge.style.background = S.achieved.badge ? "rgba(34,197,94,.18)" : "rgba(255,255,255,.06)";
+}
+
+/* ========================= ORDBANK ========================= */
+const wordListEl = document.getElementById("wordList");
+const searchEl = document.getElementById("search");
+const filterEl = document.getElementById("filter");
+const toggleLangBtn = document.getElementById("toggleLang");
+
+searchEl.value = S.ui.search;
+filterEl.value = S.ui.filter;
+toggleLangBtn.textContent = S.ui.showFR ? "Vis: FR → NO" : "Vis: NO → FR";
+
+searchEl.addEventListener("input", () => {
+  S.ui.search = searchEl.value;
+  autoSaveSoft();
+  renderWordbank();
+});
+filterEl.addEventListener("change", () => {
+  S.ui.filter = filterEl.value;
+  autoSaveSoft();
+  renderWordbank();
+});
+toggleLangBtn.addEventListener("click", () => {
+  S.ui.showFR = !S.ui.showFR;
+  toggleLangBtn.textContent = S.ui.showFR ? "Vis: FR → NO" : "Vis: NO → FR";
+  autoSaveSoft();
+  renderWordbank();
+});
+
+function renderWordbank(){
+  const q = (S.ui.search || "").trim().toLowerCase();
+  const f = S.ui.filter;
+  let items = DECK.slice();
+
+  if(f === "clothes") items = items.filter(x => x.cat === "clothes");
+  if(f === "colors")  items = items.filter(x => x.cat === "colors");
+
+  if(q){
+    items = items.filter(x => {
+      const fr = (x.fr||"").toLowerCase();
+      const no = (x.no||"").toLowerCase();
+      const id = (x.id||"").toLowerCase();
+      return fr.includes(q) || no.includes(q) || id.includes(q);
     });
   }
 
-  function resetAll(){
-    localStorage.removeItem(WRITE_KEY);
-    localStorage.removeItem(MATCH_KEY);
-    localStorage.removeItem(DONE_KEY);
-    setScore(0);
-    $("textMe").value = "";
-    $("textFriend").value = "";
-    $("textDream").value = "";
-    $("fbMe").textContent = "";
-    $("fbFriend").textContent = "";
-    $("fbDream").textContent = "";
-    renderMatch();
-    updateProgress();
-    toast($("allToast"), "🧹 Alt er nullstilt!");
+  wordListEl.innerHTML = "";
+  items.forEach(x => {
+    const left  = S.ui.showFR ? x.fr : x.no;
+    const right = S.ui.showFR ? x.no : x.fr;
+    const row = document.createElement("div");
+    row.className = "row";
+    row.innerHTML = `
+      <div>
+        <strong>${escapeHtml(x.emoji)} ${escapeHtml(left)}</strong>
+        <small>${escapeHtml(right)}</small>
+      </div>
+      <span class="tag">${x.cat === "clothes" ? "Klær" : "Farger"}</span>
+    `;
+    wordListEl.appendChild(row);
+  });
+
+  document.getElementById("countClothes").textContent = CLOTHES.length;
+  document.getElementById("countColors").textContent = COLORS.length;
+}
+
+/* ========================= FLASHCARDS ========================= */
+const flashCardEl = document.getElementById("flashCard");
+const fcFrontEl = document.getElementById("fcFront");
+const fcBackEl = document.getElementById("fcBack");
+const fcIndexEl = document.getElementById("fcIndex");
+const fcTotalEl = document.getElementById("fcTotal");
+const fcMasteryEl = document.getElementById("fcMastery");
+const masteredCountEl = document.getElementById("masteredCount");
+const deckCountEl = document.getElementById("deckCount");
+const fcXPEl = document.getElementById("fcXP");
+const revealBtn = document.getElementById("revealBtn");
+const knewBtn = document.getElementById("knewBtn");
+const almostBtn = document.getElementById("almostBtn");
+const nopeBtn = document.getElementById("nopeBtn");
+const nextBtn = document.getElementById("nextBtn");
+
+function currentCard(){
+  const idx = ((S.fc.idx||0) % DECK.length + DECK.length) % DECK.length;
+  return DECK[idx];
+}
+
+function renderFlashcard(){
+  const card = currentCard();
+  fcFrontEl.textContent = `${card.emoji} ${card.fr}`;
+  fcBackEl.textContent = `${card.no}`;
+  fcTotalEl.textContent = DECK.length;
+  fcIndexEl.textContent = (S.fc.idx % DECK.length) + 1;
+
+  const m = S.fc.mastery[card.id] || 0;
+  fcMasteryEl.textContent = `${m}`;
+
+  deckCountEl.textContent = DECK.length;
+  masteredCountEl.textContent = masteredCount();
+  fcXPEl.textContent = S.fc.sessionXP;
+
+  flashCardEl.classList.toggle("revealed", !!S.fc.revealed);
+  knewBtn.disabled = !S.fc.revealed;
+  almostBtn.disabled = !S.fc.revealed;
+  nopeBtn.disabled = !S.fc.revealed;
+}
+
+revealBtn.addEventListener("click", () => {
+  S.fc.revealed = true;
+  autoSaveSoft();
+  renderFlashcard();
+});
+
+function answerFlash(kind){
+  dailyRollOverIfNeeded();
+  const card = currentCard();
+  const m = S.fc.mastery[card.id] || 0;
+
+  let deltaM = 0;
+  let gained = 0;
+
+  if(kind === "knew"){ deltaM = 1; gained = 3; }
+  else if(kind === "almost"){ deltaM = 1; gained = 1; }
+  else { deltaM = 0; gained = 0; }
+
+  const newM = Math.min(3, m + deltaM);
+  S.fc.mastery[card.id] = newM;
+
+  if(gained > 0){
+    S.fc.sessionXP += gained;
+    addXP(gained);
+    toast(`⭐ +${gained} XP (flashcard)`);
   }
 
-  $("saveAll").addEventListener("click", saveAll);
-  $("copyAll").addEventListener("click", copyAll);
-  $("resetAll").addEventListener("click", resetAll);
+  S.fc.revealed = false;
+  S.fc.idx = (S.fc.idx + 1) % DECK.length;
+  autoSaveSoft();
+  renderAll();
+}
 
-  loadAll();
-})();
-</script>
-</body>
-</html>
+knewBtn.addEventListener("click", () => answerFlash("knew"));
+almostBtn.addEventListener("click", () => answerFlash("almost"));
+nopeBtn.addEventListener("click", () => answerFlash("nope"));
+nextBtn.addEventListener("click", () => {
+  S.fc.revealed = false;
+  S.fc.idx = (S.fc.idx + 1) % DECK.length;
+  autoSaveSoft();
+  renderFlashcard();
+});
+
+/* ========================= MATCHING (Drag & Drop) ========================= */
+const ddBankEl = document.getElementById("ddBank");
+const ddTargetsEl = document.getElementById("ddTargets");
+const ddScoreEl = document.getElementById("ddScore");
+const ddTotalEl = document.getElementById("ddTotal");
+const ddXPEl = document.getElementById("ddXP");
+const ddSaveBtn = document.getElementById("ddSave");
+const ddResetBtn = document.getElementById("ddReset");
+
+function renderDD(){
+  const items = currentDDItems();
+  ddTotalEl.textContent = items.length;
+  ddScoreEl.textContent = S.dd.score;
+  ddXPEl.textContent = S.dd.sessionXP;
+
+  ddBankEl.innerHTML = "";
+  items.forEach(it => {
+    if(S.dd.solved[it.id]) return;
+    const chip = document.createElement("div");
+    chip.className = "chip";
+    chip.draggable = true;
+    chip.textContent = it.fr;
+    chip.dataset.id = it.id;
+    chip.addEventListener("dragstart", (e) =>
