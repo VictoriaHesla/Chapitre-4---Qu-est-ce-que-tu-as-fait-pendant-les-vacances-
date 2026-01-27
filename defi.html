@@ -3,685 +3,598 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Défi final – Salut 9 kap. 4</title>
-
+  <title>Salut 9 · Kapittel 4 · Défi final</title>
   <style>
     :root{
-      --bg:#0b1220;
-      --card:#101a33;
-      --text:#eaf0ff;
-      --muted:#b7c4ff;
-      --accent:#7dd3fc;
-      --good:#34d399;
-      --bad:#fb7185;
-      --warn:#fbbf24;
-      --border:rgba(255,255,255,.12);
+      --bg:#0b1020;
+      --card:#121a33;
+      --text:#e9ecff;
+      --muted:#b7c0ff;
+      --accent:#8b7bff;
+      --good:#47d18c;
+      --bad:#ff5c7a;
+      --line:rgba(255,255,255,.12);
       --shadow: 0 10px 30px rgba(0,0,0,.35);
-      --radius:18px;
-      --max: 980px;
     }
     *{box-sizing:border-box}
     body{
       margin:0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: radial-gradient(1200px 800px at 20% 10%, rgba(125,211,252,.18), transparent 60%),
-                  radial-gradient(1000px 700px at 80% 0%, rgba(52,211,153,.12), transparent 55%),
-                  var(--bg);
+      background:
+        radial-gradient(1200px 700px at 30% 0%, rgba(139,123,255,.25), transparent 60%),
+        radial-gradient(900px 600px at 80% 20%, rgba(71,209,140,.18), transparent 55%),
+        var(--bg);
       color:var(--text);
-      line-height:1.5;
     }
-    header{padding:28px 16px 14px;}
-    .wrap{max-width:var(--max); margin:0 auto; padding:0 16px 40px;}
+    .container{max-width:1020px;margin:0 auto;padding:18px 16px 60px}
+    a{color:inherit;text-decoration:none}
+    h1{margin:18px 0 8px; font-size:2rem}
+    .subtitle{color:var(--muted); margin:0 0 16px}
     .topbar{
-      display:flex; gap:12px; align-items:center; justify-content:space-between; flex-wrap:wrap;
-    }
-    a{color:var(--accent); text-decoration:none}
-    a:hover{text-decoration:underline}
-    .badge{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:6px 10px;
-      border:1px solid var(--border);
-      border-radius:999px;
-      background: rgba(255,255,255,.06);
-      color: var(--muted);
-      font-size: 13px;
-      white-space:nowrap;
-    }
-    .title{
-      font-size: clamp(22px, 3.2vw, 34px);
-      margin:10px 0 6px;
-      letter-spacing:.2px;
-    }
-    .subtitle{color:var(--muted); margin:0 0 14px; max-width: 85ch;}
-    .pillrow{display:flex; gap:8px; flex-wrap:wrap}
-    .pill{
-      display:inline-flex; gap:8px; align-items:center;
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid var(--border);
-      background: rgba(16,26,51,.6);
-      font-size: 13px;
-      color: var(--muted);
-    }
-    .pill b{color:var(--text)}
-
-    .grid{
-      display:grid;
-      grid-template-columns: 1.05fr .95fr;
-      gap:16px;
-    }
-    @media (max-width: 900px){ .grid{grid-template-columns:1fr} }
-
-    .card{
-      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
-      border:1px solid var(--border);
-      border-radius: var(--radius);
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px; padding:10px 12px;
+      border:1px solid var(--line);
+      background:rgba(18,26,51,.7);
+      backdrop-filter: blur(10px);
+      border-radius:16px;
       box-shadow: var(--shadow);
-      overflow:hidden;
+      position: sticky; top: 10px; z-index: 20;
     }
-    .card .hd{
-      padding:16px 16px 0;
-      display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
-    }
-    .card .hd h2{margin:0; font-size:18px;}
-    .card .bd{padding:14px 16px 16px;}
-
-    .kicker{font-size:12px; text-transform:uppercase; letter-spacing:.12em; color: var(--muted);}
-    .small{font-size:13px; color: var(--muted); margin-top:8px;}
-    .divider{height:1px; background: var(--border); margin:12px 0;}
-
-    button{
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.06);
-      color: var(--text);
-      padding:10px 12px;
-      border-radius: 12px;
-      cursor:pointer;
-      font-weight:700;
-    }
-    button:hover{background: rgba(255,255,255,.10)}
-    button.primary{
-      background: rgba(125,211,252,.18);
-      border-color: rgba(125,211,252,.35);
-    }
-    button.good{
-      background: rgba(52,211,153,.16);
-      border-color: rgba(52,211,153,.35);
-    }
-    button.warn{
-      background: rgba(251,191,36,.15);
-      border-color: rgba(251,191,36,.35);
-    }
-    button.bad{
-      background: rgba(251,113,133,.12);
-      border-color: rgba(251,113,133,.35);
-    }
-
-    .playbox{
-      border:1px solid var(--border);
-      border-radius: 16px;
-      background: rgba(16,26,51,.35);
-      padding:12px;
-    }
-
-    .msg{
-      margin-top:10px;
-      padding:10px 12px;
-      border-radius: 14px;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.05);
-    }
-    .msg.good{border-color: rgba(52,211,153,.45); background: rgba(52,211,153,.10)}
-    .msg.bad{border-color: rgba(251,113,133,.45); background: rgba(251,113,133,.10)}
-    .msg.warn{border-color: rgba(251,191,36,.45); background: rgba(251,191,36,.10)}
-
-    .hud{
-      display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between;
-    }
-    .statrow{display:flex; gap:8px; flex-wrap:wrap; align-items:center;}
-    .stat{
-      display:inline-flex; gap:8px; align-items:center;
+    .topbar .left, .topbar .right{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+    .pill{
+      border:1px solid var(--line);
+      background:rgba(15,22,48,.8);
       padding:6px 10px;
       border-radius:999px;
-      border:1px solid var(--border);
-      background: rgba(16,26,51,.6);
-      color: var(--muted);
-      font-size: 13px;
+      font-weight:650;
+      display:inline-flex; align-items:center; gap:8px;
     }
-    .stat b{color:var(--text)}
-    .progress{
-      width:100%;
-      height:12px;
-      border-radius: 999px;
+    .btn{
+      cursor:pointer;
+      border:none;
+      background: linear-gradient(180deg, rgba(139,123,255,1), rgba(108,94,255,1));
+      color:white;
+      padding:10px 12px;
+      border-radius:12px;
+      font-weight:800;
+    }
+    .btn.secondary{
       background: rgba(255,255,255,.08);
-      border:1px solid var(--border);
+      border:1px solid var(--line);
+    }
+    .btn:active{transform: translateY(1px)}
+    .grid{display:grid; gap:14px}
+    .card{
+      background: linear-gradient(180deg, rgba(18,26,51,.95), rgba(15,22,48,.95));
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:14px;
+      box-shadow: var(--shadow);
+    }
+    .card h2{margin:0 0 10px; font-size:1.2rem}
+    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+    .small{font-size:.92rem;color:var(--muted)}
+    .feedback{
+      margin-top:10px; padding:10px 12px; border-radius:14px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.06);
+    }
+    select{
+      padding:10px 12px;border-radius:12px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.06);
+      color:var(--text);
+      outline:none;
+      cursor:pointer;
+      font-weight:800;
+    }
+
+    /* GAME BOARD */
+    .boardWrap{padding:14px}
+    .board{
+      position:relative;
+      border:1px solid var(--line);
+      border-radius:18px;
+      background: rgba(255,255,255,.04);
       overflow:hidden;
-      margin-top:10px;
+      padding:14px;
     }
-    .bar{
-      height:100%;
-      width:0%;
-      background: rgba(125,211,252,.35);
-    }
-
-    .choices{display:grid; grid-template-columns:1fr; gap:10px; margin-top:10px;}
-    .qtitle{font-weight:900; font-size:16px;}
-    .kbd{
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: 12px;
-      padding:2px 6px;
-      border:1px solid var(--border);
-      border-radius: 8px;
-      background: rgba(255,255,255,.05);
-      color: var(--text);
-    }
-
-    .badgegrid{
+    .track{
       display:grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(10, 1fr);
       gap:10px;
-      margin-top:10px;
+      align-items:stretch;
     }
-    @media (max-width: 540px){ .badgegrid{grid-template-columns:1fr} }
-    .badgecard{
-      border:1px solid var(--border);
-      background: rgba(16,26,51,.35);
-      border-radius: 16px;
-      padding:12px;
-      display:flex; gap:10px; align-items:flex-start;
+    .tile{
+      position:relative;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.12);
+      border-radius:14px;
+      min-height:74px;
+      padding:10px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
     }
-    .emoji{font-size:22px; line-height:1;}
-    .badgecard .name{font-weight:900}
-    .lock{opacity:.55}
-
-    .reward{
-      position: relative;
-      border:1px solid rgba(52,211,153,.35);
-      background: rgba(52,211,153,.10);
-      border-radius: 18px;
-      padding:12px;
-      overflow:hidden;
-    }
-    .sparkle{
+    .tile .n{font-weight:900}
+    .tile .tag{font-size:.85rem;color:var(--muted)}
+    .tile.goal{background: rgba(245,158,11,.12)}
+    .tile.check{background: rgba(71,209,140,.10)}
+    .sprite{
       position:absolute;
-      inset:-40px;
-      background: radial-gradient(circle at 20% 30%, rgba(125,211,252,.18), transparent 35%),
-                  radial-gradient(circle at 80% 20%, rgba(52,211,153,.18), transparent 35%),
-                  radial-gradient(circle at 50% 80%, rgba(251,191,36,.16), transparent 35%);
-      filter: blur(2px);
-      animation: floaty 4.8s ease-in-out infinite;
+      width:42px;height:42px;
+      border-radius:14px;
+      display:flex;align-items:center;justify-content:center;
+      font-size:24px;
+      background: rgba(139,123,255,.22);
+      border:1px solid rgba(255,255,255,.18);
+      box-shadow: 0 12px 24px rgba(0,0,0,.35);
+      transition: transform .35s ease;
+      transform: translate(0,0);
+      pointer-events:none;
     }
-    @keyframes floaty{
-      0%,100%{transform: translateY(0px)}
-      50%{transform: translateY(10px)}
+    .boss{
+      position:absolute;
+      right:10px; top:10px;
+      font-size:28px;
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,.5));
     }
 
-    footer{padding:18px 16px 28px; color: var(--muted); text-align:center}
+    /* QUIZ */
+    .prompt{
+      font-size:1.15rem;
+      font-weight:900;
+      margin:6px 0 10px;
+    }
+    .choices{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:10px;
+    }
+    .choice{
+      width:100%;
+      text-align:left;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      cursor:pointer;
+      font-weight:800;
+    }
+    .choice:hover{background: rgba(255,255,255,.09)}
+    .choice.correct{border-color: rgba(71,209,140,.85)}
+    .choice.wrong{border-color: rgba(255,92,122,.85)}
+    .kbd{font-family: ui-monospace, SFMono-Regular, Menlo, monospace; background:rgba(0,0,0,.25); padding:2px 6px; border-radius:8px; border:1px solid var(--line)}
   </style>
 </head>
 
 <body>
-  <header>
-    <div class="wrap">
-      <div class="topbar">
-        <a href="index.html">← Til meny</a>
-        <span class="badge">Salut 9 · Kapittel 4 · Défi final</span>
+  <div class="container">
+
+    <div class="topbar">
+      <div class="left">
+        <a class="pill" href="index.html">← Til meny</a>
+        <span class="pill">Salut 9 · Kapittel 4</span>
       </div>
 
-      <h1 class="title">🏆 Défi final: Boss fight!</h1>
-      <p class="subtitle">
-        Siste utfordring: blandet quiz fra hele kapittelet (vær, passé composé, landskap, klær og ne…pas).
-        Klarer du <b>8/10</b> og låser opp belønningen?
-      </p>
-
-      <div class="pillrow">
-        <span class="pill"><b>Mål</b> 8/10 riktige i finalen</span>
-        <span class="pill"><b>Belønning</b> “Champion”-badge + kodeord</span>
-        <span class="pill"><b>Lagring</b> XP og badges lagres lokalt</span>
+      <div class="right">
+        <span class="pill">⭐ XP: <span id="xp">0</span></span>
+        <span class="pill">🏅 Best: <span id="best">0</span>/10</span>
+        <button class="btn secondary" id="musicBtn">🎵 Musikk: AV</button>
       </div>
     </div>
-  </header>
 
-  <main class="wrap">
+    <h1>🏁 Défi final: “Boss run”</h1>
+    <p class="subtitle">Velg boss-type (lett/middels/hard). Svar riktig for å flytte 🧍 fremover. 10 oppgaver fra alle temaene.</p>
+
     <div class="grid">
-      <!-- LEFT: GAME -->
-      <section class="card">
-        <div class="hd">
-          <div>
-            <div class="kicker">Spill</div>
-            <h2>Finale-quiz</h2>
-          </div>
-          <div class="statrow">
-            <span class="stat">XP: <b id="xp">0</b></span>
-            <span class="stat">Best: <b id="best">0</b>/10</span>
-          </div>
+
+      <section class="card boardWrap">
+        <h2>🎮 Spillebrett</h2>
+        <div class="row">
+          <span class="pill">Runde: <strong id="round">0</strong>/10</span>
+          <span class="pill">Poeng: <strong id="score">0</strong></span>
+
+          <label class="pill" style="gap:10px">
+            Boss-type:
+            <select id="bossType">
+              <option value="easy">🟢 Lett</option>
+              <option value="mid" selected>🟡 Middels</option>
+              <option value="hard">🔴 Hard</option>
+            </select>
+          </label>
+
+          <button class="btn" id="start">Start runde</button>
+          <button class="btn secondary" id="reset">Nullstill</button>
+          <button class="btn secondary" id="wipe">Slett XP/best</button>
         </div>
 
-        <div class="bd">
-          <div class="playbox">
-            <div class="hud">
-              <div class="statrow">
-                <span class="stat">Runde: <b id="round">0</b>/10</span>
-                <span class="stat">Poeng: <b id="score">0</b></span>
-              </div>
-              <div class="statrow">
-                <button class="primary" id="start">Start runde</button>
-                <button id="resetRound">Nullstill runde</button>
-              </div>
-            </div>
+        <div class="board" id="board" style="margin-top:12px">
+          <div class="boss" title="Boss">👾</div>
 
-            <div class="progress" aria-label="progress">
-              <div class="bar" id="bar"></div>
-            </div>
+          <div class="track" id="track"></div>
 
-            <div class="divider"></div>
+          <!-- FIGUR: den første (🧍) -->
+          <div class="sprite" id="sprite" aria-label="figur">🧍</div>
+        </div>
 
-            <div id="qa">
-              <div class="qtitle" id="qtext">Trykk “Start runde”.</div>
-              <div class="choices" id="choices"></div>
-              <div id="feedback" class="msg" style="display:none;"></div>
-            </div>
-
-            <div id="endScreen" style="display:none;">
-              <div class="msg" id="endMsg"></div>
-              <div class="reward" id="rewardBox" style="display:none; margin-top:10px;">
-                <div class="sparkle" aria-hidden="true"></div>
-                <div style="position:relative;">
-                  <div style="font-weight:900; font-size:16px;">🎉 Belønning låst opp!</div>
-                  <div class="small" style="color:rgba(234,240,255,.9); margin-top:6px;">
-                    Kodeordet er: <span class="kbd">BRAVO-9</span><br>
-                    (Du kan bruke det som “exit ticket” eller for å få en liten bonus i timen.)
-                  </div>
-                </div>
-              </div>
-
-              <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
-                <button class="good" id="playAgain">Spill igjen</button>
-                <button class="warn" id="clearAll">Slett XP/badges</button>
-              </div>
-            </div>
-
-            <p class="small">
-              Tips: Les hele setningen. Mange feil handler om <b>plassering</b> (ne…pas) eller <b>hjelpeverb</b> (passé composé).
-            </p>
-          </div>
+        <div class="feedback" id="boardMsg">
+          Trykk <strong>Start runde</strong>. Riktig svar = +1 felt.
         </div>
       </section>
 
-      <!-- RIGHT: BADGES / PEDAGOGY -->
-      <aside class="card">
-        <div class="hd">
-          <div>
-            <div class="kicker">Progresjon</div>
-            <h2>Badges</h2>
-          </div>
-          <button class="warn" id="toggleExplain">Vis/skjul lærerblikk</button>
+      <section class="card">
+        <h2>🧠 Oppgave</h2>
+        <div class="prompt" id="prompt">—</div>
+        <div class="small" id="topic">—</div>
+
+        <div class="choices" id="choices" style="margin-top:12px"></div>
+
+        <div class="feedback" id="result">Trykk Start runde for å begynne.</div>
+
+        <div class="small" style="margin-top:10px">
+          Tips: Musikk må ofte startes med et klikk (nettleserregel). Trykk <span class="kbd">🎵 Musikk</span> etter Start hvis nødvendig.
         </div>
+      </section>
 
-        <div class="bd">
-          <div class="small">
-            Du kan samle badges. De lagres lokalt i nettleseren din.
-          </div>
-
-          <div class="badgegrid" id="badgeGrid"></div>
-
-          <div class="divider"></div>
-
-          <div id="teacherView" class="hint" style="display:none;">
-            <b>Pedagogisk begrunnelse (kort):</b><br>
-            • <b>Spillifisering</b>: mål (8/10), XP og badges gir mestring og motivasjon.<br>
-            • <b>Høy repetisjon</b>: korte runder med umiddelbar feedback støtter automatisering av form (ne…pas / PC).<br>
-            • <b>Form + mening</b>: spørsmålene kombinerer grammatikk og ordforråd i kontekst (ferie-tema).<br>
-            • <b>Differensiering</b>: samme runde for alle, men eleven kan spille flere ganger og forbedre “best score”.<br>
-            • <b>Feedback</b>: riktig svar vises alltid – eleven lærer av feil uten å “stoppes”.
-          </div>
-
-          <div class="divider"></div>
-
-          <div class="playbox">
-            <div class="kicker">Mini-mål</div>
-            <div class="small">Ekstra: Klarer du å få <b>10/10</b>? Da låser du “Legend”-badge.</div>
-          </div>
+      <section class="card">
+        <h2>🏆 Belønning</h2>
+        <div class="feedback" id="reward">
+          Lett/middels: mål <strong>8/10</strong>. Hard: mål <strong>9/10</strong>.
         </div>
-      </aside>
+      </section>
+
     </div>
-  </main>
-
-  <footer>
-    Laget for GitHub Pages · Alt lagres lokalt (ingen innlogging)
-  </footer>
+  </div>
 
 <script>
-  // ---------------- STORAGE ----------------
-  const LS_XP = "defi_xp";
-  const LS_BEST = "defi_best10";
-  const LS_BADGES = "defi_badges"; // JSON array
+document.addEventListener("DOMContentLoaded", () => {
+  // ------------------ STORAGE ------------------
+  const LS = "chap4_defi_run_v3";
+  const state = load() || { xp:0, best:0 };
+  function load(){ try{ return JSON.parse(localStorage.getItem(LS)); }catch(e){ return null; } }
+  function save(){ localStorage.setItem(LS, JSON.stringify(state)); }
 
-  function loadNumber(key, fallback=0){
-    const v = localStorage.getItem(key);
-    const n = Number(v);
-    return Number.isFinite(n) ? n : fallback;
+  const xpEl = document.getElementById("xp");
+  const bestEl = document.getElementById("best");
+  function renderTop(){
+    xpEl.textContent = state.xp || 0;
+    bestEl.textContent = state.best || 0;
   }
-  function saveNumber(key, value){
-    localStorage.setItem(key, String(value));
-  }
-  function loadBadges(){
-    try{
-      const raw = localStorage.getItem(LS_BADGES);
-      const arr = raw ? JSON.parse(raw) : [];
-      return Array.isArray(arr) ? arr : [];
-    }catch(e){
-      return [];
+  renderTop();
+
+  // ------------------ GAME UI ------------------
+  const trackEl = document.getElementById("track");
+  const spriteEl = document.getElementById("sprite");
+  const boardEl = document.getElementById("board");
+
+  const roundEl = document.getElementById("round");
+  const scoreEl = document.getElementById("score");
+  const boardMsg = document.getElementById("boardMsg");
+
+  const promptEl = document.getElementById("prompt");
+  const topicEl = document.getElementById("topic");
+  const choicesEl = document.getElementById("choices");
+  const resultEl = document.getElementById("result");
+  const rewardEl = document.getElementById("reward");
+
+  const startBtn = document.getElementById("start");
+  const resetBtn = document.getElementById("reset");
+  const wipeBtn = document.getElementById("wipe");
+  const bossTypeEl = document.getElementById("bossType");
+
+  // ------------------ MUSIC (WebAudio “retro vibe”) ------------------
+  let audioCtx = null;
+  let musicOn = false;
+  let musicTimer = null;
+
+  const musicBtn = document.getElementById("musicBtn");
+
+  function ensureAudio(){
+    if(!audioCtx){
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     }
   }
-  function saveBadges(arr){
-    localStorage.setItem(LS_BADGES, JSON.stringify(arr));
+
+  function playBeep(freq, dur=0.12, type="square", gain=0.05){
+    if(!audioCtx) return;
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.type = type;
+    o.frequency.value = freq;
+
+    const now = audioCtx.currentTime;
+    g.gain.setValueAtTime(0, now);
+    g.gain.linearRampToValueAtTime(gain, now + 0.01);
+    g.gain.linearRampToValueAtTime(0.0001, now + dur);
+
+    o.connect(g);
+    g.connect(audioCtx.destination);
+    o.start(now);
+    o.stop(now + dur + 0.02);
   }
-  function hasBadge(id){
-    return loadBadges().includes(id);
+
+  // own tiny loop (not a copy of any known tune)
+  const melody = [523,659,784,659,587,659,698,659,523,587,659,587,494,587,659,587,523,494,440,494];
+  let melodyIdx = 0;
+
+  function startMusic(){
+    ensureAudio();
+    if(audioCtx.state === "suspended") audioCtx.resume();
+    stopMusic();
+    melodyIdx = 0;
+    musicTimer = setInterval(() => {
+      const f = melody[melodyIdx % melody.length];
+      playBeep(f, 0.10, "square", 0.035);
+      melodyIdx++;
+    }, 130);
   }
-  function awardBadge(id){
-    const b = loadBadges();
-    if(!b.includes(id)){
-      b.push(id);
-      saveBadges(b);
-    }
+  function stopMusic(){
+    if(musicTimer) clearInterval(musicTimer);
+    musicTimer = null;
   }
 
-  // ---------------- QUESTION BANK ----------------
-  // Blandet: météo / passé composé / paysage / vêtements / négation
-  // Format:
-  // { cat:"...", q:"...", a:["...","...","..."], correct: index, explain:"..." }
-  const Q = [
-    // METEO
-    {
-      cat:"Météo",
-      q:"Velg riktig: «____ beau» (det er fint vær).",
-      a:["Il y a", "Il fait", "Il"],
-      correct: 1,
-      explain:"Vær/temperatur: «Il fait beau / froid / chaud»."
-    },
-    {
-      cat:"Météo",
-      q:"Velg riktig: «____ du vent» (det blåser).",
-      a:["Il y a", "Il fait", "Il est"],
-      correct: 0,
-      explain:"«Il y a du vent / du soleil / des nuages»."
-    },
-    {
-      cat:"Météo",
-      q:"Velg riktig: «____ pleut» (det regner).",
-      a:["Il", "Il fait", "Il y a"],
-      correct: 0,
-      explain:"Med verb: «Il pleut / Il neige»."
-    },
+  musicBtn.addEventListener("click", () => {
+    musicOn = !musicOn;
+    musicBtn.textContent = musicOn ? "🎵 Musikk: PÅ" : "🎵 Musikk: AV";
+    if(musicOn) startMusic(); else stopMusic();
+  });
 
-    // PASSE COMPOSE (avoir/être)
-    {
-      cat:"Passé composé",
-      q:"Velg riktig: «J’____ visité Paris.»",
-      a:["ai", "as", "est"],
-      correct: 0,
-      explain:"Je + avoir: «j’ai visité»."
-    },
-    {
-      cat:"Passé composé",
-      q:"Velg riktig: «Tu ____ mangé une glace.»",
-      a:["as", "ai", "a"],
-      correct: 0,
-      explain:"Tu + avoir: «tu as mangé»."
-    },
-    {
-      cat:"Passé composé",
-      q:"Velg riktig: «Elle ____ allée à la plage.»",
-      a:["a", "est", "ai"],
-      correct: 1,
-      explain:"Aller bruker être: «elle est allée»."
-    },
+  function sfxGood(){ ensureAudio(); if(audioCtx.state==="suspended") audioCtx.resume(); playBeep(880,0.08,"square",0.06); playBeep(1175,0.08,"square",0.05); }
+  function sfxBad(){ ensureAudio(); if(audioCtx.state==="suspended") audioCtx.resume(); playBeep(220,0.14,"sawtooth",0.05); }
+  function sfxStep(){ ensureAudio(); if(audioCtx.state==="suspended") audioCtx.resume(); playBeep(440,0.05,"square",0.03); }
 
-    // NEGATION
-    {
-      cat:"Négation",
-      q:"Hvilken setning er riktig?",
-      a:[
-        "Je ne regarde pas la télé.",
-        "Je regarde ne pas la télé.",
-        "Je ne pas regarde la télé."
-      ],
-      correct: 0,
-      explain:"ne + verb + pas."
-    },
-    {
-      cat:"Négation",
-      q:"Gjør korrekt i passé composé:",
-      a:[
-        "Je n’ai pas visité Paris.",
-        "Je ne ai pas visité Paris.",
-        "Je n’ai visité pas Paris."
-      ],
-      correct: 0,
-      explain:"ne…pas rundt hjelpeverbet: n’ai pas + partisipp."
-    },
+  // ------------------ QUESTION BANK ------------------
+  // Each: {topic, q, options, answerIndex, explain, diff:"easy"|"mid"|"hard"}
+  const Q = [];
 
-    // PAYSAGE (landskap)
-    {
-      cat:"Paysage",
-      q:"Hva betyr «la montagne»?",
-      a:["fjellet", "havet", "skogen"],
-      correct: 0,
-      explain:"la montagne = fjellet."
-    },
-    {
-      cat:"Paysage",
-      q:"Hva betyr «la plage»?",
-      a:["stranda", "byen", "ørkenen"],
-      correct: 0,
-      explain:"la plage = stranda."
-    },
+  // MÉTÉO
+  Q.push(
+    {diff:"easy", topic:"☀️ Météo", q:"Hvilket passer best: «___ beau.»", options:["Il fait","Il y a","Il"], answerIndex:0, explain:"Vær + adjektiv: Il fait + adjektiv."},
+    {diff:"easy", topic:"☀️ Météo", q:"Velg riktig: «___ du vent.»", options:["Il fait","Il y a","Il est"], answerIndex:1, explain:"Substantiv: Il y a + du/ de la/ des."},
+    {diff:"mid",  topic:"☀️ Météo", q:"Hva betyr «Il y a du soleil.»", options:["Det er sol.","Det er varmt.","Det regner."], answerIndex:0, explain:"Il y a du soleil = Det er sol."}
+  );
 
-    // VETEMENTS (klær/farger)
-    {
-      cat:"Vêtements",
-      q:"Hva betyr «un pantalon»?",
-      a:["bukse", "genser", "kjole"],
-      correct: 0,
-      explain:"un pantalon = bukse."
-    },
-    {
-      cat:"Vêtements",
-      q:"Velg riktig (farge etter plagg):",
-      a:["un pantalon noir", "un noir pantalon", "noir un pantalon"],
-      correct: 0,
-      explain:"Forenklet regel: farge kommer etter plagget."
-    }
-  ];
+  // PASSÉ COMPOSÉ (avoir)
+  Q.push(
+    {diff:"easy", topic:"⏳ Passé composé", q:"Velg riktig: «J’___ mangé.»", options:["ai","as","a"], answerIndex:0, explain:"Je → j’ai"},
+    {diff:"mid",  topic:"⏳ Passé composé", q:"Perfektum partisipp: «visiter → j’ai ___ Paris.»", options:["visité","visiti","visitée"], answerIndex:0, explain:"-ER → ofte -é (visité)."},
+    {diff:"hard", topic:"⏳ Passé composé", q:"Velg riktig: «Nous ___ fini.»", options:["avons","a","ont"], answerIndex:0, explain:"Nous → avons."}
+  );
 
-  // ---------------- GAME STATE ----------------
-  const $ = (id) => document.getElementById(id);
-  const shuffle = (arr) => arr.map(v => [Math.random(), v]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);
+  // NÉGATION
+  Q.push(
+    {diff:"easy", topic:"🚫 Négation", q:"Gjør negativ: «Je regarde Netflix.»", options:["Je ne regarde pas Netflix.","Je regarde ne pas Netflix.","Je pas regarde Netflix."], answerIndex:0, explain:"ne + verb + pas"},
+    {diff:"mid",  topic:"🚫 Négation", q:"Velg riktig: «Je ___ ai pas visité Paris.»", options:["ne","n’","pas"], answerIndex:1, explain:"n’ foran vokal: je n’ai pas..."},
+    {diff:"hard", topic:"🚫 Négation", q:"Passé composé: Hvor står ne…pas?", options:["Rundt hjelpeverbet","Rundt partisippet","Uten verb"], answerIndex:0, explain:"Je n’ai pas mangé."}
+  );
 
-  let round = [];
-  let idx = 0;
+  // VÊTEMENTS
+  Q.push(
+    {diff:"easy", topic:"👕 Vêtements", q:"Hva betyr «un pantalon»?", options:["en bukse","en kjole","en genser"], answerIndex:0, explain:"pantalon = bukse"},
+    {diff:"easy", topic:"👕 Vêtements", q:"Velg riktig farge: «bleu»", options:["blå","grønn","gul"], answerIndex:0, explain:"bleu = blå"},
+    {diff:"mid",  topic:"👕 Vêtements", q:"Fullfør: «Je porte ___ T-shirt.»", options:["un","une","des"], answerIndex:0, explain:"un T-shirt"}
+  );
+
+  // PAYSAGE
+  Q.push(
+    {diff:"easy", topic:"🏞️ Paysage", q:"Hva betyr «la plage»?", options:["stranden","skogen","byen"], answerIndex:0, explain:"plage = strand"},
+    {diff:"easy", topic:"🏞️ Paysage", q:"Velg riktig: «la forêt»", options:["skogen","fjell","ørkenen"], answerIndex:0, explain:"forêt = skog"},
+    {diff:"mid",  topic:"🏞️ Paysage", q:"Hva betyr «le désert»?", options:["ørkenen","øya","dalen"], answerIndex:0, explain:"désert = ørken"}
+  );
+
+  // ------------------ BOSS TYPES ------------------
+  const BOSS = {
+    easy: { label:"🟢 Lett", goal:8, mix:{easy:7, mid:3, hard:0}, xpPerCorrect:6 },
+    mid:  { label:"🟡 Middels", goal:8, mix:{easy:5, mid:4, hard:1}, xpPerCorrect:7 },
+    hard: { label:"🔴 Hard", goal:9, mix:{easy:3, mid:4, hard:3}, xpPerCorrect:8 }
+  };
+
+  // ------------------ ROUND STATE ------------------
+  let round = 0;
   let score = 0;
-  let locked = false;
+  let pos = 0;
+  let deck = [];
+  let current = null;
+  let locked = true;
+  let bossMode = BOSS.mid;
 
-  function setHUD(){
-    $("round").textContent = String(idx);
-    $("score").textContent = String(score);
-    const pct = (idx / 10) * 100;
-    $("bar").style.width = pct + "%";
+  function drawTrack(){
+    trackEl.innerHTML = "";
+    for(let i=0;i<10;i++){
+      const t = document.createElement("div");
+      t.className = "tile";
+      if(i===4 || i===7) t.classList.add("check");
+      if(i===9) t.classList.add("goal");
+      t.innerHTML = `
+        <div class="n">${i+1}</div>
+        <div class="tag">${i===9 ? "BOSS" : (i===4||i===7 ? "CHECK" : "")}</div>
+      `;
+      trackEl.appendChild(t);
+    }
+    positionSprite(0, true);
   }
 
-  function renderMeta(){
-    const xp = loadNumber(LS_XP, 0);
-    const best = loadNumber(LS_BEST, 0);
-    $("xp").textContent = xp;
-    $("best").textContent = best;
-    renderBadges();
+  function positionSprite(idx, instant=false){
+    const tiles = [...trackEl.children];
+    const tile = tiles[Math.min(Math.max(idx,0), tiles.length-1)];
+    if(!tile) return;
+
+    const b = boardEl.getBoundingClientRect();
+    const r = tile.getBoundingClientRect();
+
+    const x = (r.left - b.left) + (r.width/2) - 21;
+    const y = (r.top - b.top) + 10;
+
+    if(instant) spriteEl.style.transition = "none";
+    spriteEl.style.transform = `translate(${x}px, ${y}px)`;
+    if(instant) setTimeout(()=> spriteEl.style.transition = "transform .35s ease", 10);
   }
 
-  function startRound(){
-    locked = false;
-    round = shuffle([...Q]).slice(0, 10);
-    idx = 0;
-    score = 0;
-    $("feedback").style.display = "none";
-    $("endScreen").style.display = "none";
-    $("qa").style.display = "block";
-    nextQ();
+  function renderStats(){
+    roundEl.textContent = round;
+    scoreEl.textContent = score;
+    renderTop();
   }
 
-  function nextQ(){
-    setHUD();
+  function sample(list, n){
+    const a = list.slice().sort(()=>Math.random()-0.5);
+    return a.slice(0, Math.min(n, a.length));
+  }
 
-    if(idx >= 10){
-      endRound();
-      return;
+  function pickDeck(){
+    // velg 10 spørsmål etter boss-mix
+    const easy = Q.filter(x=>x.diff==="easy");
+    const mid  = Q.filter(x=>x.diff==="mid");
+    const hard = Q.filter(x=>x.diff==="hard");
+
+    const need = bossMode.mix;
+    let chosen = [
+      ...sample(easy, need.easy),
+      ...sample(mid, need.mid),
+      ...sample(hard, need.hard),
+    ];
+
+    // hvis noe mangler (pga få hard-spørsmål), fyll fra mid/easy
+    while(chosen.length < 10){
+      const pool = [...mid, ...easy].filter(x=>!chosen.includes(x));
+      if(pool.length===0) break;
+      chosen.push(pool[Math.floor(Math.random()*pool.length)]);
     }
 
-    const item = round[idx];
-    $("qtext").innerHTML = `<span class="kbd">${item.cat}</span> ${item.q}`;
+    // hvis for mange, kutt
+    chosen = chosen.slice(0, 10);
 
-    const choices = $("choices");
-    choices.innerHTML = "";
-    item.a.forEach((opt, i) => {
-      const b = document.createElement("button");
-      b.textContent = opt;
-      b.addEventListener("click", () => choose(i));
-      choices.appendChild(b);
-    });
+    // shuffle og sørg for variasjon
+    deck = chosen.sort(()=>Math.random()-0.5);
   }
 
-  function choose(choiceIndex){
-    if(locked) return;
-    locked = true;
+  function showQuestion(){
+    current = deck[round];
+    if(!current) return;
 
-    const item = round[idx];
-    const ok = (choiceIndex === item.correct);
-    if(ok) score += 1;
+    promptEl.textContent = current.q;
+    topicEl.textContent = `${current.topic} · ${bossMode.label}`;
 
-    const fb = $("feedback");
-    fb.style.display = "block";
-    fb.className = "msg " + (ok ? "good" : "bad");
-    fb.innerHTML = ok
-      ? `✅ Riktig! <b>${item.a[item.correct]}</b><br><span class="small" style="color:rgba(234,240,255,.85)">${item.explain}</span>`
-      : `❌ Riktig svar: <b>${item.a[item.correct]}</b><br><span class="small" style="color:rgba(234,240,255,.85)">${item.explain}</span>`;
+    choicesEl.innerHTML = "";
+    resultEl.innerHTML = "Velg et svar.";
 
-    // highlight correct choice quickly (optional feel)
-    setTimeout(() => {
-      idx += 1;
-      locked = false;
-      $("feedback").style.display = "none";
-      nextQ();
-    }, 900);
-
-    $("score").textContent = String(score);
+    current.options.forEach((txt, i) => {
+      const b = document.createElement("button");
+      b.className = "choice";
+      b.type = "button";
+      b.textContent = txt;
+      b.addEventListener("click", () => answer(i));
+      choicesEl.appendChild(b);
+    });
   }
 
   function endRound(){
-    $("qa").style.display = "none";
-    $("endScreen").style.display = "block";
+    locked = true;
 
-    // XP: 10 per riktig + bonus hvis 8+ / 10/10
-    let xpGain = score * 10;
-    if(score >= 8) xpGain += 30;
-    if(score === 10) xpGain += 50;
+    state.best = Math.max(state.best || 0, score);
+    state.xp = (state.xp || 0) + score * bossMode.xpPerCorrect;
+    save();
+    renderTop();
 
-    const currentXP = loadNumber(LS_XP, 0) + xpGain;
-    saveNumber(LS_XP, currentXP);
+    const win = score >= bossMode.goal;
+    if(win){
+      rewardEl.innerHTML = `🎉 <strong>Du vant (${bossMode.label})!</strong> Kodeord: <span class="kbd">BRAVO-9</span>`;
+      boardMsg.innerHTML = `🏆 Boss beseiret! Du klarte <strong>${score}/10</strong>.`;
+      sfxGood();
+    }else{
+      rewardEl.innerHTML = `🔒 Ikke helt enda. Du fikk <strong>${score}/10</strong>. Mål: <strong>${bossMode.goal}/10</strong>.`;
+      boardMsg.innerHTML = `👾 Bossen vant… Du fikk <strong>${score}/10</strong>. Trykk Start runde og prøv igjen!`;
+      sfxBad();
+    }
+  }
 
-    // best score
-    const best = loadNumber(LS_BEST, 0);
-    if(score > best) saveNumber(LS_BEST, score);
+  function answer(i){
+    if(locked) return;
+    locked = true;
 
-    // badges
-    if(score >= 8) awardBadge("champion");
-    if(score === 10) awardBadge("legend");
-    if(score >= 6) awardBadge("finisher"); // lavere terskel, flere får noe
+    const correct = (i === current.answerIndex);
 
-    const end = $("endMsg");
-    if(score >= 8){
-      end.className = "msg good";
-      end.innerHTML = `🎯 Du fikk <b>${score}/10</b>! Du klarte målet og fikk <b>${xpGain} XP</b>.`;
-      $("rewardBox").style.display = "block";
-    } else if(score >= 6){
-      end.className = "msg warn";
-      end.innerHTML = `Nesten! Du fikk <b>${score}/10</b>. Du får <b>${xpGain} XP</b>. Prøv igjen for å nå <b>8/10</b>.`;
-      $("rewardBox").style.display = "none";
-    } else {
-      end.className = "msg bad";
-      end.innerHTML = `Du fikk <b>${score}/10</b>. Du får <b>${xpGain} XP</b>. Spill igjen – du lærer av hvert forsøk!`;
-      $("rewardBox").style.display = "none";
+    const all = [...choicesEl.querySelectorAll(".choice")];
+    all.forEach((b, idx)=>{
+      if(idx === current.answerIndex) b.classList.add("correct");
+      if(idx === i && !correct) b.classList.add("wrong");
+      b.disabled = true;
+    });
+
+    if(correct){
+      score += 1;
+      pos = Math.min(9, pos + 1);
+      sfxGood(); sfxStep();
+      positionSprite(pos);
+      resultEl.innerHTML = `✅ Riktig! <span class="small">(${current.explain})</span>`;
+    }else{
+      sfxBad();
+      resultEl.innerHTML = `❌ Feil. Riktig er: <strong>${current.options[current.answerIndex]}</strong><br><span class="small">${current.explain}</span>`;
     }
 
-    // progress to 100%
-    $("bar").style.width = "100%";
+    renderStats();
 
-    renderMeta();
+    setTimeout(() => {
+      round += 1;
+      if(round >= 10){
+        endRound();
+        return;
+      }
+      locked = false;
+      showQuestion();
+      boardMsg.innerHTML = `Fortsett! Du er på <strong>${round}/10</strong>. Mål: <strong>${bossMode.goal}/10</strong>.`;
+    }, 900);
   }
 
-  function resetRound(){
-    round = [];
-    idx = 0;
+  function startGame(){
+    ensureAudio(); // gjør audio klar etter brukerklikk
+
+    bossMode = BOSS[bossTypeEl.value] || BOSS.mid;
+
+    pickDeck();
+    round = 0;
     score = 0;
+    pos = 0;
     locked = false;
-    $("qtext").textContent = "Trykk “Start runde”.";
-    $("choices").innerHTML = "";
-    $("feedback").style.display = "none";
-    $("endScreen").style.display = "none";
-    $("qa").style.display = "block";
-    $("bar").style.width = "0%";
-    setHUD();
+
+    rewardEl.innerHTML = `Mål: <strong>${bossMode.goal}/10</strong> (${bossMode.label}).`;
+    boardMsg.innerHTML = `Runde startet (${bossMode.label}). Riktig svar flytter figuren frem.`;
+    renderStats();
+    positionSprite(0, false);
+    showQuestion();
+    sfxStep();
   }
 
-  // ---------------- BADGES UI ----------------
-  const BADGE_DEFS = [
-    { id:"finisher", emoji:"✅", name:"Finisher", desc:"Spill en runde og få 6/10+." },
-    { id:"champion", emoji:"🏆", name:"Champion", desc:"Nå 8/10 og lås opp belønning." },
-    { id:"legend",   emoji:"🌟", name:"Legend",   desc:"Perfekt runde: 10/10." }
-  ];
-
-  function renderBadges(){
-    const grid = $("badgeGrid");
-    grid.innerHTML = "";
-    BADGE_DEFS.forEach(b => {
-      const owned = hasBadge(b.id);
-      const div = document.createElement("div");
-      div.className = "badgecard" + (owned ? "" : " lock");
-      div.innerHTML = `
-        <div class="emoji">${b.emoji}</div>
-        <div>
-          <div class="name">${b.name} ${owned ? "" : "🔒"}</div>
-          <div class="small" style="margin-top:4px;">${b.desc}</div>
-        </div>
-      `;
-      grid.appendChild(div);
-    });
+  function resetGame(){
+    locked = true;
+    promptEl.textContent = "—";
+    topicEl.textContent = "—";
+    choicesEl.innerHTML = "";
+    resultEl.innerHTML = "Trykk Start runde for å begynne.";
+    boardMsg.innerHTML = `Trykk <strong>Start runde</strong>. Riktig svar = +1 felt.`;
+    rewardEl.innerHTML = `Lett/middels: mål <strong>8/10</strong>. Hard: mål <strong>9/10</strong>.`;
+    round = 0; score = 0; pos = 0;
+    renderStats();
+    positionSprite(0, false);
   }
 
-  // ---------------- TEACHER VIEW TOGGLE ----------------
-  $("toggleExplain").addEventListener("click", () => {
-    const box = $("teacherView");
-    box.style.display = (box.style.display === "none") ? "block" : "none";
+  startBtn.addEventListener("click", startGame);
+  resetBtn.addEventListener("click", resetGame);
+
+  wipeBtn.addEventListener("click", () => {
+    if(!confirm("Slette XP og best score?")) return;
+    localStorage.removeItem(LS);
+    state.xp = 0; state.best = 0;
+    renderTop();
+    resetGame();
   });
 
-  // ---------------- BUTTONS ----------------
-  $("start").addEventListener("click", startRound);
-  $("resetRound").addEventListener("click", resetRound);
-  $("playAgain").addEventListener("click", startRound);
-
-  $("clearAll").addEventListener("click", () => {
-    if(!confirm("Vil du slette XP, best score og badges?")) return;
-    localStorage.removeItem(LS_XP);
-    localStorage.removeItem(LS_BEST);
-    localStorage.removeItem(LS_BADGES);
-    renderMeta();
-    resetRound();
-  });
-
-  // ---------------- INIT ----------------
-  renderMeta();
-  resetRound();
+  // init
+  drawTrack();
+  resetGame();
+  window.addEventListener("resize", () => positionSprite(pos, true));
+});
 </script>
 </body>
 </html>
