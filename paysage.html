@@ -1,608 +1,139 @@
+<!doctype html>
+<html lang="no">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Paysage – Vacances</title>
+
+  <style>
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:#0b1220;
+      color:#e8eefc;
+    }
+    .wrap{max-width:900px;margin:0 auto;padding:20px}
+    h1{margin-top:0}
+    .card{
+      background:#111a2b;
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:16px;
+      padding:16px;
+      margin-bottom:16px;
+    }
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .btn{
+      padding:10px 14px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.15);
+      background:rgba(255,255,255,.06);
+      color:white;
+      font-weight:700;
+      cursor:pointer;
+    }
+    .btn:hover{background:rgba(255,255,255,.12)}
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+      gap:12px;
+      margin-top:12px;
+    }
+    .tile{
+      border:1px solid rgba(255,255,255,.15);
+      border-radius:14px;
+      padding:14px;
+      text-align:center;
+      background:rgba(255,255,255,.05);
+      cursor:pointer;
+      font-weight:800;
+    }
+    .tile.correct{background:rgba(34,197,94,.25)}
+    .tile.wrong{background:rgba(239,68,68,.25)}
+    .pill{
+      display:inline-block;
+      padding:6px 12px;
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.15);
+      font-weight:700;
+    }
+  </style>
+</head>
+
+<body>
+<div class="wrap">
+
+  <h1>🏞️ Paysage – landskap</h1>
+
+  <div class="card">
+    <p>Trykk på riktig fransk ord for landskapet som vises.</p>
+
+    <div class="row">
+      <div class="pill">Poeng: <span id="score">0</span></div>
+      <button class="btn" id="newBtn">Ny runde</button>
+    </div>
+
+    <h2 id="prompt" style="margin-top:14px">—</h2>
+
+    <div class="grid" id="options"></div>
+  </div>
+
+</div>
+
 <script>
-  // ------------------ PROGRESJON / XP ------------------
-  const LS_KEY = "chap4_progress_v1";
-  function loadState(){
-    try{ return JSON.parse(localStorage.getItem(LS_KEY)) || { xp:0, done:{} }; }
-    catch(e){ return { xp:0, done:{} }; }
-  }
-  function saveState(s){ localStorage.setItem(LS_KEY, JSON.stringify(s)); }
-  let state = loadState();
+document.addEventListener("DOMContentLoaded", () => {
 
-  function addXP(amount){
-    state.xp = Math.max(0, (state.xp||0) + amount);
-    saveState(state);
-    renderHeader();
-  }
-  function markDone(id){
-    state.done = state.done || {};
-    state.done[id] = true;
-    saveState(state);
-    renderHeader();
-  }
-  function calcProgress(ids){
-    const done = state.done || {};
-    const total = ids.length;
-    const doneCount = ids.filter(id => done[id]).length;
-    const pct = total ? Math.round((doneCount/total)*100) : 0;
-    return { pct, doneCount, total };
-  }
-
-  const TASKS = ["pay_open","pay_vocab","pay_quiz","pay_builder","pay_write","pay_bonus"];
-
-  const xpEl = document.getElementById("xp");
-  const badgeEl = document.getElementById("badge");
-  const pctEl = document.getElementById("pct");
-  const fillEl = document.getElementById("fill");
-
-  function renderHeader(){
-    xpEl.textContent = state.xp || 0;
-
-    const xp = state.xp || 0;
-    if(xp >= 140) badgeEl.textContent = "🏆 Paysage Légende";
-    else if(xp >= 95) badgeEl.textContent = "🥇 Paysage Ninja";
-    else if(xp >= 55) badgeEl.textContent = "🥈 Paysage Pro";
-    else badgeEl.textContent = "🥉 Paysage Starter";
-
-    const { pct } = calcProgress(TASKS);
-    pctEl.textContent = pct + "%";
-    fillEl.style.width = pct + "%";
-  }
-
-  function flash(el, html, kind){
-    el.innerHTML = html;
-    el.style.borderColor =
-      kind === "good" ? "rgba(71,209,140,.7)" :
-      kind === "bad"  ? "rgba(255,92,122,.7)" :
-      "rgba(255,255,255,.18)";
-  }
-
-  // mark open
-  setTimeout(()=>markDone("pay_open"), 600);
-  renderHeader();
-
-  // ------------------ ORDBANK ------------------
-  const WORDS = [
-    { fr:"la montagne", no:"fjellet", emoji:"⛰️" },
-    { fr:"la mer", no:"havet", emoji:"🌊" },
-    { fr:"la plage", no:"stranden", emoji:"🏖️" },
-    { fr:"la forêt", no:"skogen", emoji:"🌲" },
-    { fr:"le lac", no:"innsjøen", emoji:"🏞️" },
-    { fr:"la rivière", no:"elva", emoji:"🏞️" },
-    { fr:"la campagne", no:"landskapet (bygda)", emoji:"🌾" },
-    { fr:"la ville", no:"byen", emoji:"🏙️" },
-    { fr:"le village", no:"landsbyen", emoji:"🏘️" },
-    { fr:"l’île", no:"øya", emoji:"🏝️" },
-    { fr:"le désert", no:"ørkenen", emoji:"🏜️" },
-    { fr:"la vallée", no:"dalen", emoji:"🏔️" }
+  const DATA = [
+    { fr:"la montagne", no:"fjell 🏔️" },
+    { fr:"la plage", no:"strand 🏖️" },
+    { fr:"la forêt", no:"skog 🌲" },
+    { fr:"le lac", no:"innsjø 🌊" },
+    { fr:"la mer", no:"hav 🌊" },
+    { fr:"le désert", no:"ørken 🏜️" },
+    { fr:"la campagne", no:"landsbygd 🌾" },
+    { fr:"la ville", no:"by 🏙️" }
   ];
 
-  const wordGrid = document.getElementById("wordGrid");
-  const toggleNoBtn = document.getElementById("toggleNo");
-  const ttsBtn = document.getElementById("ttsToggle");
-  const ttsStateEl = document.getElementById("ttsState");
-  const vocabMsg = document.getElementById("vocabMsg");
-  const claimVocabBtn = document.getElementById("claimVocab");
-
-  let showNo = true;
-  let ttsOn = false;
-
-  function speakFR(text){
-    if(!ttsOn) return;
-    if(!("speechSynthesis" in window)) return;
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = "fr-FR";
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(u);
-  }
-
-  function renderWords(){
-    wordGrid.innerHTML = "";
-    WORDS.forEach(w=>{
-      const div = document.createElement("div");
-      div.className = "wordCard";
-      div.innerHTML = `
-        <div class="wordMain">
-          <div class="fr">${w.emoji} ${w.fr}</div>
-          <div class="no" style="${showNo ? "" : "display:none"}">${w.no}</div>
-          <div class="tiny">Klikk 🔊 for fransk</div>
-        </div>
-        <button class="btn secondary" style="padding:8px 10px" aria-label="uttale">🔊</button>
-      `;
-      div.querySelector("button").onclick = ()=>{
-        speakFR(w.fr);
-        flash(vocabMsg, `🔊 Uttale: <strong>${w.fr}</strong> <span class="sparkle">(+1 XP)</span>`, "good");
-        addXP(1);
-      };
-      wordGrid.appendChild(div);
-    });
-  }
-  renderWords();
-
-  toggleNoBtn.onclick = ()=>{
-    showNo = !showNo;
-    renderWords();
-    flash(vocabMsg, showNo ? "Norsk vises ✅" : "Norsk skjult 🙈 (bra øving!)", "info");
-  };
-
-  ttsBtn.onclick = ()=>{
-    ttsOn = !ttsOn;
-    ttsStateEl.textContent = ttsOn ? "PÅ" : "AV";
-    flash(vocabMsg, ttsOn ? "Lesestemme er PÅ 🔊" : "Lesestemme er AV", "info");
-  };
-
-  claimVocabBtn.onclick = ()=>{
-    if(state.done && state.done["pay_vocab"]){
-      flash(vocabMsg, "Allerede tatt! 🎉", "good");
-      return;
-    }
-    addXP(15);
-    markDone("pay_vocab");
-    flash(vocabMsg, `🎉 Super! Du har øvd på glosene <span class="sparkle">(+15 XP)</span>`, "good");
-  };
-
-  // ------------------ MINI-QUIZ ------------------
-  const scoreEl = document.getElementById("score");
-  const totalEl = document.getElementById("total");
-  const modeBtn = document.getElementById("mode");
-  const modeTxt = document.getElementById("modeTxt");
-  const newQBtn = document.getElementById("newQ");
-  const resetBtn = document.getElementById("reset");
-  const checkBtn = document.getElementById("check");
-  const qPromptEl = document.getElementById("qPrompt");
-  const qChoicesEl = document.getElementById("qChoices");
-  const qResultEl = document.getElementById("qResult");
-
-  let modeFRtoNO = true; // true = FR->NO, false = NO->FR
-  let current = null;
-  let selected = null;
   let score = 0;
 
-  totalEl.textContent = WORDS.length;
+  const scoreEl = document.getElementById("score");
+  const promptEl = document.getElementById("prompt");
+  const optionsEl = document.getElementById("options");
+  const newBtn = document.getElementById("newBtn");
 
-  function shuffle(arr){
-    const a = arr.slice();
-    for(let i = a.length - 1; i > 0; i--){
-      const j = Math.floor(Math.random() * (i + 1));
-      [a[i], a[j]] = [a[j], a[i]];
-    }
-    return a;
-  }
+  function newRound(){
+    optionsEl.innerHTML = "";
 
-  function pickQuestion(){
-    current = WORDS[Math.floor(Math.random() * WORDS.length)];
-    selected = null;
+    const correct = DATA[Math.floor(Math.random()*DATA.length)];
+    promptEl.textContent = `Hva heter "${correct.no}" på fransk?`;
 
-    const prompt = modeFRtoNO ? current.fr : current.no;
-    qPromptEl.textContent = prompt;
+    const shuffled = DATA.slice().sort(()=>Math.random()-0.5).slice(0,4);
+    if(!shuffled.includes(correct)) shuffled[0] = correct;
 
-    // svaralternativer (1 riktig + 3 feil)
-    const pool = WORDS.filter(w => w !== current);
-    const wrong = shuffle(pool).slice(0, 3);
+    shuffled.forEach(item=>{
+      const btn = document.createElement("div");
+      btn.className = "tile";
+      btn.textContent = item.fr;
 
-    const choices = shuffle([current, ...wrong]).map(w => {
-      return modeFRtoNO ? w.no : w.fr;
-    });
+      btn.addEventListener("click", ()=>{
+        if(item === correct){
+          btn.classList.add("correct");
+          score++;
+          scoreEl.textContent = score;
+        }else{
+          btn.classList.add("wrong");
+        }
+        setTimeout(newRound, 700);
+      });
 
-    qChoicesEl.innerHTML = "";
-    choices.forEach(txt=>{
-      const b = document.createElement("button");
-      b.className = "choice";
-      b.type = "button";
-      b.textContent = txt;
-      b.onclick = ()=>{
-        selected = txt;
-        [...qChoicesEl.querySelectorAll(".choice")].forEach(x=>x.style.outline="none");
-        b.style.outline = "2px solid rgba(139,123,255,.9)";
-        flash(qResultEl, `Valgt: <strong>${txt}</strong>`, "info");
-      };
-      qChoicesEl.appendChild(b);
-    });
-
-    flash(qResultEl, `Velg et svar og trykk <span class="kbd">Sjekk</span>.`, "info");
-  }
-
-  function correctAnswerText(){
-    return modeFRtoNO ? current.no : current.fr;
-  }
-
-  function checkAnswer(){
-    if(!current){ pickQuestion(); return; }
-    if(!selected){
-      flash(qResultEl, `Velg et svar først 🙂`, "bad");
-      return;
-    }
-    const ok = (selected === correctAnswerText());
-
-    if(ok){
-      score += 1;
-      scoreEl.textContent = score;
-      addXP(5);
-      flash(qResultEl, `✅ Riktig! <span class="sparkle">(+5 XP)</span>`, "good");
-
-      // marker quiz ferdig når man har 5 riktige (enkel “completion”)
-      if(score >= 5 && !(state.done && state.done["pay_quiz"])){
-        markDone("pay_quiz");
-        flash(qResultEl, `✅ Riktig! Du har nå <strong>5</strong> riktige og låser inn quiz-modulen 🎉`, "good");
-      }
-    }else{
-      addXP(1); // trøstepoeng
-      flash(qResultEl,
-        `❌ Nesten! Riktig svar er: <strong>${correctAnswerText()}</strong> <span class="sparkle">(+1 XP for forsøk)</span>`,
-        "bad"
-      );
-    }
-  }
-
-  modeBtn.onclick = ()=>{
-    modeFRtoNO = !modeFRtoNO;
-    modeTxt.textContent = modeFRtoNO ? "FR → NO" : "NO → FR";
-    pickQuestion();
-  };
-
-  newQBtn.onclick = ()=>pickQuestion();
-
-  resetBtn.onclick = ()=>{
-    score = 0;
-    scoreEl.textContent = score;
-    pickQuestion();
-    flash(qResultEl, "Nullstilt. Kjør på! 💪", "info");
-  };
-
-  checkBtn.onclick = ()=>checkAnswer();
-
-  // start
-  pickQuestion();
-
-  // ------------------ SETNINGSBYGGER ------------------
-  const A_place = document.getElementById("A_place");
-  const B_verb  = document.getElementById("B_verb");
-  const B_where = document.getElementById("B_where");
-  const C_desc  = document.getElementById("C_desc");
-  const D_op    = document.getElementById("D_op");
-  const D_reason= document.getElementById("D_reason");
-
-  const A_make  = document.getElementById("A_make");
-  const B_make  = document.getElementById("B_make");
-  const C_make  = document.getElementById("C_make");
-  const D_make  = document.getElementById("D_make");
-
-  const builtEl = document.getElementById("built");
-  const addToTextBtn = document.getElementById("addToText");
-  const copyBuiltBtn = document.getElementById("copyBuilt");
-  const clearBuiltBtn = document.getElementById("clearBuilt");
-
-  // steder fra glosene (med riktig preposisjon)
-  const PLACES = [
-    { label:"à la montagne (på fjellet)", fr:"à la montagne" },
-    { label:"à la mer (ved havet)", fr:"à la mer" },
-    { label:"à la plage (på stranden)", fr:"à la plage" },
-    { label:"dans la forêt (i skogen)", fr:"dans la forêt" },
-    { label:"au lac (ved innsjøen)", fr:"au lac" },
-    { label:"à la rivière (ved elva)", fr:"à la rivière" },
-    { label:"à la campagne (på landet)", fr:"à la campagne" },
-    { label:"en ville (i byen)", fr:"en ville" },
-    { label:"dans un village (i en landsby)", fr:"dans un village" },
-    { label:"sur une île (på en øy)", fr:"sur une île" },
-    { label:"dans le désert (i ørkenen)", fr:"dans le désert" },
-    { label:"dans la vallée (i dalen)", fr:"dans la vallée" }
-  ];
-
-  const ACTIVITIES = [
-    { label:"fait une randonnée (gått på tur)", fr:"fait une randonnée" },
-    { label:"pris des photos (tatt bilder)", fr:"pris des photos" },
-    { label:"fait du vélo (syklet)", fr:"fait du vélo" },
-    { label:"nagé (badet/svømt)", fr:"nagé" },
-    { label:"campé (campet)", fr:"campé" },
-    { label:"visité un musée (besøkt museum)", fr:"visité un musée" },
-    { label:"mangé au restaurant (spist på restaurant)", fr:"mangé au restaurant" },
-    { label:"joué au foot (spilt fotball)", fr:"joué au foot" }
-  ];
-
-  const WHERES = [
-    { label:"à la plage", fr:"à la plage" },
-    { label:"en ville", fr:"en ville" },
-    { label:"à la campagne", fr:"à la campagne" },
-    { label:"dans la forêt", fr:"dans la forêt" },
-    { label:"au lac", fr:"au lac" },
-    { label:"à la montagne", fr:"à la montagne" }
-  ];
-
-  const DESCS = [
-    { label:"Il y avait du soleil. (Det var sol.)", fr:"Il y avait du soleil." },
-    { label:"Il faisait chaud. (Det var varmt.)", fr:"Il faisait chaud." },
-    { label:"Il faisait froid. (Det var kaldt.)", fr:"Il faisait froid." },
-    { label:"Il y avait du vent. (Det var vind.)", fr:"Il y avait du vent." },
-    { label:"C’était magnifique. (Det var nydelig.)", fr:"C’était magnifique." },
-    { label:"C’était calme. (Det var rolig.)", fr:"C’était calme." }
-  ];
-
-  const OPS = [
-    { label:"J’ai adoré. (Jeg elsket det.)", fr:"J’ai adoré." },
-    { label:"J’ai aimé. (Jeg likte det.)", fr:"J’ai aimé." },
-    { label:"Je n’ai pas aimé. (Jeg likte det ikke.)", fr:"Je n’ai pas aimé." },
-    { label:"C’était super. (Det var kjempebra.)", fr:"C’était super." },
-    { label:"C’était intéressant. (Det var interessant.)", fr:"C’était intéressant." }
-  ];
-
-  const REASONS = [
-    { label:"parce que c’était beau. (fordi det var fint.)", fr:"parce que c’était beau." },
-    { label:"parce qu’il faisait beau. (fordi det var fint vær.)", fr:"parce qu’il faisait beau." },
-    { label:"parce que c’était calme. (fordi det var rolig.)", fr:"parce que c’était calme." },
-    { label:"parce que j’étais avec ma famille. (fordi jeg var med familien.)", fr:"parce que j’étais avec ma famille." },
-    { label:"parce que j’ai pris des photos. (fordi jeg tok bilder.)", fr:"parce que j’ai pris des photos." }
-  ];
-
-  function fillSelect(sel, items){
-    items.forEach(it=>{
-      const opt = document.createElement("option");
-      opt.value = it.fr;
-      opt.textContent = it.label;
-      sel.appendChild(opt);
+      optionsEl.appendChild(btn);
     });
   }
 
-  fillSelect(A_place, PLACES);
-  fillSelect(B_verb, ACTIVITIES);
-  fillSelect(B_where, WHERES);
-  fillSelect(C_desc, DESCS);
-  fillSelect(D_op, OPS);
-  fillSelect(D_reason, REASONS);
+  newBtn.addEventListener("click", newRound);
+  newRound();
 
-  function setBuilt(sentence){
-    if(!sentence){
-      builtEl.textContent = "Setningen din dukker opp her 🙂";
-      return;
-    }
-    builtEl.innerHTML = `🧩 <strong>${sentence}</strong>`;
-    if(!(state.done && state.done["pay_builder"])){
-      // marker “builder” som ferdig når man faktisk lager en setning
-      markDone("pay_builder");
-    }
-  }
-
-  A_make.onclick = ()=>{
-    const place = A_place.value;
-    if(!place) return flash(builtEl, "Velg et sted først 🙂", "bad");
-    const s = `Je suis allé(e) ${place}.`;
-    setBuilt(s);
-    addXP(2);
-    flash(builtEl, `🧩 <strong>${s}</strong> <span class="sparkle">(+2 XP)</span>`, "good");
-  };
-
-  B_make.onclick = ()=>{
-    const v = B_verb.value;
-    if(!v) return flash(builtEl, "Velg en aktivitet først 🙂", "bad");
-    const w = B_where.value;
-    const s = w ? `J’ai ${v} ${w}.` : `J’ai ${v}.`;
-    setBuilt(s);
-    addXP(2);
-    flash(builtEl, `🧩 <strong>${s}</strong> <span class="sparkle">(+2 XP)</span>`, "good");
-  };
-
-  C_make.onclick = ()=>{
-    const d = C_desc.value;
-    if(!d) return flash(builtEl, "Velg en beskrivelse først 🙂", "bad");
-    setBuilt(d);
-    addXP(2);
-    flash(builtEl, `🧩 <strong>${d}</strong> <span class="sparkle">(+2 XP)</span>`, "good");
-  };
-
-  D_make.onclick = ()=>{
-    const op = D_op.value;
-    if(!op) return flash(builtEl, "Velg en mening først 🙂", "bad");
-    const r = D_reason.value;
-    const s = r ? `${op} ${r}` : op;
-    setBuilt(s);
-    addXP(2);
-    flash(builtEl, `🧩 <strong>${s}</strong> <span class="sparkle">(+2 XP)</span>`, "good");
-  };
-
-  function getBuiltSentence(){
-    // builtEl inneholder ofte HTML – hent ut bare tekst
-    const txt = builtEl.textContent || "";
-    // fjerner emoji/prefix hvis den finnes
-    return txt.replace(/^🧩\s*/,"").trim();
-  }
-
-  addToTextBtn.onclick = ()=>{
-    const s = getBuiltSentence();
-    if(!s || s.includes("Setningen din dukker opp her")) {
-      flash(builtEl, "Lag en setning først 🙂", "bad");
-      return;
-    }
-    const textArea = document.getElementById("text");
-    const sep = textArea.value.trim().length ? "\n" : "";
-    textArea.value += sep + s;
-    addXP(2);
-    flash(builtEl, `✅ La til i teksten <span class="sparkle">(+2 XP)</span>`, "good");
-  };
-
-  copyBuiltBtn.onclick = async ()=>{
-    const s = getBuiltSentence();
-    if(!s || s.includes("Setningen din dukker opp her")) {
-      flash(builtEl, "Ingenting å kopiere ennå 🙂", "bad");
-      return;
-    }
-    try{
-      await navigator.clipboard.writeText(s);
-      flash(builtEl, `📋 Kopiert!`, "good");
-    }catch(e){
-      flash(builtEl, `Kunne ikke kopiere (nettleser-blokkering). Marker setningen og kopier manuelt.`, "bad");
-    }
-  };
-
-  clearBuiltBtn.onclick = ()=>setBuilt("");
-
-  // ------------------ PRODUKSJON ------------------
-  const LS_TEXT = "chap4_paysage_text_v1";
-  const textEl = document.getElementById("text");
-  const prodMsg = document.getElementById("prodMsg");
-
-  const saveLocalBtn = document.getElementById("saveLocal");
-  const loadLocalBtn = document.getElementById("loadLocal");
-  const clearTextBtn = document.getElementById("clearText");
-  const copyTextBtn = document.getElementById("copyText");
-  const checkVocabBtn = document.getElementById("checkVocab");
-  const bonus20Btn = document.getElementById("bonus20");
-
-  const levelSel = document.getElementById("level");
-  const insertStartersBtn = document.getElementById("insertStarters");
-
-  function countSentences(text){
-    // enkel setnings-teller: ., !, ? eller linjeskift
-    const parts = text
-      .split(/[\.\!\?\n]+/g)
-      .map(x=>x.trim())
-      .filter(Boolean);
-    return parts.length;
-  }
-
-  function normalize(str){
-    return (str||"")
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g,""); // fjern aksenter
-  }
-
-  function findUsedVocab(text){
-    const t = normalize(text);
-    const hits = [];
-    WORDS.forEach(w=>{
-      const fr = normalize(w.fr);
-      // sjekk om fr-ordet finnes i teksten
-      if(t.includes(fr)) hits.push(w.fr);
-    });
-    return hits;
-  }
-
-  function insertStarters(level){
-    const starters = {
-      1: [
-        "Je suis allé(e) …",
-        "J’ai …",
-        "Il y avait …",
-        "C’était …",
-        "J’ai aimé …",
-        "Parce que …"
-      ],
-      2: [
-        "Pendant les vacances, je suis allé(e) …",
-        "J’ai fait …",
-        "Il faisait …",
-        "J’ai visité …",
-        "J’ai adoré … parce que …",
-        "Ensuite, …"
-      ],
-      3: [
-        "Pendant les vacances, je suis allé(e) … avec …",
-        "Nous avons passé du temps …",
-        "Il y avait … et l’ambiance était …",
-        "J’ai fait … et j’ai pris …",
-        "Ce que j’ai préféré, c’était …",
-        "Enfin, …"
-      ]
-    };
-    const list = starters[level] || starters[2];
-    const block = list.map(s=>`• ${s}`).join("\n");
-    return `📌 Setningsstartere:\n${block}\n\n`;
-  }
-
-  saveLocalBtn.onclick = ()=>{
-    localStorage.setItem(LS_TEXT, textEl.value);
-    flash(prodMsg, "💾 Lagret lokalt i nettleseren din ✅", "good");
-  };
-
-  loadLocalBtn.onclick = ()=>{
-    const saved = localStorage.getItem(LS_TEXT) || "";
-    textEl.value = saved;
-    flash(prodMsg, saved ? "📥 Hentet lagret tekst ✅" : "Ingen lagret tekst funnet.", saved ? "good" : "bad");
-  };
-
-  clearTextBtn.onclick = ()=>{
-    textEl.value = "";
-    flash(prodMsg, "Tømt. Start på nytt ✍️", "info");
-  };
-
-  insertStartersBtn.onclick = ()=>{
-    const lvl = String(levelSel.value || "2");
-    const prefix = insertStarters(lvl);
-    textEl.value = prefix + (textEl.value || "");
-    flash(prodMsg, "📌 La inn setningsstartere (du kan slette dem når du vil).", "good");
-  };
-
-  copyTextBtn.onclick = async ()=>{
-    const t = textEl.value || "";
-    if(!t.trim()){
-      flash(prodMsg, "Ingenting å kopiere ennå 🙂", "bad");
-      return;
-    }
-    try{
-      await navigator.clipboard.writeText(t);
-      flash(prodMsg, "📋 Teksten er kopiert!", "good");
-    }catch(e){
-      flash(prodMsg, "Kunne ikke kopiere (nettleser-blokkering). Marker teksten og kopier manuelt.", "bad");
-    }
-  };
-
-  checkVocabBtn.onclick = ()=>{
-    const t = textEl.value || "";
-    const used = findUsedVocab(t);
-    const needed = 5;
-    if(used.length >= needed){
-      addXP(10);
-      markDone("pay_write");
-      flash(prodMsg,
-        `✅ Du bruker <strong>${used.length}</strong> landskapsord: <span class="kbd">${used.join("</span> <span class='kbd'>")}</span> <span class="sparkle">(+10 XP)</span>`,
-        "good"
-      );
-    }else{
-      const missing = needed - used.length;
-      flash(prodMsg,
-        `ℹ️ Du har <strong>${used.length}</strong> / ${needed} landskapsord. Mangler <strong>${missing}</strong>.<br>
-         Tips: legg inn noen av disse: <span class="kbd">${WORDS.slice(0,6).map(w=>w.fr).join("</span> <span class='kbd'>")}</span>`,
-        "bad"
-      );
-    }
-  };
-
-  bonus20Btn.onclick = ()=>{
-    if(state.done && state.done["pay_bonus"]){
-      flash(prodMsg, "Allerede tatt! 🎉", "good");
-      return;
-    }
-    const n = countSentences(textEl.value || "");
-    if(n >= 10){
-      addXP(20);
-      markDone("pay_bonus");
-      flash(prodMsg, `🏅 10+ setninger registrert (${n}). <span class="sparkle">(+20 XP)</span>`, "good");
-    }else{
-      flash(prodMsg, `Du har ca. <strong>${n}</strong> setninger. Skriv litt mer (mål: 10) 🙂`, "bad");
-    }
-  };
-
-  // liten auto-progress: om de begynner å skrive, gi et lite “kick” én gang
-  let wroteKickGiven = (state.done && state.done["_wroteKick"]);
-  textEl.addEventListener("input", ()=>{
-    if(wroteKickGiven) return;
-    if((textEl.value||"").trim().length >= 60){
-      wroteKickGiven = true;
-      state.done = state.done || {};
-      state.done["_wroteKick"] = true;
-      saveState(state);
-      addXP(5);
-      flash(prodMsg, `🔥 Du er i gang! <span class="sparkle">(+5 XP)</span>`, "good");
-    }
-  });
-
-  // ------------------ KVALITET: tastatur ------------------
-  // Enter i quiz: sjekk (hvis fokus ikke er i textarea)
-  document.addEventListener("keydown", (e)=>{
-    const tag = (document.activeElement && document.activeElement.tagName || "").toLowerCase();
-    if(tag === "textarea") return;
-
-    if(e.key === "Enter"){
-      // hvis vi er i quiz-kortet-ish, sjekk
-      checkAnswer();
-    }
-  });
+});
 </script>
+</body>
+</html>
