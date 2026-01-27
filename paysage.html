@@ -3,137 +3,825 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Paysage – Vacances</title>
+  <title>Salut 9 · Kapittel 4 · Paysage</title>
 
   <style>
+    :root{
+      --bg:#0b1020;
+      --card:#121a33;
+      --card2:#0f1630;
+      --text:#e9ecff;
+      --muted:#b7c0ff;
+      --accent:#8b7bff;
+      --good:#47d18c;
+      --bad:#ff5c7a;
+      --line:rgba(255,255,255,.12);
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
     body{
       margin:0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background:#0b1220;
-      color:#e8eefc;
+      background:
+        radial-gradient(1200px 700px at 30% 0%, rgba(139,123,255,.25), transparent 60%),
+        radial-gradient(900px 600px at 80% 20%, rgba(71,209,140,.18), transparent 55%),
+        var(--bg);
+      color:var(--text);
     }
-    .wrap{max-width:900px;margin:0 auto;padding:20px}
-    h1{margin-top:0}
-    .card{
-      background:#111a2b;
-      border:1px solid rgba(255,255,255,.12);
+    .container{max-width:980px;margin:0 auto;padding:18px 16px 60px}
+    a{color:inherit;text-decoration:none}
+    h1{margin:18px 0 8px; font-size:2rem}
+    .subtitle{color:var(--muted); margin:0 0 16px}
+
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px; padding:10px 12px;
+      border:1px solid var(--line);
+      background:rgba(18,26,51,.7);
+      backdrop-filter: blur(10px);
       border-radius:16px;
-      padding:16px;
-      margin-bottom:16px;
+      box-shadow: var(--shadow);
+      position: sticky; top: 10px; z-index: 20;
     }
-    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-    .btn{
-      padding:10px 14px;
-      border-radius:12px;
-      border:1px solid rgba(255,255,255,.15);
-      background:rgba(255,255,255,.06);
-      color:white;
-      font-weight:700;
-      cursor:pointer;
+    .topbar .left, .topbar .right{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+    .pill{
+      border:1px solid var(--line);
+      background:rgba(15,22,48,.8);
+      padding:6px 10px;
+      border-radius:999px;
+      font-weight:650;
+      display:inline-flex; align-items:center; gap:8px;
     }
-    .btn:hover{background:rgba(255,255,255,.12)}
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
-      gap:12px;
-      margin-top:12px;
-    }
-    .tile{
-      border:1px solid rgba(255,255,255,.15);
-      border-radius:14px;
+    .small{font-size:.92rem;color:var(--muted)}
+    .grid{display:grid; gap:14px}
+    .card{
+      background: linear-gradient(180deg, rgba(18,26,51,.95), rgba(15,22,48,.95));
+      border:1px solid var(--line);
+      border-radius:18px;
       padding:14px;
-      text-align:center;
-      background:rgba(255,255,255,.05);
+      box-shadow: var(--shadow);
+    }
+    .card h2{margin:0 0 10px; font-size:1.2rem}
+    hr.sep{border:none;border-top:1px dashed var(--line);margin:14px 0}
+
+    .btn{
       cursor:pointer;
+      border:none;
+      background: linear-gradient(180deg, rgba(139,123,255,1), rgba(108,94,255,1));
+      color:white;
+      padding:10px 12px;
+      border-radius:12px;
       font-weight:800;
     }
-    .tile.correct{background:rgba(34,197,94,.25)}
-    .tile.wrong{background:rgba(239,68,68,.25)}
-    .pill{
-      display:inline-block;
-      padding:6px 12px;
-      border-radius:999px;
-      background:rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.15);
-      font-weight:700;
+    .btn.secondary{
+      background: rgba(255,255,255,.08);
+      border:1px solid var(--line);
     }
+    .btn:active{transform: translateY(1px)}
+    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 10px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.06);
+    }
+    .progressWrap{min-width:210px}
+    .progressLabel{display:flex; justify-content:space-between; font-size:.9rem; color:var(--muted); margin-bottom:6px}
+    .progressBar{
+      height:10px; border-radius:999px; background: rgba(255,255,255,.10);
+      border:1px solid var(--line); overflow:hidden;
+    }
+    .progressFill{height:100%; width:0%; background: linear-gradient(90deg, var(--good), var(--accent))}
+
+    .feedback{
+      margin-top:10px; padding:10px 12px; border-radius:14px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.06);
+    }
+    .choice{
+      width:100%;
+      text-align:left;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      cursor:pointer;
+      font-weight:750;
+    }
+    .choice:hover{background: rgba(255,255,255,.09)}
+    .choice.selected{outline:2px solid rgba(139,123,255,.7)}
+    .choice.correct{border-color:rgba(71,209,140,.8)}
+    .choice.wrong{border-color:rgba(255,92,122,.8)}
+
+    .input, select{
+      padding:10px 12px;border-radius:12px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.06);
+      color:var(--text);
+      outline:none;
+    }
+    select{cursor:pointer}
+    textarea{
+      width:100%;
+      min-height:140px;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.06);
+      color:var(--text);
+      outline:none;
+      resize: vertical;
+    }
+    .wordGrid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap:10px;
+      margin-top:10px;
+    }
+    .wordCard{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      border-radius:16px;
+      padding:10px 12px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .wordMain{display:flex; flex-direction:column; gap:4px}
+    .fr{font-weight:900}
+    .no{color:var(--muted); font-size:.95rem}
+    .tiny{font-size:.85rem; color:var(--muted)}
+    .sparkle{display:inline-block; animation: pop .6s ease;}
+    @keyframes pop{0%{transform:scale(.85);opacity:.4}100%{transform:scale(1);opacity:1}}
+
+    .footerNav{display:flex; justify-content:space-between; gap:10px; margin-top:16px; flex-wrap:wrap}
   </style>
 </head>
 
 <body>
-<div class="wrap">
+  <div class="container">
 
-  <h1>🏞️ Paysage – landskap</h1>
+    <div class="topbar">
+      <div class="left">
+        <a class="pill" href="index.html">← Til meny</a>
+        <span class="pill">Salut 9 · Kapittel 4</span>
+        <span class="pill">⭐ XP: <span id="xp">0</span></span>
+      </div>
 
-  <div class="card">
-    <p>Trykk på riktig fransk ord for landskapet som vises.</p>
-
-    <div class="row">
-      <div class="pill">Poeng: <span id="score">0</span></div>
-      <button class="btn" id="newBtn">Ny runde</button>
+      <div class="right">
+        <span class="pill" id="badge">🥉 Paysage Starter</span>
+        <div class="progressWrap">
+          <div class="progressLabel">
+            <span>Fremdrift</span>
+            <strong id="pct">0%</strong>
+          </div>
+          <div class="progressBar"><div class="progressFill" id="fill"></div></div>
+        </div>
+      </div>
     </div>
 
-    <h2 id="prompt" style="margin-top:14px">—</h2>
+    <h1>🏞️ Paysage: landskap + gloser</h1>
+    <p class="subtitle">Lær landskapsord, lytt til uttale, spill mini-quiz, bygg setninger og skriv om ferien din. Samle XP og badges! 🎁</p>
 
-    <div class="grid" id="options"></div>
+    <div class="row" style="margin:10px 0 6px;">
+      <a class="pill" href="meteo.html">☀️ Météo</a>
+      <a class="pill" href="passecompose.html">⏳ Passé composé</a>
+      <a class="pill" href="negation.html">🚫 Négation</a>
+      <a class="pill" href="defi.html">🏁 Défi</a>
+    </div>
+
+    <div class="grid">
+
+      <section class="card">
+        <h2>🎯 Læringsmål</h2>
+        <div class="badge">✅ Jeg kan gjenkjenne og bruke landskapsord på fransk</div>
+        <div class="badge">✅ Jeg kan skrive 6–10 setninger om ferie og sted</div>
+        <hr class="sep">
+        <div class="badge">💡 Tips: Bruk <strong>“Legg til i teksten”</strong> i setningsbyggeren for å bygge en ferdig tekst.</div>
+      </section>
+
+      <!-- 1) GLOSER -->
+      <section class="card">
+        <h2>1) Gloser 🧠</h2>
+        <div class="row">
+          <button class="btn secondary" id="toggleNo">Vis/Skjul norsk</button>
+          <button class="btn secondary" id="ttsToggle">Lesestemme: <span id="ttsState">AV</span></button>
+          <button class="btn" id="claimVocab">Jeg har øvd på glosene ✅ (+15 XP)</button>
+        </div>
+        <div class="small" style="margin-top:8px;">
+          Klikk på 🔊 for å høre fransk (hvis nettleseren støtter det). Skjul norsk for aktiv øving.
+        </div>
+
+        <div class="wordGrid" id="wordGrid"></div>
+        <div class="feedback" id="vocabMsg">Tips: Prøv å si ordene høyt – det teller! 😄</div>
+      </section>
+
+      <!-- 2) SPILL -->
+      <section class="card">
+        <h2>2) Spill 🎮 Mini-quiz: Hva betyr ordet?</h2>
+        <div class="row">
+          <span class="pill">Poeng: <strong id="score">0</strong> / <span id="total">0</span></span>
+          <button class="btn secondary" id="mode">Modus: <span id="modeTxt">FR → NO</span></button>
+          <button class="btn" id="newQ">Ny oppgave ➜</button>
+          <button class="btn secondary" id="reset">Nullstill</button>
+        </div>
+
+        <div class="feedback">
+          <div class="small">Finn riktig betydning:</div>
+          <div style="font-size:1.1rem; font-weight:900; margin:6px 0 8px;" id="qPrompt">—</div>
+
+          <div class="grid" id="qChoices"></div>
+
+          <div class="row" style="margin-top:10px;">
+            <button class="btn" id="check">Sjekk</button>
+            <span class="small">Tips: Skift modus hvis du vil!</span>
+          </div>
+
+          <div class="feedback" id="qResult" style="margin-top:12px;">Svar og få XP! ✨</div>
+        </div>
+
+        <div class="small" style="margin-top:8px;">
+          Differensiering: FR→NO er enklere. NO→FR er litt vanskeligere.
+        </div>
+      </section>
+
+      <!-- 3) SETNINGSBYGGER -->
+      <section class="card">
+        <h2>3) Bygg setning 🛠️</h2>
+        <div class="small">Velg elementer og få en ferdig setning du kan lime inn i teksten din.</div>
+
+        <hr class="sep">
+
+        <div class="grid">
+          <div class="card" style="padding:12px;">
+            <h2 style="margin:0 0 10px;">A) Je suis allé(e) … (être) 🚶</h2>
+            <div class="row">
+              <select id="A_place"><option value="">Velg sted…</option></select>
+              <button class="btn secondary" id="A_make">Lag setning</button>
+            </div>
+          </div>
+
+          <div class="card" style="padding:12px;">
+            <h2 style="margin:0 0 10px;">B) J’ai … (avoir) 🎬</h2>
+            <div class="row">
+              <select id="B_verb"><option value="">Velg aktivitet…</option></select>
+              <select id="B_where"><option value="">Hvor?</option></select>
+              <button class="btn secondary" id="B_make">Lag setning</button>
+            </div>
+          </div>
+
+          <div class="card" style="padding:12px;">
+            <h2 style="margin:0 0 10px;">C) Il y avait / C’était … (beskrivelse) 🌤️</h2>
+            <div class="row">
+              <select id="C_desc"><option value="">Velg beskrivelse…</option></select>
+              <button class="btn secondary" id="C_make">Lag setning</button>
+            </div>
+          </div>
+
+          <div class="card" style="padding:12px;">
+            <h2 style="margin:0 0 10px;">D) Opinion + grunn 💬</h2>
+            <div class="row">
+              <select id="D_op"><option value="">Velg mening…</option></select>
+              <select id="D_reason"><option value="">Velg grunn…</option></select>
+              <button class="btn secondary" id="D_make">Lag setning</button>
+            </div>
+          </div>
+        </div>
+
+        <hr class="sep">
+
+        <div class="feedback" id="built">Setningen din dukker opp her 🙂</div>
+
+        <div class="row" style="margin-top:10px;">
+          <button class="btn" id="addToText">Legg til i teksten ➕ (+2 XP)</button>
+          <button class="btn secondary" id="copyBuilt">Kopier setning</button>
+          <button class="btn secondary" id="clearBuilt">Tøm setning</button>
+        </div>
+      </section>
+
+      <!-- 4) PRODUKSJON -->
+      <section class="card">
+        <h2>4) Produksjon ✍️ Kreativ skriveoppgave</h2>
+        <div class="row">
+          <button class="btn secondary" id="saveLocal">Lagre lokalt</button>
+          <button class="btn secondary" id="loadLocal">Hent lagret</button>
+          <button class="btn secondary" id="clearText">Tøm</button>
+        </div>
+
+        <div class="small" style="margin-top:10px;">
+          Skriv om ferien din: <strong>6–10 setninger</strong>. Bruk minst <strong>5 landskapsord</strong> fra ordbanken.
+        </div>
+
+        <hr class="sep">
+
+        <div class="row">
+          <span class="small">Velg nivå (differensiering):</span>
+          <select id="level">
+            <option value="1">Nivå 1: korte setninger + mye støtte</option>
+            <option value="2" selected>Nivå 2: normaltekst</option>
+            <option value="3">Nivå 3: mer detalj + variasjon</option>
+          </select>
+          <button class="btn secondary" id="insertStarters">Sett inn setningsstartere</button>
+        </div>
+
+        <div style="margin-top:10px;">
+          <textarea id="text" placeholder="Skriv her…"></textarea>
+        </div>
+
+        <div class="row" style="margin-top:10px;">
+          <button class="btn" id="checkVocab">Sjekk: bruker jeg 5 gloser? 🔎</button>
+          <button class="btn secondary" id="copyText">Kopier tekst</button>
+          <button class="btn secondary" id="bonus20">Jeg skrev 10+ setninger ✅ (+20 XP)</button>
+        </div>
+
+        <div class="feedback" id="prodMsg">
+          Obs: “Lagre lokalt” lagrer kun i din egen nettleser på denne enheten (ingen innlogging).
+        </div>
+      </section>
+
+    </div>
+
+    <div class="footerNav">
+      <a class="pill" href="meteo.html">← La météo</a>
+      <a class="pill" href="defi.html">Neste: Défi final →</a>
+    </div>
   </div>
 
-</div>
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // ---------- små helper ----------
+    function escapeHtml(str){
+      return String(str)
+        .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;").replace(/'/g,"&#039;");
+    }
+    function flash(el, html, kind){
+      el.innerHTML = html;
+      el.style.borderColor =
+        kind === "good" ? "rgba(71,209,140,.7)" :
+        kind === "bad"  ? "rgba(255,92,122,.7)" :
+        "rgba(255,255,255,.18)";
+    }
+    function shuffle(arr){
+      const a = arr.slice();
+      for(let i=a.length-1; i>0; i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+    function sentenceCount(text){
+      const t = (text||"").trim();
+      if(!t) return 0;
+      // veldig enkel setningsteller
+      return t.split(/[.!?]+/).map(s=>s.trim()).filter(Boolean).length;
+    }
+    function normalize(s){
+      return (s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+    }
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
+    // ---------- PROGRESJON / XP ----------
+    const LS_KEY = "chap4_paysage_progress_v2";
+    function loadState(){
+      try{ return JSON.parse(localStorage.getItem(LS_KEY)) || { xp:0, done:{}, quiz:{best:0} }; }
+      catch(e){ return { xp:0, done:{}, quiz:{best:0} }; }
+    }
+    function saveState(s){ localStorage.setItem(LS_KEY, JSON.stringify(s)); }
+    let state = loadState();
 
-  const DATA = [
-    { fr:"la montagne", no:"fjell 🏔️" },
-    { fr:"la plage", no:"strand 🏖️" },
-    { fr:"la forêt", no:"skog 🌲" },
-    { fr:"le lac", no:"innsjø 🌊" },
-    { fr:"la mer", no:"hav 🌊" },
-    { fr:"le désert", no:"ørken 🏜️" },
-    { fr:"la campagne", no:"landsbygd 🌾" },
-    { fr:"la ville", no:"by 🏙️" }
-  ];
+    function addXP(amount){
+      state.xp = Math.max(0, (state.xp||0) + amount);
+      saveState(state);
+      renderHeader();
+    }
+    function markDone(id){
+      state.done = state.done || {};
+      state.done[id] = true;
+      saveState(state);
+      renderHeader();
+    }
+    function calcProgress(ids){
+      const done = state.done || {};
+      const total = ids.length;
+      const doneCount = ids.filter(id => done[id]).length;
+      const pct = total ? Math.round((doneCount/total)*100) : 0;
+      return { pct, doneCount, total };
+    }
 
-  let score = 0;
+    const TASKS = ["pay_open","pay_vocab","pay_quiz","pay_builder","pay_write","pay_bonus"];
 
-  const scoreEl = document.getElementById("score");
-  const promptEl = document.getElementById("prompt");
-  const optionsEl = document.getElementById("options");
-  const newBtn = document.getElementById("newBtn");
+    const xpEl = document.getElementById("xp");
+    const badgeEl = document.getElementById("badge");
+    const pctEl = document.getElementById("pct");
+    const fillEl = document.getElementById("fill");
 
-  function newRound(){
-    optionsEl.innerHTML = "";
+    function renderHeader(){
+      xpEl.textContent = state.xp || 0;
 
-    const correct = DATA[Math.floor(Math.random()*DATA.length)];
-    promptEl.textContent = `Hva heter "${correct.no}" på fransk?`;
+      const xp = state.xp || 0;
+      if(xp >= 140) badgeEl.textContent = "🏆 Paysage Légende";
+      else if(xp >= 95) badgeEl.textContent = "🥇 Paysage Ninja";
+      else if(xp >= 55) badgeEl.textContent = "🥈 Paysage Pro";
+      else badgeEl.textContent = "🥉 Paysage Starter";
 
-    const shuffled = DATA.slice().sort(()=>Math.random()-0.5).slice(0,4);
-    if(!shuffled.includes(correct)) shuffled[0] = correct;
+      const { pct } = calcProgress(TASKS);
+      pctEl.textContent = pct + "%";
+      fillEl.style.width = pct + "%";
+    }
 
-    shuffled.forEach(item=>{
-      const btn = document.createElement("div");
-      btn.className = "tile";
-      btn.textContent = item.fr;
+    setTimeout(()=>markDone("pay_open"), 400);
+    renderHeader();
 
-      btn.addEventListener("click", ()=>{
-        if(item === correct){
-          btn.classList.add("correct");
-          score++;
-          scoreEl.textContent = score;
-        }else{
-          btn.classList.add("wrong");
-        }
-        setTimeout(newRound, 700);
+    // ---------- ORDBANK + TTS ----------
+    const WORDS = [
+      { fr:"la montagne", no:"fjellet", emoji:"⛰️" },
+      { fr:"la mer", no:"havet", emoji:"🌊" },
+      { fr:"la plage", no:"stranden", emoji:"🏖️" },
+      { fr:"la forêt", no:"skogen", emoji:"🌲" },
+      { fr:"le lac", no:"innsjøen", emoji:"🏞️" },
+      { fr:"la rivière", no:"elva", emoji:"🏞️" },
+      { fr:"la campagne", no:"bygda", emoji:"🌾" },
+      { fr:"la ville", no:"byen", emoji:"🏙️" },
+      { fr:"le village", no:"landsbyen", emoji:"🏘️" },
+      { fr:"l’île", no:"øya", emoji:"🏝️" },
+      { fr:"le désert", no:"ørkenen", emoji:"🏜️" },
+      { fr:"la vallée", no:"dalen", emoji:"🏔️" }
+    ];
+
+    const wordGrid = document.getElementById("wordGrid");
+    const toggleNoBtn = document.getElementById("toggleNo");
+    const ttsBtn = document.getElementById("ttsToggle");
+    const ttsStateEl = document.getElementById("ttsState");
+    const vocabMsg = document.getElementById("vocabMsg");
+    const claimVocabBtn = document.getElementById("claimVocab");
+
+    let showNo = true;
+    let ttsOn = false;
+
+    function speakFR(text){
+      if(!ttsOn) return;
+      if(!("speechSynthesis" in window)) {
+        flash(vocabMsg, "Denne nettleseren støtter ikke lesestemme (TTS).", "bad");
+        return;
+      }
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = "fr-FR";
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.speak(u);
+    }
+
+    function renderWords(){
+      wordGrid.innerHTML = "";
+      WORDS.forEach(w=>{
+        const div = document.createElement("div");
+        div.className = "wordCard";
+        div.innerHTML = `
+          <div class="wordMain">
+            <div class="fr">${escapeHtml(w.emoji)} ${escapeHtml(w.fr)}</div>
+            <div class="no" style="${showNo ? "" : "display:none"}">${escapeHtml(w.no)}</div>
+            <div class="tiny">Klikk 🔊 for fransk</div>
+          </div>
+          <button class="btn secondary" style="padding:8px 10px" aria-label="uttale">🔊</button>
+        `;
+        div.querySelector("button").onclick = ()=>{
+          speakFR(w.fr);
+          flash(vocabMsg, `🔊 Uttale: <strong>${escapeHtml(w.fr)}</strong> <span class="sparkle">(+1 XP)</span>`, "good");
+          addXP(1);
+        };
+        wordGrid.appendChild(div);
+      });
+    }
+    renderWords();
+
+    toggleNoBtn.onclick = ()=>{
+      showNo = !showNo;
+      renderWords();
+      flash(vocabMsg, showNo ? "Norsk vises ✅" : "Norsk skjult 🙈 (bra øving!)", "info");
+    };
+
+    ttsBtn.onclick = ()=>{
+      ttsOn = !ttsOn;
+      ttsStateEl.textContent = ttsOn ? "PÅ" : "AV";
+      flash(vocabMsg, ttsOn ? "Lesestemme er PÅ 🔊" : "Lesestemme er AV", "info");
+    };
+
+    claimVocabBtn.onclick = ()=>{
+      if(state.done && state.done["pay_vocab"]){
+        flash(vocabMsg, "Allerede tatt! 🎉", "good");
+        return;
+      }
+      addXP(15);
+      markDone("pay_vocab");
+      flash(vocabMsg, `🎉 Super! Du har øvd på glosene <span class="sparkle">(+15 XP)</span>`, "good");
+    };
+
+    // ---------- MINI-QUIZ ----------
+    const scoreEl = document.getElementById("score");
+    const totalEl = document.getElementById("total");
+    const modeBtn = document.getElementById("mode");
+    const modeTxt = document.getElementById("modeTxt");
+    const newQBtn = document.getElementById("newQ");
+    const resetBtn = document.getElementById("reset");
+    const checkBtn = document.getElementById("check");
+    const qPromptEl = document.getElementById("qPrompt");
+    const qChoicesEl = document.getElementById("qChoices");
+    const qResultEl = document.getElementById("qResult");
+
+    let modeFRtoNO = true; // true = FR->NO, false = NO->FR
+    let current = null;
+    let selected = null;
+    let score = 0;
+
+    totalEl.textContent = WORDS.length;
+
+    function makeQuestion(){
+      selected = null;
+      qChoicesEl.innerHTML = "";
+      current = WORDS[Math.floor(Math.random()*WORDS.length)];
+
+      const prompt = modeFRtoNO ? current.fr : current.no;
+      qPromptEl.textContent = prompt;
+
+      // 4 alternativer
+      let pool = shuffle(WORDS).filter(w => w !== current).slice(0, 3);
+      pool.push(current);
+      pool = shuffle(pool);
+
+      pool.forEach(w => {
+        const text = modeFRtoNO ? w.no : w.fr;
+        const btn = document.createElement("button");
+        btn.className = "choice";
+        btn.type = "button";
+        btn.textContent = text;
+        btn.onclick = () => {
+          selected = w;
+          [...qChoicesEl.querySelectorAll(".choice")].forEach(x => x.classList.remove("selected"));
+          btn.classList.add("selected");
+        };
+        qChoicesEl.appendChild(btn);
       });
 
-      optionsEl.appendChild(btn);
-    });
-  }
+      flash(qResultEl, "Velg et alternativ og trykk <strong>Sjekk</strong>.", "info");
+    }
 
-  newBtn.addEventListener("click", newRound);
-  newRound();
+    function resetQuiz(){
+      score = 0;
+      scoreEl.textContent = score;
+      makeQuestion();
+      flash(qResultEl, "Nullstilt. Lykke til!", "info");
+    }
 
-});
-</script>
+    modeBtn.onclick = () => {
+      modeFRtoNO = !modeFRtoNO;
+      modeTxt.textContent = modeFRtoNO ? "FR → NO" : "NO → FR";
+      makeQuestion();
+    };
+
+    newQBtn.onclick = () => makeQuestion();
+
+    resetBtn.onclick = () => resetQuiz();
+
+    checkBtn.onclick = () => {
+      if(!selected){
+        flash(qResultEl, "Velg et svar først 🙂", "bad");
+        return;
+      }
+
+      // marker riktig/feil visuelt
+      const btns = [...qChoicesEl.querySelectorAll(".choice")];
+      btns.forEach(b => b.classList.remove("correct","wrong"));
+      btns.forEach(b => {
+        const label = b.textContent;
+        const isCorrectLabel = modeFRtoNO ? current.no : current.fr;
+        if(label === isCorrectLabel) b.classList.add("correct");
+      });
+
+      if(selected === current){
+        score += 1;
+        scoreEl.textContent = score;
+        addXP(4);
+        flash(qResultEl, `✅ Riktig! <span class="sparkle">(+4 XP)</span>`, "good");
+      }else{
+        addXP(1);
+        flash(qResultEl, `❌ Nesten. Riktig er: <strong>${escapeHtml(modeFRtoNO ? current.no : current.fr)}</strong> <span class="sparkle">(+1 XP)</span>`, "bad");
+      }
+
+      // progress: ferdig når eleven har 6 riktige
+      if(score >= 6 && !(state.done && state.done["pay_quiz"])){
+        markDone("pay_quiz");
+        flash(qResultEl, `🎉 Du klarte 6 riktige! Oppgave 2 registrert som ferdig ✅`, "good");
+      }
+
+      setTimeout(makeQuestion, 850);
+    };
+
+    makeQuestion();
+
+    // ---------- SETNINGSBYGGER ----------
+    const builtEl = document.getElementById("built");
+    const addToTextBtn = document.getElementById("addToText");
+    const copyBuiltBtn = document.getElementById("copyBuilt");
+    const clearBuiltBtn = document.getElementById("clearBuilt");
+
+    const A_place = document.getElementById("A_place");
+    const B_verb  = document.getElementById("B_verb");
+    const B_where = document.getElementById("B_where");
+    const C_desc  = document.getElementById("C_desc");
+    const D_op    = document.getElementById("D_op");
+    const D_reason= document.getElementById("D_reason");
+
+    const A_make  = document.getElementById("A_make");
+    const B_make  = document.getElementById("B_make");
+    const C_make  = document.getElementById("C_make");
+    const D_make  = document.getElementById("D_make");
+
+    const places = WORDS.map(w => w.fr);
+    const wheres = ["à la montagne","à la plage","à la mer","au lac","dans la forêt","à la campagne","en ville","au village","sur l’île","dans la vallée"];
+    const verbs = ["fait du vélo","pris des photos","mangé une glace","fait une randonnée","nagé","visité un musée","joué au football","fait du shopping"];
+    const descs = ["C’était magnifique.","Il faisait beau.","Il faisait chaud.","Il y avait beaucoup de monde.","C’était calme.","C’était intéressant."];
+    const ops = ["J’ai adoré.","J’ai aimé.","Je n’ai pas aimé.","C’était super."];
+    const reasons = ["parce que c’était beau.","parce que c’était amusant.","parce que c’était trop chaud.","parce que c’était cher.","parce que c’était calme."];
+
+    function fillSelect(sel, arr){
+      arr.forEach(x=>{
+        const opt = document.createElement("option");
+        opt.value = x;
+        opt.textContent = x;
+        sel.appendChild(opt);
+      });
+    }
+    fillSelect(A_place, places);
+    fillSelect(B_verb, verbs);
+    fillSelect(B_where, wheres);
+    fillSelect(C_desc, descs);
+    fillSelect(D_op, ops);
+    fillSelect(D_reason, reasons);
+
+    let built = "";
+
+    function setBuilt(s){
+      built = s;
+      builtEl.innerHTML = `<strong>${escapeHtml(built || "Setningen din dukker opp her 🙂")}</strong>`;
+    }
+
+    A_make.onclick = () => {
+      if(!A_place.value) return setBuilt("Velg et sted først 🙂");
+      setBuilt(`Je suis allé(e) à ${A_place.value}.`);
+      addXP(1);
+    };
+    B_make.onclick = () => {
+      if(!B_verb.value || !B_where.value) return setBuilt("Velg aktivitet + hvor 🙂");
+      setBuilt(`J’ai ${B_verb.value} ${B_where.value}.`);
+      addXP(1);
+    };
+    C_make.onclick = () => {
+      if(!C_desc.value) return setBuilt("Velg en beskrivelse 🙂");
+      setBuilt(C_desc.value);
+      addXP(1);
+    };
+    D_make.onclick = () => {
+      if(!D_op.value || !D_reason.value) return setBuilt("Velg mening + grunn 🙂");
+      setBuilt(`${D_op.value} ${D_reason.value}`);
+      addXP(1);
+    };
+
+    copyBuiltBtn.onclick = async () => {
+      if(!built) return;
+      try{
+        await navigator.clipboard.writeText(built);
+        setBuilt(built + " ✅ Kopiert!");
+      }catch(e){
+        setBuilt(built + " (Kunne ikke kopiere her – marker og kopier manuelt.)");
+      }
+    };
+
+    clearBuiltBtn.onclick = () => setBuilt("");
+
+    // marker oppgave 3 som ferdig når eleven legger til 3 setninger i teksten
+    let builderAdds = 0;
+
+    // ---------- PRODUKSJON ----------
+    const textEl = document.getElementById("text");
+    const prodMsg = document.getElementById("prodMsg");
+    const levelEl = document.getElementById("level");
+
+    const saveLocalBtn = document.getElementById("saveLocal");
+    const loadLocalBtn = document.getElementById("loadLocal");
+    const clearTextBtn = document.getElementById("clearText");
+    const insertStartersBtn = document.getElementById("insertStarters");
+
+    const checkVocabBtn = document.getElementById("checkVocab");
+    const copyTextBtn = document.getElementById("copyText");
+    const bonus20Btn = document.getElementById("bonus20");
+
+    const TEXT_KEY = "chap4_paysage_text_v1";
+
+    addToTextBtn.onclick = () => {
+      if(!built) return setBuilt("Lag en setning først 🙂");
+      textEl.value = (textEl.value ? (textEl.value.trimEnd() + "\n") : "") + built;
+      builderAdds += 1;
+      addXP(2);
+      if(builderAdds >= 3 && !(state.done && state.done["pay_builder"])){
+        markDone("pay_builder");
+        flash(prodMsg, "✅ Oppgave 3 (setningsbygger) registrert som ferdig!", "good");
+      }
+    };
+
+    saveLocalBtn.onclick = () => {
+      localStorage.setItem(TEXT_KEY, textEl.value || "");
+      flash(prodMsg, "✅ Lagret lokalt på denne enheten.", "good");
+    };
+
+    loadLocalBtn.onclick = () => {
+      textEl.value = localStorage.getItem(TEXT_KEY) || "";
+      flash(prodMsg, "📥 Hentet lagret tekst.", "info");
+    };
+
+    clearTextBtn.onclick = () => {
+      if(!confirm("Tømme teksten?")) return;
+      textEl.value = "";
+      flash(prodMsg, "Tekst tømt.", "info");
+    };
+
+    insertStartersBtn.onclick = () => {
+      const lv = levelEl.value;
+      let starters = "";
+      if(lv === "1"){
+        starters =
+`Je suis allé(e) à …
+J’ai …
+C’était …
+Il y avait …
+J’ai aimé … parce que …
+Je n’ai pas aimé … parce que …`;
+      }else if(lv === "2"){
+        starters =
+`Pendant les vacances, je suis allé(e) à …
+J’ai … et j’ai …
+C’était …, mais …
+J’ai adoré … parce que …
+Ensuite, j’ai …`;
+      }else{
+        starters =
+`Pendant les vacances, je suis allé(e) à …
+D’abord, j’ai …
+Ensuite, j’ai …
+Il y avait … et c’était …
+J’ai aimé … parce que … / Je n’ai pas aimé … parce que …
+Finalement, je suis rentré(e).`;
+      }
+      textEl.value = starters + "\n\n" + (textEl.value || "");
+      flash(prodMsg, "✅ Setningsstartere satt inn øverst.", "good");
+      addXP(2);
+    };
+
+    checkVocabBtn.onclick = () => {
+      const t = normalize(textEl.value);
+      const hits = WORDS.filter(w => {
+        const fr = normalize(w.fr);
+        // små “snille” treff
+        const simple = fr.replace(/^la\s+|^le\s+|^l’|^l'/,"");
+        return t.includes(fr) || (simple && t.includes(simple));
+      });
+
+      const unique = new Set(hits.map(h => h.fr)).size;
+
+      if(unique >= 5){
+        addXP(10);
+        markDone("pay_write");
+        flash(prodMsg, `✅ Bra! Du brukte ${unique} landskapsord. <span class="sparkle">(+10 XP)</span>`, "good");
+      }else{
+        flash(prodMsg, `Du har ${unique}/5 landskapsord. Prøv å bruke minst 5 (fra gloselista).`, "bad");
+      }
+    };
+
+    copyTextBtn.onclick = async () => {
+      try{
+        await navigator.clipboard.writeText(textEl.value || "");
+        flash(prodMsg, "✅ Teksten er kopiert.", "good");
+      }catch(e){
+        flash(prodMsg, "Kunne ikke kopiere automatisk her. Marker teksten og kopier manuelt.", "bad");
+      }
+    };
+
+    bonus20Btn.onclick = () => {
+      const n = sentenceCount(textEl.value);
+      if(n < 10){
+        flash(prodMsg, `Du har ca. ${n} setninger. Skriv litt mer før du tar bonus 🙂`, "bad");
+        return;
+      }
+      if(state.done && state.done["pay_bonus"]){
+        flash(prodMsg, "Bonus allerede tatt ✅", "good");
+        return;
+      }
+      addXP(20);
+      markDone("pay_bonus");
+      flash(prodMsg, `🎉 Bonus! 10+ setninger. <span class="sparkle">(+20 XP)</span>`, "good");
+    };
+  });
+  </script>
 </body>
 </html>
