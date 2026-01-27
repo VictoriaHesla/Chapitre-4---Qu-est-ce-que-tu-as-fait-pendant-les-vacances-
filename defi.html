@@ -7,7 +7,6 @@
   <style>
     :root{
       --bg:#0b1020;
-      --card:#121a33;
       --text:#e9ecff;
       --muted:#b7c0ff;
       --accent:#8b7bff;
@@ -26,7 +25,7 @@
         var(--bg);
       color:var(--text);
     }
-    .container{max-width:1020px;margin:0 auto;padding:18px 16px 60px}
+    .container{max-width:1080px;margin:0 auto;padding:18px 16px 60px}
     a{color:inherit;text-decoration:none}
     h1{margin:18px 0 8px; font-size:2rem}
     .subtitle{color:var(--muted); margin:0 0 16px}
@@ -89,39 +88,41 @@
       font-weight:800;
     }
 
-    /* GAME BOARD */
-    .boardWrap{padding:14px}
+    /* BOARD (30 steps) */
     .board{
-      position:relative;
       border:1px solid var(--line);
       border-radius:18px;
       background: rgba(255,255,255,.04);
-      overflow:hidden;
       padding:14px;
+      overflow:hidden;
     }
     .track{
       display:grid;
       grid-template-columns: repeat(10, 1fr);
       gap:10px;
-      align-items:stretch;
     }
     .tile{
-      position:relative;
       border:1px solid rgba(255,255,255,.14);
       background: rgba(0,0,0,.12);
       border-radius:14px;
-      min-height:74px;
+      min-height:78px;
       padding:10px;
       display:flex;
       flex-direction:column;
       justify-content:space-between;
+      position:relative;
     }
     .tile .n{font-weight:900}
     .tile .tag{font-size:.85rem;color:var(--muted)}
-    .tile.goal{background: rgba(245,158,11,.12)}
     .tile.check{background: rgba(71,209,140,.10)}
+    .tile.boss{background: rgba(245,158,11,.12)}
+    .slot{
+      height:42px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
     .sprite{
-      position:absolute;
       width:42px;height:42px;
       border-radius:14px;
       display:flex;align-items:center;justify-content:center;
@@ -129,15 +130,7 @@
       background: rgba(139,123,255,.22);
       border:1px solid rgba(255,255,255,.18);
       box-shadow: 0 12px 24px rgba(0,0,0,.35);
-      transition: transform .35s ease;
-      transform: translate(0,0);
-      pointer-events:none;
-    }
-    .boss{
-      position:absolute;
-      right:10px; top:10px;
-      font-size:28px;
-      filter: drop-shadow(0 10px 18px rgba(0,0,0,.5));
+      transition: transform .18s ease;
     }
 
     /* QUIZ */
@@ -179,21 +172,21 @@
 
       <div class="right">
         <span class="pill">⭐ XP: <span id="xp">0</span></span>
-        <span class="pill">🏅 Best: <span id="best">0</span>/10</span>
+        <span class="pill">🏅 Best: <span id="best">0</span>/30</span>
         <button class="btn secondary" id="musicBtn">🎵 Musikk: AV</button>
       </div>
     </div>
 
-    <h1>🏁 Défi final: “Boss run”</h1>
-    <p class="subtitle">Velg boss-type (lett/middels/hard). Svar riktig for å flytte 🧍 fremover. 10 oppgaver fra alle temaene.</p>
+    <h1>🏁 Défi final: Boss-run (30 oppgaver)</h1>
+    <p class="subtitle">Svar riktig for å flytte 🧍 fremover. 30 oppgaver på kryss og tvers av alle temaene.</p>
 
     <div class="grid">
 
-      <section class="card boardWrap">
+      <section class="card">
         <h2>🎮 Spillebrett</h2>
         <div class="row">
-          <span class="pill">Runde: <strong id="round">0</strong>/10</span>
-          <span class="pill">Poeng: <strong id="score">0</strong></span>
+          <span class="pill">Oppgave: <strong id="round">0</strong>/30</span>
+          <span class="pill">Riktige: <strong id="score">0</strong></span>
 
           <label class="pill" style="gap:10px">
             Boss-type:
@@ -204,22 +197,17 @@
             </select>
           </label>
 
-          <button class="btn" id="start">Start runde</button>
+          <button class="btn" id="start">Start</button>
           <button class="btn secondary" id="reset">Nullstill</button>
           <button class="btn secondary" id="wipe">Slett XP/best</button>
         </div>
 
-        <div class="board" id="board" style="margin-top:12px">
-          <div class="boss" title="Boss">👾</div>
-
+        <div class="board" style="margin-top:12px">
           <div class="track" id="track"></div>
-
-          <!-- FIGUR: den første (🧍) -->
-          <div class="sprite" id="sprite" aria-label="figur">🧍</div>
         </div>
 
         <div class="feedback" id="boardMsg">
-          Trykk <strong>Start runde</strong>. Riktig svar = +1 felt.
+          Trykk <strong>Start</strong>. Riktig svar = +1 steg. (Du kan fortsatt fullføre selv om du svarer feil.)
         </div>
       </section>
 
@@ -230,17 +218,17 @@
 
         <div class="choices" id="choices" style="margin-top:12px"></div>
 
-        <div class="feedback" id="result">Trykk Start runde for å begynne.</div>
+        <div class="feedback" id="result">Trykk Start for å begynne.</div>
 
         <div class="small" style="margin-top:10px">
-          Tips: Musikk må ofte startes med et klikk (nettleserregel). Trykk <span class="kbd">🎵 Musikk</span> etter Start hvis nødvendig.
+          Hvis musikk ikke starter: trykk <span class="kbd">🎵 Musikk</span> etter Start (iPad/Chrome krever brukerklikk).
         </div>
       </section>
 
       <section class="card">
-        <h2>🏆 Belønning</h2>
+        <h2>🏆 Mål</h2>
         <div class="feedback" id="reward">
-          Lett/middels: mål <strong>8/10</strong>. Hard: mål <strong>9/10</strong>.
+          Lett/middels: mål <strong>22/30</strong>. Hard: mål <strong>26/30</strong>.
         </div>
       </section>
 
@@ -250,7 +238,7 @@
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   // ------------------ STORAGE ------------------
-  const LS = "chap4_defi_run_v3";
+  const LS = "chap4_defi_run_v4";
   const state = load() || { xp:0, best:0 };
   function load(){ try{ return JSON.parse(localStorage.getItem(LS)); }catch(e){ return null; } }
   function save(){ localStorage.setItem(LS, JSON.stringify(state)); }
@@ -263,11 +251,61 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   renderTop();
 
-  // ------------------ GAME UI ------------------
-  const trackEl = document.getElementById("track");
-  const spriteEl = document.getElementById("sprite");
-  const boardEl = document.getElementById("board");
+  // ------------------ MUSIC ------------------
+  let audioCtx = null;
+  let musicOn = false;
+  let musicTimer = null;
+  const musicBtn = document.getElementById("musicBtn");
 
+  function ensureAudio(){
+    if(!audioCtx){
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+  }
+  function playBeep(freq, dur=0.12, type="square", gain=0.05){
+    if(!audioCtx) return;
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.type = type;
+    o.frequency.value = freq;
+
+    const now = audioCtx.currentTime;
+    g.gain.setValueAtTime(0, now);
+    g.gain.linearRampToValueAtTime(gain, now + 0.01);
+    g.gain.linearRampToValueAtTime(0.0001, now + dur);
+
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start(now); o.stop(now + dur + 0.02);
+  }
+  // egen “retro”-loop (ikke en kopi av kjent melodi)
+  const melody = [523,659,784,659,587,659,698,659,523,587,659,587,494,587,659,587,523,494,440,494];
+  let melodyIdx = 0;
+  function startMusic(){
+    ensureAudio();
+    if(audioCtx.state === "suspended") audioCtx.resume();
+    stopMusic();
+    melodyIdx = 0;
+    musicTimer = setInterval(() => {
+      const f = melody[melodyIdx % melody.length];
+      playBeep(f, 0.10, "square", 0.032);
+      melodyIdx++;
+    }, 130);
+  }
+  function stopMusic(){
+    if(musicTimer) clearInterval(musicTimer);
+    musicTimer = null;
+  }
+  function sfxGood(){ ensureAudio(); if(audioCtx.state==="suspended") audioCtx.resume(); playBeep(880,0.08,"square",0.06); playBeep(1175,0.08,"square",0.05); }
+  function sfxBad(){ ensureAudio(); if(audioCtx.state==="suspended") audioCtx.resume(); playBeep(220,0.14,"sawtooth",0.05); }
+
+  musicBtn.addEventListener("click", () => {
+    musicOn = !musicOn;
+    musicBtn.textContent = musicOn ? "🎵 Musikk: PÅ" : "🎵 Musikk: AV";
+    if(musicOn) startMusic(); else stopMusic();
+  });
+
+  // ------------------ UI ------------------
+  const trackEl = document.getElementById("track");
   const roundEl = document.getElementById("round");
   const scoreEl = document.getElementById("score");
   const boardMsg = document.getElementById("boardMsg");
@@ -283,170 +321,125 @@ document.addEventListener("DOMContentLoaded", () => {
   const wipeBtn = document.getElementById("wipe");
   const bossTypeEl = document.getElementById("bossType");
 
-  // ------------------ MUSIC (WebAudio “retro vibe”) ------------------
-  let audioCtx = null;
-  let musicOn = false;
-  let musicTimer = null;
+  // ------------------ QUESTIONS (30+) ------------------
+  // Use {a: correctAnswerText} so correct isn’t tied to A/0 index.
+  // Then we shuffle options every time.
+  const BANK = [
+    // MÉTÉO
+    {diff:"easy", topic:"☀️ Météo", q:"Hvilket passer best: «___ beau.»", a:"Il fait", opts:["Il fait","Il y a","Il est","Je fais"], explain:"Vær + adjektiv: Il fait + adjektiv."},
+    {diff:"easy", topic:"☀️ Météo", q:"Velg riktig: «___ du vent.»", a:"Il y a", opts:["Il fait","Il y a","Il est","Il suis"], explain:"Substantiv: Il y a + du/ de la/ des."},
+    {diff:"easy", topic:"☀️ Météo", q:"Hva betyr «Il pleut.»", a:"Det regner.", opts:["Det regner.","Det snør.","Det er sol.","Det blåser."], explain:"Il pleut = Det regner."},
+    {diff:"mid",  topic:"☀️ Météo", q:"Hva betyr «Il y a du soleil.»", a:"Det er sol.", opts:["Det er sol.","Det er kaldt.","Det er tåke.","Det er storm."], explain:"Il y a du soleil = Det er sol."},
+    {diff:"mid",  topic:"☀️ Météo", q:"Velg riktig: «Il fait ___» (très chaud)", a:"chaud", opts:["chaud","chaude","chauds","chaudes"], explain:"Il fait chaud (fast uttrykk)."},
+    {diff:"hard", topic:"☀️ Météo", q:"Velg riktig: «En hiver, il ___ souvent.»", a:"neige", opts:["neige","neiger","neiges","neigé"], explain:"Il neige = det snør."},
 
-  const musicBtn = document.getElementById("musicBtn");
+    // PASSÉ COMPOSÉ
+    {diff:"easy", topic:"⏳ Passé composé", q:"Velg riktig: «J’___ mangé.»", a:"ai", opts:["ai","as","a","avons"], explain:"Je → j’ai"},
+    {diff:"easy", topic:"⏳ Passé composé", q:"Velg riktig: «Tu ___ joué.»", a:"as", opts:["ai","as","a","ont"], explain:"Tu → as"},
+    {diff:"mid",  topic:"⏳ Passé composé", q:"Perfektum partisipp: «visiter → j’ai ___ Paris.»", a:"visité", opts:["visité","visiti","visiter","visitée"], explain:"-ER → ofte -é."},
+    {diff:"mid",  topic:"⏳ Passé composé", q:"Velg riktig: «Nous ___ fini.»", a:"avons", opts:["avons","a","ont","ai"], explain:"Nous → avons"},
+    {diff:"hard", topic:"⏳ Passé composé", q:"Negasjon: «J’ai mangé.» →", a:"Je n’ai pas mangé.", opts:["Je n’ai pas mangé.","Je ne pas ai mangé.","Je n’ai mangé pas.","Je ne mangé pas."], explain:"ne…pas rundt hjelpeverbet."},
+    {diff:"hard", topic:"⏳ Passé composé", q:"Velg riktig: «Ils ___ pris le bus.»", a:"ont", opts:["ont","a","avons","ai"], explain:"Ils → ont"},
 
-  function ensureAudio(){
-    if(!audioCtx){
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    }
-  }
+    // NÉGATION
+    {diff:"easy", topic:"🚫 Négation", q:"Gjør negativ: «Je regarde Netflix.»", a:"Je ne regarde pas Netflix.", opts:["Je ne regarde pas Netflix.","Je regarde ne pas Netflix.","Je pas regarde Netflix.","Je ne pas regarde Netflix."], explain:"ne + verb + pas"},
+    {diff:"easy", topic:"🚫 Négation", q:"Velg riktig: «Je ___ mange pas.»", a:"ne", opts:["ne","n’","pas","plus"], explain:"Je ne mange pas."},
+    {diff:"mid",  topic:"🚫 Négation", q:"Velg riktig: «Je ___ ai pas visité Paris.»", a:"n’", opts:["ne","n’","pas","plus"], explain:"n’ foran vokal: je n’ai pas…"},
+    {diff:"mid",  topic:"🚫 Négation", q:"Hvor står «pas»?", a:"Etter verbet.", opts:["Etter verbet.","Før subjektet.","Etter subjektet.","Helt til slutt uansett."], explain:"Je ne mange pas."},
+    {diff:"hard", topic:"🚫 Négation", q:"Passé composé: Hvor står ne…pas?", a:"Rundt hjelpeverbet (avoir/être).", opts:["Rundt hjelpeverbet (avoir/être).","Rundt partisippet.","Etter partisippet.","Før subjektet."], explain:"Je n’ai pas mangé."},
+    {diff:"hard", topic:"🚫 Négation", q:"Velg riktig: «Nous ___ sommes pas allés.»", a:"ne", opts:["ne","n’","pas","plus"], explain:"Nous ne sommes pas allés."},
 
-  function playBeep(freq, dur=0.12, type="square", gain=0.05){
-    if(!audioCtx) return;
-    const o = audioCtx.createOscillator();
-    const g = audioCtx.createGain();
-    o.type = type;
-    o.frequency.value = freq;
+    // VÊTEMENTS
+    {diff:"easy", topic:"👕 Vêtements", q:"Hva betyr «un pantalon»?", a:"en bukse", opts:["en bukse","en kjole","en genser","en caps"], explain:"pantalon = bukse"},
+    {diff:"easy", topic:"👕 Vêtements", q:"Hva betyr «une robe»?", a:"en kjole", opts:["en kjole","en jakke","et skjerf","sko"], explain:"robe = kjole"},
+    {diff:"easy", topic:"👕 Vêtements", q:"Velg riktig farge: «bleu»", a:"blå", opts:["blå","grønn","gul","svart"], explain:"bleu = blå"},
+    {diff:"mid",  topic:"👕 Vêtements", q:"Fullfør: «Je porte ___ T-shirt.»", a:"un", opts:["un","une","des","de"], explain:"un T-shirt"},
+    {diff:"mid",  topic:"👕 Vêtements", q:"Hva betyr «des chaussures»?", a:"sko", opts:["sko","sokker","hansker","belte"], explain:"chaussures = sko"},
+    {diff:"hard", topic:"👕 Vêtements", q:"Velg riktig: «une ___» (skjørt)", a:"jupe", opts:["jupe","pull","pantalon","manteau"], explain:"jupe = skjørt"},
 
-    const now = audioCtx.currentTime;
-    g.gain.setValueAtTime(0, now);
-    g.gain.linearRampToValueAtTime(gain, now + 0.01);
-    g.gain.linearRampToValueAtTime(0.0001, now + dur);
-
-    o.connect(g);
-    g.connect(audioCtx.destination);
-    o.start(now);
-    o.stop(now + dur + 0.02);
-  }
-
-  // own tiny loop (not a copy of any known tune)
-  const melody = [523,659,784,659,587,659,698,659,523,587,659,587,494,587,659,587,523,494,440,494];
-  let melodyIdx = 0;
-
-  function startMusic(){
-    ensureAudio();
-    if(audioCtx.state === "suspended") audioCtx.resume();
-    stopMusic();
-    melodyIdx = 0;
-    musicTimer = setInterval(() => {
-      const f = melody[melodyIdx % melody.length];
-      playBeep(f, 0.10, "square", 0.035);
-      melodyIdx++;
-    }, 130);
-  }
-  function stopMusic(){
-    if(musicTimer) clearInterval(musicTimer);
-    musicTimer = null;
-  }
-
-  musicBtn.addEventListener("click", () => {
-    musicOn = !musicOn;
-    musicBtn.textContent = musicOn ? "🎵 Musikk: PÅ" : "🎵 Musikk: AV";
-    if(musicOn) startMusic(); else stopMusic();
-  });
-
-  function sfxGood(){ ensureAudio(); if(audioCtx.state==="suspended") audioCtx.resume(); playBeep(880,0.08,"square",0.06); playBeep(1175,0.08,"square",0.05); }
-  function sfxBad(){ ensureAudio(); if(audioCtx.state==="suspended") audioCtx.resume(); playBeep(220,0.14,"sawtooth",0.05); }
-  function sfxStep(){ ensureAudio(); if(audioCtx.state==="suspended") audioCtx.resume(); playBeep(440,0.05,"square",0.03); }
-
-  // ------------------ QUESTION BANK ------------------
-  // Each: {topic, q, options, answerIndex, explain, diff:"easy"|"mid"|"hard"}
-  const Q = [];
-
-  // MÉTÉO
-  Q.push(
-    {diff:"easy", topic:"☀️ Météo", q:"Hvilket passer best: «___ beau.»", options:["Il fait","Il y a","Il"], answerIndex:0, explain:"Vær + adjektiv: Il fait + adjektiv."},
-    {diff:"easy", topic:"☀️ Météo", q:"Velg riktig: «___ du vent.»", options:["Il fait","Il y a","Il est"], answerIndex:1, explain:"Substantiv: Il y a + du/ de la/ des."},
-    {diff:"mid",  topic:"☀️ Météo", q:"Hva betyr «Il y a du soleil.»", options:["Det er sol.","Det er varmt.","Det regner."], answerIndex:0, explain:"Il y a du soleil = Det er sol."}
-  );
-
-  // PASSÉ COMPOSÉ (avoir)
-  Q.push(
-    {diff:"easy", topic:"⏳ Passé composé", q:"Velg riktig: «J’___ mangé.»", options:["ai","as","a"], answerIndex:0, explain:"Je → j’ai"},
-    {diff:"mid",  topic:"⏳ Passé composé", q:"Perfektum partisipp: «visiter → j’ai ___ Paris.»", options:["visité","visiti","visitée"], answerIndex:0, explain:"-ER → ofte -é (visité)."},
-    {diff:"hard", topic:"⏳ Passé composé", q:"Velg riktig: «Nous ___ fini.»", options:["avons","a","ont"], answerIndex:0, explain:"Nous → avons."}
-  );
-
-  // NÉGATION
-  Q.push(
-    {diff:"easy", topic:"🚫 Négation", q:"Gjør negativ: «Je regarde Netflix.»", options:["Je ne regarde pas Netflix.","Je regarde ne pas Netflix.","Je pas regarde Netflix."], answerIndex:0, explain:"ne + verb + pas"},
-    {diff:"mid",  topic:"🚫 Négation", q:"Velg riktig: «Je ___ ai pas visité Paris.»", options:["ne","n’","pas"], answerIndex:1, explain:"n’ foran vokal: je n’ai pas..."},
-    {diff:"hard", topic:"🚫 Négation", q:"Passé composé: Hvor står ne…pas?", options:["Rundt hjelpeverbet","Rundt partisippet","Uten verb"], answerIndex:0, explain:"Je n’ai pas mangé."}
-  );
-
-  // VÊTEMENTS
-  Q.push(
-    {diff:"easy", topic:"👕 Vêtements", q:"Hva betyr «un pantalon»?", options:["en bukse","en kjole","en genser"], answerIndex:0, explain:"pantalon = bukse"},
-    {diff:"easy", topic:"👕 Vêtements", q:"Velg riktig farge: «bleu»", options:["blå","grønn","gul"], answerIndex:0, explain:"bleu = blå"},
-    {diff:"mid",  topic:"👕 Vêtements", q:"Fullfør: «Je porte ___ T-shirt.»", options:["un","une","des"], answerIndex:0, explain:"un T-shirt"}
-  );
-
-  // PAYSAGE
-  Q.push(
-    {diff:"easy", topic:"🏞️ Paysage", q:"Hva betyr «la plage»?", options:["stranden","skogen","byen"], answerIndex:0, explain:"plage = strand"},
-    {diff:"easy", topic:"🏞️ Paysage", q:"Velg riktig: «la forêt»", options:["skogen","fjell","ørkenen"], answerIndex:0, explain:"forêt = skog"},
-    {diff:"mid",  topic:"🏞️ Paysage", q:"Hva betyr «le désert»?", options:["ørkenen","øya","dalen"], answerIndex:0, explain:"désert = ørken"}
-  );
+    // PAYSAGE
+    {diff:"easy", topic:"🏞️ Paysage", q:"Hva betyr «la plage»?", a:"stranden", opts:["stranden","skogen","byen","dalen"], explain:"plage = strand"},
+    {diff:"easy", topic:"🏞️ Paysage", q:"Velg riktig: «la forêt»", a:"skogen", opts:["skogen","fjell","ørkenen","øya"], explain:"forêt = skog"},
+    {diff:"easy", topic:"🏞️ Paysage", q:"Hva betyr «la mer»?", a:"havet", opts:["havet","innsjøen","elva","landet"], explain:"la mer = havet"},
+    {diff:"mid",  topic:"🏞️ Paysage", q:"Hva betyr «le désert»?", a:"ørkenen", opts:["ørkenen","øya","dalen","byen"], explain:"désert = ørken"},
+    {diff:"mid",  topic:"🏞️ Paysage", q:"Velg riktig: «la montagne»", a:"fjellet", opts:["fjellet","stranden","byen","skogen"], explain:"montagne = fjell"},
+    {diff:"hard", topic:"🏞️ Paysage", q:"Velg riktig: «la vallée»", a:"dalen", opts:["dalen","øya","ørkenen","innsjøen"], explain:"vallée = dal"}
+  ];
 
   // ------------------ BOSS TYPES ------------------
   const BOSS = {
-    easy: { label:"🟢 Lett", goal:8, mix:{easy:7, mid:3, hard:0}, xpPerCorrect:6 },
-    mid:  { label:"🟡 Middels", goal:8, mix:{easy:5, mid:4, hard:1}, xpPerCorrect:7 },
-    hard: { label:"🔴 Hard", goal:9, mix:{easy:3, mid:4, hard:3}, xpPerCorrect:8 }
+    easy: { label:"🟢 Lett", goal:22, mix:{easy:18, mid:12, hard:0}, xpPerCorrect:4 },
+    mid:  { label:"🟡 Middels", goal:22, mix:{easy:14, mid:12, hard:4}, xpPerCorrect:5 },
+    hard: { label:"🔴 Hard", goal:26, mix:{easy:10, mid:12, hard:8}, xpPerCorrect:6 }
   };
 
-  // ------------------ ROUND STATE ------------------
-  let round = 0;
-  let score = 0;
-  let pos = 0;
+  // ------------------ GAME STATE ------------------
+  let round = 0;        // 0..29
+  let correctCount = 0; // score
+  let pos = 0;          // 0..29
   let deck = [];
   let current = null;
   let locked = true;
   let bossMode = BOSS.mid;
 
+  // sprite as DOM element moved into slot
+  const sprite = document.createElement("div");
+  sprite.className = "sprite";
+  sprite.textContent = "🧍";
+
+  function shuffle(arr){
+    const a = arr.slice();
+    for(let i=a.length-1; i>0; i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
   function drawTrack(){
     trackEl.innerHTML = "";
-    for(let i=0;i<10;i++){
+    for(let i=0;i<30;i++){
       const t = document.createElement("div");
       t.className = "tile";
-      if(i===4 || i===7) t.classList.add("check");
-      if(i===9) t.classList.add("goal");
+      if(i===9 || i===19) t.classList.add("check");
+      if(i===29) t.classList.add("boss");
+      const tag = (i===29) ? "BOSS" : ((i===9||i===19) ? "CHECK" : "");
       t.innerHTML = `
         <div class="n">${i+1}</div>
-        <div class="tag">${i===9 ? "BOSS" : (i===4||i===7 ? "CHECK" : "")}</div>
+        <div class="tag">${tag}</div>
+        <div class="slot"></div>
       `;
       trackEl.appendChild(t);
     }
-    positionSprite(0, true);
+    moveSpriteTo(0);
   }
 
-  function positionSprite(idx, instant=false){
-    const tiles = [...trackEl.children];
-    const tile = tiles[Math.min(Math.max(idx,0), tiles.length-1)];
-    if(!tile) return;
-
-    const b = boardEl.getBoundingClientRect();
-    const r = tile.getBoundingClientRect();
-
-    const x = (r.left - b.left) + (r.width/2) - 21;
-    const y = (r.top - b.top) + 10;
-
-    if(instant) spriteEl.style.transition = "none";
-    spriteEl.style.transform = `translate(${x}px, ${y}px)`;
-    if(instant) setTimeout(()=> spriteEl.style.transition = "transform .35s ease", 10);
+  function moveSpriteTo(index){
+    const tiles = [...trackEl.querySelectorAll(".tile")];
+    const tile = tiles[Math.max(0, Math.min(index, tiles.length-1))];
+    const slot = tile.querySelector(".slot");
+    slot.appendChild(sprite);
+    // lite “nudge” for å gi bevegelsesfølelse
+    sprite.style.transform = "scale(1.05)";
+    setTimeout(()=> sprite.style.transform = "scale(1)", 140);
   }
 
   function renderStats(){
     roundEl.textContent = round;
-    scoreEl.textContent = score;
+    scoreEl.textContent = correctCount;
     renderTop();
   }
 
   function sample(list, n){
-    const a = list.slice().sort(()=>Math.random()-0.5);
+    const a = shuffle(list);
     return a.slice(0, Math.min(n, a.length));
   }
 
-  function pickDeck(){
-    // velg 10 spørsmål etter boss-mix
-    const easy = Q.filter(x=>x.diff==="easy");
-    const mid  = Q.filter(x=>x.diff==="mid");
-    const hard = Q.filter(x=>x.diff==="hard");
+  function buildDeck(){
+    // bygger nøyaktig 30 spørsmål etter boss-mix
+    const easy = BANK.filter(x=>x.diff==="easy");
+    const mid  = BANK.filter(x=>x.diff==="mid");
+    const hard = BANK.filter(x=>x.diff==="hard");
 
     const need = bossMode.mix;
     let chosen = [
@@ -455,18 +448,13 @@ document.addEventListener("DOMContentLoaded", () => {
       ...sample(hard, need.hard),
     ];
 
-    // hvis noe mangler (pga få hard-spørsmål), fyll fra mid/easy
-    while(chosen.length < 10){
-      const pool = [...mid, ...easy].filter(x=>!chosen.includes(x));
-      if(pool.length===0) break;
+    // hvis vi ikke har nok (pga få hard), fyll fra mid/easy uten duplikat
+    while(chosen.length < 30){
+      const pool = [...mid, ...easy, ...hard].filter(x=>!chosen.includes(x));
+      if(pool.length === 0) break;
       chosen.push(pool[Math.floor(Math.random()*pool.length)]);
     }
-
-    // hvis for mange, kutt
-    chosen = chosen.slice(0, 10);
-
-    // shuffle og sørg for variasjon
-    deck = chosen.sort(()=>Math.random()-0.5);
+    deck = shuffle(chosen).slice(0, 30);
   }
 
   function showQuestion(){
@@ -476,94 +464,104 @@ document.addEventListener("DOMContentLoaded", () => {
     promptEl.textContent = current.q;
     topicEl.textContent = `${current.topic} · ${bossMode.label}`;
 
+    // shuffle options each time and compute correctIndex by text match
+    const opts = shuffle(current.opts);
+    const correctIndex = opts.findIndex(x => x === current.a);
+
     choicesEl.innerHTML = "";
     resultEl.innerHTML = "Velg et svar.";
 
-    current.options.forEach((txt, i) => {
+    opts.forEach((txt, i) => {
       const b = document.createElement("button");
       b.className = "choice";
       b.type = "button";
       b.textContent = txt;
-      b.addEventListener("click", () => answer(i));
+      b.addEventListener("click", () => answer(i, correctIndex, opts));
       choicesEl.appendChild(b);
     });
   }
 
-  function endRound(){
-    locked = true;
-
-    state.best = Math.max(state.best || 0, score);
-    state.xp = (state.xp || 0) + score * bossMode.xpPerCorrect;
-    save();
-    renderTop();
-
-    const win = score >= bossMode.goal;
-    if(win){
-      rewardEl.innerHTML = `🎉 <strong>Du vant (${bossMode.label})!</strong> Kodeord: <span class="kbd">BRAVO-9</span>`;
-      boardMsg.innerHTML = `🏆 Boss beseiret! Du klarte <strong>${score}/10</strong>.`;
-      sfxGood();
-    }else{
-      rewardEl.innerHTML = `🔒 Ikke helt enda. Du fikk <strong>${score}/10</strong>. Mål: <strong>${bossMode.goal}/10</strong>.`;
-      boardMsg.innerHTML = `👾 Bossen vant… Du fikk <strong>${score}/10</strong>. Trykk Start runde og prøv igjen!`;
-      sfxBad();
-    }
-  }
-
-  function answer(i){
+  function answer(chosenIndex, correctIndex, opts){
     if(locked) return;
     locked = true;
 
-    const correct = (i === current.answerIndex);
+    const isCorrect = chosenIndex === correctIndex;
 
     const all = [...choicesEl.querySelectorAll(".choice")];
     all.forEach((b, idx)=>{
-      if(idx === current.answerIndex) b.classList.add("correct");
-      if(idx === i && !correct) b.classList.add("wrong");
+      if(idx === correctIndex) b.classList.add("correct");
+      if(idx === chosenIndex && !isCorrect) b.classList.add("wrong");
       b.disabled = true;
     });
 
-    if(correct){
-      score += 1;
-      pos = Math.min(9, pos + 1);
-      sfxGood(); sfxStep();
-      positionSprite(pos);
+    if(isCorrect){
+      correctCount += 1;
+      pos = Math.min(29, pos + 1);
+      moveSpriteTo(pos);
+      sfxGood();
       resultEl.innerHTML = `✅ Riktig! <span class="small">(${current.explain})</span>`;
     }else{
       sfxBad();
-      resultEl.innerHTML = `❌ Feil. Riktig er: <strong>${current.options[current.answerIndex]}</strong><br><span class="small">${current.explain}</span>`;
+      resultEl.innerHTML = `❌ Feil. Riktig er: <strong>${opts[correctIndex]}</strong><br><span class="small">${current.explain}</span>`;
     }
 
     renderStats();
 
     setTimeout(() => {
       round += 1;
-      if(round >= 10){
-        endRound();
+      if(round >= 30){
+        endGame();
         return;
       }
       locked = false;
       showQuestion();
-      boardMsg.innerHTML = `Fortsett! Du er på <strong>${round}/10</strong>. Mål: <strong>${bossMode.goal}/10</strong>.`;
-    }, 900);
+
+      if(round === 10 || round === 20){
+        boardMsg.innerHTML = `✅ Checkpoint! Du er på <strong>${round}/30</strong>.`;
+      }else if(round === 29){
+        boardMsg.innerHTML = `👾 Boss-spørsmål! Oppgave <strong>30/30</strong>.`;
+      }else{
+        boardMsg.innerHTML = `Fortsett! Du er på <strong>${round}/30</strong>. Mål: <strong>${bossMode.goal}/30</strong>.`;
+      }
+    }, 850);
+  }
+
+  function endGame(){
+    locked = true;
+
+    state.best = Math.max(state.best || 0, correctCount);
+    state.xp = (state.xp || 0) + (correctCount * bossMode.xpPerCorrect);
+    save();
+    renderTop();
+
+    const win = correctCount >= bossMode.goal;
+    if(win){
+      rewardEl.innerHTML = `🎉 <strong>Du vant (${bossMode.label})!</strong> Kodeord: <span class="kbd">BRAVO-9</span><br><span class="small">Vis kodeordet til læreren.</span>`;
+      boardMsg.innerHTML = `🏆 Du klarte <strong>${correctCount}/30</strong> (mål ${bossMode.goal}).`;
+      sfxGood();
+    }else{
+      rewardEl.innerHTML = `🔒 Ikke helt enda. Du fikk <strong>${correctCount}/30</strong>. Mål: <strong>${bossMode.goal}/30</strong>.`;
+      boardMsg.innerHTML = `Prøv igjen! Velg gjerne Lett først, og jobb deg opp.`;
+      sfxBad();
+    }
   }
 
   function startGame(){
     ensureAudio(); // gjør audio klar etter brukerklikk
 
     bossMode = BOSS[bossTypeEl.value] || BOSS.mid;
+    rewardEl.innerHTML = `Mål: <strong>${bossMode.goal}/30</strong> (${bossMode.label}).`;
 
-    pickDeck();
+    buildDeck();
     round = 0;
-    score = 0;
+    correctCount = 0;
     pos = 0;
+    moveSpriteTo(0);
     locked = false;
 
-    rewardEl.innerHTML = `Mål: <strong>${bossMode.goal}/10</strong> (${bossMode.label}).`;
-    boardMsg.innerHTML = `Runde startet (${bossMode.label}). Riktig svar flytter figuren frem.`;
+    boardMsg.innerHTML = `Runde startet (${bossMode.label}). Riktig svar flytter 🧍 fremover.`;
     renderStats();
-    positionSprite(0, false);
     showQuestion();
-    sfxStep();
   }
 
   function resetGame(){
@@ -571,14 +569,17 @@ document.addEventListener("DOMContentLoaded", () => {
     promptEl.textContent = "—";
     topicEl.textContent = "—";
     choicesEl.innerHTML = "";
-    resultEl.innerHTML = "Trykk Start runde for å begynne.";
-    boardMsg.innerHTML = `Trykk <strong>Start runde</strong>. Riktig svar = +1 felt.`;
-    rewardEl.innerHTML = `Lett/middels: mål <strong>8/10</strong>. Hard: mål <strong>9/10</strong>.`;
-    round = 0; score = 0; pos = 0;
+    resultEl.innerHTML = "Trykk Start for å begynne.";
+    boardMsg.innerHTML = `Trykk <strong>Start</strong>. Riktig svar = +1 steg.`;
+    rewardEl.innerHTML = `Lett/middels: mål <strong>22/30</strong>. Hard: mål <strong>26/30</strong>.`;
+    round = 0;
+    correctCount = 0;
+    pos = 0;
+    moveSpriteTo(0);
     renderStats();
-    positionSprite(0, false);
   }
 
+  // buttons
   startBtn.addEventListener("click", startGame);
   resetBtn.addEventListener("click", resetGame);
 
@@ -593,7 +594,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // init
   drawTrack();
   resetGame();
-  window.addEventListener("resize", () => positionSprite(pos, true));
 });
 </script>
 </body>
