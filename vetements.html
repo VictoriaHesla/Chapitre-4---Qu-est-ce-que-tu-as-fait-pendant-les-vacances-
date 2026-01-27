@@ -1,719 +1,869 @@
-<script>
-(() => {
-  "use strict";
+<!doctype html>
+<html lang="no">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Vêtements</title>
+  <style>
+    :root{
+      --bg:#0b1220;
+      --card:#111a2b;
+      --text:#e8eefc;
+      --muted:rgba(232,238,252,.7);
+      --line:rgba(255,255,255,.12);
+      --pill:rgba(255,255,255,.08);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:radial-gradient(1200px 700px at 20% 0%, #182746 0%, var(--bg) 55%);
+      color:var(--text);
+    }
+    .wrap{max-width:1100px;margin:0 auto;padding:18px}
+    header{
+      display:flex;gap:12px;align-items:center;justify-content:space-between;
+      padding:14px;border:1px solid var(--line);border-radius:18px;background:rgba(17,26,43,.72);
+      backdrop-filter: blur(10px);
+    }
+    .topLeft{display:flex;flex-direction:column;gap:8px}
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .pill{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:8px 10px;border-radius:999px;background:var(--pill);border:1px solid var(--line);
+      font-weight:700;
+    }
+    .btn{
+      cursor:pointer;
+      padding:10px 12px;border-radius:12px;border:1px solid var(--line);
+      background:rgba(255,255,255,.06);color:var(--text);font-weight:800;
+    }
+    .btn:hover{background:rgba(255,255,255,.10)}
+    .grid{
+      margin-top:14px;
+      display:grid;grid-template-columns: 1.1fr .9fr;gap:14px;
+    }
+    @media (max-width: 980px){ .grid{grid-template-columns:1fr} }
+    .card{
+      border:1px solid var(--line);border-radius:18px;background:rgba(17,26,43,.72);
+      padding:14px;
+    }
+    h2{margin:0 0 10px;font-size:18px}
+    .muted{color:var(--muted)}
+    .progressOuter{
+      width:260px;height:10px;border-radius:999px;background:rgba(255,255,255,.08);
+      overflow:hidden;border:1px solid var(--line);
+    }
+    .progressInner{height:100%;width:0%;background:rgba(96,165,250,.95)}
+    .split{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media (max-width:600px){.split{grid-template-columns:1fr}}
+    input,select,textarea{
+      width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--line);
+      background:rgba(0,0,0,.18);color:var(--text);outline:none;
+    }
+    textarea{min-height:120px;resize:vertical}
+    .list{
+      display:flex;flex-direction:column;gap:8px;max-height:340px;overflow:auto;padding-right:4px;
+    }
+    .list .rowItem{
+      display:flex;justify-content:space-between;gap:10px;align-items:center;
+      padding:10px 12px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.04);
+    }
+    .tag{font-size:12px;padding:6px 10px;border-radius:999px;background:rgba(245,158,11,.14);border:1px solid var(--line)}
+    .flash{
+      border:1px solid var(--line);border-radius:18px;padding:14px;background:rgba(255,255,255,.04);
+    }
+    .flash .front{font-size:22px;font-weight:900}
+    .flash .back{margin-top:10px;display:none}
+    .flash.revealed .back{display:block}
+    .btnRow{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    .chip{
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:8px 10px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid var(--line);
+      font-weight:800;cursor:grab;user-select:none;
+    }
+    .targets{display:flex;flex-direction:column;gap:10px}
+    .target{
+      display:flex;justify-content:space-between;align-items:center;gap:10px;
+      padding:10px 12px;border-radius:16px;border:1px solid var(--line);background:rgba(255,255,255,.04);
+    }
+    .target .left{display:flex;gap:10px;align-items:center}
+    .emoji{font-size:24px}
+    .drop{
+      min-width:160px;text-align:center;padding:8px 10px;border-radius:12px;
+      border:1px dashed rgba(255,255,255,.25);background:rgba(0,0,0,.10);font-weight:800;
+    }
+    .drop.filled{border-style:solid;background:rgba(34,197,94,.12)}
+    .drop.bad{background:rgba(239,68,68,.16)}
+    .mini{font-size:12px}
+    .fb{margin-top:8px;padding:10px 12px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.04)}
+    .fb.good{background:rgba(34,197,94,.14)}
+    .fb.bad{background:rgba(239,68,68,.14)}
+    #confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+    #confetti span{
+      position:absolute;top:-20px;width:10px;height:14px;border-radius:3px;
+      animation:fall 1.2s ease-in forwards;
+    }
+    @keyframes fall{
+      to{ transform: translateY(110vh) rotate(560deg); opacity:0.2; }
+    }
+  </style>
+</head>
 
-  // ---- Vis feilmeldinger på siden (slik at den ikke blir "blank") ----
-  function showFatal(err){
-    console.error(err);
-    document.body.innerHTML = `
-      <div style="max-width:900px;margin:24px auto;padding:16px;border:1px solid rgba(0,0,0,.15);border-radius:12px;font-family:system-ui">
-        <h2 style="margin:0 0 8px">⚠️ Siden krasjet i JavaScript</h2>
-        <p style="margin:0 0 8px">Dette er grunnen til at siden blir blank. Se feilen under:</p>
-        <pre style="white-space:pre-wrap;background:#f6f6f6;padding:12px;border-radius:10px;overflow:auto">${escapeHtml(String(err && (err.stack||err.message||err)))}</pre>
-        <p style="margin:12px 0 0">Tips: Åpne DevTools → Console for mer detaljer.</p>
+<body>
+  <div id="confetti"></div>
+
+  <div class="wrap">
+    <header>
+      <div class="topLeft">
+        <div class="row">
+          <div class="pill">⭐ XP: <span id="xp">0</span></div>
+          <div class="pill" id="levelPill">Nivå: 1 · Novice</div>
+          <div class="pill" id="badge">🔒 Låst</div>
+        </div>
+
+        <div class="row">
+          <div class="progressOuter" aria-label="Progress">
+            <div class="progressInner" id="progressBar"></div>
+          </div>
+          <div class="pill">Fremdrift: <span id="progressPct">0%</span></div>
+        </div>
       </div>
-    `;
-  }
-  function escapeHtml(str){
-    return String(str)
-      .replace(/&/g,"&amp;")
-      .replace(/</g,"&lt;")
-      .replace(/>/g,"&gt;")
-      .replace(/"/g,"&quot;")
-      .replace(/'/g,"&#039;");
-  }
-
-  // ---- Kjør først når DOM er klar ----
-  document.addEventListener("DOMContentLoaded", () => {
-    try {
-
-      /* =========================
-         DATA
-         ========================= */
-      const CLOTHES = [
-        { id:"debardeur", fr:"un débardeur", no:"en singlet", emoji:"🩱" },
-        { id:"tshirt", fr:"un T-shirt", no:"en t-skjorte", emoji:"👕" },
-        { id:"robe", fr:"une robe", no:"en kjole", emoji:"👗" },
-        { id:"jupe", fr:"une jupe", no:"et skjørt", emoji:"🩳" },
-        { id:"chemise", fr:"une chemise", no:"en skjorte", emoji:"👔" },
-        { id:"pull", fr:"un pull", no:"en genser", emoji:"🧶" },
-        { id:"short", fr:"un short", no:"en shorts", emoji:"🩳" },
-        { id:"pantalon", fr:"un pantalon", no:"en bukse", emoji:"👖" },
-        { id:"manteau", fr:"un manteau", no:"en frakk", emoji:"🧥" },
-        { id:"veste", fr:"une veste", no:"en jakke", emoji:"🧥" },
-        { id:"chaussettes", fr:"des chaussettes", no:"sokker", emoji:"🧦" },
-        { id:"chaussures", fr:"des chaussures", no:"sko", emoji:"👞" },
-        { id:"baskets", fr:"des baskets", no:"joggesko", emoji:"👟" },
-        { id:"gants", fr:"des gants", no:"hansker", emoji:"🧤" },
-        { id:"bonnet", fr:"un bonnet", no:"en lue", emoji:"🧢" },
-        { id:"echarpe", fr:"une écharpe", no:"et skjerf", emoji:"🧣" },
-        { id:"bottes", fr:"des bottes", no:"støvler", emoji:"🥾" },
-        { id:"ceinture", fr:"une ceinture", no:"et belte", emoji:"🧷" },
-        { id:"casquette", fr:"une casquette", no:"en caps", emoji:"🧢" },
-        { id:"maillot", fr:"un maillot de bain", no:"en badedrakt / badebukse", emoji:"🩱" }
-      ];
-
-      const COLORS = [
-        { id:"marron", fr:"marron", no:"brun", emoji:"🟤" },
-        { id:"noir", fr:"noir", no:"svart", emoji:"⚫" },
-        { id:"bleu", fr:"bleu", no:"blå", emoji:"🔵" },
-        { id:"vert", fr:"vert", no:"grønn", emoji:"🟢" },
-        { id:"jaune", fr:"jaune", no:"gul", emoji:"🟡" },
-        { id:"gris", fr:"gris", no:"grå", emoji:"⚙️" },
-        { id:"rose", fr:"rose", no:"rosa", emoji:"🌸" },
-        { id:"violet", fr:"violet", no:"lilla", emoji:"🟣" }
-      ];
-
-      const DECK = [
-        ...CLOTHES.map(x => ({...x, cat:"clothes"})),
-        ...COLORS.map(x => ({...x, cat:"colors"}))
-      ];
-
-      /* =========================
-         STATE + STORAGE
-         ========================= */
-      const LS_KEY = "salut9_vetements_v1";
-
-      const defaultState = () => ({
-        xp: 0,
-        fc: { idx: 0, revealed: false, mastery: {}, sessionXP: 0 },
-        dd: { solved: {}, score: 0, sessionXP: 0, seed: Date.now() },
-        sb: { hits: 0, rounds: 0, sessionXP: 0, current: null },
-        free: { text: "", score: 0, sessionXP: 0 },
-        ui: { showFR: true, filter:"all", search:"" },
-        achieved: { badge:false },
-        stats: { lastSaved: 0 }
-      });
-
-      function loadState(){
-        try{
-          const raw = localStorage.getItem(LS_KEY);
-          if(!raw) return defaultState();
-          const parsed = JSON.parse(raw);
-          const base = defaultState();
-          return {
-            ...base, ...parsed,
-            fc: {...base.fc, ...(parsed.fc||{})},
-            dd: {...base.dd, ...(parsed.dd||{})},
-            sb: {...base.sb, ...(parsed.sb||{})},
-            free: {...base.free, ...(parsed.free||{})},
-            ui: {...base.ui, ...(parsed.ui||{})},
-            achieved: {...base.achieved, ...(parsed.achieved||{})},
-            stats: {...base.stats, ...(parsed.stats||{})}
-          };
-        }catch(e){
-          return defaultState();
-        }
-      }
-
-      let S = loadState();
-
-      let saveTimer = null;
-      function autoSaveSoft(){
-        clearTimeout(saveTimer);
-        saveTimer = setTimeout(()=> {
-          localStorage.setItem(LS_KEY, JSON.stringify(S));
-        }, 250);
-      }
-
-      function saveState(){
-        S.stats.lastSaved = Date.now();
-        localStorage.setItem(LS_KEY, JSON.stringify(S));
-        toast("✅ Lagret lokalt");
-        renderAll();
-      }
-
-      function resetAll(){
-        if(!confirm("Nullstill alt (XP + fremdrift)?")) return;
-        S = defaultState();
-        localStorage.removeItem(LS_KEY);
-        renderAll();
-        toast("🔄 Nullstilt");
-      }
-
-      /* =========================
-         DOM: HENT ALLE ELEMENTER TRYGT
-         ========================= */
-      function $(id){
-        const el = document.getElementById(id);
-        if(!el) throw new Error(`Mangler element med id="#${id}" i HTML. (Da blir siden blank.)`);
-        return el;
-      }
-
-      // Top
-      const xpEl = $("xp");
-      const progressPctEl = $("progressPct");
-      const progressBarEl = $("progressBar");
-      const levelPillEl = $("levelPill");
-      const badgeEl = $("badge");
-      $("saveBtn").addEventListener("click", saveState);
-      $("resetBtn").addEventListener("click", resetAll);
-
-      // Wordbank
-      const wordListEl = $("wordList");
-      const searchEl = $("search");
-      const filterEl = $("filter");
-      const toggleLangBtn = $("toggleLang");
-
-      // Flashcards
-      const flashCardEl = $("flashCard");
-      const fcFrontEl = $("fcFront");
-      const fcBackEl = $("fcBack");
-      const fcIndexEl = $("fcIndex");
-      const fcTotalEl = $("fcTotal");
-      const fcMasteryEl = $("fcMastery");
-      const masteredCountEl = $("masteredCount");
-      const deckCountEl = $("deckCount");
-      const fcXPEl = $("fcXP");
-
-      $("revealBtn").addEventListener("click", () => { S.fc.revealed = true; autoSaveSoft(); renderFlashcard(); });
-      $("knewBtn").addEventListener("click", () => answerFlash("knew"));
-      $("almostBtn").addEventListener("click", () => answerFlash("almost"));
-      $("nopeBtn").addEventListener("click", () => answerFlash("nope"));
-      $("nextBtn").addEventListener("click", () => { S.fc.revealed=false; S.fc.idx=(S.fc.idx+1)%DECK.length; autoSaveSoft(); renderFlashcard(); });
-
-      // Drag&Drop
-      const ddBankEl = $("ddBank");
-      const ddTargetsEl = $("ddTargets");
-      const ddScoreEl = $("ddScore");
-      const ddTotalEl = $("ddTotal");
-      const ddXPEl = $("ddXP");
-      $("ddSave").addEventListener("click", saveState);
-      $("ddReset").addEventListener("click", () => {
-        if(!confirm("Starte matching på nytt?")) return;
-        S.dd = {...defaultState().dd, seed: Date.now()};
-        autoSaveSoft();
-        renderDD();
-        renderTop();
-        toast("🔁 Ny matching klar");
-      });
-
-      // Setningsbygger
-      const sbPromptEl = $("sbPrompt");
-      const sbClothEl = $("sbCloth");
-      const sbColorEl = $("sbColor");
-      const sbHitsEl = $("sbHits");
-      const sbRoundsEl = $("sbRounds");
-      const sbXPEl = $("sbXP");
-      const sbFeedbackEl = $("sbFeedback");
-      $("sbCheck").addEventListener("click", checkSB);
-      $("sbNext").addEventListener("click", () => { newSBRound(); renderSB(); });
-
-      // Fri tekst
-      const freeTextEl = $("freeText");
-      const freeScoreEl = $("freeScore");
-      const freeXPEl = $("freeXP");
-      $("freeSave").addEventListener("click", () => { evaluateFree(); saveState(); });
-      $("freeReset").addEventListener("click", () => {
-        if(!confirm("Nullstille teksten din?")) return;
-        S.free = {...defaultState().free};
-        freeTextEl.value = "";
-        autoSaveSoft();
-        renderFree();
-        renderTop();
-        toast("🧽 Tekst nullstilt");
-      });
-
-      /* =========================
-         XP + PROGRESS
-         ========================= */
-      function addXP(n){
-        if(n <= 0) return;
-        S.xp += n;
-
-        if(S.xp >= 100 && !S.achieved.badge){
-          S.achieved.badge = true;
-          confetti();
-          toast("🏆 Badge låst opp: Fashion Master!");
-        }
-        autoSaveSoft();
-        renderTop();
-      }
-
-      function levelFromXP(xp){
-        if(xp >= 100) return {lvl:5, name:"Fashion Master"};
-        if(xp >= 75) return {lvl:4, name:"Stylish"};
-        if(xp >= 50) return {lvl:3, name:"På vei"};
-        if(xp >= 25) return {lvl:2, name:"Learner"};
-        return {lvl:1, name:"Novice"};
-      }
-
-      function masteredCount(){
-        return DECK.filter(c => (S.fc.mastery[c.id]||0) >= 3).length;
-      }
-
-      function progressPercent(){
-        const mastered = masteredCount();
-        const fcPart = Math.min(40, Math.round((mastered / DECK.length) * 40));
-
-        const ddItems = currentDDItems();
-        const ddTotal = Math.max(1, ddItems.length);
-        const ddDone = (S.dd.score >= ddTotal) ? 25 : Math.round((S.dd.score / ddTotal) * 25);
-
-        const sbGoalRounds = 6;
-        const sbPart = Math.min(
-          20,
-          Math.round(
-            (Math.min(S.sb.rounds, sbGoalRounds) / sbGoalRounds) * 14 +
-            (Math.min(S.sb.hits, 4) / 4) * 6
-          )
-        );
-
-        const freePart = Math.min(15, Math.round((S.free.score / 6) * 15));
-        return Math.max(0, Math.min(100, fcPart + ddDone + sbPart + freePart));
-      }
-
-      function renderTop(){
-        xpEl.textContent = S.xp;
-        const p = progressPercent();
-        progressPctEl.textContent = `${p}%`;
-        progressBarEl.style.width = `${p}%`;
-
-        const lv = levelFromXP(S.xp);
-        levelPillEl.textContent = `Nivå: ${lv.lvl} · ${lv.name}`;
-
-        badgeEl.textContent = S.achieved.badge ? "🏆 Fashion Master" : "🔒 Låst";
-        badgeEl.style.background = S.achieved.badge ? "rgba(34,197,94,.18)" : "rgba(255,255,255,.06)";
-      }
-
-      /* =========================
-         ORDBANK
-         ========================= */
-      searchEl.value = S.ui.search;
-      filterEl.value = S.ui.filter;
-      toggleLangBtn.textContent = S.ui.showFR ? "Vis: FR → NO" : "Vis: NO → FR";
-
-      searchEl.addEventListener("input", () => { S.ui.search = searchEl.value; autoSaveSoft(); renderWordbank(); });
-      filterEl.addEventListener("change", () => { S.ui.filter = filterEl.value; autoSaveSoft(); renderWordbank(); });
-      toggleLangBtn.addEventListener("click", () => {
-        S.ui.showFR = !S.ui.showFR;
-        toggleLangBtn.textContent = S.ui.showFR ? "Vis: FR → NO" : "Vis: NO → FR";
-        autoSaveSoft();
-        renderWordbank();
-      });
-
-      function renderWordbank(){
-        const q = (S.ui.search || "").trim().toLowerCase();
-        const f = S.ui.filter;
-
-        let items = DECK.slice();
-        if(f === "clothes") items = items.filter(x => x.cat === "clothes");
-        if(f === "colors") items = items.filter(x => x.cat === "colors");
-
-        if(q){
-          items = items.filter(x => {
-            const fr = (x.fr||"").toLowerCase();
-            const no = (x.no||"").toLowerCase();
-            const id = (x.id||"").toLowerCase();
-            return fr.includes(q) || no.includes(q) || id.includes(q);
-          });
-        }
-
-        wordListEl.innerHTML = "";
-        items.forEach(x => {
-          const left = S.ui.showFR ? x.fr : x.no;
-          const right = S.ui.showFR ? x.no : x.fr;
-
-          const row = document.createElement("div");
-          row.className = "row";
-          row.innerHTML = `
-            <div>
-              <strong>${escapeHtml(x.emoji)} ${escapeHtml(left)}</strong>
-              <small>${escapeHtml(right)}</small>
-            </div>
-            <span class="tag">${x.cat === "clothes" ? "Klær" : "Farger"}</span>
-          `;
-          wordListEl.appendChild(row);
-        });
-
-        $("countClothes").textContent = CLOTHES.length;
-        $("countColors").textContent = COLORS.length;
-      }
-
-      /* =========================
-         FLASHCARDS
-         ========================= */
-      function currentCard(){
-        const idx = ((S.fc.idx||0) % DECK.length + DECK.length) % DECK.length;
-        return DECK[idx];
-      }
-
-      function renderFlashcard(){
-        const card = currentCard();
-        const showFR = true;
-
-        fcFrontEl.textContent = `${card.emoji} ${showFR ? card.fr : card.no}`;
-        fcBackEl.textContent = `${showFR ? card.no : card.fr}`;
-
-        fcTotalEl.textContent = DECK.length;
-        fcIndexEl.textContent = (S.fc.idx % DECK.length) + 1;
-
-        const m = S.fc.mastery[card.id] || 0;
-        fcMasteryEl.textContent = `${m}`;
-
-        deckCountEl.textContent = DECK.length;
-        masteredCountEl.textContent = masteredCount();
-        fcXPEl.textContent = S.fc.sessionXP;
-
-        flashCardEl.classList.toggle("revealed", !!S.fc.revealed);
-        $("knewBtn").disabled = !S.fc.revealed;
-        $("almostBtn").disabled = !S.fc.revealed;
-        $("nopeBtn").disabled = !S.fc.revealed;
-      }
-
-      function answerFlash(kind){
-        const card = currentCard();
-        const m = S.fc.mastery[card.id] || 0;
-
-        let deltaM = 0;
-        let gained = 0;
-
-        if(kind === "knew"){ deltaM = 1; gained = 3; }
-        else if(kind === "almost"){ deltaM = 1; gained = 1; }
-
-        S.fc.mastery[card.id] = Math.min(3, m + deltaM);
-
-        if(gained > 0){
-          S.fc.sessionXP += gained;
-          addXP(gained);
-          toast(`⭐ +${gained} XP (flashcard)`);
-        }
-
-        S.fc.revealed = false;
-        S.fc.idx = (S.fc.idx + 1) % DECK.length;
-
-        autoSaveSoft();
-        renderAll();
-      }
-
-      /* =========================
-         MATCHING (Drag & Drop)
-         ========================= */
-      function mulberry32(seed){
-        let a = seed >>> 0;
-        return function() {
-          a |= 0; a = a + 0x6D2B79F5 | 0;
-          let t = Math.imul(a ^ a >>> 15, 1 | a);
-          t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
-          return ((t ^ t >>> 14) >>> 0) / 4294967296;
-        };
-      }
-      function shuffleWithSeed(arr, seed){
-        const rnd = mulberry32(seed);
-        const a = arr.slice();
-        for(let i=a.length-1; i>0; i--){
-          const j = Math.floor(rnd() * (i+1));
-          [a[i], a[j]] = [a[j], a[i]];
-        }
-        return a;
-      }
-      function currentDDItems(){
-        const base = CLOTHES.slice();
-        const seed = S.dd.seed || Date.now();
-        const shuffled = shuffleWithSeed(base, seed);
-        return shuffled.slice(0, Math.min(8, shuffled.length));
-      }
-
-      function renderDD(){
-        const items = currentDDItems();
-        ddTotalEl.textContent = items.length;
-        ddScoreEl.textContent = S.dd.score;
-        ddXPEl.textContent = S.dd.sessionXP;
-
-        ddBankEl.innerHTML = "";
-        items.forEach(it => {
-          if(S.dd.solved[it.id]) return;
-          const chip = document.createElement("div");
-          chip.className = "chip";
-          chip.draggable = true;
-          chip.textContent = it.fr;
-          chip.dataset.id = it.id;
-          chip.addEventListener("dragstart", (e) => {
-            e.dataTransfer.setData("text/plain", it.id);
-            e.dataTransfer.effectAllowed = "move";
-          });
-          ddBankEl.appendChild(chip);
-        });
-
-        ddTargetsEl.innerHTML = "";
-        items.forEach(it => {
-          const solved = !!S.dd.solved[it.id];
-          const target = document.createElement("div");
-          target.className = "target";
-          target.innerHTML = `
-            <div class="left">
-              <div class="emoji">${escapeHtml(it.emoji)}</div>
-              <div>
-                <strong>${escapeHtml(it.no)}</strong>
-                <div class="mini muted">Slipp riktig FR-ord her</div>
-              </div>
-            </div>
-            <div class="drop ${solved ? "filled" : ""}" data-accept="${escapeHtml(it.id)}">
-              ${solved ? escapeHtml(it.fr) : "Dra ord hit"}
-            </div>
-          `;
-
-          const drop = target.querySelector(".drop");
-          drop.addEventListener("dragover", (e) => { e.preventDefault(); e.dataTransfer.dropEffect = "move"; });
-          drop.addEventListener("drop", (e) => {
-            e.preventDefault();
-            const draggedId = e.dataTransfer.getData("text/plain");
-            const acceptId = drop.dataset.accept;
-            if(!draggedId) return;
-            if(S.dd.solved[acceptId]) return;
-
-            if(draggedId === acceptId){
-              S.dd.solved[acceptId] = true;
-              S.dd.score = Object.keys(S.dd.solved).filter(k => S.dd.solved[k]).length;
-
-              const gained = 3;
-              S.dd.sessionXP += gained;
-              addXP(gained);
-
-              toast("✅ Riktig! +3 XP");
-              drop.classList.remove("bad");
-              drop.classList.add("filled");
-              autoSaveSoft();
-              renderDD();
-              renderTop();
-            }else{
-              drop.classList.add("bad");
-              toast("❌ Ikke helt – prøv igjen");
-              setTimeout(()=> drop.classList.remove("bad"), 450);
-            }
-          });
-
-          ddTargetsEl.appendChild(target);
-        });
-      }
-
-      /* =========================
-         SETNINGSBYGGER
-         ========================= */
-      function fillSBSelects(){
-        sbClothEl.innerHTML = "";
-        CLOTHES.forEach(c => {
-          const opt = document.createElement("option");
-          opt.value = c.id;
-          opt.textContent = `${c.emoji} ${c.fr}`;
-          sbClothEl.appendChild(opt);
-        });
-
-        sbColorEl.innerHTML = "";
-        COLORS.forEach(c => {
-          const opt = document.createElement("option");
-          opt.value = c.id;
-          opt.textContent = `${c.emoji} ${c.fr}`;
-          sbColorEl.appendChild(opt);
-        });
-      }
-
-      function newSBRound(){
-        const cloth = CLOTHES[Math.floor(Math.random()*CLOTHES.length)];
-        const color = COLORS[Math.floor(Math.random()*COLORS.length)];
-
-        const patterns = [
-          { id:"porte", text:`Lag setningen: Je porte ${cloth.fr} ${color.fr}.`, answer:`Je porte ${cloth.fr} ${color.fr}.`},
-          { id:"aime", text:`Velg riktig for: J’aime ${cloth.fr} ${color.fr}.`, answer:`J’aime ${cloth.fr} ${color.fr}.`},
-          { id:"naime", text:`Velg riktig for: Je n’aime pas ${cloth.fr} ${color.fr}.`, answer:`Je n’aime pas ${cloth.fr} ${color.fr}.`}
+
+      <div class="row">
+        <button class="btn" id="saveBtn">Lagre</button>
+        <button class="btn" id="resetBtn">Nullstill</button>
+      </div>
+    </header>
+
+    <div class="grid">
+      <!-- Venstre kolonne -->
+      <div class="card">
+        <h2>Ordbank</h2>
+        <div class="split">
+          <div>
+            <label class="mini muted">Søk</label>
+            <input id="search" placeholder="Søk FR/NO..." />
+          </div>
+          <div>
+            <label class="mini muted">Filter</label>
+            <select id="filter">
+              <option value="all">Alt</option>
+              <option value="clothes">Klær</option>
+              <option value="colors">Farger</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:10px">
+          <button class="btn" id="toggleLang">Vis: FR → NO</button>
+          <div class="pill">Klær: <span id="countClothes">0</span></div>
+          <div class="pill">Farger: <span id="countColors">0</span></div>
+        </div>
+
+        <div class="list" id="wordList" style="margin-top:10px"></div>
+      </div>
+
+      <!-- Høyre kolonne -->
+      <div class="card">
+        <h2>Flashcards</h2>
+        <div class="row">
+          <div class="pill">Kort: <span id="fcIndex">1</span>/<span id="fcTotal">0</span></div>
+          <div class="pill">Mastery: <span id="fcMastery">0</span>/3</div>
+          <div class="pill">Mestret: <span id="masteredCount">0</span>/<span id="deckCount">0</span></div>
+          <div class="pill">Økt XP: <span id="fcXP">0</span></div>
+        </div>
+
+        <div class="flash" id="flashCard" style="margin-top:10px">
+          <div class="front" id="fcFront">—</div>
+          <div class="back" id="fcBack">—</div>
+
+          <div class="btnRow">
+            <button class="btn" id="revealBtn">Vis fasit</button>
+            <button class="btn" id="knewBtn" disabled>Kunne</button>
+            <button class="btn" id="almostBtn" disabled>Nesten</button>
+            <button class="btn" id="nopeBtn" disabled>Nei</button>
+            <button class="btn" id="nextBtn">Neste</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Matching -->
+      <div class="card">
+        <h2>Oppgave 1: Matching (dra og slipp)</h2>
+        <div class="row">
+          <div class="pill">Poeng: <span id="ddScore">0</span>/<span id="ddTotal">0</span></div>
+          <div class="pill">Økt XP: <span id="ddXP">0</span></div>
+          <button class="btn" id="ddSave">Lagre</button>
+          <button class="btn" id="ddReset">Ny runde</button>
+        </div>
+
+        <p class="muted mini" style="margin:10px 0 8px">Dra franske ord fra “banken” til riktig norsk plagg.</p>
+
+        <div class="row" id="ddBank" style="gap:8px;flex-wrap:wrap"></div>
+        <div class="targets" id="ddTargets" style="margin-top:10px"></div>
+      </div>
+
+      <!-- Setningsbygger + Fri tekst -->
+      <div class="card">
+        <h2>Oppgave 2: Setningsbygger</h2>
+        <div class="pill" style="margin-bottom:10px" id="sbPrompt">—</div>
+
+        <div class="split">
+          <div>
+            <label class="mini muted">Plagg</label>
+            <select id="sbCloth"></select>
+          </div>
+          <div>
+            <label class="mini muted">Farge</label>
+            <select id="sbColor"></select>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:10px">
+          <button class="btn" id="sbCheck">Sjekk</button>
+          <button class="btn" id="sbNext">Neste</button>
+          <div class="pill">Riktige: <span id="sbHits">0</span></div>
+          <div class="pill">Runder: <span id="sbRounds">0</span></div>
+          <div class="pill">Økt XP: <span id="sbXP">0</span></div>
+        </div>
+
+        <div class="fb" id="sbFeedback">Velg plagg + farge og trykk Sjekk.</div>
+
+        <hr style="border:0;border-top:1px solid var(--line);margin:16px 0">
+
+        <h2>Fri minioppgave</h2>
+        <p class="muted mini" style="margin:0 0 8px">Skriv 2+ plagg + 1 farge, og prøv å bruke uttrykk som: <em>je porte</em>, <em>j’aime</em>, <em>je n’aime pas</em>, <em>parce que</em>.</p>
+
+        <textarea id="freeText" placeholder="Skriv her..."></textarea>
+
+        <div class="row" style="margin-top:10px">
+          <button class="btn" id="freeSave">Lagre + sjekk</button>
+          <button class="btn" id="freeReset">Nullstill tekst</button>
+          <div class="pill">Score: <span id="freeScore">0</span>/6</div>
+          <div class="pill">Økt XP: <span id="freeXP">0</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPT: lim inn den nye (DOMContentLoaded + failsafe) -->
+  <script>
+  (() => {
+    "use strict";
+
+    function showFatal(err){
+      console.error(err);
+      document.body.innerHTML = `
+        <div style="max-width:900px;margin:24px auto;padding:16px;border:1px solid rgba(0,0,0,.15);border-radius:12px;font-family:system-ui">
+          <h2 style="margin:0 0 8px">⚠️ Siden krasjet i JavaScript</h2>
+          <p style="margin:0 0 8px">Dette er grunnen til at siden blir blank. Se feilen under:</p>
+          <pre style="white-space:pre-wrap;background:#f6f6f6;padding:12px;border-radius:10px;overflow:auto">${escapeHtml(String(err && (err.stack||err.message||err)))}</pre>
+        </div>
+      `;
+    }
+    function escapeHtml(str){
+      return String(str)
+        .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;").replace(/'/g,"&#039;");
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      try{
+        // ---------------- DATA ----------------
+        const CLOTHES = [
+          { id:"debardeur", fr:"un débardeur", no:"en singlet", emoji:"🩱" },
+          { id:"tshirt", fr:"un T-shirt", no:"en t-skjorte", emoji:"👕" },
+          { id:"robe", fr:"une robe", no:"en kjole", emoji:"👗" },
+          { id:"jupe", fr:"une jupe", no:"et skjørt", emoji:"🩳" },
+          { id:"chemise", fr:"une chemise", no:"en skjorte", emoji:"👔" },
+          { id:"pull", fr:"un pull", no:"en genser", emoji:"🧶" },
+          { id:"short", fr:"un short", no:"en shorts", emoji:"🩳" },
+          { id:"pantalon", fr:"un pantalon", no:"en bukse", emoji:"👖" },
+          { id:"manteau", fr:"un manteau", no:"en frakk", emoji:"🧥" },
+          { id:"veste", fr:"une veste", no:"en jakke", emoji:"🧥" },
+          { id:"chaussettes", fr:"des chaussettes", no:"sokker", emoji:"🧦" },
+          { id:"chaussures", fr:"des chaussures", no:"sko", emoji:"👞" },
+          { id:"baskets", fr:"des baskets", no:"joggesko", emoji:"👟" },
+          { id:"gants", fr:"des gants", no:"hansker", emoji:"🧤" },
+          { id:"bonnet", fr:"un bonnet", no:"en lue", emoji:"🧢" },
+          { id:"echarpe", fr:"une écharpe", no:"et skjerf", emoji:"🧣" },
+          { id:"bottes", fr:"des bottes", no:"støvler", emoji:"🥾" },
+          { id:"ceinture", fr:"une ceinture", no:"et belte", emoji:"🧷" },
+          { id:"casquette", fr:"une casquette", no:"en caps", emoji:"🧢" },
+          { id:"maillot", fr:"un maillot de bain", no:"en badedrakt / badebukse", emoji:"🩱" }
         ];
-        const p = patterns[Math.floor(Math.random()*patterns.length)];
 
-        S.sb.current = { clothId: cloth.id, colorId: color.id, pattern: p.id, answer: p.answer, prompt: p.text };
-        autoSaveSoft();
+        const COLORS = [
+          { id:"marron", fr:"marron", no:"brun", emoji:"🟤" },
+          { id:"noir", fr:"noir", no:"svart", emoji:"⚫" },
+          { id:"bleu", fr:"bleu", no:"blå", emoji:"🔵" },
+          { id:"vert", fr:"vert", no:"grønn", emoji:"🟢" },
+          { id:"jaune", fr:"jaune", no:"gul", emoji:"🟡" },
+          { id:"gris", fr:"gris", no:"grå", emoji:"⚙️" },
+          { id:"rose", fr:"rose", no:"rosa", emoji:"🌸" },
+          { id:"violet", fr:"violet", no:"lilla", emoji:"🟣" }
+        ];
 
-        sbPromptEl.textContent = p.text;
-        sbFeedbackEl.className = "fb";
-        sbFeedbackEl.textContent = "Velg plagg + farge og trykk Sjekk.";
-      }
+        const DECK = [
+          ...CLOTHES.map(x => ({...x, cat:"clothes"})),
+          ...COLORS.map(x => ({...x, cat:"colors"}))
+        ];
 
-      function renderSB(){
-        sbHitsEl.textContent = S.sb.hits;
-        sbRoundsEl.textContent = S.sb.rounds;
-        sbXPEl.textContent = S.sb.sessionXP;
+        // ---------------- STATE ----------------
+        const LS_KEY = "salut9_vetements_v1";
+        const defaultState = () => ({
+          xp: 0,
+          fc: { idx: 0, revealed: false, mastery: {}, sessionXP: 0 },
+          dd: { solved: {}, score: 0, sessionXP: 0, seed: Date.now() },
+          sb: { hits: 0, rounds: 0, sessionXP: 0, current: null },
+          free: { text: "", score: 0, sessionXP: 0 },
+          ui: { showFR: true, filter:"all", search:"" },
+          achieved: { badge:false },
+          stats: { lastSaved: 0 }
+        });
 
+        function loadState(){
+          try{
+            const raw = localStorage.getItem(LS_KEY);
+            if(!raw) return defaultState();
+            const parsed = JSON.parse(raw);
+            const base = defaultState();
+            return {
+              ...base, ...parsed,
+              fc: {...base.fc, ...(parsed.fc||{})},
+              dd: {...base.dd, ...(parsed.dd||{})},
+              sb: {...base.sb, ...(parsed.sb||{})},
+              free: {...base.free, ...(parsed.free||{})},
+              ui: {...base.ui, ...(parsed.ui||{})},
+              achieved: {...base.achieved, ...(parsed.achieved||{})},
+              stats: {...base.stats, ...(parsed.stats||{})}
+            };
+          }catch(e){ return defaultState(); }
+        }
+
+        let S = loadState();
+        let saveTimer=null;
+        function autoSaveSoft(){
+          clearTimeout(saveTimer);
+          saveTimer=setTimeout(()=> localStorage.setItem(LS_KEY, JSON.stringify(S)), 250);
+        }
+        function toast(msg){
+          let el = document.getElementById("toast");
+          if(!el){
+            el = document.createElement("div");
+            el.id = "toast";
+            el.style.position = "fixed";
+            el.style.left = "50%";
+            el.style.bottom = "18px";
+            el.style.transform = "translateX(-50%)";
+            el.style.padding = "10px 12px";
+            el.style.borderRadius = "14px";
+            el.style.border = "1px solid rgba(255,255,255,.14)";
+            el.style.background = "rgba(15,23,42,.85)";
+            el.style.color = "white";
+            el.style.fontWeight = "800";
+            el.style.boxShadow = "0 12px 30px rgba(0,0,0,.35)";
+            el.style.zIndex = "99999";
+            document.body.appendChild(el);
+          }
+          el.textContent = msg;
+          el.style.opacity = "1";
+          clearTimeout(el._t);
+          el._t = setTimeout(()=> el.style.opacity="0", 1400);
+        }
+        function confetti(){
+          const box = document.getElementById("confetti");
+          if(!box) return;
+          box.innerHTML="";
+          const colors=["rgba(124,58,237,.95)","rgba(34,197,94,.95)","rgba(96,165,250,.95)","rgba(245,158,11,.95)"];
+          for(let i=0;i<64;i++){
+            const s=document.createElement("span");
+            s.style.left=Math.random()*100+"vw";
+            s.style.animationDelay=(Math.random()*0.25)+"s";
+            s.style.transform=`rotate(${Math.random()*360}deg)`;
+            s.style.background=colors[Math.floor(Math.random()*colors.length)];
+            s.style.width=(8+Math.random()*8)+"px";
+            s.style.height=(10+Math.random()*14)+"px";
+            box.appendChild(s);
+          }
+          setTimeout(()=> box.innerHTML="", 1400);
+        }
+        function saveState(){
+          S.stats.lastSaved = Date.now();
+          localStorage.setItem(LS_KEY, JSON.stringify(S));
+          toast("✅ Lagret lokalt");
+          renderAll();
+        }
+        function resetAll(){
+          if(!confirm("Nullstill alt (XP + fremdrift)?")) return;
+          S = defaultState();
+          localStorage.removeItem(LS_KEY);
+          renderAll();
+          toast("🔄 Nullstilt");
+        }
+
+        // ---------------- TOP ----------------
+        const xpEl = document.getElementById("xp");
+        const progressPctEl = document.getElementById("progressPct");
+        const progressBarEl = document.getElementById("progressBar");
+        const levelPillEl = document.getElementById("levelPill");
+        const badgeEl = document.getElementById("badge");
+
+        document.getElementById("saveBtn").addEventListener("click", saveState);
+        document.getElementById("resetBtn").addEventListener("click", resetAll);
+
+        function levelFromXP(xp){
+          if(xp >= 100) return {lvl:5, name:"Fashion Master"};
+          if(xp >= 75) return {lvl:4, name:"Stylish"};
+          if(xp >= 50) return {lvl:3, name:"På vei"};
+          if(xp >= 25) return {lvl:2, name:"Learner"};
+          return {lvl:1, name:"Novice"};
+        }
+        function masteredCount(){
+          return DECK.filter(c => (S.fc.mastery[c.id]||0) >= 3).length;
+        }
+        function progressPercent(){
+          const mastered = masteredCount();
+          const fcPart = Math.min(40, Math.round((mastered / DECK.length) * 40));
+
+          const ddItems = currentDDItems();
+          const ddTotal = Math.max(1, ddItems.length);
+          const ddDone = (S.dd.score >= ddTotal) ? 25 : Math.round((S.dd.score / ddTotal) * 25);
+
+          const sbGoalRounds = 6;
+          const sbPart = Math.min(
+            20,
+            Math.round(
+              (Math.min(S.sb.rounds, sbGoalRounds) / sbGoalRounds) * 14 +
+              (Math.min(S.sb.hits, 4) / 4) * 6
+            )
+          );
+
+          const freePart = Math.min(15, Math.round((S.free.score / 6) * 15));
+          return Math.max(0, Math.min(100, fcPart + ddDone + sbPart + freePart));
+        }
+        function addXP(n){
+          if(n<=0) return;
+          S.xp += n;
+          if(S.xp >= 100 && !S.achieved.badge){
+            S.achieved.badge = true;
+            confetti();
+            toast("🏆 Badge låst opp: Fashion Master!");
+          }
+          autoSaveSoft();
+          renderTop();
+        }
+        function renderTop(){
+          xpEl.textContent = S.xp;
+          const p = progressPercent();
+          progressPctEl.textContent = `${p}%`;
+          progressBarEl.style.width = `${p}%`;
+
+          const lv = levelFromXP(S.xp);
+          levelPillEl.textContent = `Nivå: ${lv.lvl} · ${lv.name}`;
+
+          badgeEl.textContent = S.achieved.badge ? "🏆 Fashion Master" : "🔒 Låst";
+          badgeEl.style.background = S.achieved.badge ? "rgba(34,197,94,.18)" : "rgba(255,255,255,.06)";
+        }
+
+        // ---------------- ORDBANK ----------------
+        const wordListEl = document.getElementById("wordList");
+        const searchEl = document.getElementById("search");
+        const filterEl = document.getElementById("filter");
+        const toggleLangBtn = document.getElementById("toggleLang");
+
+        searchEl.value = S.ui.search || "";
+        filterEl.value = S.ui.filter || "all";
+        toggleLangBtn.textContent = S.ui.showFR ? "Vis: FR → NO" : "Vis: NO → FR";
+
+        searchEl.addEventListener("input", ()=>{ S.ui.search = searchEl.value; autoSaveSoft(); renderWordbank(); });
+        filterEl.addEventListener("change", ()=>{ S.ui.filter = filterEl.value; autoSaveSoft(); renderWordbank(); });
+        toggleLangBtn.addEventListener("click", ()=>{
+          S.ui.showFR = !S.ui.showFR;
+          toggleLangBtn.textContent = S.ui.showFR ? "Vis: FR → NO" : "Vis: NO → FR";
+          autoSaveSoft(); renderWordbank();
+        });
+
+        function renderWordbank(){
+          const q=(S.ui.search||"").trim().toLowerCase();
+          const f=S.ui.filter||"all";
+
+          let items=DECK.slice();
+          if(f==="clothes") items = items.filter(x=>x.cat==="clothes");
+          if(f==="colors") items = items.filter(x=>x.cat==="colors");
+
+          if(q){
+            items = items.filter(x=>{
+              return (x.fr||"").toLowerCase().includes(q) ||
+                     (x.no||"").toLowerCase().includes(q) ||
+                     (x.id||"").toLowerCase().includes(q);
+            });
+          }
+
+          wordListEl.innerHTML="";
+          items.forEach(x=>{
+            const left = S.ui.showFR ? x.fr : x.no;
+            const right = S.ui.showFR ? x.no : x.fr;
+
+            const row=document.createElement("div");
+            row.className="rowItem";
+            row.innerHTML=`
+              <div>
+                <strong>${escapeHtml(x.emoji)} ${escapeHtml(left)}</strong><br>
+                <span class="muted mini">${escapeHtml(right)}</span>
+              </div>
+              <span class="tag">${x.cat==="clothes"?"Klær":"Farger"}</span>
+            `;
+            wordListEl.appendChild(row);
+          });
+
+          document.getElementById("countClothes").textContent = CLOTHES.length;
+          document.getElementById("countColors").textContent = COLORS.length;
+        }
+
+        // ---------------- FLASHCARDS ----------------
+        const flashCardEl = document.getElementById("flashCard");
+        const fcFrontEl = document.getElementById("fcFront");
+        const fcBackEl = document.getElementById("fcBack");
+        const fcIndexEl = document.getElementById("fcIndex");
+        const fcTotalEl = document.getElementById("fcTotal");
+        const fcMasteryEl = document.getElementById("fcMastery");
+        const masteredCountEl = document.getElementById("masteredCount");
+        const deckCountEl = document.getElementById("deckCount");
+        const fcXPEl = document.getElementById("fcXP");
+
+        const revealBtn = document.getElementById("revealBtn");
+        const knewBtn = document.getElementById("knewBtn");
+        const almostBtn = document.getElementById("almostBtn");
+        const nopeBtn = document.getElementById("nopeBtn");
+        const nextBtn = document.getElementById("nextBtn");
+
+        function currentCard(){
+          const idx = ((S.fc.idx||0)%DECK.length+DECK.length)%DECK.length;
+          return DECK[idx];
+        }
+        function renderFlashcard(){
+          const card = currentCard();
+          fcFrontEl.textContent = `${card.emoji} ${card.fr}`;
+          fcBackEl.textContent = `${card.no}`;
+
+          fcTotalEl.textContent = DECK.length;
+          fcIndexEl.textContent = (S.fc.idx % DECK.length) + 1;
+
+          const m = S.fc.mastery[card.id] || 0;
+          fcMasteryEl.textContent = `${m}`;
+
+          deckCountEl.textContent = DECK.length;
+          masteredCountEl.textContent = masteredCount();
+
+          fcXPEl.textContent = S.fc.sessionXP;
+          flashCardEl.classList.toggle("revealed", !!S.fc.revealed);
+
+          knewBtn.disabled = !S.fc.revealed;
+          almostBtn.disabled = !S.fc.revealed;
+          nopeBtn.disabled = !S.fc.revealed;
+        }
+        revealBtn.addEventListener("click", ()=>{ S.fc.revealed=true; autoSaveSoft(); renderFlashcard(); });
+        nextBtn.addEventListener("click", ()=>{ S.fc.revealed=false; S.fc.idx=(S.fc.idx+1)%DECK.length; autoSaveSoft(); renderFlashcard(); });
+
+        function answerFlash(kind){
+          const card = currentCard();
+          const m = S.fc.mastery[card.id] || 0;
+          let deltaM=0, gained=0;
+          if(kind==="knew"){deltaM=1;gained=3;}
+          else if(kind==="almost"){deltaM=1;gained=1;}
+          S.fc.mastery[card.id]=Math.min(3, m+deltaM);
+
+          if(gained>0){
+            S.fc.sessionXP += gained;
+            addXP(gained);
+            toast(`⭐ +${gained} XP (flashcard)`);
+          }
+          S.fc.revealed=false;
+          S.fc.idx=(S.fc.idx+1)%DECK.length;
+          autoSaveSoft();
+          renderAll();
+        }
+        knewBtn.addEventListener("click", ()=>answerFlash("knew"));
+        almostBtn.addEventListener("click", ()=>answerFlash("almost"));
+        nopeBtn.addEventListener("click", ()=>answerFlash("nope"));
+
+        // ---------------- MATCHING ----------------
+        const ddBankEl = document.getElementById("ddBank");
+        const ddTargetsEl = document.getElementById("ddTargets");
+        const ddScoreEl = document.getElementById("ddScore");
+        const ddTotalEl = document.getElementById("ddTotal");
+        const ddXPEl = document.getElementById("ddXP");
+        document.getElementById("ddSave").addEventListener("click", saveState);
+        document.getElementById("ddReset").addEventListener("click", ()=>{
+          if(!confirm("Starte matching på nytt?")) return;
+          S.dd = {...defaultState().dd, seed: Date.now()};
+          autoSaveSoft();
+          renderDD(); renderTop();
+          toast("🔁 Ny matching klar");
+        });
+
+        function mulberry32(seed){
+          let a = seed >>> 0;
+          return function() {
+            a |= 0; a = a + 0x6D2B79F5 | 0;
+            let t = Math.imul(a ^ a >>> 15, 1 | a);
+            t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+            return ((t ^ t >>> 14) >>> 0) / 4294967296;
+          };
+        }
+        function shuffleWithSeed(arr, seed){
+          const rnd=mulberry32(seed);
+          const a=arr.slice();
+          for(let i=a.length-1;i>0;i--){
+            const j=Math.floor(rnd()*(i+1));
+            [a[i],a[j]]=[a[j],a[i]];
+          }
+          return a;
+        }
+        function currentDDItems(){
+          const base=CLOTHES.slice();
+          const seed=S.dd.seed||Date.now();
+          const shuffled=shuffleWithSeed(base, seed);
+          return shuffled.slice(0, Math.min(8, shuffled.length));
+        }
+        function renderDD(){
+          const items=currentDDItems();
+          ddTotalEl.textContent=items.length;
+          ddScoreEl.textContent=S.dd.score;
+          ddXPEl.textContent=S.dd.sessionXP;
+
+          ddBankEl.innerHTML="";
+          items.forEach(it=>{
+            if(S.dd.solved[it.id]) return;
+            const chip=document.createElement("div");
+            chip.className="chip";
+            chip.draggable=true;
+            chip.textContent=it.fr;
+            chip.dataset.id=it.id;
+            chip.addEventListener("dragstart",(e)=>{
+              e.dataTransfer.setData("text/plain", it.id);
+              e.dataTransfer.effectAllowed="move";
+            });
+            ddBankEl.appendChild(chip);
+          });
+
+          ddTargetsEl.innerHTML="";
+          items.forEach(it=>{
+            const solved=!!S.dd.solved[it.id];
+            const target=document.createElement("div");
+            target.className="target";
+            target.innerHTML=`
+              <div class="left">
+                <div class="emoji">${escapeHtml(it.emoji)}</div>
+                <div>
+                  <strong>${escapeHtml(it.no)}</strong>
+                  <div class="mini muted">Slipp riktig FR-ord her</div>
+                </div>
+              </div>
+              <div class="drop ${solved?"filled":""}" data-accept="${escapeHtml(it.id)}">
+                ${solved?escapeHtml(it.fr):"Dra ord hit"}
+              </div>
+            `;
+            const drop=target.querySelector(".drop");
+            drop.addEventListener("dragover",(e)=>{e.preventDefault(); e.dataTransfer.dropEffect="move";});
+            drop.addEventListener("drop",(e)=>{
+              e.preventDefault();
+              const draggedId=e.dataTransfer.getData("text/plain");
+              const acceptId=drop.dataset.accept;
+              if(!draggedId) return;
+              if(S.dd.solved[acceptId]) return;
+
+              if(draggedId===acceptId){
+                S.dd.solved[acceptId]=true;
+                S.dd.score=Object.keys(S.dd.solved).filter(k=>S.dd.solved[k]).length;
+
+                const gained=3;
+                S.dd.sessionXP+=gained;
+                addXP(gained);
+
+                toast("✅ Riktig! +3 XP");
+                drop.classList.remove("bad");
+                drop.classList.add("filled");
+                autoSaveSoft();
+                renderDD(); renderTop();
+              }else{
+                drop.classList.add("bad");
+                toast("❌ Ikke helt – prøv igjen");
+                setTimeout(()=>drop.classList.remove("bad"),450);
+              }
+            });
+            ddTargetsEl.appendChild(target);
+          });
+        }
+
+        // ---------------- SETNINGSBYGGER ----------------
+        const sbPromptEl = document.getElementById("sbPrompt");
+        const sbClothEl = document.getElementById("sbCloth");
+        const sbColorEl = document.getElementById("sbColor");
+        const sbCheckBtn = document.getElementById("sbCheck");
+        const sbNextBtn = document.getElementById("sbNext");
+        const sbHitsEl = document.getElementById("sbHits");
+        const sbRoundsEl = document.getElementById("sbRounds");
+        const sbXPEl = document.getElementById("sbXP");
+        const sbFeedbackEl = document.getElementById("sbFeedback");
+
+        function fillSBSelects(){
+          sbClothEl.innerHTML="";
+          CLOTHES.forEach(c=>{
+            const opt=document.createElement("option");
+            opt.value=c.id; opt.textContent=`${c.emoji} ${c.fr}`;
+            sbClothEl.appendChild(opt);
+          });
+          sbColorEl.innerHTML="";
+          COLORS.forEach(c=>{
+            const opt=document.createElement("option");
+            opt.value=c.id; opt.textContent=`${c.emoji} ${c.fr}`;
+            sbColorEl.appendChild(opt);
+          });
+        }
+
+        function newSBRound(){
+          const cloth=CLOTHES[Math.floor(Math.random()*CLOTHES.length)];
+          const color=COLORS[Math.floor(Math.random()*COLORS.length)];
+          const patterns=[
+            {text:`Lag setningen: Je porte ${cloth.fr} ${color.fr}.`, answer:`Je porte ${cloth.fr} ${color.fr}.`},
+            {text:`Velg riktig for: J’aime ${cloth.fr} ${color.fr}.`, answer:`J’aime ${cloth.fr} ${color.fr}.`},
+            {text:`Velg riktig for: Je n’aime pas ${cloth.fr} ${color.fr}.`, answer:`Je n’aime pas ${cloth.fr} ${color.fr}.`}
+          ];
+          const p=patterns[Math.floor(Math.random()*patterns.length)];
+          S.sb.current={clothId:cloth.id,colorId:color.id,answer:p.answer,prompt:p.text};
+          autoSaveSoft();
+          sbPromptEl.textContent=p.text;
+          sbFeedbackEl.className="fb";
+          sbFeedbackEl.textContent="Velg plagg + farge og trykk Sjekk.";
+        }
+
+        function renderSB(){
+          sbHitsEl.textContent=S.sb.hits;
+          sbRoundsEl.textContent=S.sb.rounds;
+          sbXPEl.textContent=S.sb.sessionXP;
+          if(!S.sb.current) newSBRound();
+          sbPromptEl.textContent=S.sb.current.prompt;
+        }
+
+        sbCheckBtn.addEventListener("click", ()=>{
+          if(!S.sb.current) return;
+          const ok = (sbClothEl.value===S.sb.current.clothId) && (sbColorEl.value===S.sb.current.colorId);
+          S.sb.rounds += 1;
+          if(ok){
+            S.sb.hits += 1;
+            const gained=4;
+            S.sb.sessionXP += gained;
+            addXP(gained);
+            sbFeedbackEl.className="fb good";
+            sbFeedbackEl.textContent=`✅ Riktig! +${gained} XP · Fasit: ${S.sb.current.answer}`;
+            toast(`✅ +${gained} XP (setning)`);
+          }else{
+            sbFeedbackEl.className="fb bad";
+            sbFeedbackEl.textContent=`❌ Nesten. Fasit: ${S.sb.current.answer}`;
+          }
+          autoSaveSoft();
+          renderSB(); renderTop();
+        });
+
+        sbNextBtn.addEventListener("click", ()=>{ newSBRound(); renderSB(); });
+
+        // ---------------- FRI TEKST ----------------
+        const freeTextEl = document.getElementById("freeText");
+        const freeSaveBtn = document.getElementById("freeSave");
+        const freeResetBtn = document.getElementById("freeReset");
+        const freeScoreEl = document.getElementById("freeScore");
+        const freeXPEl = document.getElementById("freeXP");
+
+        function normalize(s){
+          return (s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+        }
+        function countClothesMentions(tNorm){
+          let count=0;
+          CLOTHES.forEach(c=>{
+            const fr=normalize(c.fr);
+            const bare=fr.replace(/^un\s+|^une\s+|^des\s+/,"");
+            if(tNorm.includes(fr) || tNorm.includes(bare)) count += 1;
+          });
+          return count;
+        }
+        function freeFeedbackScore(text){
+          const t=normalize(text);
+          const checks=[
+            /je\s+porte/.test(t),
+            /j[' ]aime/.test(t),
+            /je\s+n[' ]aime\s+pas/.test(t),
+            /parce\s+que/.test(t),
+            COLORS.some(c=> t.includes(normalize(c.fr))),
+            countClothesMentions(t) >= 2
+          ];
+          return checks.reduce((s,ok)=> s+(ok?1:0), 0);
+        }
+        function renderFree(){
+          freeScoreEl.textContent=S.free.score;
+          freeXPEl.textContent=S.free.sessionXP;
+        }
+        function evaluateFree(){
+          const text=freeTextEl.value||"";
+          const score=freeFeedbackScore(text);
+          const prev=S.free.score||0;
+          S.free.text=text;
+          S.free.score=score;
+
+          const diff=Math.max(0, score-prev);
+          if(diff>0){
+            const gained=diff*2;
+            S.free.sessionXP += gained;
+            addXP(gained);
+            toast(`✨ +${gained} XP (mønstre)`);
+          }
+          autoSaveSoft(); renderFree(); renderTop();
+        }
+
+        freeTextEl.value = S.free.text || "";
+        freeTextEl.addEventListener("input", ()=>{
+          const score=freeFeedbackScore(freeTextEl.value||"");
+          S.free.text = freeTextEl.value || "";
+          S.free.score = score;
+          autoSaveSoft();
+          renderFree();
+        });
+        freeSaveBtn.addEventListener("click", ()=>{ evaluateFree(); saveState(); });
+        freeResetBtn.addEventListener("click", ()=>{
+          if(!confirm("Nullstille teksten din?")) return;
+          S.free={...defaultState().free};
+          freeTextEl.value="";
+          autoSaveSoft();
+          renderFree(); renderTop();
+          toast("🧽 Tekst nullstilt");
+        });
+
+        // ---------------- INIT ----------------
+        if(!S.dd.seed) S.dd.seed = Date.now();
+        S.dd.score = Object.keys(S.dd.solved||{}).filter(k=>S.dd.solved[k]).length;
         if(!S.sb.current) newSBRound();
 
-        if(!sbClothEl.value) sbClothEl.value = CLOTHES[0]?.id || "";
-        if(!sbColorEl.value) sbColorEl.value = COLORS[0]?.id || "";
+        fillSBSelects();
+        document.getElementById("countClothes").textContent = CLOTHES.length;
+        document.getElementById("countColors").textContent = COLORS.length;
 
-        sbPromptEl.textContent = S.sb.current.prompt;
-      }
-
-      function checkSB(){
-        if(!S.sb.current) return;
-
-        const chosenCloth = sbClothEl.value;
-        const chosenColor = sbColorEl.value;
-
-        S.sb.rounds += 1;
-
-        const ok = (chosenCloth === S.sb.current.clothId) && (chosenColor === S.sb.current.colorId);
-
-        if(ok){
-          S.sb.hits += 1;
-          const gained = 4;
-          S.sb.sessionXP += gained;
-          addXP(gained);
-
-          sbFeedbackEl.className = "fb good";
-          sbFeedbackEl.textContent = `✅ Riktig! +${gained} XP · Fasit: ${S.sb.current.answer}`;
-          toast(`✅ +${gained} XP (setning)`);
-        }else{
-          sbFeedbackEl.className = "fb bad";
-          sbFeedbackEl.textContent = `❌ Nesten. Fasit: ${S.sb.current.answer}`;
+        function renderAll(){
+          renderTop();
+          renderWordbank();
+          renderFlashcard();
+          renderDD();
+          renderSB();
+          renderFree();
         }
+        renderAll();
 
-        autoSaveSoft();
-        renderSB();
-        renderTop();
+      }catch(err){
+        showFatal(err);
       }
-
-      /* =========================
-         FRI MINIOPPGAVE
-         ========================= */
-      function normalize(s){
-        return (s||"")
-          .toLowerCase()
-          .normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-      }
-
-      function countClothesMentions(tNorm){
-        let count = 0;
-        CLOTHES.forEach(c => {
-          const fr = normalize(c.fr);
-          const bare = fr.replace(/^un\s+|^une\s+|^des\s+/,"");
-          if(tNorm.includes(fr) || tNorm.includes(bare)) count += 1;
-        });
-        return count;
-      }
-
-      function freeFeedbackScore(text){
-        const t = normalize(text);
-
-        const checks = [
-          { ok: /je\s+porte/.test(t) },
-          { ok: /j[' ]aime/.test(t) },
-          { ok: /je\s+n[' ]aime\s+pas/.test(t) },
-          { ok: /parce\s+que/.test(t) },
-          { ok: COLORS.some(c => t.includes(normalize(c.fr))) },
-          { ok: countClothesMentions(t) >= 2 }
-        ];
-
-        return checks.reduce((sum, c) => sum + (c.ok ? 1 : 0), 0);
-      }
-
-      function renderFree(){
-        freeScoreEl.textContent = S.free.score;
-        freeXPEl.textContent = S.free.sessionXP;
-      }
-
-      function evaluateFree(){
-        const text = freeTextEl.value || "";
-        const score = freeFeedbackScore(text);
-
-        const prev = S.free.score || 0;
-        S.free.text = text;
-        S.free.score = score;
-
-        const diff = Math.max(0, score - prev);
-        if(diff > 0){
-          const gained = diff * 2;
-          S.free.sessionXP += gained;
-          addXP(gained);
-          toast(`✨ +${gained} XP (mønstre)`);
-        }
-
-        autoSaveSoft();
-        renderFree();
-        renderTop();
-      }
-
-      freeTextEl.value = S.free.text || "";
-      freeTextEl.addEventListener("input", () => {
-        const score = freeFeedbackScore(freeTextEl.value || "");
-        S.free.text = freeTextEl.value || "";
-        S.free.score = score;
-        autoSaveSoft();
-        renderFree();
-      });
-
-      /* =========================
-         TOAST + CONFETTI
-         ========================= */
-      let toastTimer = null;
-      function toast(msg){
-        clearTimeout(toastTimer);
-        let el = document.getElementById("toast");
-        if(!el){
-          el = document.createElement("div");
-          el.id = "toast";
-          el.style.position = "fixed";
-          el.style.left = "50%";
-          el.style.bottom = "18px";
-          el.style.transform = "translateX(-50%)";
-          el.style.padding = "10px 12px";
-          el.style.borderRadius = "14px";
-          el.style.border = "1px solid rgba(255,255,255,.14)";
-          el.style.background = "rgba(15,23,42,.85)";
-          el.style.color = "white";
-          el.style.fontWeight = "800";
-          el.style.boxShadow = "0 12px 30px rgba(0,0,0,.35)";
-          el.style.zIndex = "99999";
-          document.body.appendChild(el);
-        }
-        el.textContent = msg;
-        el.style.opacity = "1";
-        toastTimer = setTimeout(() => { el.style.opacity = "0"; }, 1400);
-      }
-
-      function confetti(){
-        const box = document.getElementById("confetti");
-        if(!box) return;
-        box.innerHTML = "";
-        const colors = ["rgba(124,58,237,.95)","rgba(34,197,94,.95)","rgba(96,165,250,.95)","rgba(245,158,11,.95)"];
-        const n = 64;
-
-        for(let i=0; i<n; i++){
-          const s = document.createElement("span");
-          s.style.left = Math.random()*100 + "vw";
-          s.style.animationDelay = (Math.random()*0.25) + "s";
-          s.style.transform = `rotate(${Math.random()*360}deg)`;
-          s.style.background = colors[Math.floor(Math.random()*colors.length)];
-          s.style.width = (8 + Math.random()*8) + "px";
-          s.style.height = (10 + Math.random()*14) + "px";
-          box.appendChild(s);
-        }
-        setTimeout(()=> box.innerHTML="", 1400);
-      }
-
-      /* =========================
-         INIT + RENDER ALL
-         ========================= */
-      function renderAll(){
-        renderTop();
-        renderWordbank();
-        renderFlashcard();
-        renderDD();
-        renderSB();
-        renderFree();
-      }
-
-      // sync
-      if(!S.dd.seed) S.dd.seed = Date.now();
-      S.dd.score = Object.keys(S.dd.solved || {}).filter(k => S.dd.solved[k]).length;
-      if(!S.sb.current) newSBRound();
-
-      // init selects + counts
-      fillSBSelects();
-      $("countClothes").textContent = CLOTHES.length;
-      $("countColors").textContent = COLORS.length;
-
-      renderAll();
-
-    } catch (err) {
-      showFatal(err);
-    }
-  });
-})();
-</script>
+    });
+  })();
+  </script>
+</body>
+</html>
